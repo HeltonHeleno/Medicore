@@ -42,7 +42,7 @@
 |:---:|---|:---:|:---:|:---:|:---:|
 | 1 | Configuração do projeto | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 2 | Tipos, dados mockados e i18n | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
-| 3 | Layout e navegação | 1 dia | ⬜ Não iniciada | | |
+| 3 | Layout e navegação | 1 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 4 | Componentes de UI base | 0,5 dia | ⬜ Não iniciada | | |
 | 5 | Cards do painel | 2 dias | ⬜ Não iniciada | | |
 | 6 | Montagem da grade | 0,5 dia | ⬜ Não iniciada | | |
@@ -466,24 +466,24 @@ medicore/
 
 ### 3.1 Rotas (`src/App.tsx`)
 
-- [ ] Configurar o `BrowserRouter` com `AppLayout` como layout pai
-- [ ] Rotas:
-  - [ ] `/` → `Dashboard`
-  - [ ] `/pacientes`, `/medicos`, `/consultas`, `/leitos`, `/emergencia`, `/farmacia`, `/analises`, `/configuracoes` → `Placeholder` com o título traduzido
-  - [ ] `*` → página "Página não encontrada" com link para o Painel
+- [x] Configurar o `BrowserRouter` com `AppLayout` como layout pai
+- [x] Rotas:
+  - [x] `/` → `Dashboard`
+  - [x] `/pacientes`, `/medicos`, `/consultas`, `/leitos`, `/emergencia`, `/farmacia`, `/analises`, `/configuracoes` → `Placeholder` com o título traduzido
+  - [x] `*` → página "Página não encontrada" com link para o Painel
 
 ### 3.2 `AppLayout`
 
-- [ ] Grade: `grid-cols-[205px_1fr]` no desktop, uma coluna abaixo de 1024px
-- [ ] Sidebar com `sticky top-0 h-screen`
-- [ ] Área de conteúdo com `Header` e `<main>` (padding 24px, conteúdo com `<Outlet />`)
-- [ ] Link "Pular para o conteúdo" visível ao receber foco (acessibilidade)
+- [x] Grade: `grid-cols-[205px_1fr]` no desktop, uma coluna abaixo de 1024px
+- [x] Sidebar com `sticky top-0 h-screen`
+- [x] Área de conteúdo com `Header` e `<main>` (padding 24px, conteúdo com `<Outlet />`)
+- [x] Link "Pular para o conteúdo" visível ao receber foco (acessibilidade)
 
 ### 3.3 `Sidebar`
 
-- [ ] Fundo `bg-sidebar`, texto branco
-- [ ] Logo: "MediCore" (22px, negrito) e "Operações Hospitalares" (13px, opacidade 80%)
-- [ ] Lista de navegação com `NavLink` e ícones lucide:
+- [x] Fundo `bg-sidebar`, texto branco
+- [x] Logo: "MediCore" (22px, negrito) e "Operações Hospitalares" (13px, opacidade 80%)
+- [x] Lista de navegação com `NavLink` e ícones lucide:
 
   | Item | Ícone sugerido |
   |---|---|
@@ -497,46 +497,46 @@ medicore/
   | Análises | `BarChart3` |
   | Configurações | `Settings` |
 
-- [ ] Item ativo: fundo `bg-primary-light`, texto escuro, raio 6px
-- [ ] Hover nos itens inativos: fundo branco com 8% de opacidade
-- [ ] Card "Precisa de ajuda?" fixo no rodapé (borda clara, fundo levemente mais claro que a sidebar) com o botão "Falar com o suporte"
-- [ ] Perfil: avatar circular (40px), "Dr. Johnson", "Administrador"
-- [ ] `<nav aria-label="Navegação principal">`
+- [x] Item ativo: fundo `bg-primary-light`, texto escuro, raio 6px
+- [x] Hover nos itens inativos: fundo branco com 8% de opacidade
+- [x] Card "Precisa de ajuda?" fixo no rodapé (borda clara, fundo levemente mais claro que a sidebar) com o botão "Falar com o suporte"
+- [x] Perfil: avatar circular (40px), "Dr. Johnson", "Administrador"
+- [x] `<nav aria-label="Navegação principal">`
 
 ### 3.4 `Header`
 
-- [ ] Campo de busca (~270px) com ícone `Search` e placeholder "Pesquisar..."
-  - [ ] `role="search"` e `<label>` visualmente oculto
-- [ ] Botões de ícone (40×40, fundo branco, raio 8px):
-  - [ ] Tema: ícone `Moon` no claro e `Sun` no escuro
-  - [ ] Notificações: `Bell` com ponto verde
-  - [ ] Mensagens: `MessageSquareText` com ponto azul
-- [ ] `UserMenu`: avatar com `ChevronDown` que abre o dropdown (Meu perfil, Configurações, Sair)
-  - [ ] Fecha com Esc e com clique fora
-  - [ ] `aria-expanded` e `aria-haspopup="menu"`
-  - [ ] Foco no primeiro item ao abrir
+- [x] Campo de busca (~270px) com ícone `Search` e placeholder "Pesquisar..."
+  - [x] `role="search"` e `<label>` visualmente oculto
+- [x] Botões de ícone (40×40, fundo branco, raio 8px):
+  - [x] Tema: ícone `Moon` no claro e `Sun` no escuro
+  - [x] Notificações: `Bell` com ponto verde
+  - [x] Mensagens: `MessageSquareText` com ponto azul
+- [x] `UserMenu`: avatar com `ChevronDown` que abre o dropdown (Meu perfil, Configurações, Sair)
+  - [x] Fecha com Esc e com clique fora
+  - [x] `aria-expanded` e `aria-haspopup="menu"`
+  - [x] Foco no primeiro item ao abrir
 
 ### 3.5 `useTheme`
 
-- [ ] Lê o tema salvo no `localStorage` (chave `medicore-tema`), dentro de try/catch
-- [ ] Na falta de tema salvo, usa `prefers-color-scheme`
-- [ ] Aplica `document.documentElement.dataset.theme`
-- [ ] Retorna `{ tema, alternarTema }`
+- [x] Lê o tema salvo no `localStorage` (chave `medicore-tema`), dentro de try/catch
+- [x] Na falta de tema salvo, usa `prefers-color-scheme`
+- [x] Aplica `document.documentElement.dataset.theme`
+- [x] Retorna `{ tema, alternarTema }`
 
 ### 3.6 Navegação mobile
 
-- [ ] Abaixo de 1024px: a sidebar fica oculta e aparece o botão hambúrguer (`Menu`) no header
-- [ ] `MobileDrawer`: painel deslizante da esquerda com overlay escuro
-- [ ] Fecha ao clicar num link, no overlay ou com Esc
-- [ ] Trava a rolagem do `body` enquanto aberto
-- [ ] Foco preso dentro do drawer (focus trap)
+- [x] Abaixo de 1024px: a sidebar fica oculta e aparece o botão hambúrguer (`Menu`) no header
+- [x] `MobileDrawer`: painel deslizante da esquerda com overlay escuro
+- [x] Fecha ao clicar num link, no overlay ou com Esc
+- [x] Trava a rolagem do `body` enquanto aberto
+- [x] Foco preso dentro do drawer (focus trap)
 
 ### ✅ Critérios de conclusão — Fase 3
 
-- [ ] Todas as rotas abrem e o item ativo é destacado corretamente
-- [ ] O modo escuro alterna e persiste após recarregar a página
-- [ ] Layout testado em 375px, 768px, 1024px, 1440px e 1920px
-- [ ] Navegação completa por teclado (Tab, Shift+Tab, Enter, Esc)
+- [x] Todas as rotas abrem e o item ativo é destacado corretamente
+- [x] O modo escuro alterna e persiste após recarregar a página
+- [x] Layout testado em 375px, 768px, 1024px, 1440px e 1920px
+- [x] Navegação completa por teclado (Tab, Shift+Tab, Enter, Esc)
 - [ ] Commit e PR da fase abertos
 
 ---
@@ -892,3 +892,9 @@ medicore/
 | 26/10/2026 | Fase 2: o serviço devolve cópias (`structuredClone`), alertas já ordenados por prioridade, consultas por horário e atividades da mais recente para a mais antiga | |
 | 26/10/2026 | Fase 2: `VITE_SIMULAR_ERRO=true` faz todas as chamadas falharem (ver `.env.example`); latência é zero nos testes | |
 | 26/10/2026 | Fase 2: `App.tsx` provisório agora exibe os dados mockados formatados, para conferência visual até a Fase 3 | |
+| 26/10/2026 | Fase 3: ícone do Painel é `House` (novo nome de `Home` no lucide); itens do menu e rotas vêm de `src/config/navegacao.ts` | |
+| 26/10/2026 | Fase 3: a página provisória de dados virou `pages/Dashboard.tsx` e segue até os cards definitivos (Fases 5 e 6) | |
+| 26/10/2026 | Fase 3: avatar mostra as iniciais do usuário enquanto não houver foto (`usuario.avatarUrl`); rota extra `/perfil` para "Meu perfil" | |
+| 26/10/2026 | Fase 3: abaixo de 640px, os botões de notificações e mensagens ficam ocultos para caber a busca; título da aba muda por página ("MediCore — Pacientes") | |
+| 26/10/2026 | Fase 3: novo token `--color-info` (ponto azul de mensagens) | |
+| 26/10/2026 | Fase 3: **atenção para a Fase 4/7** — no tema escuro, texto branco sobre `primary` (#2FA391) tem contraste ~3:1; o `Button` primário deve usar texto escuro no tema escuro | |

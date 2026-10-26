@@ -6,7 +6,7 @@ export const t = {
   app: {
     nome: 'MediCore',
     subtitulo: 'Operações Hospitalares',
-    tituloPagina: 'MediCore — Painel',
+    tituloPagina: (pagina: string) => `MediCore — ${pagina}`,
     pularParaConteudo: 'Pular para o conteúdo',
   },
 
@@ -29,8 +29,11 @@ export const t = {
     pesquisarPlaceholder: 'Pesquisar...',
     pesquisarRotulo: 'Pesquisar no sistema',
     alternarTema: 'Alternar modo escuro',
+    temaClaro: 'Ativar modo claro',
+    temaEscuro: 'Ativar modo escuro',
     notificacoes: 'Notificações',
     mensagens: 'Mensagens',
+    haNovidades: 'há novidades',
     menuUsuario: 'Menu do usuário',
   },
 
@@ -157,6 +160,8 @@ export const t = {
 
   paginas: {
     emConstrucao: 'Esta página será implementada em breve.',
+    emConstrucaoDetalhe:
+      'Por enquanto, apenas o Painel está disponível. Use o menu para voltar a ele.',
     naoEncontrada: 'Página não encontrada',
     voltarPainel: 'Voltar para o Painel',
   },

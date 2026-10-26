@@ -18,6 +18,7 @@
   --color-danger: #c8102e;
   --color-danger-bg: #fbe9ec;
   --color-warning: #8a1538;
+  --color-info: #2563eb;
 
   --radius-card: 12px;
   --shadow-card: 0 1px 2px rgb(16 24 23 / 0.04);
@@ -36,6 +37,7 @@
   --color-danger: #f0566c;
   --color-danger-bg: #2a1519;
   --color-warning: #e58aa3;
+  --color-info: #60a5fa;
 
   color-scheme: dark;
 }
