@@ -62,5 +62,5 @@ O plano completo, com checklists por fase, está em `PLANO_IMPLEMENTACAO_MEDICOR
 - [x] Fase 3 — Layout e navegação
 - [x] Fase 4 — Componentes de UI base
 - [x] Fase 5 — Cards do painel
-- [ ] Fase 6 — Montagem da grade
+- [x] Fase 6 — Montagem da grade
 - [ ] Fase 7 — Qualidade, testes e entrega

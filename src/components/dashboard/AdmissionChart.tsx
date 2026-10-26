@@ -43,8 +43,13 @@ function Grafico({ pontos }: { pontos: PontoInternacao[] }) {
 
   return (
     <>
-      <div role="img" aria-label={resumo(pontos)} className="-mx-1 mt-auto">
-        <ResponsiveContainer width="100%" height={ALTURA}>
+      <div
+        role="img"
+        aria-label={resumo(pontos)}
+        className="-mx-1 min-h-0 flex-1"
+        style={{ minHeight: ALTURA }}
+      >
+        <ResponsiveContainer width="100%" height="100%" minHeight={ALTURA}>
           <AreaChart
             data={pontos}
             margin={{ top: 8, right: 6, bottom: 0, left: 6 }}

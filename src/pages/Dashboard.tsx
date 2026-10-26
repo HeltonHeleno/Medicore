@@ -24,33 +24,68 @@ function CarregandoGrafico({ titulo, className }: { titulo: string; className?: 
 }
 
 /**
- * Painel principal. A grade abaixo já segue o layout de referência;
- * os ajustes finos por largura de tela são da Fase 6.
+ * Posição de cada card por largura de tela.
+ *
+ * Desktop (≥1280px, 3 colunas):
+ *   Boas-vindas (2) | Assistente IA
+ *   [KPIs ×4 / Internações + Ocupação] (2) | Desempenho
+ *   Alertas | Consultas | Linha do tempo
+ *
+ * Tablet (768–1279px, 2 colunas):
+ *   Boas-vindas (2) · KPIs 2×2 (2) · Internações | Ocupação · Assistente IA | Desempenho
+ *   · Alertas | Consultas · Linha do tempo (2)
+ *
+ * Celular (<768px, 1 coluna):
+ *   Boas-vindas · KPIs · Alertas · Consultas · Ocupação · Internações · Desempenho
+ *   · Assistente IA · Linha do tempo
+ *
+ * Abaixo de 1280px os blocos aninhados usam `display: contents`, então todos os
+ * cards participam da mesma grade e a ordem é controlada por `order`.
  */
+const posicao = {
+  boasVindas: 'order-1 md:col-span-2 xl:order-1',
+  ia: 'order-8 md:order-5 xl:order-2',
+  blocoCentral: 'contents xl:order-3 xl:col-span-2 xl:grid xl:min-w-0 xl:grid-cols-1 xl:gap-5',
+  kpis: 'order-2 md:col-span-2 xl:order-none xl:col-span-1',
+  graficos: 'contents xl:grid xl:grid-cols-[1.25fr_1fr] xl:gap-5',
+  internacoes: 'order-6 md:order-3 xl:order-none',
+  ocupacao: 'order-5 md:order-4 xl:order-none',
+  departamentos: 'order-7 md:order-6 xl:order-4',
+  alertas: 'order-3 md:order-7 xl:order-5',
+  consultas: 'order-4 md:order-8 xl:order-6',
+  atividades: 'order-9 md:col-span-2 xl:order-7 xl:col-span-1',
+} as const;
+
 export default function Dashboard() {
   useDocumentTitle(t.menu.painel);
 
   return (
-    <div className="grid grid-cols-1 gap-5 xl:grid-cols-3">
-      <WelcomeCard className="xl:col-span-2" />
-      <AIInsights />
+    <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
+      <WelcomeCard className={posicao.boasVindas} />
+      <AIInsights className={posicao.ia} />
 
-      <div className="grid min-w-0 gap-5 xl:col-span-2">
-        <KpiCards />
-        <div className="grid gap-5 lg:grid-cols-[1.25fr_1fr]">
-          <Suspense fallback={<CarregandoGrafico titulo={t.internacoes.titulo} />}>
-            <AdmissionChart />
+      <div className={posicao.blocoCentral}>
+        <KpiCards className={posicao.kpis} />
+        <div className={posicao.graficos}>
+          <Suspense
+            fallback={
+              <CarregandoGrafico titulo={t.internacoes.titulo} className={posicao.internacoes} />
+            }
+          >
+            <AdmissionChart className={posicao.internacoes} />
           </Suspense>
-          <Suspense fallback={<CarregandoGrafico titulo={t.leitos.titulo} />}>
-            <OccupancyDonut />
+          <Suspense
+            fallback={<CarregandoGrafico titulo={t.leitos.titulo} className={posicao.ocupacao} />}
+          >
+            <OccupancyDonut className={posicao.ocupacao} />
           </Suspense>
         </div>
       </div>
-      <DepartmentPerformance />
 
-      <AlertList />
-      <AppointmentsTable />
-      <ActivityTimeline />
+      <DepartmentPerformance className={posicao.departamentos} />
+      <AlertList className={posicao.alertas} />
+      <AppointmentsTable className={posicao.consultas} />
+      <ActivityTimeline className={posicao.atividades} />
     </div>
   );
 }

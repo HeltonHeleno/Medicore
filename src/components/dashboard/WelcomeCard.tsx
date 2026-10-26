@@ -65,7 +65,7 @@ export function WelcomeCard({ className }: { className?: string }) {
         </div>
       </div>
 
-      <div className="hidden w-[300px] shrink-0 items-end self-stretch pt-4 pr-4 md:flex xl:w-[330px]">
+      <div className="hidden w-[300px] shrink-0 items-end self-stretch pt-4 pr-4 md:flex xl:w-[250px] 2xl:w-[320px]">
         <IlustracaoMedico className="h-auto w-full" />
       </div>
     </section>

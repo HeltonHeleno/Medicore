@@ -45,7 +45,7 @@
 | 3 | Layout e navegação | 1 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 4 | Componentes de UI base | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 5 | Cards do painel | 2 dias | ✅ Concluída | 26/10/2026 | 26/10/2026 |
-| 6 | Montagem da grade | 0,5 dia | ⬜ Não iniciada | | |
+| 6 | Montagem da grade | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 7 | Qualidade, testes e entrega | 1 dia | ⬜ Não iniciada | | |
 
 Legenda: ⬜ Não iniciada · 🟨 Em andamento · ✅ Concluída · 🟥 Bloqueada
@@ -713,7 +713,7 @@ medicore/
 
 ### 6.1 Grade desktop (≥ 1280px)
 
-- [ ] Estrutura em `Dashboard.tsx`:
+- [x] Estrutura em `Dashboard.tsx`:
   ```
   ┌──────────────────────────────┬──────────────┐
   │ WelcomeCard (col-span-2)     │ AIInsights   │
@@ -727,36 +727,36 @@ medicore/
   │                 │ de hoje     │ tempo       │
   └─────────────────┴─────────────┴─────────────┘
   ```
-- [ ] Grade externa: `grid-cols-3 gap-5`
-- [ ] Bloco central (KPIs e gráficos): `col-span-2` com uma grade interna própria (`grid-cols-4` para os KPIs, `grid-cols-2` para os gráficos, com o gráfico de internações um pouco mais largo: `grid-cols-[1.25fr_1fr]`)
-- [ ] `DepartmentPerformance`: `row-span-2` na coluna direita
-- [ ] Última linha: 3 colunas iguais
-- [ ] `items-stretch` para alinhar as alturas
+- [x] Grade externa: `grid-cols-3 gap-5`
+- [x] Bloco central (KPIs e gráficos): `col-span-2` com uma grade interna própria (`grid-cols-4` para os KPIs, `grid-cols-2` para os gráficos, com o gráfico de internações um pouco mais largo: `grid-cols-[1.25fr_1fr]`)
+- [x] `DepartmentPerformance`: `row-span-2` na coluna direita
+- [x] Última linha: 3 colunas iguais
+- [x] `items-stretch` para alinhar as alturas
 
 ### 6.2 Tablet (768–1279px)
 
-- [ ] Grade com 2 colunas
-- [ ] KPIs em 2×2
-- [ ] Boas-vindas ocupa as 2 colunas; Assistente IA e Desempenho lado a lado
-- [ ] Alertas e Consultas lado a lado; Linha do tempo ocupa as 2 colunas
+- [x] Grade com 2 colunas
+- [x] KPIs em 2×2
+- [x] Boas-vindas ocupa as 2 colunas; Assistente IA e Desempenho lado a lado
+- [x] Alertas e Consultas lado a lado; Linha do tempo ocupa as 2 colunas
 
 ### 6.3 Celular (< 768px)
 
-- [ ] Uma coluna, na ordem: Boas-vindas → KPIs (2×2) → Alertas → Consultas → Ocupação → Internações → Desempenho → Assistente IA → Linha do tempo
-- [ ] Padding da página reduzido para 16px
-- [ ] Sem rolagem horizontal
+- [x] Uma coluna, na ordem: Boas-vindas → KPIs (2×2) → Alertas → Consultas → Ocupação → Internações → Desempenho → Assistente IA → Linha do tempo
+- [x] Padding da página reduzido para 16px
+- [x] Sem rolagem horizontal
 
 ### 6.4 Comparação visual
 
-- [ ] Tirar captura de tela em 1440px e comparar lado a lado com a imagem de referência
-- [ ] Ajustar espaçamentos, tamanhos de fonte e alturas até ficarem próximos
-- [ ] Validar o modo escuro em todas as larguras
+- [x] Tirar captura de tela em 1440px e comparar lado a lado com a imagem de referência
+- [x] Ajustar espaçamentos, tamanhos de fonte e alturas até ficarem próximos
+- [x] Validar o modo escuro em todas as larguras
 
 ### ✅ Critérios de conclusão — Fase 6
 
-- [ ] Visual em 1440px próximo da referência
-- [ ] Sem rolagem horizontal em 375px
-- [ ] Ordem de leitura lógica no mobile
+- [x] Visual em 1440px próximo da referência
+- [x] Sem rolagem horizontal em 375px
+- [x] Ordem de leitura lógica no mobile
 - [ ] Commit e PR da fase abertos
 
 ---
@@ -908,3 +908,7 @@ medicore/
 | 26/10/2026 | Fase 5: sem nome do usuário (erro), o título vira "Veja como está o hospital hoje." | |
 | 26/10/2026 | Fase 5: `Dashboard.tsx` já monta a grade de referência em ≥1280px; a Fase 6 fica com o ajuste fino por largura e a comparação visual | |
 | 26/10/2026 | Fase 5: fundo da sidebar passou a cobrir a página inteira (antes terminava na altura da tela) | |
+| 26/10/2026 | Fase 6: grade única com `order` por largura; abaixo de 1280px os blocos aninhados (KPIs+gráficos) usam `display: contents`. Posições centralizadas no objeto `posicao` de `pages/Dashboard.tsx` | |
+| 26/10/2026 | Fase 6: a tabela de consultas vira lista conforme a largura do **próprio card** (container query `@sm`, 384px), não da tela | |
+| 26/10/2026 | Fase 6: gráfico de internações ocupa toda a altura do card (mín. 180px); ilustração reduzida para 250px entre 1280 e 1535px | |
+| 26/10/2026 | Fase 6: verificado em 375, 768, 1024, 1280, 1440, 1600 e 1920px, claro e escuro — sem rolagem horizontal e sem violações axe | |

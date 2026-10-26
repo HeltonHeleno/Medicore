@@ -7,12 +7,13 @@ import { t } from '../../i18n/pt-BR';
 import type { Consulta } from '../../types';
 import { formatHora } from '../../utils/format';
 
-const th = 'pb-2 text-left text-[11px] font-medium tracking-[0.06em] text-text-muted uppercase';
+const th =
+  'pr-3 pb-2 text-left text-[11px] font-medium tracking-[0.06em] whitespace-nowrap text-text-muted uppercase last:pr-0';
 
 function Tabela({ consultas }: { consultas: Consulta[] }) {
   const c = t.consultas.colunas;
   return (
-    <table className="hidden w-full border-collapse text-[13px] sm:table">
+    <table className="hidden w-full border-collapse text-[13px] @sm:table">
       <caption className="sr-only">{t.consultas.legendaTabela}</caption>
       <thead>
         <tr>
@@ -36,7 +37,7 @@ function Tabela({ consultas }: { consultas: Consulta[] }) {
             <td className="py-2.5 pr-3 whitespace-nowrap tabular-nums">
               <time dateTime={con.horario}>{formatHora(con.horario)}</time>
             </td>
-            <td className="py-2.5 pr-3">{con.paciente}</td>
+            <td className="py-2.5 pr-3 whitespace-nowrap">{con.paciente}</td>
             <td className="py-2.5 pr-3">{con.departamento}</td>
             <td className="py-2.5">
               <StatusBadge status={con.status} />
@@ -48,10 +49,10 @@ function Tabela({ consultas }: { consultas: Consulta[] }) {
   );
 }
 
-/** Abaixo de 640px a tabela vira uma lista de cartões. */
+/** Quando o card tem menos de 384px de largura útil, a tabela vira uma lista. */
 function Lista({ consultas }: { consultas: Consulta[] }) {
   return (
-    <ul className="divide-y divide-border sm:hidden" aria-label={t.consultas.legendaTabela}>
+    <ul className="divide-y divide-border @sm:hidden" aria-label={t.consultas.legendaTabela}>
       {consultas.map((con) => (
         <li key={con.id} className="py-3">
           <div className="flex items-center justify-between gap-3">
@@ -83,10 +84,10 @@ export function AppointmentsTable({ className }: { className?: string }) {
         carregando={<SkeletonLinhas linhas={5} />}
       >
         {(lista) => (
-          <>
+          <div className="@container">
             <Tabela consultas={lista} />
             <Lista consultas={lista} />
-          </>
+          </div>
         )}
       </ConteudoAsync>
     </Card>
