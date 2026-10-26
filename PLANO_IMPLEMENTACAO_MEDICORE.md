@@ -46,7 +46,7 @@
 | 4 | Componentes de UI base | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 5 | Cards do painel | 2 dias | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 6 | Montagem da grade | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
-| 7 | Qualidade, testes e entrega | 1 dia | ⬜ Não iniciada | | |
+| 7 | Qualidade, testes e entrega | 1 dia | 🟨 Falta deploy e teste com leitor de tela | 26/10/2026 | |
 
 Legenda: ⬜ Não iniciada · 🟨 Em andamento · ✅ Concluída · 🟥 Bloqueada
 
@@ -767,69 +767,69 @@ medicore/
 
 ### 7.1 Acessibilidade
 
-- [ ] Contraste AA verificado (texto cinza sobre branco, badges, texto da sidebar)
-- [ ] Foco visível em todos os elementos interativos
-- [ ] Hierarquia de títulos correta: um `<h1>` (boas-vindas) e `<h2>` nos cards
-- [ ] `aria-label` em todos os botões que só têm ícone
-- [ ] Gráficos com descrição textual alternativa
-- [ ] Respeitar `prefers-reduced-motion` (desligar animações de barras e gráficos)
+- [x] Contraste AA verificado (texto cinza sobre branco, badges, texto da sidebar)
+- [x] Foco visível em todos os elementos interativos
+- [x] Hierarquia de títulos correta: um `<h1>` (boas-vindas) e `<h2>` nos cards
+- [x] `aria-label` em todos os botões que só têm ícone
+- [x] Gráficos com descrição textual alternativa
+- [x] Respeitar `prefers-reduced-motion` (desligar animações de barras e gráficos)
 - [ ] Teste com leitor de tela (NVDA ou VoiceOver) no fluxo principal
-- [ ] Auditoria com a extensão axe DevTools sem erros críticos
+- [x] Auditoria com a extensão axe DevTools sem erros críticos
 
 ### 7.2 Revisão de idioma (PT-BR)
 
-- [ ] Buscar strings em inglês no JSX: `grep -rnE ">[A-Z][a-z]+ [a-z]+" src/components` e revisar os resultados
-- [ ] Conferir acentuação (Média, Concluída, Clínica, Análises, Médicos, Configurações)
-- [ ] Conferir formatação: milhar com ponto, hora em 24h, percentuais sem espaço
-- [ ] Conferir os tratamentos "Dr." e "Dra." nos nomes dos médicos
-- [ ] Revisar mensagens de erro e de estado vazio
+- [x] Buscar strings em inglês no JSX: `grep -rnE ">[A-Z][a-z]+ [a-z]+" src/components` e revisar os resultados
+- [x] Conferir acentuação (Média, Concluída, Clínica, Análises, Médicos, Configurações)
+- [x] Conferir formatação: milhar com ponto, hora em 24h, percentuais sem espaço
+- [x] Conferir os tratamentos "Dr." e "Dra." nos nomes dos médicos
+- [x] Revisar mensagens de erro e de estado vazio
 
 ### 7.3 Testes automatizados
 
-- [ ] **Unitários**
-  - [ ] `format.test.ts`
-  - [ ] `leitos.test.ts`
-  - [ ] `greeting.test.ts` (horários limite: 4:59, 5:00, 11:59, 12:00, 17:59, 18:00)
-- [ ] **Componentes**
-  - [ ] `StatCard` exibe o valor formatado
-  - [ ] `AppointmentsTable` exibe "Nenhuma consulta para hoje." quando a lista está vazia
-  - [ ] `AlertList` ordena prioridade alta primeiro
-  - [ ] `DepartmentPerformance` aplica a cor de perigo para ≥ 90%
-  - [ ] Botão de tema alterna `data-theme`
-  - [ ] `UserMenu` abre e fecha com Esc
-- [ ] Cobertura mínima de 70% em `utils/` e `components/ui/`
+- [x] **Unitários**
+  - [x] `format.test.ts`
+  - [x] `leitos.test.ts`
+  - [x] `greeting.test.ts` (horários limite: 4:59, 5:00, 11:59, 12:00, 17:59, 18:00)
+- [x] **Componentes**
+  - [x] `StatCard` exibe o valor formatado
+  - [x] `AppointmentsTable` exibe "Nenhuma consulta para hoje." quando a lista está vazia
+  - [x] `AlertList` ordena prioridade alta primeiro
+  - [x] `DepartmentPerformance` aplica a cor de perigo para ≥ 90%
+  - [x] Botão de tema alterna `data-theme`
+  - [x] `UserMenu` abre e fecha com Esc
+- [x] Cobertura mínima de 70% em `utils/` e `components/ui/`
 
 ### 7.4 Performance
 
-- [ ] Recharts carregado sob demanda (`React.lazy`)
-- [ ] SVG da ilustração otimizado (SVGO)
-- [ ] Fonte com `display=swap`
-- [ ] Lighthouse (desktop): Performance ≥ 90, Acessibilidade ≥ 90, Boas práticas ≥ 90
+- [x] Recharts carregado sob demanda (`React.lazy`)
+- [x] SVG da ilustração otimizado (SVGO)
+- [x] Fonte com `display=swap`
+- [x] Lighthouse (desktop): Performance ≥ 90, Acessibilidade ≥ 90, Boas práticas ≥ 90
 
 ### 7.5 Build e deploy
 
-- [ ] `npm run build` sem erros nem avisos de TypeScript
-- [ ] `npm run preview` funcionando
+- [x] `npm run build` sem erros nem avisos de TypeScript
+- [x] `npm run preview` funcionando
 - [ ] Deploy na Vercel ou Netlify (configurar o fallback de SPA para as rotas)
 - [ ] Testar a URL publicada no celular e no desktop
 
 ### 7.6 Documentação
 
-- [ ] `README.md` em PT-BR com:
-  - [ ] Descrição do projeto
-  - [ ] Pré-requisitos (Node 20+)
-  - [ ] Como instalar, rodar, testar e gerar a build
-  - [ ] Estrutura de pastas
-  - [ ] Como trocar os dados mockados pela API real
-  - [ ] Como adicionar novos textos ao `pt-BR.ts`
-- [ ] Capturas de tela (claro e escuro) no README
+- [x] `README.md` em PT-BR com:
+  - [x] Descrição do projeto
+  - [x] Pré-requisitos (Node 20+)
+  - [x] Como instalar, rodar, testar e gerar a build
+  - [x] Estrutura de pastas
+  - [x] Como trocar os dados mockados pela API real
+  - [x] Como adicionar novos textos ao `pt-BR.ts`
+- [x] Capturas de tela (claro e escuro) no README
 
 ### ✅ Critérios de conclusão — Fase 7
 
-- [ ] Todos os testes passando
-- [ ] Metas do Lighthouse atingidas
+- [x] Todos os testes passando
+- [x] Metas do Lighthouse atingidas
 - [ ] Aplicação publicada e acessível
-- [ ] README completo
+- [x] README completo
 - [ ] PR final aprovado e mesclado na `main`
 
 ---
@@ -837,26 +837,26 @@ medicore/
 ## 🏁 Checklist final de aceite
 
 ### Funcional
-- [ ] Todas as seções da referência estão presentes no painel
-- [ ] Saudação muda conforme o horário
-- [ ] Seletor de período do gráfico troca os dados
-- [ ] Links "Ver todos" e botões levam às rotas corretas
-- [ ] Modo escuro funciona e persiste
+- [x] Todas as seções da referência estão presentes no painel
+- [x] Saudação muda conforme o horário
+- [x] Seletor de período do gráfico troca os dados
+- [x] Links "Ver todos" e botões levam às rotas corretas
+- [x] Modo escuro funciona e persiste
 
 ### Dados
-- [ ] Leitos disponíveis = 34, ocupação = 72%, ocupados = 86 de 120
-- [ ] Valores derivados calculados, não escritos diretamente no JSX
-- [ ] Serviço simulado pronto para ser trocado por uma API real
+- [x] Leitos disponíveis = 34, ocupação = 72%, ocupados = 86 de 120
+- [x] Valores derivados calculados, não escritos diretamente no JSX
+- [x] Serviço simulado pronto para ser trocado por uma API real
 
 ### Idioma
-- [ ] 100% da interface em PT-BR
-- [ ] Números, horas e percentuais no padrão brasileiro
-- [ ] `lang="pt-BR"` no HTML
+- [x] 100% da interface em PT-BR
+- [x] Números, horas e percentuais no padrão brasileiro
+- [x] `lang="pt-BR"` no HTML
 
 ### Qualidade
-- [ ] Responsivo de 375px a 1920px
-- [ ] Acessível por teclado e leitor de tela
-- [ ] Testes passando e build limpa
+- [x] Responsivo de 375px a 1920px
+- [ ] Acessível por teclado e leitor de tela (teclado ✅ · axe ✅ · falta teste manual com NVDA/VoiceOver)
+- [x] Testes passando e build limpa
 
 ---
 
@@ -912,3 +912,9 @@ medicore/
 | 26/10/2026 | Fase 6: a tabela de consultas vira lista conforme a largura do **próprio card** (container query `@sm`, 384px), não da tela | |
 | 26/10/2026 | Fase 6: gráfico de internações ocupa toda a altura do card (mín. 180px); ilustração reduzida para 250px entre 1280 e 1535px | |
 | 26/10/2026 | Fase 6: verificado em 375, 768, 1024, 1280, 1440, 1600 e 1920px, claro e escuro — sem rolagem horizontal e sem violações axe | |
+| 26/10/2026 | Fase 7: fonte Inter agora servida localmente (`@fontsource-variable/inter`) em vez do Google Fonts — remove CSS bloqueante externo e não envia dados a terceiros (LGPD) | |
+| 26/10/2026 | Fase 7: build separa `react-*.js` (inicial) e `graficos-*.js` (Recharts, sob demanda); carregamento inicial ≈ 99 KB gzip | |
+| 26/10/2026 | Fase 7: Lighthouse desktop 99/100/100/100. **Mobile: Performance 82** (simulação de 4G lento + CPU 4×); parte do LCP vem da latência proposital de 400 ms da API simulada — reavaliar com a API real | |
+| 26/10/2026 | Fase 7: cobertura geral 94,7% (84 testes); limites de 70% em `utils/` e `components/ui/` travados em `vite.config.ts` (`npm run test:coverage`) | |
+| 26/10/2026 | Fase 7: `vercel.json` e `netlify.toml` com fallback de SPA e cache longo para `/assets`; `public/robots.txt` adicionado; a rosca de ocupação trocou `<figure role="img">` por `<div role="img">` (papel ARIA não permitido) | |
+| 26/10/2026 | Fase 7: pendentes manuais — teste com NVDA/VoiceOver, deploy e PR final | |

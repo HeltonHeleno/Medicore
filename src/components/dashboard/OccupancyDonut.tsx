@@ -41,7 +41,7 @@ function Rosca({ setores }: { setores: SetorLeitos[] }) {
   return (
     <div className="flex flex-1 flex-col">
       <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-        <figure
+        <div
           className="relative shrink-0"
           style={{ width: TAMANHO, height: TAMANHO }}
           aria-label={t.leitos.resumoGrafico(r.percentual, r.ocupados, r.total)}
@@ -66,7 +66,7 @@ function Rosca({ setores }: { setores: SetorLeitos[] }) {
             </Pie>
             <Tooltip content={DicaFatia} />
           </PieChart>
-          <figcaption
+          <div
             aria-hidden
             className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center"
           >
@@ -74,8 +74,8 @@ function Rosca({ setores }: { setores: SetorLeitos[] }) {
               {formatPercentual(r.percentual)}
             </span>
             <span className="mt-1 text-[10px] text-text-muted">{t.leitos.ocupadosCentro}</span>
-          </figcaption>
-        </figure>
+          </div>
+        </div>
 
         <dl className="grid min-w-[10rem] flex-1 grid-cols-[auto_1fr] items-center gap-x-6 gap-y-3 text-[14px]">
           {dados.map((d, i) => (
