@@ -47,6 +47,12 @@ O modo escuro é ativado com o atributo `data-theme="dark"` no `<html>`, e a esc
 Para testar o estado de erro dos cards, crie um `.env.local` com `VITE_SIMULAR_ERRO=true`
 (veja `.env.example`) e reinicie o `npm run dev`.
 
+## Componentes de UI
+
+Os componentes base ficam em `src/components/ui/` (`Card`, `Button`/`ButtonLink`, `ProgressBar`,
+`StatusBadge`, `PriorityBadge`, `Skeleton`, `EmptyState`/`ErrorState`, `ConteudoAsync`, `Avatar`).
+Com `npm run dev`, a página interna **/ui** mostra todas as variantes.
+
 ## Andamento
 
 O plano completo, com checklists por fase, está em `PLANO_IMPLEMENTACAO_MEDICORE.md`.
@@ -54,7 +60,7 @@ O plano completo, com checklists por fase, está em `PLANO_IMPLEMENTACAO_MEDICOR
 - [x] Fase 1 — Configuração do projeto
 - [x] Fase 2 — Tipos, dados mockados e i18n
 - [x] Fase 3 — Layout e navegação
-- [ ] Fase 4 — Componentes de UI base
+- [x] Fase 4 — Componentes de UI base
 - [ ] Fase 5 — Cards do painel
 - [ ] Fase 6 — Montagem da grade
 - [ ] Fase 7 — Qualidade, testes e entrega

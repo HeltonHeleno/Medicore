@@ -5,6 +5,7 @@ import { t } from './i18n/pt-BR';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import Placeholder from './pages/Placeholder';
+import UiShowcase from './pages/UiShowcase';
 
 /** Rotas da aplicação (separadas do Router para facilitar os testes). */
 export function AppRoutes() {
@@ -22,6 +23,7 @@ export function AppRoutes() {
             />
           ))}
         <Route path="perfil" element={<Placeholder titulo={t.userMenu.meuPerfil} />} />
+        {import.meta.env.DEV && <Route path="ui" element={<UiShowcase />} />}
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

@@ -1,5 +1,5 @@
-import { Construction } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowLeft, Construction } from 'lucide-react';
+import { ButtonLink } from '../components/ui/Button';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { t } from '../i18n/pt-BR';
 
@@ -12,12 +12,9 @@ export default function Placeholder({ titulo }: { titulo: string }) {
       <h1 className="mt-4 text-2xl font-bold">{titulo}</h1>
       <p className="mt-2 text-text-muted">{t.paginas.emConstrucao}</p>
       <p className="text-text-muted">{t.paginas.emConstrucaoDetalhe}</p>
-      <Link
-        to="/"
-        className="mt-6 inline-block rounded-lg bg-primary px-5 py-2.5 font-medium text-white hover:opacity-90 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
-      >
+      <ButtonLink to="/" iconeEsquerda={<ArrowLeft size={17} />} className="mt-6">
         {t.paginas.voltarPainel}
-      </Link>
+      </ButtonLink>
     </section>
   );
 }

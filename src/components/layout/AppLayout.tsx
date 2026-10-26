@@ -27,7 +27,7 @@ export function AppLayout() {
     <div className="min-h-screen lg:grid lg:grid-cols-[205px_minmax(0,1fr)]">
       <a
         href="#conteudo"
-        className="sr-only z-50 rounded-md bg-primary px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:px-4 focus:py-2"
+        className="sr-only z-50 rounded-md bg-primary px-4 py-2 text-on-primary focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:px-4 focus:py-2"
       >
         {t.app.pularParaConteudo}
       </a>

@@ -158,6 +158,28 @@ export const t = {
     simulado: 'Erro simulado (VITE_SIMULAR_ERRO ativo).',
   },
 
+  /** Página interna /ui (somente em desenvolvimento) que mostra os componentes base. */
+  vitrine: {
+    titulo: 'Componentes de UI',
+    descricao: 'Página interna de desenvolvimento com todas as variantes dos componentes base.',
+    botoes: 'Botões',
+    primario: 'Primário',
+    contorno: 'Contorno',
+    suave: 'Suave',
+    pequeno: 'Pequeno',
+    desabilitado: 'Desabilitado',
+    cards: 'Cards',
+    cardPadrao: 'Card padrão',
+    cardPerigo: 'Card de perigo',
+    conteudoCard: 'Conteúdo do card.',
+    progresso: 'Barras de progresso',
+    badges: 'Badges',
+    estados: 'Estados',
+    carregando: 'Carregando',
+    vazio: 'Vazio',
+    erro: 'Erro',
+  },
+
   paginas: {
     emConstrucao: 'Esta página será implementada em breve.',
     emConstrucaoDetalhe:

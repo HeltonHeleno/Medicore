@@ -10,11 +10,14 @@
   --color-sidebar: #0f3d36;
   --color-primary: #16695e;
   --color-primary-light: #cfe3df;
+  /* Texto sobre primary / primary-light (garante contraste AA nos dois temas) */
+  --color-on-primary: #ffffff;
+  --color-on-primary-light: #16695e;
   --color-bg: #e9f0ef;
   --color-card: #ffffff;
   --color-border: #e3eae9;
   --color-text: #1a1f1e;
-  --color-text-muted: #6b7775;
+  --color-text-muted: #5e6a68;
   --color-danger: #c8102e;
   --color-danger-bg: #fbe9ec;
   --color-warning: #8a1538;
@@ -29,6 +32,8 @@
   --color-sidebar: #0a2b26;
   --color-primary: #2fa391;
   --color-primary-light: #1e4a44;
+  --color-on-primary: #0b1f1c;
+  --color-on-primary-light: #7fd6c8;
   --color-bg: #0e1716;
   --color-card: #16211f;
   --color-border: #24312f;

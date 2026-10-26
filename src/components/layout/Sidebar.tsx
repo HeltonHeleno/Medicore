@@ -54,7 +54,7 @@ export function Sidebar({ aoNavegar, className }: SidebarProps) {
           <p className="mt-0.5 text-[11px] leading-snug text-white/75">{t.suporte.descricao}</p>
           <button
             type="button"
-            className="mt-3 w-full rounded-md bg-primary px-3 py-2 text-[12px] font-medium text-white transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:outline-none"
+            className="mt-3 w-full rounded-md bg-primary px-3 py-2 text-[12px] font-medium text-on-primary transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:outline-none"
           >
             {t.suporte.botao}
           </button>

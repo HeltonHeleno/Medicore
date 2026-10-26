@@ -43,7 +43,7 @@
 | 1 | Configuração do projeto | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 2 | Tipos, dados mockados e i18n | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 3 | Layout e navegação | 1 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
-| 4 | Componentes de UI base | 0,5 dia | ⬜ Não iniciada | | |
+| 4 | Componentes de UI base | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 5 | Cards do painel | 2 dias | ⬜ Não iniciada | | |
 | 6 | Montagem da grade | 0,5 dia | ⬜ Não iniciada | | |
 | 7 | Qualidade, testes e entrega | 1 dia | ⬜ Não iniciada | | |
@@ -547,57 +547,57 @@ medicore/
 
 ### 4.1 `Card`
 
-- [ ] Props: `titulo?`, `acao?` (`{ rotulo, href }`), `variante?: 'padrao' | 'perigo'`, `className?`, `children`
-- [ ] Variante `padrao`: `bg-card`, borda `border-border`, raio 12px, padding 20px
-- [ ] Variante `perigo`: `bg-danger-bg`, título em `text-danger`
-- [ ] Título como `<h2>` (16–17px, semibold); link de ação à direita (13px)
+- [x] Props: `titulo?`, `acao?` (`{ rotulo, href }`), `variante?: 'padrao' | 'perigo'`, `className?`, `children`
+- [x] Variante `padrao`: `bg-card`, borda `border-border`, raio 12px, padding 20px
+- [x] Variante `perigo`: `bg-danger-bg`, título em `text-danger`
+- [x] Título como `<h2>` (16–17px, semibold); link de ação à direita (13px)
 
 ### 4.2 `Button`
 
-- [ ] Variantes:
-  - [ ] `primario`: `bg-primary`, texto branco
-  - [ ] `contorno`: borda `border-border`, texto `text-primary`
-  - [ ] `suave`: `bg-primary-light`, texto `text-primary`
-- [ ] Tamanhos `md` (padding 12×20) e `sm`
-- [ ] Estados de hover, foco (`focus-visible:ring-2`) e desabilitado
-- [ ] Suporte a ícone à esquerda e à direita
+- [x] Variantes:
+  - [x] `primario`: `bg-primary`, texto branco
+  - [x] `contorno`: borda `border-border`, texto `text-primary`
+  - [x] `suave`: `bg-primary-light`, texto `text-primary`
+- [x] Tamanhos `md` (padding 12×20) e `sm`
+- [x] Estados de hover, foco (`focus-visible:ring-2`) e desabilitado
+- [x] Suporte a ícone à esquerda e à direita
 
 ### 4.3 `ProgressBar`
 
-- [ ] Props: `valor` (0–100), `cor?: 'primaria' | 'perigo'`, `rotulo` (para acessibilidade)
-- [ ] Altura 6px, trilha `bg-primary-light`, preenchimento animado (`transition-[width]`)
-- [ ] `role="progressbar"` com `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, `aria-label`
+- [x] Props: `valor` (0–100), `cor?: 'primaria' | 'perigo'`, `rotulo` (para acessibilidade)
+- [x] Altura 6px, trilha `bg-primary-light`, preenchimento animado (`transition-[width]`)
+- [x] `role="progressbar"` com `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, `aria-label`
 
 ### 4.4 `StatusBadge`
 
-- [ ] Recebe `status: StatusConsulta`, com rótulo vindo de `t.status`
-- [ ] Estilos:
-  - [ ] `concluida`: fundo `primary`, texto branco
-  - [ ] `agendada`: fundo `primary-light`, texto `primary`
-  - [ ] `cancelada`: fundo `danger-bg`, texto `danger`
+- [x] Recebe `status: StatusConsulta`, com rótulo vindo de `t.status`
+- [x] Estilos:
+  - [x] `concluida`: fundo `primary`, texto branco
+  - [x] `agendada`: fundo `primary-light`, texto `primary`
+  - [x] `cancelada`: fundo `danger-bg`, texto `danger`
 
 ### 4.5 `PriorityBadge`
 
-- [ ] Recebe `prioridade: Prioridade`, com rótulo vindo de `t.prioridade`
-- [ ] Fundo branco, raio 6px, texto `danger` (alta) ou `warning` (média)
+- [x] Recebe `prioridade: Prioridade`, com rótulo vindo de `t.prioridade`
+- [x] Fundo branco, raio 6px, texto `danger` (alta) ou `warning` (média)
 
 ### 4.6 `Skeleton` e `EmptyState`
 
-- [ ] `Skeleton`: bloco com `animate-pulse`, largura e altura configuráveis, `aria-hidden`
-- [ ] `EmptyState`: ícone, mensagem e ação opcional
-- [ ] `ErrorState`: mensagem de erro e botão "Tentar novamente"
+- [x] `Skeleton`: bloco com `animate-pulse`, largura e altura configuráveis, `aria-hidden`
+- [x] `EmptyState`: ícone, mensagem e ação opcional
+- [x] `ErrorState`: mensagem de erro e botão "Tentar novamente"
 
 ### 4.7 Testes da fase
 
-- [ ] `StatusBadge` mostra "Concluída", "Agendada" e "Cancelada"
-- [ ] `PriorityBadge` mostra "Alta" e "Média"
-- [ ] `ProgressBar` expõe `aria-valuenow` correto
+- [x] `StatusBadge` mostra "Concluída", "Agendada" e "Cancelada"
+- [x] `PriorityBadge` mostra "Alta" e "Média"
+- [x] `ProgressBar` expõe `aria-valuenow` correto
 
 ### ✅ Critérios de conclusão — Fase 4
 
-- [ ] Todos os componentes funcionam nos temas claro e escuro
-- [ ] Contraste verificado nos badges (mínimo AA)
-- [ ] Testes da fase passando
+- [x] Todos os componentes funcionam nos temas claro e escuro
+- [x] Contraste verificado nos badges (mínimo AA)
+- [x] Testes da fase passando
 - [ ] Commit e PR da fase abertos
 
 ---
@@ -897,4 +897,8 @@ medicore/
 | 26/10/2026 | Fase 3: avatar mostra as iniciais do usuário enquanto não houver foto (`usuario.avatarUrl`); rota extra `/perfil` para "Meu perfil" | |
 | 26/10/2026 | Fase 3: abaixo de 640px, os botões de notificações e mensagens ficam ocultos para caber a busca; título da aba muda por página ("MediCore — Pacientes") | |
 | 26/10/2026 | Fase 3: novo token `--color-info` (ponto azul de mensagens) | |
-| 26/10/2026 | Fase 3: **atenção para a Fase 4/7** — no tema escuro, texto branco sobre `primary` (#2FA391) tem contraste ~3:1; o `Button` primário deve usar texto escuro no tema escuro | |
+| 26/10/2026 | ~~Fase 3: atenção para a Fase 4/7** — no tema escuro, texto branco sobre `primary` (#2FA391) tem contraste ~3:1; o `Button` primário deve usar texto escuro no tema escuro~~ → resolvido na Fase 4 | |
+| 26/10/2026 | Fase 4: novos tokens `--color-on-primary` (branco no claro, #0B1F1C no escuro) e `--color-on-primary-light` (#16695E / #7FD6C8) para texto sobre os fundos verdes | |
+| 26/10/2026 | Fase 4: `--color-text-muted` do tema claro escurecido de #6B7775 para #5E6A68 (4,0:1 → 4,9:1 sobre o fundo da página) | |
+| 26/10/2026 | Fase 4: além do previsto, `ButtonLink` (link com aparência de botão), `ConteudoAsync` (resolve carregando/erro/vazio/dados de um card) e `SkeletonLinhas`; `ErrorState` ficou no mesmo arquivo de `EmptyState` | |
+| 26/10/2026 | Fase 4: vitrine interna em `/ui` (só em `npm run dev`); auditoria axe-core sem violações WCAG A/AA nos dois temas | |

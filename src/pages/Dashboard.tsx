@@ -1,7 +1,8 @@
 /**
  * PAINEL PROVISÓRIO.
  * Mostra os dados mockados vindos do serviço simulado, já formatados em pt-BR.
- * Os cards definitivos entram nas Fases 4 e 5, e a grade final na Fase 6.
+ * Já usa os componentes base da Fase 4; os cards definitivos entram na Fase 5
+ * e a grade final na Fase 6.
  */
 import type { ReactNode } from 'react';
 import {
@@ -17,6 +18,11 @@ import {
   useUsuario,
 } from '../hooks/useDashboardData';
 import type { EstadoAsync } from '../hooks/useAsync';
+import { Card } from '../components/ui/Card';
+import { ConteudoAsync } from '../components/ui/ConteudoAsync';
+import { PriorityBadge } from '../components/ui/PriorityBadge';
+import { ProgressBar } from '../components/ui/ProgressBar';
+import { StatusBadge } from '../components/ui/StatusBadge';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { t } from '../i18n/pt-BR';
 import { formatHora, formatNumero, formatPercentual, formatVariacao } from '../utils/format';
@@ -33,23 +39,12 @@ function Bloco<T>({
   vazio?: string;
   children: (data: T) => ReactNode;
 }) {
-  const { data, carregando, erro, recarregar } = estado;
-  const estaVazio = Array.isArray(data) && data.length === 0;
   return (
-    <section className="rounded-[var(--radius-card)] border border-border bg-card p-5 shadow-[var(--shadow-card)]">
-      <h2 className="mb-3 text-base font-semibold">{titulo}</h2>
-      {carregando && <div className="h-16 animate-pulse rounded-lg bg-bg" aria-hidden />}
-      {!carregando && erro && (
-        <div className="text-danger">
-          <p>{t.erro.carregar}</p>
-          <button type="button" onClick={recarregar} className="mt-2 font-medium underline">
-            {t.erro.tentarNovamente}
-          </button>
-        </div>
-      )}
-      {!carregando && !erro && estaVazio && <p className="text-text-muted">{vazio}</p>}
-      {!carregando && !erro && data !== null && !estaVazio && children(data)}
-    </section>
+    <Card titulo={titulo}>
+      <ConteudoAsync estado={estado} vazio={vazio}>
+        {children}
+      </ConteudoAsync>
+    </Card>
   );
 }
 
@@ -152,11 +147,16 @@ export default function Dashboard() {
           {(lista) => (
             <ul>
               {lista.map((d) => (
-                <li key={d.id} className={linha}>
-                  <span>{d.nome}</span>
-                  <strong className={d.desempenho >= 90 ? 'text-danger' : ''}>
-                    {formatPercentual(d.desempenho)}
-                  </strong>
+                <li key={d.id} className="py-2">
+                  <div className="mb-1.5 flex justify-between">
+                    <span>{d.nome}</span>
+                    <span>{formatPercentual(d.desempenho)}</span>
+                  </div>
+                  <ProgressBar
+                    valor={d.desempenho}
+                    rotulo={d.nome}
+                    cor={d.desempenho >= 90 ? 'perigo' : 'primaria'}
+                  />
                 </li>
               ))}
             </ul>
@@ -201,9 +201,10 @@ export default function Dashboard() {
                     {a.titulo} — {a.local}
                     <span className="block text-xs text-danger">{a.medico}</span>
                   </span>
-                  <strong className={a.prioridade === 'alta' ? 'text-danger' : 'text-warning'}>
-                    {t.prioridade[a.prioridade]}
-                  </strong>
+                  <PriorityBadge
+                    prioridade={a.prioridade}
+                    className="self-start border border-border"
+                  />
                 </li>
               ))}
             </ul>
@@ -219,7 +220,7 @@ export default function Dashboard() {
                     {formatHora(c.horario)} · {c.paciente}
                     <span className="block text-xs text-text-muted">{c.departamento}</span>
                   </span>
-                  <strong>{t.status[c.status]}</strong>
+                  <StatusBadge status={c.status} className="self-start" />
                 </li>
               ))}
             </ul>
