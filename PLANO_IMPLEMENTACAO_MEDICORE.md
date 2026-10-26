@@ -41,7 +41,7 @@
 | Fase | Descrição | Estimativa | Status | Início | Fim |
 |:---:|---|:---:|:---:|:---:|:---:|
 | 1 | Configuração do projeto | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
-| 2 | Tipos, dados mockados e i18n | 0,5 dia | ⬜ Não iniciada | | |
+| 2 | Tipos, dados mockados e i18n | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 3 | Layout e navegação | 1 dia | ⬜ Não iniciada | | |
 | 4 | Componentes de UI base | 0,5 dia | ⬜ Não iniciada | | |
 | 5 | Cards do painel | 2 dias | ⬜ Não iniciada | | |
@@ -306,7 +306,7 @@ medicore/
 
 ### 2.1 Tipos (`src/types/index.ts`)
 
-- [ ] Criar os tipos:
+- [x] Criar os tipos:
   ```ts
   export type StatusConsulta = 'concluida' | 'agendada' | 'cancelada';
   export type Prioridade = 'alta' | 'media' | 'baixa';
@@ -367,95 +367,95 @@ medicore/
 
 ### 2.2 Textos da interface (`src/i18n/pt-BR.ts`)
 
-- [ ] Criar o objeto `t` com **todos** os textos, agrupados por área:
-  - [ ] `app`: nome ("MediCore"), subtítulo ("Operações Hospitalares")
-  - [ ] `menu`: Painel, Pacientes, Médicos, Consultas, Gestão de leitos, Emergência, Farmácia, Análises, Configurações
-  - [ ] `header`: placeholder da busca e aria-labels ("Alternar modo escuro", "Notificações", "Mensagens", "Menu do usuário")
-  - [ ] `userMenu`: Meu perfil, Configurações, Sair
-  - [ ] `suporte`: "Precisa de ajuda?", "Estamos disponíveis 24h para qualquer urgência.", "Falar com o suporte"
-  - [ ] `saudacao`: "Bom dia", "Boa tarde", "Boa noite"
-  - [ ] `boasVindas`: título com nome (função), botões "Ver agenda" e "Revisar status da UTI"
-  - [ ] `ia`: "Assistente hospitalar com IA", "Insights de hoje", "Ver todos os insights"
-  - [ ] `kpis`: títulos e textos de apoio dos 4 cards
-  - [ ] `departamentos`: título "Desempenho por departamento"
-  - [ ] `internacoes`: "Tendência de internações", períodos ("Esta semana", "Este mês", "Este ano"), tooltip (`(n) => \`${n} internações\``)
-  - [ ] `leitos`: "Ocupação de leitos", "ocupados", "Ocupados", "Disponíveis", "leitos"
-  - [ ] `alertas`: "Alertas de emergência", "Ver todos"
-  - [ ] `consultas`: "Consultas de hoje", "Ver todas", cabeçalhos da tabela
-  - [ ] `atividades`: "Linha do tempo de atividades"
-  - [ ] `status`: `{ concluida: 'Concluída', agendada: 'Agendada', cancelada: 'Cancelada' }`
-  - [ ] `prioridade`: `{ alta: 'Alta', media: 'Média', baixa: 'Baixa' }`
-  - [ ] `vazio`: mensagens de estado vazio de cada card ("Nenhuma consulta para hoje", "Nenhum alerta ativo" etc.)
-  - [ ] `erro`: "Não foi possível carregar os dados. Tentar novamente"
-- [ ] Exportar com `as const` para ter autocomplete e checagem de tipos
+- [x] Criar o objeto `t` com **todos** os textos, agrupados por área:
+  - [x] `app`: nome ("MediCore"), subtítulo ("Operações Hospitalares")
+  - [x] `menu`: Painel, Pacientes, Médicos, Consultas, Gestão de leitos, Emergência, Farmácia, Análises, Configurações
+  - [x] `header`: placeholder da busca e aria-labels ("Alternar modo escuro", "Notificações", "Mensagens", "Menu do usuário")
+  - [x] `userMenu`: Meu perfil, Configurações, Sair
+  - [x] `suporte`: "Precisa de ajuda?", "Estamos disponíveis 24h para qualquer urgência.", "Falar com o suporte"
+  - [x] `saudacao`: "Bom dia", "Boa tarde", "Boa noite"
+  - [x] `boasVindas`: título com nome (função), botões "Ver agenda" e "Revisar status da UTI"
+  - [x] `ia`: "Assistente hospitalar com IA", "Insights de hoje", "Ver todos os insights"
+  - [x] `kpis`: títulos e textos de apoio dos 4 cards
+  - [x] `departamentos`: título "Desempenho por departamento"
+  - [x] `internacoes`: "Tendência de internações", períodos ("Esta semana", "Este mês", "Este ano"), tooltip (`(n) => \`${n} internações\``)
+  - [x] `leitos`: "Ocupação de leitos", "ocupados", "Ocupados", "Disponíveis", "leitos"
+  - [x] `alertas`: "Alertas de emergência", "Ver todos"
+  - [x] `consultas`: "Consultas de hoje", "Ver todas", cabeçalhos da tabela
+  - [x] `atividades`: "Linha do tempo de atividades"
+  - [x] `status`: `{ concluida: 'Concluída', agendada: 'Agendada', cancelada: 'Cancelada' }`
+  - [x] `prioridade`: `{ alta: 'Alta', media: 'Média', baixa: 'Baixa' }`
+  - [x] `vazio`: mensagens de estado vazio de cada card ("Nenhuma consulta para hoje", "Nenhum alerta ativo" etc.)
+  - [x] `erro`: "Não foi possível carregar os dados. Tentar novamente"
+- [x] Exportar com `as const` para ter autocomplete e checagem de tipos
 
 ### 2.3 Dados mockados (`src/data/mock.ts`)
 
-- [ ] **KPIs:** total 1248, variação +12%, médicos 42, emergências 18
-- [ ] **Leitos por setor:**
-  - [ ] UTI: 22 ocupados de 30
-  - [ ] Enfermaria: 50 ocupados de 70
-  - [ ] Apartamento: 14 ocupados de 20
-- [ ] **Departamentos:** Cardiologia 88, Emergência 93, Neurologia 80, Clínica Geral 79, Ortopedia 75, Pediatria 65
-- [ ] **Internações (semana):** Seg 42, Ter 30, Qua 38, Qui 64, Sex 46, Sáb 70, Dom 60 (curva ondulada parecida com a referência)
-- [ ] **Internações (mês e ano):** séries extras para o seletor de período
-- [ ] **Insights:**
-  - [ ] "A ocupação da UTI pode chegar a 90% até a noite."
-  - [ ] "3 medicamentos estão com estoque baixo."
-  - [ ] "5 pacientes precisam de retorno hoje."
-- [ ] **Alertas:**
-  - [ ] Paciente crítico — UTI, Leito 12 · Dr. James Wilson · alta
-  - [ ] Acidente — Emergência, Leito 3 · Dr. Michael Brown · media
-  - [ ] Infarto — UTI, Leito 7 · Dra. Emily Davis · alta
-- [ ] **Consultas (data de hoje):**
-  - [ ] 09:00 · John Smith · Cardiologia · concluida
-  - [ ] 10:30 · Emily Davis · Neurologia · agendada
-  - [ ] 12:00 · Michael Brown · Ortopedia · agendada
-  - [ ] 16:00 · Daniel Taylor · Clínica Geral · cancelada
-- [ ] **Atividades:**
-  - [ ] 10:30 · Novo paciente John Smith internado
-  - [ ] 09:45 · Estoque de paracetamol atualizado
-  - [ ] 09:30 · Consulta concluída com Emily Davis
-  - [ ] 09:00 · Dr. Robert Lee entrou na equipe de Cardiologia
+- [x] **KPIs:** total 1248, variação +12%, médicos 42, emergências 18
+- [x] **Leitos por setor:**
+  - [x] UTI: 22 ocupados de 30
+  - [x] Enfermaria: 50 ocupados de 70
+  - [x] Apartamento: 14 ocupados de 20
+- [x] **Departamentos:** Cardiologia 88, Emergência 93, Neurologia 80, Clínica Geral 79, Ortopedia 75, Pediatria 65
+- [x] **Internações (semana):** Seg 42, Ter 30, Qua 38, Qui 64, Sex 46, Sáb 70, Dom 60 (curva ondulada parecida com a referência)
+- [x] **Internações (mês e ano):** séries extras para o seletor de período
+- [x] **Insights:**
+  - [x] "A ocupação da UTI pode chegar a 90% até a noite."
+  - [x] "3 medicamentos estão com estoque baixo."
+  - [x] "5 pacientes precisam de retorno hoje."
+- [x] **Alertas:**
+  - [x] Paciente crítico — UTI, Leito 12 · Dr. James Wilson · alta
+  - [x] Acidente — Emergência, Leito 3 · Dr. Michael Brown · media
+  - [x] Infarto — UTI, Leito 7 · Dra. Emily Davis · alta
+- [x] **Consultas (data de hoje):**
+  - [x] 09:00 · John Smith · Cardiologia · concluida
+  - [x] 10:30 · Emily Davis · Neurologia · agendada
+  - [x] 12:00 · Michael Brown · Ortopedia · agendada
+  - [x] 16:00 · Daniel Taylor · Clínica Geral · cancelada
+- [x] **Atividades:**
+  - [x] 10:30 · Novo paciente John Smith internado
+  - [x] 09:45 · Estoque de paracetamol atualizado
+  - [x] 09:30 · Consulta concluída com Emily Davis
+  - [x] 09:00 · Dr. Robert Lee entrou na equipe de Cardiologia
 - [ ] (Opcional) Trocar os nomes por nomes brasileiros e registrar a decisão no [Registro](#-registro-de-decisões-e-observações)
 
 ### 2.4 Formatação (`src/utils/format.ts`)
 
-- [ ] `formatNumero(n)`: `new Intl.NumberFormat('pt-BR').format(n)` → `1.248`
-- [ ] `formatPercentual(n)`: → `72%`
-- [ ] `formatHora(iso)`: `Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' })` → `16:00`
-- [ ] `formatVariacao(n)`: → `12% em relação a ontem`
+- [x] `formatNumero(n)`: `new Intl.NumberFormat('pt-BR').format(n)` → `1.248`
+- [x] `formatPercentual(n)`: → `72%`
+- [x] `formatHora(iso)`: `Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' })` → `16:00`
+- [x] `formatVariacao(n)`: → `12% em relação a ontem`
 
 ### 2.5 Cálculos de leitos (`src/utils/leitos.ts`)
 
-- [ ] `totalLeitos(setores)` → 120
-- [ ] `leitosOcupados(setores)` → 86
-- [ ] `leitosDisponiveis(setores)` → 34
-- [ ] `percentualOcupacao(setores)` → 72 (arredondado)
+- [x] `totalLeitos(setores)` → 120
+- [x] `leitosOcupados(setores)` → 86
+- [x] `leitosDisponiveis(setores)` → 34
+- [x] `percentualOcupacao(setores)` → 72 (arredondado)
 
 > ⚠️ **Atenção:** a imagem de referência mostra "86" em *Leitos disponíveis*, mas 86 é o número de leitos **ocupados**. O valor correto do KPI é **34**, calculado pelas funções acima.
 
 ### 2.6 Serviço simulado (`src/services/api.ts`)
 
-- [ ] Criar o helper `delay(ms)` (padrão 400ms) para simular a latência
-- [ ] Funções `async`: `getKpis`, `getLeitos`, `getDepartamentos`, `getInternacoes(periodo)`, `getInsights`, `getAlertas`, `getConsultasHoje`, `getAtividades`
-- [ ] Flag `VITE_SIMULAR_ERRO=true` que faz uma função lançar erro, para testar o estado de erro
+- [x] Criar o helper `delay(ms)` (padrão 400ms) para simular a latência
+- [x] Funções `async`: `getKpis`, `getLeitos`, `getDepartamentos`, `getInternacoes(periodo)`, `getInsights`, `getAlertas`, `getConsultasHoje`, `getAtividades`
+- [x] Flag `VITE_SIMULAR_ERRO=true` que faz uma função lançar erro, para testar o estado de erro
 
 ### 2.7 Hook de dados (`src/hooks/useDashboardData.ts`)
 
-- [ ] Hook genérico `useAsync<T>(fn, deps)` que retorna `{ data, carregando, erro, recarregar }`
-- [ ] Hooks específicos por card ou um hook agregador, conforme preferência da equipe
+- [x] Hook genérico `useAsync<T>(fn, deps)` que retorna `{ data, carregando, erro, recarregar }`
+- [x] Hooks específicos por card ou um hook agregador, conforme preferência da equipe
 
 ### 2.8 Testes da fase
 
-- [ ] `format.test.ts`: `formatNumero(1248) === '1.248'`, hora em formato 24h
-- [ ] `leitos.test.ts`: 120 total, 86 ocupados, 34 disponíveis, 72%
+- [x] `format.test.ts`: `formatNumero(1248) === '1.248'`, hora em formato 24h
+- [x] `leitos.test.ts`: 120 total, 86 ocupados, 34 disponíveis, 72%
 
 ### ✅ Critérios de conclusão — Fase 2
 
-- [ ] Nenhum `any` nos tipos
-- [ ] Todos os testes da fase passam
-- [ ] Nenhum texto de interface escrito diretamente fora de `pt-BR.ts`
+- [x] Nenhum `any` nos tipos
+- [x] Todos os testes da fase passam
+- [x] Nenhum texto de interface escrito diretamente fora de `pt-BR.ts`
 - [ ] Commit e PR da fase abertos
 
 ---
@@ -887,3 +887,8 @@ medicore/
 | 26/10/2026 | Fase 1: versões instaladas — React 19, Vite 8, Tailwind 4, Vitest 5, React Router 7, Recharts 3, TypeScript 6. Lint com oxlint (padrão do template Vite) no lugar do ESLint | |
 | 26/10/2026 | Fase 1: `setupTests.ts` usa `@testing-library/jest-dom/vitest`; `vitest` configurado com `passWithNoTests`; `App.tsx` provisório para validar tokens e tema | |
 | 26/10/2026 | Fase 1: Git e PR pendentes — rodar `git init` e o primeiro commit localmente | |
+| 26/10/2026 | Fase 2: nomes de pacientes e médicos mantidos como na referência (troca por nomes brasileiros segue opcional) | |
+| 26/10/2026 | Fase 2: adicionados `Usuario` e `ResumoDia` (números do subtítulo de boas-vindas) e `getUsuario`/`getResumoDia`; `useAsync` ficou em arquivo próprio (`hooks/useAsync.ts`) | |
+| 26/10/2026 | Fase 2: o serviço devolve cópias (`structuredClone`), alertas já ordenados por prioridade, consultas por horário e atividades da mais recente para a mais antiga | |
+| 26/10/2026 | Fase 2: `VITE_SIMULAR_ERRO=true` faz todas as chamadas falharem (ver `.env.example`); latência é zero nos testes | |
+| 26/10/2026 | Fase 2: `App.tsx` provisório agora exibe os dados mockados formatados, para conferência visual até a Fase 3 | |

@@ -34,12 +34,25 @@ As cores ficam em `src/index.css` como tokens do Tailwind (`bg-primary`, `text-t
 O modo escuro é ativado com o atributo `data-theme="dark"` no `<html>`, e a escolha fica salva no
 `localStorage` com a chave `medicore-tema`.
 
+## Dados e textos
+
+- `src/types/index.ts` — tipos do domínio (consultas, leitos, alertas etc.)
+- `src/i18n/pt-BR.ts` — **todos** os textos da interface; adicione novos textos aqui, nunca direto no JSX
+- `src/data/mock.ts` — dados mockados
+- `src/services/api.ts` — funções assíncronas que simulam a API; para integrar o backend, troque o corpo
+  delas por chamadas HTTP mantendo as assinaturas
+- `src/hooks/useDashboardData.ts` — um hook por card, com `data`, `carregando`, `erro` e `recarregar`
+- `src/utils/format.ts` e `src/utils/leitos.ts` — formatação pt-BR e cálculos derivados
+
+Para testar o estado de erro dos cards, crie um `.env.local` com `VITE_SIMULAR_ERRO=true`
+(veja `.env.example`) e reinicie o `npm run dev`.
+
 ## Andamento
 
 O plano completo, com checklists por fase, está em `PLANO_IMPLEMENTACAO_MEDICORE.md`.
 
 - [x] Fase 1 — Configuração do projeto
-- [ ] Fase 2 — Tipos, dados mockados e i18n
+- [x] Fase 2 — Tipos, dados mockados e i18n
 - [ ] Fase 3 — Layout e navegação
 - [ ] Fase 4 — Componentes de UI base
 - [ ] Fase 5 — Cards do painel

@@ -1,18 +1,25 @@
 /**
- * Página provisória da Fase 1.
- * Serve para validar a fonte, os tokens de cor e o modo escuro.
- * Será substituída pelas rotas e pelo layout na Fase 3.
+ * PÁGINA PROVISÓRIA (Fases 1 e 2).
+ * Mostra os dados mockados vindos do serviço simulado, já formatados em pt-BR,
+ * usando os textos de src/i18n/pt-BR.ts. Será substituída pelo layout na Fase 3.
  */
-const amostras = [
-  { nome: 'sidebar', classe: 'bg-sidebar' },
-  { nome: 'primary', classe: 'bg-primary' },
-  { nome: 'primary-light', classe: 'bg-primary-light' },
-  { nome: 'bg', classe: 'bg-bg' },
-  { nome: 'card', classe: 'bg-card' },
-  { nome: 'danger', classe: 'bg-danger' },
-  { nome: 'danger-bg', classe: 'bg-danger-bg' },
-  { nome: 'warning', classe: 'bg-warning' },
-];
+import type { ReactNode } from 'react';
+import {
+  useAlertas,
+  useAtividades,
+  useConsultasHoje,
+  useDepartamentos,
+  useInsights,
+  useInternacoes,
+  useKpis,
+  useLeitos,
+  useResumoDia,
+  useUsuario,
+} from './hooks/useDashboardData';
+import type { EstadoAsync } from './hooks/useAsync';
+import { t } from './i18n/pt-BR';
+import { formatHora, formatNumero, formatPercentual, formatVariacao } from './utils/format';
+import { resumoLeitos } from './utils/leitos';
 
 function alternarTema() {
   const raiz = document.documentElement;
@@ -25,43 +32,231 @@ function alternarTema() {
   }
 }
 
-export default function App() {
+function Bloco<T>({
+  titulo,
+  estado,
+  vazio,
+  children,
+}: {
+  titulo: string;
+  estado: EstadoAsync<T>;
+  vazio?: string;
+  children: (data: T) => ReactNode;
+}) {
+  const { data, carregando, erro, recarregar } = estado;
+  const estaVazio = Array.isArray(data) && data.length === 0;
   return (
-    <main className="mx-auto max-w-3xl p-6">
-      <section className="rounded-[var(--radius-card)] border border-border bg-card p-6 shadow-[var(--shadow-card)]">
-        <p className="text-xs font-semibold tracking-wider text-primary uppercase">
-          Fase 1 concluída
-        </p>
-        <h1 className="mt-1 text-3xl font-bold">MediCore — Operações Hospitalares</h1>
-        <p className="mt-2 text-text-muted">
-          Projeto configurado com Vite, React, TypeScript e Tailwind CSS. Esta página é provisória e
-          serve apenas para conferir a fonte, as cores e o modo escuro.
-        </p>
+    <section className="rounded-[var(--radius-card)] border border-border bg-card p-5 shadow-[var(--shadow-card)]">
+      <h2 className="mb-3 text-base font-semibold">{titulo}</h2>
+      {carregando && <div className="h-16 animate-pulse rounded-lg bg-bg" aria-hidden />}
+      {!carregando && erro && (
+        <div className="text-danger">
+          <p>{t.erro.carregar}</p>
+          <button type="button" onClick={recarregar} className="mt-2 font-medium underline">
+            {t.erro.tentarNovamente}
+          </button>
+        </div>
+      )}
+      {!carregando && !erro && estaVazio && <p className="text-text-muted">{vazio}</p>}
+      {!carregando && !erro && data !== null && !estaVazio && children(data)}
+    </section>
+  );
+}
 
+export default function App() {
+  const usuario = useUsuario();
+  const kpis = useKpis();
+  const resumo = useResumoDia();
+  const leitos = useLeitos();
+  const departamentos = useDepartamentos();
+  const semana = useInternacoes('semana');
+  const insights = useInsights();
+  const alertas = useAlertas();
+  const consultas = useConsultasHoje();
+  const atividades = useAtividades();
+
+  const linha = 'flex justify-between gap-4 border-b border-border py-1.5 last:border-0';
+
+  return (
+    <main className="mx-auto max-w-6xl p-6">
+      <header className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold tracking-wider text-primary uppercase">
+            {t.saudacao.manha}
+          </p>
+          <h1 className="text-2xl font-bold">
+            {usuario.data ? t.boasVindas.titulo(usuario.data.tratamento) : t.app.nome}
+          </h1>
+          {resumo.data && consultas.data && (
+            <p className="mt-1 text-text-muted">
+              {t.boasVindas.resumo(
+                consultas.data.length,
+                resumo.data.previsaoOcupacaoUti,
+                resumo.data.medicamentosEstoqueBaixo,
+              )}
+            </p>
+          )}
+        </div>
         <button
           type="button"
           onClick={alternarTema}
-          className="mt-5 rounded-lg bg-primary px-5 py-3 font-medium text-white hover:opacity-90 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
+          className="rounded-lg bg-primary px-5 py-3 font-medium text-white hover:opacity-90"
         >
-          Alternar modo escuro
+          {t.header.alternarTema}
         </button>
+      </header>
 
-        <h2 className="mt-8 mb-3 text-base font-semibold">Tokens de cor</h2>
-        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {amostras.map((a) => (
-            <li key={a.nome} className="text-xs text-text-muted">
-              <span className={`mb-1 block h-12 rounded-lg border border-border ${a.classe}`} />
-              {a.nome}
-            </li>
-          ))}
-        </ul>
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <Bloco titulo={t.kpis.totalPacientes} estado={kpis}>
+          {(k) => (
+            <ul>
+              <li className={linha}>
+                <span>{t.kpis.totalPacientes}</span>
+                <strong>
+                  {formatNumero(k.totalPacientes)}{' '}
+                  <span className="font-normal text-text-muted">
+                    ({t.kpis.variacao(formatVariacao(k.variacaoPacientes))})
+                  </span>
+                </strong>
+              </li>
+              <li className={linha}>
+                <span>{t.kpis.medicosPlantao}</span>
+                <strong>{formatNumero(k.medicosPlantao)}</strong>
+              </li>
+              <li className={linha}>
+                <span>{t.kpis.casosEmergencia}</span>
+                <strong className="text-danger">{formatNumero(k.casosEmergencia)}</strong>
+              </li>
+            </ul>
+          )}
+        </Bloco>
 
-        <h2 className="mt-8 mb-3 text-base font-semibold">Tipografia (Inter)</h2>
-        <p className="font-normal">Regular 400 — Pacientes, Médicos, Consultas</p>
-        <p className="font-medium">Médio 500 — Gestão de leitos</p>
-        <p className="font-semibold">Seminegrito 600 — Desempenho por departamento</p>
-        <p className="font-bold">Negrito 700 — 1.248 pacientes</p>
-      </section>
+        <Bloco titulo={t.leitos.titulo} estado={leitos} vazio={t.vazio.leitos}>
+          {(setores) => {
+            const r = resumoLeitos(setores);
+            return (
+              <ul>
+                <li className={linha}>
+                  <span>{t.kpis.leitosDisponiveis}</span>
+                  <strong>
+                    {formatNumero(r.disponiveis)}{' '}
+                    <span className="font-normal text-text-muted">
+                      {t.kpis.deTotalLeitos(formatNumero(r.total))}
+                    </span>
+                  </strong>
+                </li>
+                <li className={linha}>
+                  <span>{t.leitos.ocupados}</span>
+                  <strong>
+                    {t.leitos.leitos(r.ocupados)} · {formatPercentual(r.percentual)}
+                  </strong>
+                </li>
+                {setores.map((s) => (
+                  <li key={s.id} className={linha}>
+                    <span>{s.nome}</span>
+                    <strong>
+                      {s.ocupados}/{s.total}
+                    </strong>
+                  </li>
+                ))}
+              </ul>
+            );
+          }}
+        </Bloco>
+
+        <Bloco titulo={t.departamentos.titulo} estado={departamentos} vazio={t.vazio.departamentos}>
+          {(lista) => (
+            <ul>
+              {lista.map((d) => (
+                <li key={d.id} className={linha}>
+                  <span>{d.nome}</span>
+                  <strong className={d.desempenho >= 90 ? 'text-danger' : ''}>
+                    {formatPercentual(d.desempenho)}
+                  </strong>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Bloco>
+
+        <Bloco
+          titulo={`${t.internacoes.titulo} · ${t.internacoes.periodos.semana}`}
+          estado={semana}
+          vazio={t.vazio.internacoes}
+        >
+          {(pontos) => (
+            <ul>
+              {pontos.map((p) => (
+                <li key={p.rotulo} className={linha}>
+                  <span>{p.rotulo}</span>
+                  <span>{t.internacoes.tooltip(p.valor)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Bloco>
+
+        <Bloco titulo={t.ia.insightsHoje} estado={insights} vazio={t.vazio.insights}>
+          {(lista) => (
+            <ul className="list-disc pl-5">
+              {lista.map((i) => (
+                <li key={i.id} className="py-1">
+                  {i.texto}
+                </li>
+              ))}
+            </ul>
+          )}
+        </Bloco>
+
+        <Bloco titulo={t.alertas.titulo} estado={alertas} vazio={t.vazio.alertas}>
+          {(lista) => (
+            <ul>
+              {lista.map((a) => (
+                <li key={a.id} className={linha}>
+                  <span>
+                    {a.titulo} — {a.local}
+                    <span className="block text-xs text-danger">{a.medico}</span>
+                  </span>
+                  <strong className={a.prioridade === 'alta' ? 'text-danger' : 'text-warning'}>
+                    {t.prioridade[a.prioridade]}
+                  </strong>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Bloco>
+
+        <Bloco titulo={t.consultas.titulo} estado={consultas} vazio={t.vazio.consultas}>
+          {(lista) => (
+            <ul>
+              {lista.map((c) => (
+                <li key={c.id} className={linha}>
+                  <span>
+                    {formatHora(c.horario)} · {c.paciente}
+                    <span className="block text-xs text-text-muted">{c.departamento}</span>
+                  </span>
+                  <strong>{t.status[c.status]}</strong>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Bloco>
+
+        <Bloco titulo={t.atividades.titulo} estado={atividades} vazio={t.vazio.atividades}>
+          {(lista) => (
+            <ul>
+              {lista.map((a) => (
+                <li key={a.id} className={linha}>
+                  <span>{a.descricao}</span>
+                  <time dateTime={a.horario} className="text-text-muted">
+                    {formatHora(a.horario)}
+                  </time>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Bloco>
+      </div>
     </main>
   );
 }
