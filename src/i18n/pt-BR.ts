@@ -57,6 +57,7 @@ export const t = {
 
   boasVindas: {
     titulo: (tratamento: string) => `Veja como está o hospital hoje, ${tratamento}.`,
+    tituloSemNome: 'Veja como está o hospital hoje.',
     resumo: (consultas: number, previsaoUti: number, medicamentos: number) =>
       `${consultas} ${consultas === 1 ? 'consulta' : 'consultas'} hoje · ` +
       `UTI tendendo a ${previsaoUti}% até a noite · ` +
@@ -64,6 +65,8 @@ export const t = {
     verAgenda: 'Ver agenda',
     revisarUti: 'Revisar status da UTI',
   },
+
+  kpisRegiao: 'Indicadores do dia',
 
   ia: {
     titulo: 'Assistente hospitalar com IA',
@@ -97,6 +100,9 @@ export const t = {
     tooltip: (n: number) => `${n} ${n === 1 ? 'internação' : 'internações'}`,
     resumoGrafico: (minRotulo: string, min: number, maxRotulo: string, max: number) =>
       `Internações no período: mínimo de ${min} em ${minRotulo} e máximo de ${max} em ${maxRotulo}`,
+    tabelaLegenda: 'Internações por período',
+    colunaPeriodo: 'Período',
+    colunaInternacoes: 'Internações',
   },
 
   leitos: {
@@ -107,6 +113,9 @@ export const t = {
     leitos: (n: number) => `${n} ${n === 1 ? 'leito' : 'leitos'}`,
     resumoGrafico: (percentual: number, ocupados: number, total: number) =>
       `${percentual}% dos leitos ocupados: ${ocupados} de ${total}`,
+    setores: 'Ocupação por setor',
+    setorResumo: (nome: string, ocupados: number, total: number) =>
+      `${nome}: ${ocupados} de ${total} leitos ocupados`,
   },
 
   alertas: {

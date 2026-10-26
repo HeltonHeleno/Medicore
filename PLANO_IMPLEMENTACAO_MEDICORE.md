@@ -44,7 +44,7 @@
 | 2 | Tipos, dados mockados e i18n | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 3 | Layout e navegação | 1 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 4 | Componentes de UI base | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
-| 5 | Cards do painel | 2 dias | ⬜ Não iniciada | | |
+| 5 | Cards do painel | 2 dias | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 6 | Montagem da grade | 0,5 dia | ⬜ Não iniciada | | |
 | 7 | Qualidade, testes e entrega | 1 dia | ⬜ Não iniciada | | |
 
@@ -610,99 +610,99 @@ medicore/
 
 ### 5.1 `WelcomeCard`
 
-- [ ] Hook `useGreeting()`: 5h–11h59 → "Bom dia", 12h–17h59 → "Boa tarde", 18h–4h59 → "Boa noite"
-- [ ] Sobretítulo em caixa alta, verde, 12px, semibold, com espaçamento entre letras
-- [ ] Título `<h1>`: "Veja como está o hospital hoje, Dr. Johnson." (28–30px, negrito)
-- [ ] Subtítulo montado a partir dos dados: "{n} consultas hoje · UTI tendendo a {x}% até a noite · {m} medicamentos com estoque baixo."
-- [ ] Botões "Ver agenda" (primário → `/consultas`) e "Revisar status da UTI" (contorno → `/leitos`)
-- [ ] Ilustração SVG à direita (~300px), com `alt=""` decorativo
-  - [ ] Criar uma ilustração **original** (médico com jaleco, estetoscópio, prancheta e ícones médicos ao redor) ou usar um placeholder até ter a arte final
-  - [ ] Ocultar abaixo de 768px
+- [x] Hook `useGreeting()`: 5h–11h59 → "Bom dia", 12h–17h59 → "Boa tarde", 18h–4h59 → "Boa noite"
+- [x] Sobretítulo em caixa alta, verde, 12px, semibold, com espaçamento entre letras
+- [x] Título `<h1>`: "Veja como está o hospital hoje, Dr. Johnson." (28–30px, negrito)
+- [x] Subtítulo montado a partir dos dados: "{n} consultas hoje · UTI tendendo a {x}% até a noite · {m} medicamentos com estoque baixo."
+- [x] Botões "Ver agenda" (primário → `/consultas`) e "Revisar status da UTI" (contorno → `/leitos`)
+- [x] Ilustração SVG à direita (~300px), com `alt=""` decorativo
+  - [x] Criar uma ilustração **original** (médico com jaleco, estetoscópio, prancheta e ícones médicos ao redor) ou usar um placeholder até ter a arte final
+  - [x] Ocultar abaixo de 768px
 
 ### 5.2 `AIInsights`
 
-- [ ] Título "Assistente hospitalar com IA"
-- [ ] Caixa interna com borda: "Insights de hoje" e lista com marcadores
-- [ ] Botão largo `suave` "Ver todos os insights" com `ChevronRight` alinhado à direita
-- [ ] Estado vazio: "Nenhum insight disponível no momento."
+- [x] Título "Assistente hospitalar com IA"
+- [x] Caixa interna com borda: "Insights de hoje" e lista com marcadores
+- [x] Botão largo `suave` "Ver todos os insights" com `ChevronRight` alinhado à direita
+- [x] Estado vazio: "Nenhum insight disponível no momento."
 
 ### 5.3 `StatCard` (×4)
 
-- [ ] Props: `titulo`, `valor`, `detalhe`, `tendencia?: 'alta' | 'baixa'`, `destaque?: 'perigo'`
-- [ ] Valor 28–30px, negrito, formatado com `formatNumero`
-- [ ] Cards:
-  - [ ] Total de pacientes · 1.248 · "↑ 12% em relação a ontem" (`ArrowUp`)
-  - [ ] Leitos disponíveis · 34 · "de 120 leitos no total" (valor **calculado**)
-  - [ ] Médicos de plantão · 42 · "Escalados para hoje"
-  - [ ] Casos de emergência · **18** em `text-danger` · "Alta prioridade — ver alertas" (link para os alertas)
+- [x] Props: `titulo`, `valor`, `detalhe`, `tendencia?: 'alta' | 'baixa'`, `destaque?: 'perigo'`
+- [x] Valor 28–30px, negrito, formatado com `formatNumero`
+- [x] Cards:
+  - [x] Total de pacientes · 1.248 · "↑ 12% em relação a ontem" (`ArrowUp`)
+  - [x] Leitos disponíveis · 34 · "de 120 leitos no total" (valor **calculado**)
+  - [x] Médicos de plantão · 42 · "Escalados para hoje"
+  - [x] Casos de emergência · **18** em `text-danger` · "Alta prioridade — ver alertas" (link para os alertas)
 
 ### 5.4 `DepartmentPerformance`
 
-- [ ] Título "Desempenho por departamento"
-- [ ] Para cada departamento: nome à esquerda, percentual à direita e `ProgressBar` abaixo
-- [ ] Regra de cor: barra `perigo` quando o desempenho é ≥ 90% (constante `LIMITE_ALERTA_DEPARTAMENTO = 90`)
-- [ ] Espaçamento vertical uniforme entre itens (~24px)
+- [x] Título "Desempenho por departamento"
+- [x] Para cada departamento: nome à esquerda, percentual à direita e `ProgressBar` abaixo
+- [x] Regra de cor: barra `perigo` quando o desempenho é ≥ 90% (constante `LIMITE_ALERTA_DEPARTAMENTO = 90`)
+- [x] Espaçamento vertical uniforme entre itens (~24px)
 
 ### 5.5 `OccupancyDonut`
 
-- [ ] Título "Ocupação de leitos"
-- [ ] `PieChart` do Recharts:
-  - [ ] Dois segmentos (ocupados = `primary`, disponíveis = `primary-light`)
-  - [ ] `innerRadius` ~45, `outerRadius` ~60, `startAngle={90}`, `endAngle={-270}`
-  - [ ] Texto central: "72%" (22px, negrito) e "ocupados" (10px, cinza)
-- [ ] Legenda à direita: quadrado preenchido "Ocupados — 86 leitos" e quadrado vazado "Disponíveis — 34 leitos"
-- [ ] Três mini-cards abaixo (fundo `bg`, raio 8px): **22/30** UTI · **50/70** Enfermaria · **14/20** Apartamento
-- [ ] `aria-label` no gráfico: "72% dos leitos ocupados: 86 de 120"
+- [x] Título "Ocupação de leitos"
+- [x] `PieChart` do Recharts:
+  - [x] Dois segmentos (ocupados = `primary`, disponíveis = `primary-light`)
+  - [x] `innerRadius` ~45, `outerRadius` ~60, `startAngle={90}`, `endAngle={-270}`
+  - [x] Texto central: "72%" (22px, negrito) e "ocupados" (10px, cinza)
+- [x] Legenda à direita: quadrado preenchido "Ocupados — 86 leitos" e quadrado vazado "Disponíveis — 34 leitos"
+- [x] Três mini-cards abaixo (fundo `bg`, raio 8px): **22/30** UTI · **50/70** Enfermaria · **14/20** Apartamento
+- [x] `aria-label` no gráfico: "72% dos leitos ocupados: 86 de 120"
 
 ### 5.6 `AdmissionChart`
 
-- [ ] Título "Tendência de internações" e `<select>` à direita: Esta semana / Este mês / Este ano
-- [ ] Ao trocar o período, buscar a série correspondente (`getInternacoes(periodo)`)
-- [ ] `AreaChart` do Recharts:
-  - [ ] `<Area type="monotone">` com traço `primary` de 2,5px
-  - [ ] Preenchimento com `linearGradient` (opacidade 25% → 0%)
-  - [ ] `XAxis` sem linha de eixo, rótulos Seg–Dom em cinza
-  - [ ] Sem `YAxis` visível e sem grade (visual limpo, como na referência)
-  - [ ] `ResponsiveContainer` com altura ~170px
-- [ ] Tooltip personalizado em pt-BR: "Qui · 64 internações"
-- [ ] Carregar com `React.lazy` + `Suspense` (junto com `OccupancyDonut`)
-- [ ] `aria-label` com resumo: "Internações da semana: mínimo de 30 na terça e máximo de 70 no sábado"
+- [x] Título "Tendência de internações" e `<select>` à direita: Esta semana / Este mês / Este ano
+- [x] Ao trocar o período, buscar a série correspondente (`getInternacoes(periodo)`)
+- [x] `AreaChart` do Recharts:
+  - [x] `<Area type="monotone">` com traço `primary` de 2,5px
+  - [x] Preenchimento com `linearGradient` (opacidade 25% → 0%)
+  - [x] `XAxis` sem linha de eixo, rótulos Seg–Dom em cinza
+  - [x] Sem `YAxis` visível e sem grade (visual limpo, como na referência)
+  - [x] `ResponsiveContainer` com altura ~170px
+- [x] Tooltip personalizado em pt-BR: "Qui · 64 internações"
+- [x] Carregar com `React.lazy` + `Suspense` (junto com `OccupancyDonut`)
+- [x] `aria-label` com resumo: "Internações da semana: mínimo de 30 na terça e máximo de 70 no sábado"
 
 ### 5.7 `AlertList`
 
-- [ ] `Card` com variante `perigo`, título "Alertas de emergência" e ação "Ver todos" → `/emergencia`
-- [ ] Itens separados por divisória (`border-danger/20`):
-  - [ ] Linha 1: título e local ("Paciente crítico — UTI, Leito 12"), 14px, médio
-  - [ ] Linha 2: médico responsável em `text-danger`, 12px
-  - [ ] `PriorityBadge` alinhado à direita
-- [ ] Ordenação: prioridade alta primeiro
-- [ ] Estado vazio: "Nenhum alerta ativo."
+- [x] `Card` com variante `perigo`, título "Alertas de emergência" e ação "Ver todos" → `/emergencia`
+- [x] Itens separados por divisória (`border-danger/20`):
+  - [x] Linha 1: título e local ("Paciente crítico — UTI, Leito 12"), 14px, médio
+  - [x] Linha 2: médico responsável em `text-danger`, 12px
+  - [x] `PriorityBadge` alinhado à direita
+- [x] Ordenação: prioridade alta primeiro
+- [x] Estado vazio: "Nenhum alerta ativo."
 
 ### 5.8 `AppointmentsTable`
 
-- [ ] Título "Consultas de hoje" e ação "Ver todas" → `/consultas`
-- [ ] `<table>` semântica:
-  - [ ] `<caption>` visualmente oculto: "Consultas agendadas para hoje"
-  - [ ] Cabeçalhos com `scope="col"`, caixa alta, 11px, cinza: HORÁRIO · PACIENTE · DEPARTAMENTO · STATUS
-  - [ ] Horário formatado com `formatHora` (24h)
-  - [ ] `StatusBadge` na última coluna
-- [ ] Ordenação por horário crescente
-- [ ] Abaixo de 640px: renderizar como lista de cards (horário e status na primeira linha, paciente e departamento na segunda)
-- [ ] Estado vazio: "Nenhuma consulta para hoje."
+- [x] Título "Consultas de hoje" e ação "Ver todas" → `/consultas`
+- [x] `<table>` semântica:
+  - [x] `<caption>` visualmente oculto: "Consultas agendadas para hoje"
+  - [x] Cabeçalhos com `scope="col"`, caixa alta, 11px, cinza: HORÁRIO · PACIENTE · DEPARTAMENTO · STATUS
+  - [x] Horário formatado com `formatHora` (24h)
+  - [x] `StatusBadge` na última coluna
+- [x] Ordenação por horário crescente
+- [x] Abaixo de 640px: renderizar como lista de cards (horário e status na primeira linha, paciente e departamento na segunda)
+- [x] Estado vazio: "Nenhuma consulta para hoje."
 
 ### 5.9 `ActivityTimeline`
 
-- [ ] Título "Linha do tempo de atividades"
-- [ ] Lista `<ol>` com marcador, descrição (14px) e horário abaixo (12px, cinza, `<time dateTime>`)
-- [ ] Ordenação do mais recente para o mais antigo
-- [ ] Estado vazio: "Nenhuma atividade registrada hoje."
+- [x] Título "Linha do tempo de atividades"
+- [x] Lista `<ol>` com marcador, descrição (14px) e horário abaixo (12px, cinza, `<time dateTime>`)
+- [x] Ordenação do mais recente para o mais antigo
+- [x] Estado vazio: "Nenhuma atividade registrada hoje."
 
 ### ✅ Critérios de conclusão — Fase 5
 
-- [ ] Os 9 componentes estão implementados e fiéis à referência
-- [ ] Os 4 estados (carregando, erro, vazio, dados) funcionam em todos os cards
-- [ ] Nenhum valor derivado escrito diretamente no JSX
-- [ ] Gráficos legíveis no modo escuro
+- [x] Os 9 componentes estão implementados e fiéis à referência
+- [x] Os 4 estados (carregando, erro, vazio, dados) funcionam em todos os cards
+- [x] Nenhum valor derivado escrito diretamente no JSX
+- [x] Gráficos legíveis no modo escuro
 - [ ] Commit e PR da fase abertos
 
 ---
@@ -902,3 +902,9 @@ medicore/
 | 26/10/2026 | Fase 4: `--color-text-muted` do tema claro escurecido de #6B7775 para #5E6A68 (4,0:1 → 4,9:1 sobre o fundo da página) | |
 | 26/10/2026 | Fase 4: além do previsto, `ButtonLink` (link com aparência de botão), `ConteudoAsync` (resolve carregando/erro/vazio/dados de um card) e `SkeletonLinhas`; `ErrorState` ficou no mesmo arquivo de `EmptyState` | |
 | 26/10/2026 | Fase 4: vitrine interna em `/ui` (só em `npm run dev`); auditoria axe-core sem violações WCAG A/AA nos dois temas | |
+| 26/10/2026 | Fase 5: ilustração do médico é um SVG original em `components/dashboard/IlustracaoMedico.tsx` (decorativo, oculto abaixo de 768px) | |
+| 26/10/2026 | Fase 5: cores dos gráficos lidas dos tokens CSS por `useCoresTema` (atualiza ao trocar o tema); linha do gráfico com 2px; tabela oculta com os dados para leitores de tela | |
+| 26/10/2026 | Fase 5: os 4 KPIs ficam em `KpiCards` (um erro mostra um único "Tentar novamente"); "Alta prioridade — ver alertas" é âncora para `#alertas-emergencia` | |
+| 26/10/2026 | Fase 5: sem nome do usuário (erro), o título vira "Veja como está o hospital hoje." | |
+| 26/10/2026 | Fase 5: `Dashboard.tsx` já monta a grade de referência em ≥1280px; a Fase 6 fica com o ajuste fino por largura e a comparação visual | |
+| 26/10/2026 | Fase 5: fundo da sidebar passou a cobrir a página inteira (antes terminava na altura da tela) | |

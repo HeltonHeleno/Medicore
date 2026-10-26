@@ -32,8 +32,10 @@ export function AppLayout() {
         {t.app.pularParaConteudo}
       </a>
 
-      <aside className="sticky top-0 hidden h-screen lg:block">
-        <Sidebar className="overflow-y-auto" />
+      <aside className="hidden bg-sidebar lg:block">
+        <div className="sticky top-0 h-screen">
+          <Sidebar className="overflow-y-auto" />
+        </div>
       </aside>
 
       <MobileDrawer aberto={menuAberto} aoFechar={fecharMenu} />

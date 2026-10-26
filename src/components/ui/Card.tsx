@@ -9,6 +9,8 @@ export interface AcaoCard {
 
 interface CardProps {
   titulo?: string;
+  /** id da seção (permite links âncora, ex.: #alertas-emergencia). */
+  id?: string;
   /** Link no canto superior direito, ex.: "Ver todos". */
   acao?: AcaoCard;
   /** Conteúdo livre no canto superior direito (ex.: seletor de período). Tem prioridade sobre `acao`. */
@@ -19,12 +21,21 @@ interface CardProps {
 }
 
 /** Contêiner base de todos os cards do painel. Vira uma região nomeada quando tem título. */
-export function Card({ titulo, acao, extra, variante = 'padrao', className, children }: CardProps) {
+export function Card({
+  id,
+  titulo,
+  acao,
+  extra,
+  variante = 'padrao',
+  className,
+  children,
+}: CardProps) {
   const idTitulo = useId();
   const perigo = variante === 'perigo';
 
   return (
     <section
+      id={id}
       aria-labelledby={titulo ? idTitulo : undefined}
       className={cn(
         'flex min-w-0 flex-col rounded-[var(--radius-card)] border p-5 shadow-[var(--shadow-card)]',
