@@ -20,6 +20,9 @@ export function useAnunciarRota(seletorConteudo = '#conteudo'): string {
     anterior.current = pathname;
     const quadro = requestAnimationFrame(() => {
       const main = document.querySelector<HTMLElement>(seletorConteudo);
+      const ativo = document.activeElement;
+      // A página já pôs o foco num campo (ex.: "Nome completo" no cadastro): mantém.
+      if (main && ativo && ativo !== main && main.contains(ativo)) return;
       const h1 = main?.querySelector<HTMLElement>('h1');
       const alvo = h1 ?? main;
       if (!alvo) return;

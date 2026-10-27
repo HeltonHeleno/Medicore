@@ -1081,48 +1081,48 @@ Um PR de fase só é aprovado quando:
 
 ### 10.1 Rotas
 
-- [ ] `pacientes`, `pacientes/novo`, `pacientes/:id`, `pacientes/:id/editar` (com `lazy`, `handle.titulo` e `handle.breadcrumb`)
-- [ ] ID inexistente → E-08 "Paciente não encontrado" com link para a lista
+- [x] `pacientes`, `pacientes/novo`, `pacientes/:id`, `pacientes/:id/editar` (com `lazy`, `handle.titulo` e `handle.breadcrumb`)
+- [x] ID inexistente → E-08 "Paciente não encontrado" com link para a lista
 
 ### 10.2 Lista (`/pacientes`)
 
-- [ ] Busca (A4), filtro de status (padrão Ativos), ordenação por nome/idade/próxima consulta, paginação de 10
-- [ ] Colunas: Nome de exibição (R-P6) + avatar · CPF mascarado (R-P4) · Idade · Telefone · Convênio · Próxima consulta · Status · ações
-- [ ] Ícone de alerta ao lado do nome se o paciente tiver alergias (com texto acessível)
-- [ ] Ações da linha: Ver, Editar, Agendar consulta, Inativar/Reativar
-- [ ] Estados vazios: sem cadastros ("Nenhum paciente cadastrado" + botão) e sem resultado ("Nenhum paciente encontrado para 'xyz'" + "Limpar filtros")
+- [x] Busca (A4), filtro de status (padrão Ativos), ordenação por nome/idade/próxima consulta, paginação de 10
+- [x] Colunas: Nome de exibição (R-P6) + avatar · CPF mascarado (R-P4) · Idade · Telefone · Convênio · Próxima consulta · Status · ações
+- [x] Ícone de alerta ao lado do nome se o paciente tiver alergias (com texto acessível)
+- [x] Ações da linha: Ver, Editar, Agendar consulta, Inativar/Reativar
+- [x] Estados vazios: sem cadastros ("Nenhum paciente cadastrado" + botão) e sem resultado ("Nenhum paciente encontrado para 'xyz'" + "Limpar filtros")
 
 ### 10.3 Formulário — implementa P1 e P2
 
-- [ ] `FormPaciente` com seções: Dados pessoais · Responsável legal (condicional, R-P5) · Contato · Endereço · Convênio · Informações clínicas · Contato de emergência · Consentimento
-- [ ] Todos os passos de P1 (foco inicial, máscaras, validação ao sair, CPF disponível, idade, CEP via A6, convênio condicional, resumo de erros, botão "Salvando…")
-- [ ] Edição conforme P2 (versão, confirmação de troca de CPF, "Salvar" desabilitado sem alterações, R-G1)
-- [ ] `?voltarPara=` retorna ao agendamento com o novo paciente selecionado
-- [ ] No celular, barra de ações fixa no rodapé
+- [x] `FormPaciente` com seções: Dados pessoais · Responsável legal (condicional, R-P5) · Contato · Endereço · Convênio · Informações clínicas · Contato de emergência · Consentimento
+- [x] Todos os passos de P1 (foco inicial, máscaras, validação ao sair, CPF disponível, idade, CEP via A6, convênio condicional, resumo de erros, botão "Salvando…")
+- [x] Edição conforme P2 (versão, confirmação de troca de CPF, "Salvar" desabilitado sem alterações, R-G1)
+- [x] `?voltarPara=` retorna ao agendamento com o novo paciente selecionado
+- [x] No celular, barra de ações fixa no rodapé
 
 ### 10.4 Detalhe (`/pacientes/:id`)
 
-- [ ] Cabeçalho: avatar, nome de exibição (e "Nome civil" se houver nome social), idade, status, ações
-- [ ] `AlertaAlergias` em destaque (`danger`) quando houver
-- [ ] Cards: Dados pessoais · Responsável legal (se houver) · Contato e endereço · Convênio (aviso se a validade venceu) · Informações clínicas
-- [ ] "Próximas consultas" e "Histórico" (paginado, mais recentes primeiro), com links
-- [ ] CPF oculto por padrão; botão "Mostrar CPF" (R-P4)
-- [ ] Faixa "Paciente inativo desde 10/10/2026 — motivo: …" quando inativo
+- [x] Cabeçalho: avatar, nome de exibição (e "Nome civil" se houver nome social), idade, status, ações
+- [x] `AlertaAlergias` em destaque (`danger`) quando houver
+- [x] Cards: Dados pessoais · Responsável legal (se houver) · Contato e endereço · Convênio (aviso se a validade venceu) · Informações clínicas
+- [x] "Próximas consultas" e "Histórico" (paginado, mais recentes primeiro), com links
+- [x] CPF oculto por padrão; botão "Mostrar CPF" (R-P4)
+- [x] Faixa "Paciente inativo desde 10/10/2026 — motivo: …" quando inativo
 
 ### 10.5 Inativar, reativar e excluir — P3, P4, P5
 
-- [ ] Fluxos exatamente como descritos em P3, P4 e P5
+- [x] Fluxos exatamente como descritos em P3, P4 e P5
 
 ### 10.6 Testes da fase
 
-- [ ] Lista: busca, filtro, ordenação, paginação, estados vazios, "Voltar" mantém filtros
-- [ ] Formulário: obrigatórios, CPF inválido/duplicado, menor sem responsável, convênio condicional, CEP (sucesso, não encontrado, tempo esgotado, não sobrescreve campo editado), aviso de saída
-- [ ] Detalhe: E-08, CPF oculto, alergias em destaque, inativar cancela consultas futuras (transação)
+- [x] Lista: busca, filtro, ordenação, paginação, estados vazios, "Voltar" mantém filtros
+- [x] Formulário: obrigatórios, CPF inválido/duplicado, menor sem responsável, convênio condicional, CEP (sucesso, não encontrado, tempo esgotado, não sobrescreve campo editado), aviso de saída
+- [x] Detalhe: E-08, CPF oculto, alergias em destaque, inativar cancela consultas futuras (transação)
 
 ### ✅ Critérios de conclusão — Fase 10
 
-- [ ] P1–P5 funcionando de ponta a ponta
-- [ ] Responsivo (formulário em 1 coluna no celular), teclado e axe ok
+- [x] P1–P5 funcionando de ponta a ponta
+- [x] Responsivo (formulário em 1 coluna no celular), teclado e axe ok
 - [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto
 
 ---

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { t } from '../i18n/pt-BR';
-import { hojeNoFuso, idade } from '../utils/datas';
+import { dataValida, hojeNoFuso, idade } from '../utils/datas';
 import {
   cep,
   cpf,
@@ -77,28 +77,37 @@ export const esquemaPaciente = z
     observacoes: textoOpcional(1000),
     consentimentoLgpd: z.literal(true, { error: v.consentimento }),
   })
-  .superRefine((d, ctx) => {
-    if (d.dataNascimento) {
-      const hoje = hojeNoFuso();
-      if (d.dataNascimento > hoje) {
-        ctx.addIssue({ code: 'custom', message: v.dataFutura, path: ['dataNascimento'] });
-        return;
+  .superRefine(
+    (d, ctx) => {
+      // Roda mesmo com outros campos inválidos (`when`), para o aviso do responsável
+      // aparecer já na primeira tentativa de salvar; por isso confere a data antes.
+      if (typeof d.dataNascimento === 'string' && dataValida(d.dataNascimento)) {
+        const hoje = hojeNoFuso();
+        if (d.dataNascimento > hoje) {
+          ctx.addIssue({ code: 'custom', message: v.dataFutura, path: ['dataNascimento'] });
+          return;
+        }
+        if (idade(d.dataNascimento, hoje) > 130) {
+          ctx.addIssue({ code: 'custom', message: v.idadeMaxima, path: ['dataNascimento'] });
+        }
+        if (idade(d.dataNascimento, hoje) < 18 && !d.responsavel) {
+          ctx.addIssue({
+            code: 'custom',
+            message: v.responsavelObrigatorio,
+            path: ['responsavel'],
+          });
+        }
       }
-      if (idade(d.dataNascimento, hoje) > 130) {
-        ctx.addIssue({ code: 'custom', message: v.idadeMaxima, path: ['dataNascimento'] });
+      if (d.responsavel && d.cpf && d.responsavel.cpf === d.cpf) {
+        ctx.addIssue({
+          code: 'custom',
+          message: v.responsavelCpfIgual,
+          path: ['responsavel', 'cpf'],
+        });
       }
-      if (idade(d.dataNascimento, hoje) < 18 && !d.responsavel) {
-        ctx.addIssue({ code: 'custom', message: v.responsavelObrigatorio, path: ['responsavel'] });
-      }
-    }
-    if (d.responsavel && d.cpf && d.responsavel.cpf === d.cpf) {
-      ctx.addIssue({
-        code: 'custom',
-        message: v.responsavelCpfIgual,
-        path: ['responsavel', 'cpf'],
-      });
-    }
-  });
+    },
+    { when: () => true },
+  );
 
 /** O que a tela envia (valores crus do formulário). */
 export type EntradaPaciente = z.input<typeof esquemaPaciente>;

@@ -9,6 +9,8 @@ interface CabecalhoPaginaProps {
   acoes?: ReactNode;
   /** Texto do último item do breadcrumb, quando ele é dinâmico (nome do registro). */
   breadcrumbFinal?: string;
+  /** Textos dinâmicos de itens intermediários, por caminho (ex.: nome do paciente em "Editar"). */
+  breadcrumbNomes?: Record<string, string>;
   /** Conteúdo ao lado do título (ex.: badge "Inativo"). */
   aoLadoDoTitulo?: ReactNode;
   className?: string;
@@ -20,12 +22,13 @@ export function CabecalhoPagina({
   descricao,
   acoes,
   breadcrumbFinal,
+  breadcrumbNomes,
   aoLadoDoTitulo,
   className,
 }: CabecalhoPaginaProps) {
   return (
     <header className={cn('mb-5 space-y-2', className)}>
-      <Breadcrumb final={breadcrumbFinal} />
+      <Breadcrumb final={breadcrumbFinal} nomes={breadcrumbNomes} />
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2.5">

@@ -40,8 +40,13 @@ function campoDoErro(erro: unknown): string | undefined {
 interface Opcoes<Entrada extends FieldValues, Saida> {
   esquema: z.ZodType<Saida, Entrada>;
   valoresIniciais: DefaultValues<Entrada>;
-  /** Grava. Se navegar ao final, a saída não é bloqueada. Erros do serviço vão para os campos. */
-  aoEnviar: (dados: Saida) => Promise<void>;
+  /**
+   * Grava. Se navegar ao final, a saída não é bloqueada. Erros do serviço vão para os campos.
+   * Devolver `false` indica que o usuário desistiu (ex.: não confirmou a troca de CPF).
+   */
+  aoEnviar: (dados: Saida) => Promise<void | boolean>;
+  /** Chamado com o erro do serviço antes de aplicá-lo (ex.: guardar `detalhes.id`). */
+  aoErroServico?: (erro: unknown) => void;
   /** Rótulos dos campos para o resumo de erros ("cpf" → "CPF"). */
   rotulos?: Partial<Record<string, string>>;
 }
@@ -58,6 +63,7 @@ export function useFormularioEntidade<Entrada extends FieldValues, Saida>({
   esquema,
   valoresIniciais,
   aoEnviar,
+  aoErroServico,
   rotulos = {},
 }: Opcoes<Entrada, Saida>) {
   const form = useForm<Entrada, unknown, Saida>({
@@ -114,9 +120,10 @@ export function useFormularioEntidade<Entrada extends FieldValues, Saida>({
         setEnviando(true);
         salvo.current = true;
         try {
-          await aoEnviar(dados);
+          if ((await aoEnviar(dados)) === false) salvo.current = false;
         } catch (erro) {
           salvo.current = false;
+          aoErroServico?.(erro);
           const aplicado = aplicarErrosNoFormulario(erro, (campo, e) =>
             form.setError(campo as Path<Entrada>, e),
           );
@@ -127,7 +134,7 @@ export function useFormularioEntidade<Entrada extends FieldValues, Saida>({
           setEnviando(false);
         }
       })(evento as never),
-    [aoEnviar, form, toast],
+    [aoEnviar, aoErroServico, form, toast],
   );
 
   const resumo: ItemErro[] =

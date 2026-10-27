@@ -158,7 +158,7 @@ export function DataTable<T>({
   return (
     <div className="@container" aria-busy={carregando || undefined}>
       {/* Tabela: contêiner com 640px ou mais */}
-      <div className="hidden overflow-x-auto @min-[640px]:block">
+      <div className="relative hidden overflow-x-auto @min-[640px]:block">
         <table className="w-full border-collapse text-left text-[14px]">
           <caption className="sr-only">{legenda}</caption>
           <thead>

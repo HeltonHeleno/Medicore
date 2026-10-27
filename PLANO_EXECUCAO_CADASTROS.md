@@ -59,7 +59,7 @@
 | Etapa 0 | Preparação | 12 | 0,5 | ⬜ | | |
 | Fase 8 | Fundação de dados e roteamento | 129 | 3 | 🟨 código pronto; faltam commits/PR | 26/10/2026 | 27/10/2026 |
 | Fase 9 | Componentes de formulário e listagem | 67 | 2,5 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
-| Fase 10 | Cadastro de Pacientes | 55 | 2 | ⬜ | | |
+| Fase 10 | Cadastro de Pacientes | 55 | 2 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 11 | Cadastro de Médicos | 34 | 1,5 | ⬜ | | |
 | Fase 12 | Cadastro e agenda de Consultas | 58 | 3 | ⬜ | | |
 | Fase 13 | Integração com o Painel | 20 | 1 | ⬜ | | |
@@ -472,83 +472,83 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 10.0 Abertura
 
 - [ ] **10.0.1** Atualizar a `main` e criar `feat/fase-10-pacientes`
-- [ ] **10.0.2** `npm run test` verde
+- [x] **10.0.2** `npm run test` verde
 
 ### 10.1 Rotas
 
-- [ ] **10.1.1** Rotas `pacientes`, `pacientes/novo`, `pacientes/:id`, `pacientes/:id/editar` com `lazy`, `handle.titulo` e `handle.breadcrumb` — `router.tsx`
-- [ ] **10.1.2** Páginas vazias com `CabecalhoPagina` em `pages/pacientes/` · ✔ navegar entre elas funciona; menu "Pacientes" ativo em todas
-- [ ] **10.1.3** ID inexistente → tela E-08 "Paciente não encontrado" com link para a lista
-- [ ] **10.1.4** Grupo `pacientes` em `i18n/pt-BR.ts`
+- [x] **10.1.1** Rotas `pacientes`, `pacientes/novo`, `pacientes/:id`, `pacientes/:id/editar` com `lazy`, `handle.titulo` e `handle.breadcrumb` — `router.tsx`
+- [x] **10.1.2** Páginas vazias com `CabecalhoPagina` em `pages/pacientes/` · ✔ navegar entre elas funciona; menu "Pacientes" ativo em todas
+- [x] **10.1.3** ID inexistente → tela E-08 "Paciente não encontrado" com link para a lista
+- [x] **10.1.4** Grupo `pacientes` em `i18n/pt-BR.ts`
 - [ ] **10.1.5** Commit `fase-10: 10.1 rotas de pacientes`
 
 ### 10.2 Lista
 
-- [ ] **10.2.1** `ListaPacientes`: `CabecalhoPagina` + "+ Novo paciente"; `BarraFiltros` (busca, status padrão Ativos) com `useFiltrosUrl`
-- [ ] **10.2.2** `components/pacientes/TabelaPacientes.tsx`: colunas Nome (exibição + avatar + ícone de alergia), CPF mascarado, Idade, Telefone, Convênio, Próxima consulta, Status, ações · 🔗 R-P4, R-P6
-- [ ] **10.2.3** Ordenação por nome, idade e próxima consulta; paginação de 10
-- [ ] **10.2.4** `MenuAcoes` por linha: Ver, Editar, Agendar consulta, Inativar/Reativar
-- [ ] **10.2.5** Estados vazios: sem cadastros; sem resultado para a busca ("Limpar filtros")
-- [ ] **10.2.6** Testes: busca, filtro, ordenação, paginação, estados vazios; "Voltar" do detalhe mantém filtros
+- [x] **10.2.1** `ListaPacientes`: `CabecalhoPagina` + "+ Novo paciente"; `BarraFiltros` (busca, status padrão Ativos) com `useFiltrosUrl`
+- [x] **10.2.2** `components/pacientes/TabelaPacientes.tsx`: colunas Nome (exibição + avatar + ícone de alergia), CPF mascarado, Idade, Telefone, Convênio, Próxima consulta, Status, ações · 🔗 R-P4, R-P6
+- [x] **10.2.3** Ordenação por nome, idade e próxima consulta; paginação de 10
+- [x] **10.2.4** `MenuAcoes` por linha: Ver, Editar, Agendar consulta, Inativar/Reativar
+- [x] **10.2.5** Estados vazios: sem cadastros; sem resultado para a busca ("Limpar filtros")
+- [x] **10.2.6** Testes: busca, filtro, ordenação, paginação, estados vazios; "Voltar" do detalhe mantém filtros
 - [ ] **10.2.7** Commit `fase-10: 10.2 lista de pacientes`
 
 ### 10.3 Formulário — cadastro (P1) ⭐
 
-- [ ] **10.3.1** `components/pacientes/FormPaciente.tsx` com `useFormularioEntidade` e as seções: Dados pessoais, Contato, Endereço, Convênio, Informações clínicas, Contato de emergência, Consentimento
-- [ ] **10.3.2** Máscaras (CPF, telefone, CEP) com `InputMascarado`; foco inicial em "Nome completo"
-- [ ] **10.3.3** Validação de CPF disponível ao sair do campo (`cpfDisponivel`), com link "Abrir cadastro existente" · 🔗 R-P1, E-02
-- [ ] **10.3.4** Idade ao lado da data de nascimento; seção "Responsável legal" aparece e fica obrigatória se menor · 🔗 R-P5
-- [ ] **10.3.5** Campos de convênio só com "Convênio" selecionado; aviso (não erro) se a validade estiver vencida
-- [ ] **10.3.6** `ResumoErros` ao tentar salvar; botão "Salvando…" desabilitado durante o envio
-- [ ] **10.3.7** `NovoPaciente`: salvar → toast "Paciente cadastrado" → detalhe; com `?voltarPara=` → volta ao agendamento com `?pacienteId=`
-- [ ] **10.3.8** Barra de ações fixa no rodapé no celular
-- [ ] **10.3.9** Testes: obrigatórios, CPF inválido, CPF duplicado, menor sem responsável, convênio condicional, sucesso redireciona, `voltarPara`
+- [x] **10.3.1** `components/pacientes/FormPaciente.tsx` com `useFormularioEntidade` e as seções: Dados pessoais, Contato, Endereço, Convênio, Informações clínicas, Contato de emergência, Consentimento
+- [x] **10.3.2** Máscaras (CPF, telefone, CEP) com `InputMascarado`; foco inicial em "Nome completo"
+- [x] **10.3.3** Validação de CPF disponível ao sair do campo (`cpfDisponivel`), com link "Abrir cadastro existente" · 🔗 R-P1, E-02
+- [x] **10.3.4** Idade ao lado da data de nascimento; seção "Responsável legal" aparece e fica obrigatória se menor · 🔗 R-P5
+- [x] **10.3.5** Campos de convênio só com "Convênio" selecionado; aviso (não erro) se a validade estiver vencida
+- [x] **10.3.6** `ResumoErros` ao tentar salvar; botão "Salvando…" desabilitado durante o envio
+- [x] **10.3.7** `NovoPaciente`: salvar → toast "Paciente cadastrado" → detalhe; com `?voltarPara=` → volta ao agendamento com `?pacienteId=`
+- [x] **10.3.8** Barra de ações fixa no rodapé no celular
+- [x] **10.3.9** Testes: obrigatórios, CPF inválido, CPF duplicado, menor sem responsável, convênio condicional, sucesso redireciona, `voltarPara`
 - [ ] **10.3.10** Commit `fase-10: 10.3 cadastro de paciente`
 
 ### 10.4 Busca de CEP (A6, RS-06)
 
-- [ ] **10.4.1** `services/cep.ts`: `buscarCep(cep, signal)` com tempo limite de 5 s e cache em memória · 🔗 A6
-- [ ] **10.4.2** No formulário: dispara com 8 dígitos; cancela a busca anterior; indicador de carregamento
-- [ ] **10.4.3** Preenche só campos não editados (`dirtyFields`) e move o foco para "Número"
-- [ ] **10.4.4** Mensagens: "CEP não encontrado" e "Não foi possível buscar o CEP…" (E-10)
-- [ ] **10.4.5** Testes com `fetch` simulado: sucesso, `{erro:true}`, tempo esgotado, não sobrescreve campo editado, cache
+- [x] **10.4.1** `services/cep.ts`: `buscarCep(cep, signal)` com tempo limite de 5 s e cache em memória · 🔗 A6
+- [x] **10.4.2** No formulário: dispara com 8 dígitos; cancela a busca anterior; indicador de carregamento
+- [x] **10.4.3** Preenche só campos não editados (`dirtyFields`) e move o foco para "Número"
+- [x] **10.4.4** Mensagens: "CEP não encontrado" e "Não foi possível buscar o CEP…" (E-10)
+- [x] **10.4.5** Testes com `fetch` simulado: sucesso, `{erro:true}`, tempo esgotado, não sobrescreve campo editado, cache
 - [ ] **10.4.6** Commit `fase-10: 10.4 busca de CEP`
 
 ### 10.5 Formulário — edição (P2)
 
-- [ ] **10.5.1** `EditarPaciente`: carrega os dados e guarda a `versao`
-- [ ] **10.5.2** Confirmação ao alterar o CPF; "Salvar" desabilitado sem alterações; aviso "Este paciente está inativo"
-- [ ] **10.5.3** E-05 (concorrência): diálogo "Recarregar dados" / "Continuar editando"
-- [ ] **10.5.4** Aviso não bloqueante quando o registro muda em outra aba · 🔗 M6
-- [ ] **10.5.5** Testes: edição salva; concorrência; troca de CPF exige confirmação
+- [x] **10.5.1** `EditarPaciente`: carrega os dados e guarda a `versao`
+- [x] **10.5.2** Confirmação ao alterar o CPF; "Salvar" desabilitado sem alterações; aviso "Este paciente está inativo"
+- [x] **10.5.3** E-05 (concorrência): diálogo "Recarregar dados" / "Continuar editando"
+- [x] **10.5.4** Aviso não bloqueante quando o registro muda em outra aba · 🔗 M6
+- [x] **10.5.5** Testes: edição salva; concorrência; troca de CPF exige confirmação
 - [ ] **10.5.6** Commit `fase-10: 10.5 edição de paciente`
 
 ### 10.6 Detalhe
 
-- [ ] **10.6.1** `DetalhePaciente`: cabeçalho (avatar, nome de exibição, "Nome civil" se houver nome social, idade, status, ações)
-- [ ] **10.6.2** `components/pacientes/AlertaAlergias.tsx` em destaque quando houver
-- [ ] **10.6.3** Cards com `DescricaoLista`: Dados pessoais, Responsável (se houver), Contato e endereço, Convênio, Informações clínicas
-- [ ] **10.6.4** CPF oculto com botão "Mostrar CPF" · 🔗 R-P4
-- [ ] **10.6.5** "Próximas consultas" e "Histórico" (`CardHistorico`, paginado) com links
-- [ ] **10.6.6** Faixa de paciente inativo (data e motivo)
-- [ ] **10.6.7** Testes: E-08; CPF oculto por padrão; alergias; nome social
+- [x] **10.6.1** `DetalhePaciente`: cabeçalho (avatar, nome de exibição, "Nome civil" se houver nome social, idade, status, ações)
+- [x] **10.6.2** `components/pacientes/AlertaAlergias.tsx` em destaque quando houver
+- [x] **10.6.3** Cards com `DescricaoLista`: Dados pessoais, Responsável (se houver), Contato e endereço, Convênio, Informações clínicas
+- [x] **10.6.4** CPF oculto com botão "Mostrar CPF" · 🔗 R-P4
+- [x] **10.6.5** "Próximas consultas" e "Histórico" (`CardHistorico`, paginado) com links
+- [x] **10.6.6** Faixa de paciente inativo (data e motivo)
+- [x] **10.6.7** Testes: E-08; CPF oculto por padrão; alergias; nome social
 - [ ] **10.6.8** Commit `fase-10: 10.6 detalhe do paciente`
 
 ### 10.7 Inativar, reativar e excluir (P3–P5)
 
-- [ ] **10.7.1** Inativar: diálogo com a quantidade de consultas futuras e motivo opcional; toast "Paciente inativado. N consultas canceladas." com ação · 🔗 P3
-- [ ] **10.7.2** Reativar: confirmação + toast lembrando que as consultas não voltam · 🔗 P4
-- [ ] **10.7.3** Excluir: só sem consultas; confirmação digitando o nome; volta para a lista · 🔗 P5
-- [ ] **10.7.4** Testes: inativar cancela consultas futuras; reativar; excluir bloqueado com histórico
+- [x] **10.7.1** Inativar: diálogo com a quantidade de consultas futuras e motivo opcional; toast "Paciente inativado. N consultas canceladas." com ação · 🔗 P3
+- [x] **10.7.2** Reativar: confirmação + toast lembrando que as consultas não voltam · 🔗 P4
+- [x] **10.7.3** Excluir: só sem consultas; confirmação digitando o nome; volta para a lista · 🔗 P5
+- [x] **10.7.4** Testes: inativar cancela consultas futuras; reativar; excluir bloqueado com histórico
 - [ ] **10.7.5** Commit `fase-10: 10.7 inativação e exclusão`
 
 ### 10.8 Fechamento da Fase 10
 
-- [ ] **10.8.1** Fluxo manual completo: cadastrar → ver → editar → inativar → reativar → (outro) excluir
-- [ ] **10.8.2** 375/768/1280px, claro/escuro, só teclado, axe nas 4 telas
-- [ ] **10.8.3** Lint, build, `test:coverage`
+- [x] **10.8.1** Fluxo manual completo: cadastrar → ver → editar → inativar → reativar → (outro) excluir
+- [x] **10.8.2** 375/768/1280px, claro/escuro, só teclado, axe nas 4 telas
+- [x] **10.8.3** Lint, build, `test:coverage`
 - [ ] **10.8.4** PR "Fase 10 — Pacientes" com capturas
-- [ ] **10.8.5** Atualizar checkboxes e painel de execução: Fase 10 ✅
+- [x] **10.8.5** Atualizar checkboxes e painel de execução: Fase 10 ✅
 - [ ] **10.8.6** Mesclar o PR
 
 ---
@@ -859,5 +859,6 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 |---|---|---|
 | 27/10/2026 | Fase 8 | Código e testes concluídos (214 testes; services 97,9% e utils 98,4% de linhas). Pendentes: branch, commits, PR e merge (feitos pelo usuário). `paraInputDate` (8.3.5) dispensado: `DataIso` já é o formato do `<input type="date">`. Dados de exemplo ocupam de −7 a +7 dias a partir de hoje; testes de serviço agendam fora dessa janela. Resumo e matriz de regras em `docs/PR_FASE_8.md`. |
 | 27/10/2026 | Fase 9 | Componentes concluídos (286 testes; `components/ui/` 93,8% das linhas). Vitrine `/ui` em 375, 768 e 1280px, claro e escuro: sem rolagem horizontal e 0 violações axe (também com combobox, menu, diálogo e toasts abertos). Ajustes: borda de campo com contraste ≥ 3:1 (`--color-border-input`); iniciais do avatar com contraste AA no escuro; vitrine carregada sob demanda (fora do build de produção). Banner de demonstração no topo do conteúdo desloca o Painel em ~32px. |
+| 27/10/2026 | Fase 10 | Pacientes de ponta a ponta (313 testes). Fluxo manual completo no navegador (cadastrar → ver → editar → inativar → reativar → excluir → E-08) sem erros; 4 telas em 375/768/1280px, claro/escuro: sem rolagem horizontal e 0 violações axe. Decisões: regras cruzadas do esquema de paciente rodam mesmo com outros erros (`when`); após conflito de versão, "Continuar editando" adota a versão atual e o próximo salvar grava por cima. Corrigido: texto `sr-only` do cabeçalho da tabela alargava a página em 768px. Links para `/consultas/...` dependem da Fase 12. |
 | | | |
 | | | |

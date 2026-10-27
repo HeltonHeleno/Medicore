@@ -13,13 +13,19 @@ const temBreadcrumb = (h: unknown): h is HandleRota =>
 
 /**
  * Trilha de navegação a partir de `handle.breadcrumb` das rotas.
- * `final` substitui o texto do último item (ex.: o nome do paciente no detalhe).
+ * `final` substitui o texto do último item (ex.: o nome do paciente no detalhe);
+ * `nomes` substitui o texto de qualquer item pelo caminho (ex.: { '/pacientes/1': 'João' }).
  */
-export function Breadcrumb({ final }: { final?: string }) {
+export function Breadcrumb({ final, nomes }: { final?: string; nomes?: Record<string, string> }) {
   const matches = useMatches();
   const itens: Item[] = matches
     .filter((m) => temBreadcrumb(m.handle))
-    .map((m) => ({ rotulo: (m.handle as HandleRota).breadcrumb!, caminho: m.pathname }));
+    .map((m) => {
+      const caminho = m.pathname.replace(/\/$/, '') || '/';
+      return { rotulo: nomes?.[caminho] ?? (m.handle as HandleRota).breadcrumb!, caminho };
+    })
+    // Rota de índice repete o caminho do pai: fica só um item.
+    .filter((item, i, lista) => i === 0 || item.caminho !== lista[i - 1].caminho);
 
   if (itens.length === 0 || itens[itens.length - 1].caminho === '/') return null;
   if (itens[0].caminho !== '/') itens.unshift({ rotulo: t.lista.inicio, caminho: '/' });

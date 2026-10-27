@@ -135,6 +135,20 @@ export const obterPaciente = (id: string): Promise<Paciente> => executar(() => o
 export const cpfDisponivel = (cpf: string, ignorarId?: string): Promise<boolean> =>
   executar(() => !repoPacientes.todos().some((p) => p.cpf === cpf && p.id !== ignorarId));
 
+/** Cadastro que já usa este CPF (para o link "Abrir cadastro existente"), ou `null`. */
+export const pacienteComCpf = (
+  cpf: string,
+  ignorarId?: string,
+): Promise<{ id: string; nomeExibicao: string } | null> =>
+  executar(() => {
+    const p = repoPacientes.todos().find((x) => x.cpf === cpf && x.id !== ignorarId);
+    return p ? { id: p.id, nomeExibicao: nomeExibicaoPaciente(p) } : null;
+  });
+
+/** O paciente já teve alguma consulta? (R-P3: só sem consultas pode ser excluído). */
+export const pacienteTemConsultas = (id: string): Promise<boolean> =>
+  executar(() => repoConsultas.todos().some((c) => c.pacienteId === id));
+
 /** Quantas consultas seriam canceladas ao inativar (texto do diálogo de confirmação). */
 export const consultasFuturasDoPaciente = (id: string): Promise<Consulta[]> =>
   executar(() => consultasFuturasAgendadas((c) => c.pacienteId === id));

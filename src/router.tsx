@@ -1,5 +1,7 @@
+import type { ComponentType } from 'react';
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 import { AppLayout } from './components/layout/AppLayout';
+import { CarregandoPagina } from './components/ui/CarregandoPagina';
 import { ErroDeRota } from './components/ui/ErroDeRota';
 import { itensNavegacao } from './config/navegacao';
 import { t } from './i18n/pt-BR';
@@ -15,6 +17,48 @@ export interface HandleRota {
 
 const handle = (titulo: string, breadcrumb = titulo): HandleRota => ({ titulo, breadcrumb });
 
+/** Página carregada sob demanda (cada tela vira um arquivo separado no build). */
+const pagina = (carregar: () => Promise<{ default: ComponentType }>) => async () => ({
+  Component: (await carregar()).default,
+});
+
+/** Pacientes (Fase 10): lista, cadastro, detalhe e edição. */
+const rotasPacientes: RouteObject = {
+  path: 'pacientes',
+  handle: handle(t.pacientes.titulo),
+  children: [
+    {
+      index: true,
+      lazy: pagina(() => import('./pages/pacientes/ListaPacientes')),
+      handle: { titulo: t.pacientes.titulo },
+    },
+    {
+      path: 'novo',
+      lazy: pagina(() => import('./pages/pacientes/NovoPaciente')),
+      handle: handle(t.pacientes.novo),
+    },
+    {
+      path: ':id',
+      handle: handle(t.pacientes.detalhe),
+      children: [
+        {
+          index: true,
+          lazy: pagina(() => import('./pages/pacientes/DetalhePaciente')),
+          handle: { titulo: t.pacientes.detalhe },
+        },
+        {
+          path: 'editar',
+          lazy: pagina(() => import('./pages/pacientes/EditarPaciente')),
+          handle: handle(t.pacientes.editar, t.pacientes.editarBreadcrumb),
+        },
+      ],
+    },
+  ],
+};
+
+/** Itens do menu que já têm telas próprias (os demais usam o Placeholder). */
+const COM_TELA = new Set(['/', '/pacientes']);
+
 /**
  * Árvore de rotas da aplicação.
  *
@@ -29,13 +73,15 @@ export function criarRotas(rotasExtras: RouteObject[] = []): RouteObject[] {
     {
       element: <AppLayout />,
       errorElement: <ErroDeRota />,
+      hydrateFallbackElement: <CarregandoPagina />,
       children: [
         {
           errorElement: <ErroDeRota />,
           children: [
             { index: true, element: <Dashboard />, handle: handle(t.menu.painel) },
+            rotasPacientes,
             ...itensNavegacao
-              .filter((item) => item.caminho !== '/')
+              .filter((item) => !COM_TELA.has(item.caminho))
               .map<RouteObject>((item) => ({
                 path: item.caminho.slice(1),
                 element: <Placeholder titulo={item.rotulo} />,

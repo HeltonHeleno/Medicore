@@ -24,7 +24,8 @@ describe('rotas e navegação', () => {
     const user = userEvent.setup();
     renderizar('/');
     await user.click(within(navPrincipal()).getByRole('link', { name: 'Pacientes' }));
-    expect(screen.getByRole('heading', { level: 1, name: 'Pacientes' })).toBeInTheDocument();
+    // A tela de pacientes é carregada sob demanda.
+    expect(await screen.findByRole('heading', { level: 1, name: 'Pacientes' })).toBeInTheDocument();
     expect(within(navPrincipal()).getByRole('link', { name: 'Pacientes' })).toHaveAttribute(
       'aria-current',
       'page',

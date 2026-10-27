@@ -9,11 +9,20 @@ export interface OpcoesConfirmacao {
   perigo?: boolean;
   /** Exige digitar este texto para liberar o botão (exclusão definitiva, P5). */
   exigirTexto?: string;
+  /** Campo de texto livre e opcional (ex.: motivo da inativação). */
+  campoTexto?: { rotulo: string; maximo?: number };
+}
+
+export interface RespostaConfirmacao {
+  confirmado: boolean;
+  /** Valor do `campoTexto`, sem espaços nas pontas. */
+  texto: string;
 }
 
 export type Confirmar = (opcoes: OpcoesConfirmacao) => Promise<boolean>;
+export type Perguntar = (opcoes: OpcoesConfirmacao) => Promise<RespostaConfirmacao>;
 
-export const ContextoConfirmacao = createContext<Confirmar | null>(null);
+export const ContextoConfirmacao = createContext<Perguntar | null>(null);
 
 export type TipoToast = 'sucesso' | 'erro' | 'aviso';
 

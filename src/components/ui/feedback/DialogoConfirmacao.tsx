@@ -3,11 +3,11 @@ import { t } from '../../../i18n/pt-BR';
 import { cn } from '../../../utils/cn';
 import { Button } from '../Button';
 import { classesControle } from '../form/estilos';
-import { ContextoConfirmacao, type OpcoesConfirmacao } from './contextos';
+import { ContextoConfirmacao, type OpcoesConfirmacao, type RespostaConfirmacao } from './contextos';
 import { Modal } from './Modal';
 
 interface Pendente extends OpcoesConfirmacao {
-  resolver: (resposta: boolean) => void;
+  resolver: (resposta: RespostaConfirmacao) => void;
 }
 
 /**
@@ -22,20 +22,25 @@ export function ConfirmacaoProvider({ children }: { children: ReactNode }) {
   const textoRef = useRef<HTMLInputElement>(null);
   const idTexto = useId();
 
-  const confirmar = useCallback(
+  const [textoLivre, setTextoLivre] = useState('');
+  const textoLivreRef = useRef<HTMLTextAreaElement>(null);
+  const idTextoLivre = useId();
+
+  const perguntar = useCallback(
     (opcoes: OpcoesConfirmacao) =>
-      new Promise<boolean>((resolver) => {
+      new Promise<RespostaConfirmacao>((resolver) => {
         setDigitado('');
+        setTextoLivre('');
         setPendente((anterior) => {
-          anterior?.resolver(false); // um diálogo por vez
+          anterior?.resolver({ confirmado: false, texto: '' }); // um diálogo por vez
           return { ...opcoes, resolver };
         });
       }),
     [],
   );
 
-  const responder = (resposta: boolean) => {
-    pendente?.resolver(resposta);
+  const responder = (confirmado: boolean) => {
+    pendente?.resolver({ confirmado, texto: confirmado ? textoLivre.trim() : '' });
     setPendente(null);
   };
 
@@ -47,7 +52,7 @@ export function ConfirmacaoProvider({ children }: { children: ReactNode }) {
       : confirmarRef;
 
   return (
-    <ContextoConfirmacao.Provider value={confirmar}>
+    <ContextoConfirmacao.Provider value={perguntar}>
       {children}
       <Modal
         aberto={pendente !== null}
@@ -73,6 +78,22 @@ export function ConfirmacaoProvider({ children }: { children: ReactNode }) {
           </>
         }
       >
+        {pendente?.campoTexto && (
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor={idTextoLivre} className="text-[13.5px] font-medium">
+              {pendente.campoTexto.rotulo}
+            </label>
+            <textarea
+              ref={textoLivreRef}
+              id={idTextoLivre}
+              rows={2}
+              maxLength={pendente.campoTexto.maximo ?? 300}
+              value={textoLivre}
+              onChange={(e) => setTextoLivre(e.target.value)}
+              className={classesControle}
+            />
+          </div>
+        )}
         {pendente?.exigirTexto && (
           <form
             onSubmit={(e) => {

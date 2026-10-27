@@ -308,6 +308,7 @@ export const t = {
     breadcrumb: 'Você está em',
     inicio: 'Painel',
     carregando: 'Carregando lista…',
+    carregandoPagina: 'Carregando página…',
   },
 
   confirmacao: {
@@ -328,6 +329,185 @@ export const t = {
 
   rota: {
     anuncio: (titulo: string) => `Página: ${titulo}`,
+  },
+
+  pacientes: {
+    titulo: 'Pacientes',
+    descricaoLista: 'Cadastro de pacientes do hospital.',
+    novo: 'Novo paciente',
+    editar: 'Editar paciente',
+    detalhe: 'Paciente',
+    editarBreadcrumb: 'Editar',
+    buscar: 'Buscar por nome, CPF ou telefone',
+    status: 'Situação',
+    ativos: 'Ativos',
+    inativos: 'Inativos',
+    todos: 'Todos',
+    ativo: 'Ativo',
+    inativo: 'Inativo',
+    legendaTabela: 'Lista de pacientes',
+    colunas: {
+      nome: 'Nome',
+      cpf: 'CPF',
+      idade: 'Idade',
+      telefone: 'Telefone',
+      convenio: 'Convênio',
+      proximaConsulta: 'Próxima consulta',
+      status: 'Situação',
+    },
+    anos: (n: number) => (n === 1 ? '1 ano' : `${n} anos`),
+    possuiAlergias: 'Possui alergias',
+    semConsulta: '—',
+    nenhumCadastrado: 'Nenhum paciente cadastrado.',
+    nenhumEncontrado: (termo: string) =>
+      termo
+        ? `Nenhum paciente encontrado para "${termo}".`
+        : 'Nenhum paciente encontrado com estes filtros.',
+    naoEncontradoDescricao: 'O cadastro pode ter sido excluído ou o endereço está incorreto.',
+    voltarLista: 'Voltar para a lista de pacientes',
+    acoes: {
+      ver: 'Ver cadastro',
+      editar: 'Editar',
+      agendar: 'Agendar consulta',
+      inativar: 'Inativar',
+      reativar: 'Reativar',
+      excluir: 'Excluir definitivamente',
+    },
+    // Formulário
+    secoes: {
+      dadosPessoais: 'Dados pessoais',
+      responsavel: 'Responsável legal',
+      responsavelDescricao: 'Obrigatório para menores de 18 anos.',
+      contato: 'Contato',
+      endereco: 'Endereço',
+      enderecoDescricao: 'Opcional. Ao digitar o CEP, o endereço é preenchido automaticamente.',
+      convenio: 'Convênio',
+      clinicas: 'Informações clínicas',
+      emergencia: 'Contato de emergência',
+      emergenciaDescricao: 'Opcional.',
+      consentimento: 'Consentimento (LGPD)',
+    },
+    campos: {
+      nome: 'Nome completo',
+      nomeSocial: 'Nome social',
+      nomeSocialDica: 'Se preenchido, é o nome usado em listas, agenda e avisos.',
+      cpf: 'CPF',
+      dataNascimento: 'Data de nascimento',
+      sexo: 'Sexo',
+      telefone: 'Telefone',
+      email: 'E-mail',
+      cep: 'CEP',
+      logradouro: 'Logradouro',
+      numero: 'Número',
+      complemento: 'Complemento',
+      bairro: 'Bairro',
+      cidade: 'Cidade',
+      uf: 'UF',
+      tipoConvenio: 'Tipo de atendimento',
+      particular: 'Particular',
+      convenio: 'Convênio',
+      convenioNome: 'Nome do convênio',
+      carteirinha: 'Número da carteirinha',
+      validade: 'Validade da carteirinha',
+      tipoSanguineo: 'Tipo sanguíneo',
+      alergias: 'Alergias',
+      alergiasDica:
+        'Medicamentos, alimentos ou materiais. Aparece em destaque no cadastro e na agenda.',
+      observacoes: 'Observações',
+      responsavelNome: 'Nome do responsável',
+      responsavelCpf: 'CPF do responsável',
+      parentesco: 'Parentesco',
+      responsavelTelefone: 'Telefone do responsável',
+      emergenciaNome: 'Nome',
+      emergenciaTelefone: 'Telefone',
+      emergenciaParentesco: 'Parentesco',
+      consentimento:
+        'O paciente (ou responsável) autoriza o uso dos dados para o atendimento, conforme a LGPD.',
+      consentimentoRegistrado: (data: string) => `Consentimento registrado em ${data}.`,
+    },
+    sexos: {
+      feminino: 'Feminino',
+      masculino: 'Masculino',
+      outro: 'Outro',
+      nao_informado: 'Prefere não informar',
+    },
+    idadeCalculada: (n: number) => (n === 1 ? '1 ano' : `${n} anos`),
+    menorDeIdade: 'Menor de idade: preencha o responsável legal.',
+    convenioVencido: 'A validade da carteirinha já passou. Confira com o paciente.',
+    cpfVerificando: 'Verificando CPF…',
+    cep: {
+      buscando: 'Buscando endereço…',
+      encontrado: 'Endereço preenchido pelo CEP.',
+    },
+    salvar: 'Salvar',
+    salvando: 'Salvando…',
+    cancelar: 'Cancelar',
+    cadastrado: 'Paciente cadastrado.',
+    alteracoesSalvas: 'Alterações salvas.',
+    avisoInativo: 'Este paciente está inativo. Você pode corrigir os dados normalmente.',
+    alterarCpfTitulo: 'Alterar o CPF deste paciente?',
+    alterarCpfMensagem: (de: string, para: string) => `O CPF será trocado de ${de} para ${para}.`,
+    alterarCpf: 'Alterar CPF',
+    concorrenciaTitulo: 'Cadastro alterado em outro lugar',
+    recarregarDados: 'Recarregar dados',
+    continuarEditando: 'Continuar editando',
+    alteradoOutraAba:
+      'Este cadastro foi alterado em outra aba. Recarregue para ver a versão atual antes de salvar.',
+    // Detalhe
+    nomeCivil: 'Nome civil',
+    mostrarCpf: 'Mostrar CPF',
+    ocultarCpf: 'Ocultar CPF',
+    alergiasTitulo: 'Alergias',
+    inativoDesde: (data: string, motivo?: string) =>
+      motivo
+        ? `Paciente inativo desde ${data} — motivo: ${motivo}`
+        : `Paciente inativo desde ${data}`,
+    cards: {
+      dadosPessoais: 'Dados pessoais',
+      responsavel: 'Responsável legal',
+      contato: 'Contato e endereço',
+      convenio: 'Convênio',
+      clinicas: 'Informações clínicas',
+      emergencia: 'Contato de emergência',
+      proximas: 'Próximas consultas',
+      historico: 'Histórico de consultas',
+    },
+    enderecoFormatado: (e: {
+      logradouro: string;
+      numero: string;
+      complemento?: string;
+      bairro: string;
+      cidade: string;
+      uf: string;
+      cep: string;
+    }) =>
+      `${e.logradouro}, ${e.numero}${e.complemento ? ` — ${e.complemento}` : ''} · ${e.bairro} · ${e.cidade}/${e.uf} · CEP ${e.cep}`,
+    semProximas: 'Nenhuma consulta agendada.',
+    semHistorico: 'Nenhuma consulta anterior.',
+    consultaCom: (medico: string, departamento: string) => `${medico} · ${departamento}`,
+    // Inativar / reativar / excluir
+    inativarTitulo: (nome: string) => `Inativar ${nome}?`,
+    inativarMensagem: (n: number) =>
+      n === 0
+        ? 'O paciente não aparecerá nas listas nem no agendamento. O histórico é mantido.'
+        : n === 1
+          ? '1 consulta futura será cancelada automaticamente.'
+          : `${n} consultas futuras serão canceladas automaticamente.`,
+    motivoInativacao: 'Motivo da inativação (opcional)',
+    inativado: (n: number) =>
+      n === 0
+        ? 'Paciente inativado.'
+        : n === 1
+          ? 'Paciente inativado. 1 consulta cancelada.'
+          : `Paciente inativado. ${n} consultas canceladas.`,
+    verCanceladas: 'Ver consultas canceladas',
+    reativarTitulo: (nome: string) => `Reativar ${nome}?`,
+    reativarMensagem: 'O paciente volta a aparecer nas listas e no agendamento.',
+    reativado: 'Paciente reativado. As consultas canceladas não foram restauradas.',
+    excluirTitulo: 'Excluir o cadastro definitivamente?',
+    excluirMensagem:
+      'Esta ação não pode ser desfeita. Só é possível porque o paciente nunca teve consultas.',
+    excluido: 'Cadastro excluído.',
   },
 
   /** Página interna /ui (somente em desenvolvimento) que mostra os componentes base. */

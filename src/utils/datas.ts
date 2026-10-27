@@ -200,3 +200,8 @@ export function somarMinutos(instante: Date | string, minutos: number): Date {
   const d = typeof instante === 'string' ? new Date(instante) : instante;
   return new Date(d.getTime() + minutos * 60000);
 }
+
+/** Instante ISO → `27/10/2026 · 14:00` no fuso do hospital. */
+export function formatarDataHora(instante: Date | string): string {
+  return `${formatarData(dataDoInstante(instante))} · ${horaDoInstante(instante)}`;
+}
