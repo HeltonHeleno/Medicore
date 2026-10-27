@@ -142,7 +142,8 @@ export default function EditarMedico() {
             toast.aviso(m.salvasComAfetadas(n), {
               acao: {
                 rotulo: m.verAfetadas,
-                aoClicar: () => navigate(`/consultas?medicoId=${id}`),
+                aoClicar: () =>
+                  navigate(`/consultas?medicoId=${id}&periodo=futuras&status=agendada`),
               },
             });
           } else {

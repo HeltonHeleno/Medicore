@@ -60,7 +60,7 @@ function LinhaConsulta({ consulta }: { consulta: ConsultaDetalhada }) {
         {!cancelando && (
           <div className="flex gap-2">
             <Link
-              to={`/consultas/${consulta.id}/reagendar`}
+              to={`/consultas/${consulta.id}/editar`}
               className="rounded-md px-2.5 py-1.5 text-[13px] font-medium text-on-primary-light hover:bg-primary-light/40 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
             >
               {m.reagendar}

@@ -90,8 +90,42 @@ const rotasMedicos: RouteObject = {
   ],
 };
 
+/** Consultas (Fase 12): agenda, agendamento, detalhe e reagendamento. */
+const rotasConsultas: RouteObject = {
+  path: 'consultas',
+  handle: handle(t.agenda.titulo),
+  children: [
+    {
+      index: true,
+      lazy: pagina(() => import('./pages/consultas/Agenda')),
+      handle: { titulo: t.agenda.titulo },
+    },
+    {
+      path: 'nova',
+      lazy: pagina(() => import('./pages/consultas/NovaConsulta')),
+      handle: handle(t.agenda.nova),
+    },
+    {
+      path: ':id',
+      handle: handle(t.agenda.detalhe),
+      children: [
+        {
+          index: true,
+          lazy: pagina(() => import('./pages/consultas/DetalheConsulta')),
+          handle: { titulo: t.agenda.detalhe },
+        },
+        {
+          path: 'editar',
+          lazy: pagina(() => import('./pages/consultas/EditarConsulta')),
+          handle: handle(t.agenda.editar, t.agenda.editarBreadcrumb),
+        },
+      ],
+    },
+  ],
+};
+
 /** Itens do menu que já têm telas próprias (os demais usam o Placeholder). */
-const COM_TELA = new Set(['/', '/pacientes', '/medicos']);
+const COM_TELA = new Set(['/', '/pacientes', '/medicos', '/consultas']);
 
 /**
  * Árvore de rotas da aplicação.
@@ -115,6 +149,7 @@ export function criarRotas(rotasExtras: RouteObject[] = []): RouteObject[] {
             { index: true, element: <Dashboard />, handle: handle(t.menu.painel) },
             rotasPacientes,
             rotasMedicos,
+            rotasConsultas,
             ...itensNavegacao
               .filter((item) => !COM_TELA.has(item.caminho))
               .map<RouteObject>((item) => ({

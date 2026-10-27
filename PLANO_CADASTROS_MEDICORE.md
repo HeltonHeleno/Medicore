@@ -1180,47 +1180,47 @@ Um PR de fase só é aprovado quando:
 
 ### 12.1 Rotas
 
-- [ ] `consultas`, `consultas/nova`, `consultas/:id`, `consultas/:id/editar`
-- [ ] "Ver agenda" (Painel) e "Ver todas" (Consultas de hoje) abrem a agenda real
+- [x] `consultas`, `consultas/nova`, `consultas/:id`, `consultas/:id/editar`
+- [x] "Ver agenda" (Painel) e "Ver todas" (Consultas de hoje) abrem a agenda real
 
 ### 12.2 Agenda (`/consultas`) — D7
 
-- [ ] Data em destaque ("Segunda-feira, 26 de outubro"), botões ‹ Hoje › e seletor de data (no fuso do hospital)
-- [ ] Filtros: médico, departamento, status, "Pendentes de registro" (P13) — todos na URL
-- [ ] Resumo do dia: total · agendadas · concluídas · canceladas · faltas · pendentes
-- [ ] Lista por horário (alternável para "por médico"); cada item: hora–fim, paciente (nome de exibição), ícone de alergia, médico, departamento, tipo, `StatusBadge`, faixa "Aguardando registro" se `atrasada`
-- [ ] Ações rápidas: Concluir, Faltou, Cancelar (R-S1/R-S2), com seleção em lote para P13
-- [ ] Vazio: "Nenhuma consulta em 26/10" + "Agendar consulta"
+- [x] Data em destaque ("Segunda-feira, 26 de outubro"), botões ‹ Hoje › e seletor de data (no fuso do hospital)
+- [x] Filtros: médico, departamento, status, "Pendentes de registro" (P13) — todos na URL
+- [x] Resumo do dia: total · agendadas · concluídas · canceladas · faltas · pendentes
+- [x] Lista por horário (alternável para "por médico"); cada item: hora–fim, paciente (nome de exibição), ícone de alergia, médico, departamento, tipo, `StatusBadge`, faixa "Aguardando registro" se `atrasada`
+- [x] Ações rápidas: Concluir, Faltou, Cancelar (R-S1/R-S2), com seleção em lote para P13
+- [x] Vazio: "Nenhuma consulta em 26/10" + "Agendar consulta"
 
 ### 12.3 Agendar — implementa P9
 
-- [ ] Todos os passos de P9: pré-preenchimento pela URL, combobox de paciente com alerta de alergia, filtro por departamento, aviso de dia sem atendimento + "próximo dia de atendimento", sugestão de "Retorno", duração
-- [ ] `SeletorHorario`: grupo de rádio acessível (setas navegam, Espaço seleciona), horários indisponíveis desabilitados com motivo visível e lido pelo leitor de tela
-- [ ] Recalcular horários e limpar seleção inválida quando médico/data/duração/paciente mudarem
-- [ ] "Próximo dia com horário livre" (A5) quando o dia não tiver horários
-- [ ] Tratamento de E-03/E-04 conforme P9
+- [x] Todos os passos de P9: pré-preenchimento pela URL, combobox de paciente com alerta de alergia, filtro por departamento, aviso de dia sem atendimento + "próximo dia de atendimento", sugestão de "Retorno", duração
+- [x] `SeletorHorario`: grupo de rádio acessível (setas navegam, Espaço seleciona), horários indisponíveis desabilitados com motivo visível e lido pelo leitor de tela
+- [x] Recalcular horários e limpar seleção inválida quando médico/data/duração/paciente mudarem
+- [x] "Próximo dia com horário livre" (A5) quando o dia não tiver horários
+- [x] Tratamento de E-03/E-04 conforme P9
 
 ### 12.4 Detalhe (`/consultas/:id`)
 
-- [ ] Dados: paciente (link + alergias), médico (link), departamento, data, hora–fim, tipo, motivo, status
-- [ ] `LinhaDoTempoConsulta` a partir de `eventos` (agendada, reagendada de/para, cancelada com motivo…)
-- [ ] Ações conforme o status (P10–P12)
+- [x] Dados: paciente (link + alergias), médico (link), departamento, data, hora–fim, tipo, motivo, status
+- [x] `LinhaDoTempoConsulta` a partir de `eventos` (agendada, reagendada de/para, cancelada com motivo…)
+- [x] Ações conforme o status (P10–P12)
 
 ### 12.5 Reagendar, cancelar, concluir, falta — P10, P11, P12, P13
 
-- [ ] Fluxos exatamente como descritos
+- [x] Fluxos exatamente como descritos
 
 ### 12.6 Testes da fase
 
-- [ ] Fluxo P9 completo; horário ocupado não selecionável; E-04 quando ocupado por "outra aba" (simular gravação direta no repositório)
-- [ ] Pausa e fim de expediente respeitados; R-C8 (antecedência); R-C9 (duração)
-- [ ] Transições permitidas e bloqueadas (com relógio fixo); cancelamento sem motivo bloqueado
-- [ ] Reagendar gera evento `de/para`; baixa em lote em uma transação
+- [x] Fluxo P9 completo; horário ocupado não selecionável; E-04 quando ocupado por "outra aba" (simular gravação direta no repositório)
+- [x] Pausa e fim de expediente respeitados; R-C8 (antecedência); R-C9 (duração)
+- [x] Transições permitidas e bloqueadas (com relógio fixo); cancelamento sem motivo bloqueado
+- [x] Reagendar gera evento `de/para`; baixa em lote em uma transação
 
 ### ✅ Critérios de conclusão — Fase 12
 
-- [ ] Nenhuma combinação permite conflito de médico ou de paciente (incluindo duas abas)
-- [ ] P9–P13 funcionando; agenda navegável pela URL
+- [x] Nenhuma combinação permite conflito de médico ou de paciente (incluindo duas abas)
+- [x] P9–P13 funcionando; agenda navegável pela URL
 - [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto
 
 ---

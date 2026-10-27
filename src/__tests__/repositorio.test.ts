@@ -194,6 +194,22 @@ describe('sincronização entre abas (M6)', () => {
     parar();
   });
 
+  it('gravação de outra aba sem o evento: a próxima transação relê antes de gravar (sem perder dados)', () => {
+    repo.todos();
+    const ouvinte = vi.fn();
+    const parar = assinar(ouvinte);
+    // Outra aba gravou, mas o evento `storage` ainda não chegou.
+    const outraAba = [...seedItens(), { ...novo('z', 'Zeta'), versao: 1 }];
+    localStorage.setItem('medicore:teste_itens:v1', JSON.stringify(outraAba));
+
+    repo.inserir(novo('y', 'Ípsilon'));
+
+    const gravado = JSON.parse(localStorage.getItem('medicore:teste_itens:v1')!) as Item[];
+    expect(gravado.map((i) => i.id).sort()).toEqual(['a', 'y', 'z']);
+    expect(ouvinte).toHaveBeenCalledTimes(1);
+    parar();
+  });
+
   it('ignora chaves que não são do MediCore', () => {
     const ouvinte = vi.fn();
     const parar = assinar(ouvinte);

@@ -61,7 +61,7 @@
 | Fase 9 | Componentes de formulário e listagem | 67 | 2,5 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 10 | Cadastro de Pacientes | 55 | 2 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 11 | Cadastro de Médicos | 34 | 1,5 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
-| Fase 12 | Cadastro e agenda de Consultas | 58 | 3 | ⬜ | | |
+| Fase 12 | Cadastro e agenda de Consultas | 58 | 3 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 13 | Integração com o Painel | 20 | 1 | ⬜ | | |
 | Fase 14 | Qualidade, testes e entrega | 31 | 2 | ⬜ | | |
 | Encerramento | Deploy final, versão e documentação | 8 | 0,5 | ⬜ | | |
@@ -624,92 +624,92 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 12.0 Abertura
 
 - [ ] **12.0.1** Atualizar a `main` (com as Fases 10 e 11 mescladas) e criar `feat/fase-12-consultas`
-- [ ] **12.0.2** `npm run test` verde
+- [x] **12.0.2** `npm run test` verde
 
 ### 12.1 Rotas
 
-- [ ] **12.1.1** Rotas `consultas`, `consultas/nova`, `consultas/:id`, `consultas/:id/editar` (`lazy`, `handle`)
-- [ ] **12.1.2** Páginas vazias + E-08 "Consulta não encontrada"; grupo `agenda` em `i18n/pt-BR.ts`
-- [ ] **12.1.3** "Ver agenda" (Painel) e "Ver todas" (Consultas de hoje) passam a apontar para a agenda real
+- [x] **12.1.1** Rotas `consultas`, `consultas/nova`, `consultas/:id`, `consultas/:id/editar` (`lazy`, `handle`)
+- [x] **12.1.2** Páginas vazias + E-08 "Consulta não encontrada"; grupo `agenda` em `i18n/pt-BR.ts`
+- [x] **12.1.3** "Ver agenda" (Painel) e "Ver todas" (Consultas de hoje) passam a apontar para a agenda real
 - [ ] **12.1.4** Commit `fase-12: 12.1 rotas de consultas`
 
 ### 12.2 Agenda do dia (D7)
 
-- [ ] **12.2.1** `pages/consultas/Agenda.tsx`: data em destaque por extenso; botões ‹ Hoje ›; seletor de data (fuso do hospital); `?data=` na URL
-- [ ] **12.2.2** Filtros médico, departamento, status e "Pendentes de registro", na URL
-- [ ] **12.2.3** Resumo do dia: total, agendadas, concluídas, canceladas, faltas, pendentes
-- [ ] **12.2.4** `components/consultas/ListaAgenda.tsx`: itens por horário (hora–fim, paciente, alergia, médico, departamento, tipo, status, faixa "Aguardando registro") · 🔗 R-C7
-- [ ] **12.2.5** Alternância "por horário" / "por médico"
-- [ ] **12.2.6** Estado vazio "Nenhuma consulta em dd/mm" + "Agendar consulta"
-- [ ] **12.2.7** Testes: navegação de dias pela URL; filtros; resumo; consulta atrasada destacada (relógio fixo)
+- [x] **12.2.1** `pages/consultas/Agenda.tsx`: data em destaque por extenso; botões ‹ Hoje ›; seletor de data (fuso do hospital); `?data=` na URL
+- [x] **12.2.2** Filtros médico, departamento, status e "Pendentes de registro", na URL
+- [x] **12.2.3** Resumo do dia: total, agendadas, concluídas, canceladas, faltas, pendentes
+- [x] **12.2.4** `components/consultas/ListaAgenda.tsx`: itens por horário (hora–fim, paciente, alergia, médico, departamento, tipo, status, faixa "Aguardando registro") · 🔗 R-C7
+- [x] **12.2.5** Alternância "por horário" / "por médico"
+- [x] **12.2.6** Estado vazio "Nenhuma consulta em dd/mm" + "Agendar consulta"
+- [x] **12.2.7** Testes: navegação de dias pela URL; filtros; resumo; consulta atrasada destacada (relógio fixo)
 - [ ] **12.2.8** Commit `fase-12: 12.2 agenda do dia`
 
 ### 12.3 Seletor de horário ⭐
 
-- [ ] **12.3.1** `components/consultas/SeletorHorario.tsx`: grupo de rádio (setas navegam, Espaço seleciona), um botão por horário
-- [ ] **12.3.2** Horários indisponíveis desabilitados com motivo visível e lido pelo leitor de tela ("Ocupado", "Paciente já tem consulta", "Pausa", "Horário passado")
-- [ ] **12.3.3** Estado vazio com "Próximo dia com horário livre" · 🔗 A5
-- [ ] **12.3.4** Testes só com teclado; motivos anunciados; vazio
+- [x] **12.3.1** `components/consultas/SeletorHorario.tsx`: grupo de rádio (setas navegam, Espaço seleciona), um botão por horário
+- [x] **12.3.2** Horários indisponíveis desabilitados com motivo visível e lido pelo leitor de tela ("Ocupado", "Paciente já tem consulta", "Pausa", "Horário passado")
+- [x] **12.3.3** Estado vazio com "Próximo dia com horário livre" · 🔗 A5
+- [x] **12.3.4** Testes só com teclado; motivos anunciados; vazio
 - [ ] **12.3.5** Commit `fase-12: 12.3 seletor de horário`
 
 ### 12.4 Agendar (P9) ⭐
 
-- [ ] **12.4.1** `components/consultas/FormConsulta.tsx` + `NovaConsulta`: pré-preenchimento por `?pacienteId=`, `?medicoId=`, `?data=`
-- [ ] **12.4.2** Paciente via `Combobox` (nome, nome social, CPF; só ativos) com resumo e `AlertaAlergias`; link "+ Cadastrar novo paciente" com `voltarPara`
-- [ ] **12.4.3** Departamento (filtro opcional) e Médico (só ativos, com dias de atendimento)
-- [ ] **12.4.4** Data com aviso "não atende às terças" + sugestão do próximo dia de atendimento
-- [ ] **12.4.5** Tipo (sugere "Retorno" quando aplicável) e duração (padrão do médico)
-- [ ] **12.4.6** `useHorariosLivres` recalcula ao mudar paciente/médico/data/duração e limpa a seleção inválida com aviso
-- [ ] **12.4.7** Salvar → toast "Consulta agendada: qui, 29/10 às 10:30 com Dr. Paulo Mendes" → detalhe
-- [ ] **12.4.8** E-03 (inativado no meio) e E-04 (horário ocupado no meio): erro no lugar certo, horários recarregados
-- [ ] **12.4.9** Estado sem pacientes ou sem médicos ativos: links para cadastrar
-- [ ] **12.4.10** Testes: fluxo completo; pré-preenchimento; E-04 simulando gravação direta no repositório; alergia aparece; sugestão de próximo dia
+- [x] **12.4.1** `components/consultas/FormConsulta.tsx` + `NovaConsulta`: pré-preenchimento por `?pacienteId=`, `?medicoId=`, `?data=`
+- [x] **12.4.2** Paciente via `Combobox` (nome, nome social, CPF; só ativos) com resumo e `AlertaAlergias`; link "+ Cadastrar novo paciente" com `voltarPara`
+- [x] **12.4.3** Departamento (filtro opcional) e Médico (só ativos, com dias de atendimento)
+- [x] **12.4.4** Data com aviso "não atende às terças" + sugestão do próximo dia de atendimento
+- [x] **12.4.5** Tipo (sugere "Retorno" quando aplicável) e duração (padrão do médico)
+- [x] **12.4.6** `useHorariosLivres` recalcula ao mudar paciente/médico/data/duração e limpa a seleção inválida com aviso
+- [x] **12.4.7** Salvar → toast "Consulta agendada: qui, 29/10 às 10:30 com Dr. Paulo Mendes" → detalhe
+- [x] **12.4.8** E-03 (inativado no meio) e E-04 (horário ocupado no meio): erro no lugar certo, horários recarregados
+- [x] **12.4.9** Estado sem pacientes ou sem médicos ativos: links para cadastrar
+- [x] **12.4.10** Testes: fluxo completo; pré-preenchimento; E-04 simulando gravação direta no repositório; alergia aparece; sugestão de próximo dia
 - [ ] **12.4.11** Commit `fase-12: 12.4 agendamento`
 
 ### 12.5 Detalhe da consulta
 
-- [ ] **12.5.1** `DetalheConsulta`: paciente (link + alergias), médico (link), departamento, data, hora–fim, tipo, motivo, status
-- [ ] **12.5.2** `components/consultas/LinhaDoTempoConsulta.tsx` a partir de `eventos`
-- [ ] **12.5.3** `components/consultas/AcoesConsulta.tsx`: botões conforme o status e o horário (com dica quando desabilitado)
-- [ ] **12.5.4** Testes: eventos na ordem; ações certas por status
+- [x] **12.5.1** `DetalheConsulta`: paciente (link + alergias), médico (link), departamento, data, hora–fim, tipo, motivo, status
+- [x] **12.5.2** `components/consultas/LinhaDoTempoConsulta.tsx` a partir de `eventos`
+- [x] **12.5.3** `components/consultas/AcoesConsulta.tsx`: botões conforme o status e o horário (com dica quando desabilitado)
+- [x] **12.5.4** Testes: eventos na ordem; ações certas por status
 - [ ] **12.5.5** Commit `fase-12: 12.5 detalhe da consulta`
 
 ### 12.6 Reagendar (P10)
 
-- [ ] **12.6.1** `EditarConsulta`: paciente fixo; horários com `ignorarConsultaId`; "Horário atual" marcado
-- [ ] **12.6.2** Troca de médico atualiza o departamento; R-G1 com `versao`
-- [ ] **12.6.3** Testes: reagendar gera evento de/para; mesma consulta não conflita consigo; consulta não agendada redireciona com aviso
+- [x] **12.6.1** `EditarConsulta`: paciente fixo; horários com `ignorarConsultaId`; "Horário atual" marcado
+- [x] **12.6.2** Troca de médico atualiza o departamento; R-G1 com `versao`
+- [x] **12.6.3** Testes: reagendar gera evento de/para; mesma consulta não conflita consigo; consulta não agendada redireciona com aviso
 - [ ] **12.6.4** Commit `fase-12: 12.6 reagendamento`
 
 ### 12.7 Cancelar (P11)
 
-- [ ] **12.7.1** Modal com motivo obrigatório (5–300) e sugestões em um clique
-- [ ] **12.7.2** Toast "Consulta cancelada" com ação "Agendar novamente" (pré-preenchida)
-- [ ] **12.7.3** Testes: motivo obrigatório; ação do toast abre o agendamento preenchido
+- [x] **12.7.1** Modal com motivo obrigatório (5–300) e sugestões em um clique
+- [x] **12.7.2** Toast "Consulta cancelada" com ação "Agendar novamente" (pré-preenchida)
+- [x] **12.7.3** Testes: motivo obrigatório; ação do toast abre o agendamento preenchido
 - [ ] **12.7.4** Commit `fase-12: 12.7 cancelamento`
 
 ### 12.8 Concluir e registrar falta (P12)
 
-- [ ] **12.8.1** Ações no detalhe e na linha da agenda, com confirmação curta
-- [ ] **12.8.2** Desabilitadas antes do início, com a dica "Disponível a partir das HH:mm"
-- [ ] **12.8.3** Testes com relógio fixo antes e depois do início
+- [x] **12.8.1** Ações no detalhe e na linha da agenda, com confirmação curta
+- [x] **12.8.2** Desabilitadas antes do início, com a dica "Disponível a partir das HH:mm"
+- [x] **12.8.3** Testes com relógio fixo antes e depois do início
 - [ ] **12.8.4** Commit `fase-12: 12.8 concluir e falta`
 
 ### 12.9 Baixa pendente em lote (P13)
 
-- [ ] **12.9.1** Filtro "Pendentes de registro" (qualquer dia) com seleção múltipla
-- [ ] **12.9.2** Ações em lote "Marcar como concluídas" / "Marcar falta" com confirmação e resumo no toast
-- [ ] **12.9.3** Testes: lote em transação; se um item falhar, nenhum muda
+- [x] **12.9.1** Filtro "Pendentes de registro" (qualquer dia) com seleção múltipla
+- [x] **12.9.2** Ações em lote "Marcar como concluídas" / "Marcar falta" com confirmação e resumo no toast
+- [x] **12.9.3** Testes: lote em transação; se um item falhar, nenhum muda
 - [ ] **12.9.4** Commit `fase-12: 12.9 baixa em lote`
 
 ### 12.10 Verificação e fechamento da Fase 12
 
-- [ ] **12.10.1** Teste manual de duas abas: agendar o mesmo horário nas duas → a segunda recebe E-04
-- [ ] **12.10.2** Tentar todas as combinações de conflito (médico, paciente, pausa, passado, fim do expediente) · ✔ nenhuma passa
-- [ ] **12.10.3** 375/768/1280px, claro/escuro, só teclado (incluindo `Combobox` e `SeletorHorario`), axe nas 4 telas
-- [ ] **12.10.4** Lint, build, `test:coverage`
+- [x] **12.10.1** Teste manual de duas abas: agendar o mesmo horário nas duas → a segunda recebe E-04
+- [x] **12.10.2** Tentar todas as combinações de conflito (médico, paciente, pausa, passado, fim do expediente) · ✔ nenhuma passa
+- [x] **12.10.3** 375/768/1280px, claro/escuro, só teclado (incluindo `Combobox` e `SeletorHorario`), axe nas 4 telas
+- [x] **12.10.4** Lint, build, `test:coverage`
 - [ ] **12.10.5** PR "Fase 12 — Consultas" com capturas e vídeo curto do agendamento
-- [ ] **12.10.6** Atualizar checkboxes e painel de execução: Fase 12 ✅
+- [x] **12.10.6** Atualizar checkboxes e painel de execução: Fase 12 ✅
 - [ ] **12.10.7** Mesclar o PR
 
 ---
@@ -861,5 +861,6 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | 27/10/2026 | Fase 9 | Componentes concluídos (286 testes; `components/ui/` 93,8% das linhas). Vitrine `/ui` em 375, 768 e 1280px, claro e escuro: sem rolagem horizontal e 0 violações axe (também com combobox, menu, diálogo e toasts abertos). Ajustes: borda de campo com contraste ≥ 3:1 (`--color-border-input`); iniciais do avatar com contraste AA no escuro; vitrine carregada sob demanda (fora do build de produção). Banner de demonstração no topo do conteúdo desloca o Painel em ~32px. |
 | 27/10/2026 | Fase 10 | Pacientes de ponta a ponta (313 testes). Fluxo manual completo no navegador (cadastrar → ver → editar → inativar → reativar → excluir → E-08) sem erros; 4 telas em 375/768/1280px, claro/escuro: sem rolagem horizontal e 0 violações axe. Decisões: regras cruzadas do esquema de paciente rodam mesmo com outros erros (`when`); após conflito de versão, "Continuar editando" adota a versão atual e o próximo salvar grava por cima. Corrigido: texto `sr-only` do cabeçalho da tabela alargava a página em 768px. Links para `/consultas/...` dependem da Fase 12. |
 | 27/10/2026 | Fase 11 | Médicos de ponta a ponta (328 testes). Fluxo no navegador: cadastro → edição de disponibilidade → inativação bloqueada até cancelar as 4 consultas futuras no próprio diálogo → inativar → reativar. 4 telas em 375/768/1280px, claro/escuro, 0 violações axe (grade semanal vira lista no celular). Corrigido: estilo "perigo" do diálogo de confirmação não era aplicado (nova variante `perigo` do Button). CRM exibido como `123456/SP`. |
+| 27/10/2026 | Fase 12 | Consultas de ponta a ponta (346 testes). Teste de duas abas revelou perda de dados quando uma aba gravava antes de receber o evento `storage`: `transacao()` agora relê as coleções alteradas no storage antes de validar. E-04 confirmado no navegador sem gravação dupla. 4 telas em 375/768/1280px, claro/escuro, 0 violações axe; agendamento completo só com teclado. Vídeo em `docs/capturas/fase12-agendamento.mp4`. |
 | | | |
 | | | |

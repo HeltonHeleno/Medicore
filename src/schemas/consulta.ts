@@ -20,7 +20,7 @@ export const esquemaAgendamento = z.object({
   pacienteId: idSelecionado,
   medicoId: idSelecionado,
   data: dataIso,
-  hora: horaHHmm,
+  hora: z.string({ error: v.horarioObrigatorio }).min(1, v.horarioObrigatorio).pipe(horaHHmm),
   duracaoMin: duracao,
   tipo: z.enum(TIPOS_CONSULTA, { error: v.selecione }),
   motivo: textoOpcional(500),

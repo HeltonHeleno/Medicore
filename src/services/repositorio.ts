@@ -25,6 +25,8 @@ interface Colecao {
   chave: string;
   semear: () => { id: string }[];
   itens: Map<string, { id: string }> | null; // null = ainda não carregada
+  /** JSON lido ou gravado por último: se o storage mudar sem aviso, a coleção é relida. */
+  ultimoBruto: string | null;
 }
 
 // ───────────────────────── estado do módulo ─────────────────────────
@@ -101,6 +103,7 @@ function carregar(c: Colecao): Map<string, { id: string }> {
   garantirMigracoes();
 
   const bruto = lerChave(c.chave);
+  c.ultimoBruto = bruto;
   let lista: { id: string }[] | null = null;
 
   if (bruto !== null) {
@@ -124,7 +127,9 @@ function carregar(c: Colecao): Map<string, { id: string }> {
   if (!lista) {
     lista = c.semear();
     try {
-      gravarChave(c.chave, JSON.stringify(lista));
+      const json = JSON.stringify(lista);
+      gravarChave(c.chave, json);
+      c.ultimoBruto = lerChave(c.chave);
     } catch {
       /* sem espaço: os dados de exemplo ficam só em memória nesta sessão */
     }
@@ -174,6 +179,16 @@ function verificarCota() {
 export function transacao<R>(fn: () => R): R {
   if (emTransacao) return fn();
 
+  // Outra aba pode ter gravado sem o evento `storage` ter chegado ainda (ou nunca chegar):
+  // antes de validar regras como conflito de horário, relê o que mudou no storage.
+  const relidas = new Set<string>();
+  for (const c of colecoes.values()) {
+    if (c.itens && lerChave(c.chave) !== c.ultimoBruto) {
+      c.itens = null;
+      relidas.add(c.nome);
+    }
+  }
+
   emTransacao = { copias: new Map(), sujas: new Set() };
   const atual = emTransacao;
   try {
@@ -185,7 +200,9 @@ export function transacao<R>(fn: () => R): R {
       for (const nome of atual.sujas) {
         const c = colecoes.get(nome)!;
         gravadas.push({ chave: c.chave, anterior: lerChave(c.chave) });
-        gravarChave(c.chave, JSON.stringify([...c.itens!.values()]));
+        const json = JSON.stringify([...c.itens!.values()]);
+        gravarChave(c.chave, json);
+        c.ultimoBruto = lerChave(c.chave);
       }
     } catch (e) {
       for (const g of gravadas.reverse()) {
@@ -199,12 +216,14 @@ export function transacao<R>(fn: () => R): R {
     }
 
     emTransacao = null;
-    notificar(atual.sujas);
+    notificar(new Set([...atual.sujas, ...relidas]));
     verificarCota();
     return resultado;
   } catch (e) {
     for (const [nome, copia] of atual.copias) colecoes.get(nome)!.itens = copia;
     emTransacao = null;
+    // A operação falhou, mas as telas precisam ver o que veio da outra aba.
+    notificar(relidas);
     throw e;
   }
 }
@@ -240,7 +259,7 @@ export function criarRepositorio<T extends { id: string }>(
 ): Repositorio<T> {
   const chave = `${PREFIXO}${nome}:v1`;
   const existente = colecoes.get(nome);
-  const c: Colecao = existente ?? { nome, chave, semear, itens: null };
+  const c: Colecao = existente ?? { nome, chave, semear, itens: null, ultimoBruto: null };
   c.semear = semear;
   colecoes.set(nome, c);
 
