@@ -3,7 +3,8 @@ import type { EntidadeBase } from './comuns';
 /** Situação de uma consulta. */
 export type StatusConsulta = 'agendada' | 'concluida' | 'cancelada' | 'faltou';
 
-export type TipoConsulta = 'primeira_vez' | 'retorno' | 'exame' | 'teleconsulta';
+export const TIPOS_CONSULTA = ['primeira_vez', 'retorno', 'exame', 'teleconsulta'] as const;
+export type TipoConsulta = (typeof TIPOS_CONSULTA)[number];
 
 export type TipoEventoConsulta = 'agendada' | 'reagendada' | 'concluida' | 'faltou' | 'cancelada';
 

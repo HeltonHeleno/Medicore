@@ -13,7 +13,6 @@ import { PreviaDisponibilidade } from './PreviaDisponibilidade';
 import type { ValoresMedico } from './valoresMedico';
 
 const m = t.medicos;
-const NOMES_DIAS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 // Segunda primeiro (como na agenda); domingo no fim.
 const ORDEM_DIAS = [1, 2, 3, 4, 5, 6, 0];
 
@@ -60,7 +59,7 @@ export function EditorDisponibilidade({ form, erroDe }: Props) {
                     key={dia}
                     type="button"
                     aria-pressed={ativo}
-                    aria-label={NOMES_DIAS[dia]}
+                    aria-label={t.diaBotao(t.diasSemanaCurto[dia], t.diasSemanaLongo[dia])}
                     onClick={() => {
                       field.onChange(
                         ativo

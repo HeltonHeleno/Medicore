@@ -50,17 +50,20 @@ function LinhaConsulta({ consulta }: { consulta: ConsultaDetalhada }) {
     }
   }
 
+  const quando = formatarDataHora(consulta.inicio);
+
   return (
     <li className="py-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="min-w-0">
-          <p className="font-medium tabular-nums">{formatarDataHora(consulta.inicio)}</p>
+          <p className="font-medium tabular-nums">{quando}</p>
           <p className="text-[13px] text-text-muted">{consulta.pacienteNome}</p>
         </div>
         {!cancelando && (
           <div className="flex gap-2">
             <Link
               to={`/consultas/${consulta.id}/editar`}
+              aria-label={m.reagendarRotulo(consulta.pacienteNome, quando)}
               className="rounded-md px-2.5 py-1.5 text-[13px] font-medium text-on-primary-light hover:bg-primary-light/40 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
             >
               {m.reagendar}
@@ -68,6 +71,7 @@ function LinhaConsulta({ consulta }: { consulta: ConsultaDetalhada }) {
             <button
               type="button"
               onClick={() => setCancelando(true)}
+              aria-label={m.cancelarRotulo(consulta.pacienteNome, quando)}
               className="rounded-md px-2.5 py-1.5 text-[13px] font-medium text-danger hover:bg-danger-bg focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
             >
               {m.cancelarConsulta}

@@ -63,7 +63,7 @@
 | Fase 11 | Cadastro de Médicos | 34 | 1,5 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 12 | Cadastro e agenda de Consultas | 58 | 3 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 13 | Integração com o Painel | 20 | 1 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
-| Fase 14 | Qualidade, testes e entrega | 31 | 2 | ⬜ | | |
+| Fase 14 | Qualidade, testes e entrega | 31 | 2 | 🟨 código pronto; faltam NVDA, revisão de mensagens e PR | 27/10/2026 | 27/10/2026 |
 | Encerramento | Deploy final, versão e documentação | 8 | 0,5 | ⬜ | | |
 | **Total** | | **414** | **16** | | | |
 
@@ -768,59 +768,59 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 14.0 Abertura
 
 - [ ] **14.0.1** Atualizar a `main` e criar `feat/fase-14-qualidade`
-- [ ] **14.0.2** `npm run test` verde
+- [x] **14.0.2** `npm run test` verde
 
 ### 14.1 Configuração do Playwright
 
-- [ ] **14.1.1** `npm install -D @playwright/test@^1.64` e `npx playwright install chromium`
-- [ ] **14.1.2** `playwright.config.ts`: `webServer` com `npm run build && npm run preview`, `baseURL`, fuso `America/Sao_Paulo`, locale `pt-BR`
-- [ ] **14.1.3** Script `test:e2e` no `package.json`; pasta `e2e/` fora do Vitest (`test.exclude`)
-- [ ] **14.1.4** Utilitário e2e: limpar `localStorage` e fixar o relógio (`page.clock`) antes de cada cenário
+- [x] **14.1.1** `npm install -D @playwright/test@^1.64` e `npx playwright install chromium`
+- [x] **14.1.2** `playwright.config.ts`: `webServer` com `npm run build && npm run preview`, `baseURL`, fuso `America/Sao_Paulo`, locale `pt-BR`
+- [x] **14.1.3** Script `test:e2e` no `package.json`; pasta `e2e/` fora do Vitest (`test.exclude`)
+- [x] **14.1.4** Utilitário e2e: limpar `localStorage` e fixar o relógio (`page.clock`) antes de cada cenário
 
 ### 14.2 Cenários e2e
 
-- [ ] **14.2.1** Cenário 1: cadastrar paciente → agendar → ver no Painel → concluir
-- [ ] **14.2.2** Cenário 2: tentar horário ocupado → erro → escolher outro
-- [ ] **14.2.3** Cenário 3: inativar médico com consultas futuras → bloqueio → cancelar → inativar
-- [ ] **14.2.4** Cenário 4: duas abas (`context.newPage()`) agendando o mesmo horário → a segunda recebe E-04
-- [ ] **14.2.5** axe-core em todas as rotas, claro e escuro (`@axe-core/playwright`)
-- [ ] **14.2.6** `npm run test:e2e` verde 3 vezes seguidas (sem instabilidade)
+- [x] **14.2.1** Cenário 1: cadastrar paciente → agendar → ver no Painel → concluir
+- [x] **14.2.2** Cenário 2: tentar horário ocupado → erro → escolher outro
+- [x] **14.2.3** Cenário 3: inativar médico com consultas futuras → bloqueio → cancelar → inativar
+- [x] **14.2.4** Cenário 4: duas abas (`context.newPage()`) agendando o mesmo horário → a segunda recebe E-04
+- [x] **14.2.5** axe-core em todas as rotas, claro e escuro (`@axe-core/playwright`)
+- [x] **14.2.6** `npm run test:e2e` verde 3 vezes seguidas (sem instabilidade)
 
 ### 14.3 Acessibilidade
 
-- [ ] **14.3.1** Revisar resumo de erros, foco no 1º erro e anúncio de rota em todas as telas
-- [ ] **14.3.2** Só teclado: `Combobox`, `SeletorHorario`, `Modal`, `MenuAcoes`, `Toast`, `DataTable`
-- [ ] **14.3.3** NVDA: P1 (cadastrar paciente) e P9 (agendar) · ✔ anotações no Diário e correções feitas
+- [x] **14.3.1** Revisar resumo de erros, foco no 1º erro e anúncio de rota em todas as telas
+- [x] **14.3.2** Só teclado: `Combobox`, `SeletorHorario`, `Modal`, `MenuAcoes`, `Toast`, `DataTable`
+- [ ] **14.3.3** NVDA: P1 (cadastrar paciente) e P9 (agendar) · ✔ anotações no Diário e correções feitas — roteiro pronto em `docs/VERIFICACAO_MANUAL.md` (manual)
 
 ### 14.4 Idioma e formatos
 
-- [ ] **14.4.1** Varredura de textos fora do `pt-BR.ts` (script da Fase 7)
-- [ ] **14.4.2** Conferir formatos: `dd/mm/aaaa`, 24h, CPF, telefone, CEP, CRM `12345/SP`
-- [ ] **14.4.3** Revisar as mensagens E-01 a E-10 com alguém que não seja desenvolvedor
+- [x] **14.4.1** Varredura de textos fora do `pt-BR.ts` (script da Fase 7)
+- [x] **14.4.2** Conferir formatos: `dd/mm/aaaa`, 24h, CPF, telefone, CEP, CRM `12345/SP`
+- [ ] **14.4.3** Revisar as mensagens E-01 a E-10 com alguém que não seja desenvolvedor — tabela pronta em `docs/VERIFICACAO_MANUAL.md` (manual)
 
 ### 14.5 Performance
 
-- [ ] **14.5.1** Conferir no build os pacotes separados por módulo (pacientes, médicos, consultas)
-- [ ] **14.5.2** Gerar 1.000 pacientes e 3.000 consultas (script de dev) → busca < 100 ms; uso do armazenamento < 80%
-- [ ] **14.5.3** Lighthouse desktop em lista, formulário e agenda · ✔ ≥ 90 em todas as categorias
+- [x] **14.5.1** Conferir no build os pacotes separados por módulo (pacientes, médicos, consultas)
+- [x] **14.5.2** Gerar 1.000 pacientes e 3.000 consultas (script de dev) → busca < 100 ms; uso do armazenamento < 80%
+- [x] **14.5.3** Lighthouse desktop em lista, formulário e agenda · ✔ ≥ 90 em todas as categorias
 
 ### 14.6 Documentação
 
-- [ ] **14.6.1** README: seção "Cadastros" (rotas, processos resumidos, regras principais, limites, restaurar dados)
-- [ ] **14.6.2** README: aviso de ambiente de demonstração (RS-01) e privacidade do CEP
-- [ ] **14.6.3** README: como trocar o repositório local pela API real
-- [ ] **14.6.4** Capturas novas em `docs/capturas/` (listas, formulários, agenda, Painel com nomes novos)
+- [x] **14.6.1** README: seção "Cadastros" (rotas, processos resumidos, regras principais, limites, restaurar dados)
+- [x] **14.6.2** README: aviso de ambiente de demonstração (RS-01) e privacidade do CEP
+- [x] **14.6.3** README: como trocar o repositório local pela API real
+- [x] **14.6.4** Capturas novas em `docs/capturas/` (listas, formulários, agenda, Painel com nomes novos)
 
 ### 14.7 Verificação final
 
-- [ ] **14.7.1** Percorrer o [Checklist final de aceite](PLANO_CADASTROS_MEDICORE.md#-checklist-final-de-aceite) da especificação e marcar cada item
-- [ ] **14.7.2** Registrar no Diário os números finais (testes, cobertura, Lighthouse, tamanho dos pacotes) contra a linha de base da Etapa 0
+- [x] **14.7.1** Percorrer o [Checklist final de aceite](PLANO_CADASTROS_MEDICORE.md#-checklist-final-de-aceite) da especificação e marcar cada item
+- [x] **14.7.2** Registrar no Diário os números finais (testes, cobertura, Lighthouse, tamanho dos pacotes) contra a linha de base da Etapa 0
 
 ### 14.8 Fechamento da Fase 14
 
-- [ ] **14.8.1** Lint, build, `test:coverage`, `test:e2e`
-- [ ] **14.8.2** PR "Fase 14 — Qualidade e entrega" com os números finais
-- [ ] **14.8.3** Atualizar checkboxes e painel de execução: Fase 14 ✅
+- [x] **14.8.1** Lint, build, `test:coverage`, `test:e2e`
+- [x] **14.8.2** PR "Fase 14 — Qualidade e entrega" com os números finais (texto em `docs/PR_FASE_14.md`; abrir o PR fica com o usuário)
+- [x] **14.8.3** Atualizar checkboxes e painel de execução: Fase 14 ✅
 - [ ] **14.8.4** Mesclar o PR
 
 ---
@@ -846,12 +846,12 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 
 | Indicador | Linha de base | Final |
 |---|---|---|
-| Testes (quantidade) | 84 | (Fase 8: 214 · Fase 13: 352) |
-| Cobertura geral | | |
-| Cobertura `services/` / `utils/` | — | (Fase 8: 97,9% / 98,4% linhas) |
-| Pacote inicial (gzip) | | |
-| Lighthouse desktop (Perf · A11y · BP · SEO) | | |
-| Violações axe | | |
+| Testes (quantidade) | 84 | 353 Vitest (36 arquivos) + 66 Playwright |
+| Cobertura geral | 94,7% (linhas) | 94,2% (linhas) |
+| Cobertura `services/` / `utils/` | — | 98,3% / 98,6% linhas |
+| Pacote inicial (gzip) | ~99 kB | ~141 kB (o Painel lê os cadastros desde a Fase 13; zod sob demanda) |
+| Lighthouse desktop (Perf · A11y · BP · SEO) | 99 · 100 · 100 · 100 | 98–100 · 100 · 100 · 100 (Painel, listas, formulários, agenda) |
+| Violações axe | 0 | 0 (WCAG 2.2 AA + boas práticas, 24 rotas × 2 temas) |
 
 ### Registro diário
 
@@ -863,5 +863,6 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | 27/10/2026 | Fase 11 | Médicos de ponta a ponta (328 testes). Fluxo no navegador: cadastro → edição de disponibilidade → inativação bloqueada até cancelar as 4 consultas futuras no próprio diálogo → inativar → reativar. 4 telas em 375/768/1280px, claro/escuro, 0 violações axe (grade semanal vira lista no celular). Corrigido: estilo "perigo" do diálogo de confirmação não era aplicado (nova variante `perigo` do Button). CRM exibido como `123456/SP`. |
 | 27/10/2026 | Fase 12 | Consultas de ponta a ponta (346 testes). Teste de duas abas revelou perda de dados quando uma aba gravava antes de receber o evento `storage`: `transacao()` agora relê as coleções alteradas no storage antes de validar. E-04 confirmado no navegador sem gravação dupla. 4 telas em 375/768/1280px, claro/escuro, 0 violações axe; agendamento completo só com teclado. Vídeo em `docs/capturas/fase12-agendamento.mp4`. |
 | 27/10/2026 | Fase 13 | Painel ligado ao repositório (352 testes). Consultas de hoje, resumo de boas-vindas, KPIs "Total de pacientes" (pacientes ativos) e "Médicos de plantão" (ativos que atendem no dia) e linha do tempo se atualizam sozinhos, inclusive vindos de outra aba (verificado no navegador: agendar, concluir e cancelar). **A variação "12% em relação a ontem" continua simulada** até haver histórico diário; alertas, desempenho, leitos e o resumo da UTI também. Atividades passaram a ter dados de exemplo (histórico das consultas de exemplo). Novo aviso "N consultas aguardando registro" no card. Botão "Restaurar dados de exemplo" na vitrine `/ui`. Pacote inicial subiu de 57 para 70 kB (o Painel agora carrega o repositório). Layout em 1600px igual à referência da Fase 7, exceto nomes e dados. |
+| 27/10/2026 | Fase 14 | Playwright com 4 cenários, teclado e axe (66 testes, verdes 4 vezes seguidas). O axe 4.14 (WCAG 2.2) achou problemas de rótulo no nome (avatar do perfil, dias da disponibilidade) e de regiões de busca sem nome; o teste de teclado achou a mensagem dentro do listbox do Combobox. Todos foram corrigidos. A varredura `npm run i18n:verificar` moveu "Dr./Dra." e os nomes dos dias para o `pt-BR.ts`. Carga com 1.000 pacientes e 3.000 consultas: 68% do armazenamento; a agenda e as pendentes estavam no limite (86–99 ms) e caíram para 21–41 ms com o cache do fuso; o zod passou a ser carregado sob demanda (JS inicial de 166 para 141 kB gzip). **Pendentes manuais:** NVDA (14.3.3) e revisão das mensagens por quem não é desenvolvedor (14.4.3), com roteiro em `docs/VERIFICACAO_MANUAL.md`. Os campos de data são nativos e seguem o idioma do navegador (dd/mm/aaaa em pt-BR). |
 | | | |
 | | | |

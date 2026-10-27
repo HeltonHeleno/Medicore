@@ -5,7 +5,7 @@
  */
 import { POR_PAGINA } from '../config/limites';
 import { t } from '../i18n/pt-BR';
-import { esquemaPaciente, type DadosPaciente, type EntradaPaciente } from '../schemas/paciente';
+import type { DadosPaciente, EntradaPaciente } from '../schemas/paciente';
 import type {
   Consulta,
   FiltrosPacientes,
@@ -63,7 +63,10 @@ function obterOuFalhar(id: string): Paciente {
   return p;
 }
 
-function validar(entrada: EntradaPaciente): DadosPaciente {
+// Esquemas zod carregados sob demanda: o Painel e as listas só leem dados e não precisam
+// baixar o zod (14.5). Só as gravações validam.
+async function validar(entrada: EntradaPaciente): Promise<DadosPaciente> {
+  const { esquemaPaciente } = await import('../schemas/paciente');
   const r = esquemaPaciente.safeParse(entrada);
   if (!r.success) throw ErroValidacao.deZod(r.error);
   return r.data;
@@ -156,10 +159,10 @@ export const consultasFuturasDoPaciente = (id: string): Promise<Consulta[]> =>
 // ───────────────────────── escrita ─────────────────────────
 
 /** P1 */
-export const criarPaciente = (entrada: EntradaPaciente): Promise<Paciente> =>
-  executar(() => {
-    const dados = validar(entrada);
-    return transacao(() => {
+export const criarPaciente = async (entrada: EntradaPaciente): Promise<Paciente> => {
+  const dados = await validar(entrada);
+  return executar(() =>
+    transacao(() => {
       garantirCpfUnico(dados.cpf);
       const momento = agora().toISOString();
       const paciente = repoPacientes.inserir({
@@ -177,24 +180,26 @@ export const criarPaciente = (entrada: EntradaPaciente): Promise<Paciente> =>
         paciente.id,
       );
       return paciente;
-    });
-  });
+    }),
+  );
+};
 
 /** P2 — `versao` é a que a tela carregou (R-G1). */
-export const atualizarPaciente = (
+export const atualizarPaciente = async (
   id: string,
   entrada: EntradaPaciente,
   versao: number,
-): Promise<Paciente> =>
-  executar(() => {
-    const dados = validar(entrada);
-    return transacao(() => {
+): Promise<Paciente> => {
+  const dados = await validar(entrada);
+  return executar(() =>
+    transacao(() => {
       const atual = obterOuFalhar(id);
       if (atual.versao !== versao) throw new ErroConcorrencia();
       garantirCpfUnico(dados.cpf, id);
       return repoPacientes.atualizar(id, { ...OPCIONAIS, ...semConsentimento(dados) });
-    });
-  });
+    }),
+  );
+};
 
 /**
  * P3 / R-P2: inativa e cancela, na mesma transação, as consultas futuras agendadas.

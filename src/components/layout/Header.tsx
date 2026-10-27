@@ -56,6 +56,7 @@ export const Header = forwardRef<HTMLButtonElement, HeaderProps>(function Header
 
       <form
         role="search"
+        aria-label={t.header.pesquisarRotulo}
         className="min-w-0 flex-1 sm:flex-none"
         onSubmit={(e) => e.preventDefault()}
       >

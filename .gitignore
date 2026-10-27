@@ -25,3 +25,8 @@ dist-ssr
 
 # Relatórios de cobertura
 coverage
+
+# Playwright
+test-results
+playwright-report
+blob-report

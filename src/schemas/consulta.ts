@@ -5,7 +5,9 @@ import { dataIso, horaHHmm, idSelecionado, textoObrigatorio, textoOpcional } fro
 
 const v = t.validacao;
 
-export const TIPOS_CONSULTA = ['primeira_vez', 'retorno', 'exame', 'teleconsulta'] as const;
+import { TIPOS_CONSULTA } from '../types/consulta';
+
+export { TIPOS_CONSULTA };
 
 /** R-C9: duração de 5 a 120 minutos, múltipla de 5. */
 export const duracao = z

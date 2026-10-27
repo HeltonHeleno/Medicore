@@ -188,7 +188,7 @@ export function Combobox<T>({
         name={name}
         autoComplete="off"
         aria-autocomplete="list"
-        aria-expanded={aberto}
+        aria-expanded={aberto && opcoes.length > 0}
         aria-controls={idLista}
         aria-activedescendant={aberto && ativa >= 0 ? idOpcao(ativa) : undefined}
         placeholder={placeholder}
@@ -220,45 +220,41 @@ export function Combobox<T>({
         )}
       </div>
 
+      {/* Sem opções, a mensagem fica fora do listbox (um listbox só pode conter opções). */}
+      {aberto && opcoes.length === 0 && (
+        <p className="absolute z-30 mt-1 w-full rounded-lg border border-border bg-card px-4 py-2.5 text-[13.5px] text-text-muted shadow-lg">
+          {buscando ? t.formulario.buscando : t.formulario.nenhumResultado}
+        </p>
+      )}
       <ul
         ref={listaRef}
         id={idLista}
         role="listbox"
         aria-label={t.formulario.resultados(opcoes.length)}
-        hidden={!aberto}
+        hidden={!aberto || opcoes.length === 0}
         className="absolute z-30 mt-1 max-h-72 w-full overflow-y-auto rounded-lg border border-border bg-card p-1 shadow-lg"
       >
-        {buscando && opcoes.length === 0 ? (
-          <li role="presentation" className="px-3 py-2 text-[13.5px] text-text-muted">
-            {t.formulario.buscando}
-          </li>
-        ) : opcoes.length === 0 ? (
-          <li role="presentation" className="px-3 py-2 text-[13.5px] text-text-muted">
-            {t.formulario.nenhumResultado}
-          </li>
-        ) : (
-          opcoes.map((item, i) => {
-            const selecionada = valor !== null && chave(item) === chave(valor);
-            return (
-              <li
-                key={chave(item)}
-                id={idOpcao(i)}
-                role="option"
-                aria-selected={selecionada}
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => selecionar(item)}
-                onMouseMove={() => setAtiva(i)}
-                className={cn(
-                  'cursor-pointer rounded-md px-3 py-2 text-[14px]',
-                  i === ativa && 'bg-primary-light/60 text-text',
-                  selecionada && 'font-semibold',
-                )}
-              >
-                {renderizarOpcao ? renderizarOpcao(item) : paraTexto(item)}
-              </li>
-            );
-          })
-        )}
+        {opcoes.map((item, i) => {
+          const selecionada = valor !== null && chave(item) === chave(valor);
+          return (
+            <li
+              key={chave(item)}
+              id={idOpcao(i)}
+              role="option"
+              aria-selected={selecionada}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => selecionar(item)}
+              onMouseMove={() => setAtiva(i)}
+              className={cn(
+                'cursor-pointer rounded-md px-3 py-2 text-[14px]',
+                i === ativa && 'bg-primary-light/60 text-text',
+                selecionada && 'font-semibold',
+              )}
+            >
+              {renderizarOpcao ? renderizarOpcao(item) : paraTexto(item)}
+            </li>
+          );
+        })}
       </ul>
 
       <span className="sr-only" aria-live="polite" aria-atomic="true">

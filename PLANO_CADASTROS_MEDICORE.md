@@ -97,7 +97,7 @@ A estimativa subiu de 10–13 para **13–16 dias** por causa desses acréscimos
 | 11 | Cadastro de Médicos | 1,5 dia | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
 | 12 | Cadastro e agenda de Consultas | 3 dias | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
 | 13 | Integração com o Painel | 1 dia | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
-| 14 | Qualidade, testes e entrega | 2 dias | ⬜ Não iniciada | | |
+| 14 | Qualidade, testes e entrega | 2 dias | 🟨 Código pronto (faltam NVDA, revisão de mensagens e PR) | 27/10/2026 | 27/10/2026 |
 
 Legenda: ⬜ Não iniciada · 🟨 Em andamento · ✅ Concluída · 🟥 Bloqueada
 
@@ -1253,75 +1253,75 @@ Um PR de fase só é aprovado quando:
 
 ### 14.1 Testes de ponta a ponta (Playwright)
 
-- [ ] `npm install -D @playwright/test@^1.64`; `e2e/` com `webServer` subindo `vite preview`; `npx playwright install chromium` na primeira vez
-- [ ] Cenário 1: cadastrar paciente → agendar → ver no Painel → concluir (com relógio do navegador fixado por `page.clock`)
-- [ ] Cenário 2: tentar horário ocupado → erro → escolher outro
-- [ ] Cenário 3: inativar médico com consultas futuras → bloqueio → cancelar → inativar
-- [ ] Cenário 4: duas abas — agendar o mesmo horário em ambas → a segunda recebe E-04
-- [ ] axe em todas as rotas (claro e escuro) dentro do Playwright
-- [ ] Script `npm run test:e2e`
+- [x] `npm install -D @playwright/test@^1.64`; `e2e/` com `webServer` subindo `vite preview`; `npx playwright install chromium` na primeira vez
+- [x] Cenário 1: cadastrar paciente → agendar → ver no Painel → concluir (com relógio do navegador fixado por `page.clock`)
+- [x] Cenário 2: tentar horário ocupado → erro → escolher outro
+- [x] Cenário 3: inativar médico com consultas futuras → bloqueio → cancelar → inativar
+- [x] Cenário 4: duas abas — agendar o mesmo horário em ambas → a segunda recebe E-04
+- [x] axe em todas as rotas (claro e escuro) dentro do Playwright
+- [x] Script `npm run test:e2e`
 
 ### 14.2 Acessibilidade
 
-- [ ] 0 violações axe; resumo de erros anunciado; foco no 1º erro; anúncio de rota (M11)
-- [ ] `Combobox`, `SeletorHorario`, `Modal`, `MenuAcoes`, `Toast`, `DataTable` testados só com teclado
-- [ ] NVDA no fluxo P9 (agendar) e P1 (cadastrar paciente)
+- [x] 0 violações axe; resumo de erros anunciado; foco no 1º erro; anúncio de rota (M11)
+- [x] `Combobox`, `SeletorHorario`, `Modal`, `MenuAcoes`, `Toast`, `DataTable` testados só com teclado
+- [ ] NVDA no fluxo P9 (agendar) e P1 (cadastrar paciente) — roteiro em `docs/VERIFICACAO_MANUAL.md` (manual)
 
 ### 14.3 Idioma e formatos
 
-- [ ] Varredura de textos fora do `pt-BR.ts`
-- [ ] `dd/mm/aaaa`, 24h, CPF `000.000.000-00`, telefone `(00) 00000-0000`, CEP `00000-000`, CRM `12345/SP`
-- [ ] Revisão das mensagens E-01 a E-10 (claras, sem jargão)
+- [x] Varredura de textos fora do `pt-BR.ts`
+- [x] `dd/mm/aaaa`, 24h, CPF `000.000.000-00`, telefone `(00) 00000-0000`, CEP `00000-000`, CRM `12345/SP`
+- [ ] Revisão das mensagens E-01 a E-10 (claras, sem jargão) — revisão de linguagem feita; falta a leitura por alguém que não seja desenvolvedor
 
 ### 14.4 Performance
 
-- [ ] Rotas `lazy` por módulo; verificar os pacotes gerados no build
-- [ ] Teste de carga local: 1.000 pacientes e 3.000 consultas gerados → busca responde em < 100 ms; uso do armazenamento < 80%
-- [ ] Lighthouse desktop ≥ 90 em lista, formulário e agenda
+- [x] Rotas `lazy` por módulo; verificar os pacotes gerados no build
+- [x] Teste de carga local: 1.000 pacientes e 3.000 consultas gerados → busca responde em < 100 ms; uso do armazenamento < 80%
+- [x] Lighthouse desktop ≥ 90 em lista, formulário e agenda
 
 ### 14.5 Documentação
 
-- [ ] README: seção "Cadastros" (rotas, processos P1–P13 resumidos, regras, limites de armazenamento, restaurar dados de exemplo)
-- [ ] README: aviso de **demonstração** (RS-01) e nota de privacidade do CEP (A6)
-- [ ] README: como trocar o repositório local pela API real
-- [ ] Capturas das telas novas e do Painel com os nomes novos em `docs/capturas/`
-- [ ] Atualizar este plano e o `PLANO_IMPLEMENTACAO_MEDICORE.md`
+- [x] README: seção "Cadastros" (rotas, processos P1–P13 resumidos, regras, limites de armazenamento, restaurar dados de exemplo)
+- [x] README: aviso de **demonstração** (RS-01) e nota de privacidade do CEP (A6)
+- [x] README: como trocar o repositório local pela API real
+- [x] Capturas das telas novas e do Painel com os nomes novos em `docs/capturas/`
+- [x] Atualizar este plano e o `PLANO_IMPLEMENTACAO_MEDICORE.md`
 
 ### ✅ Critérios de conclusão — Fase 14
 
-- [ ] Testes unitários, de componentes e e2e passando
-- [ ] Cobertura nas metas da [estratégia de testes](#-estratégia-de-testes)
-- [ ] Lighthouse e axe nas metas
-- [ ] README atualizado; PR final aprovado e mesclado na `main`
+- [x] Testes unitários, de componentes e e2e passando
+- [x] Cobertura nas metas da [estratégia de testes](#-estratégia-de-testes)
+- [x] Lighthouse e axe nas metas
+- [ ] README atualizado; PR final aprovado e mesclado na `main` — README ✅; PR com o usuário
 
 ---
 
 ## 🏁 Checklist final de aceite
 
 ### Funcional
-- [ ] Pacientes: cadastrar, editar, visualizar, inativar, reativar, excluir sem histórico (P1–P5)
-- [ ] Médicos: cadastrar, editar (com aviso de consultas afetadas), visualizar, inativar com bloqueio (P6–P8)
-- [ ] Consultas: agendar, reagendar, cancelar, concluir, marcar falta, baixa em lote (P9–P13)
-- [ ] Horários livres respeitam expediente, pausa, passado e conflitos de médico e paciente
-- [ ] Busca, filtros, ordenação e paginação na URL; "Voltar" preserva a lista
-- [ ] Painel reflete os cadastros em tempo real
+- [x] Pacientes: cadastrar, editar, visualizar, inativar, reativar, excluir sem histórico (P1–P5)
+- [x] Médicos: cadastrar, editar (com aviso de consultas afetadas), visualizar, inativar com bloqueio (P6–P8)
+- [x] Consultas: agendar, reagendar, cancelar, concluir, marcar falta, baixa em lote (P9–P13)
+- [x] Horários livres respeitam expediente, pausa, passado e conflitos de médico e paciente
+- [x] Busca, filtros, ordenação e paginação na URL; "Voltar" preserva a lista
+- [x] Painel reflete os cadastros em tempo real
 
 ### Dados e regras
-- [ ] CPF e CRM únicos e válidos; menores com responsável
-- [ ] Nenhum conflito de agenda possível, inclusive com duas abas
-- [ ] Consultas nunca apagadas; histórico de eventos completo
-- [ ] Datas corretas em qualquer fuso de computador (testes em `TZ=UTC`)
-- [ ] Operações compostas atômicas; dados persistem e migram de versão
+- [x] CPF e CRM únicos e válidos; menores com responsável
+- [x] Nenhum conflito de agenda possível, inclusive com duas abas
+- [x] Consultas nunca apagadas; histórico de eventos completo
+- [x] Datas corretas em qualquer fuso de computador (testes em `TZ=UTC`)
+- [x] Operações compostas atômicas; dados persistem e migram de versão
 
 ### Experiência
-- [ ] Toast em toda ação; resumo de erros; aviso ao sair com alterações
-- [ ] Responsivo de 375 a 1920px, temas claro e escuro
-- [ ] Banner de ambiente de demonstração
+- [x] Toast em toda ação; resumo de erros; aviso ao sair com alterações
+- [x] Responsivo de 375 a 1920px, temas claro e escuro
+- [x] Banner de ambiente de demonstração
 
 ### Qualidade
-- [ ] 100% em PT-BR; formatos brasileiros
-- [ ] Acessível por teclado e leitor de tela (NVDA testado)
-- [ ] Testes, lint e build limpos
+- [x] 100% em PT-BR; formatos brasileiros
+- [ ] Acessível por teclado e leitor de tela (NVDA testado) — teclado ✅ (e2e); NVDA pendente
+- [x] Testes, lint e build limpos
 
 ---
 
@@ -1368,4 +1368,7 @@ Um PR de fase só é aprovado quando:
 | 26/10/2026 | **Revisão 2:** estimativa revista de 10–13 para 13–16 dias | |
 | 27/10/2026 | Fase 13: KPI "Total de pacientes" = pacientes ativos e "Médicos de plantão" = ativos que atendem no dia; a variação diária continua simulada até haver histórico | |
 | 27/10/2026 | Fase 13: atividades ganham dados de exemplo derivados do histórico das consultas de exemplo; "{n} consultas hoje" não conta canceladas | |
+| 27/10/2026 | Fase 14: e2e com Playwright contra a build de produção (fuso e idioma fixos, relógio fixado); axe 4.14 com WCAG 2.2 em todas as rotas | |
+| 27/10/2026 | Fase 14: esquemas zod carregados sob demanda nos serviços; deslocamento do fuso em cache por bloco de 15 min (`partesNoFuso`) | |
+| 27/10/2026 | Fase 14: campos de data continuam nativos (formato segue o idioma do navegador); campo de data próprio fica no backlog se necessário | |
 | | | |

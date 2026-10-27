@@ -4,7 +4,7 @@
 import { departamentos } from '../data/mock';
 import { POR_PAGINA } from '../config/limites';
 import { t } from '../i18n/pt-BR';
-import { esquemaMedico, type DadosMedico, type EntradaMedico } from '../schemas/medico';
+import type { DadosMedico, EntradaMedico } from '../schemas/medico';
 import type {
   Consulta,
   Departamento,
@@ -54,7 +54,10 @@ function obterOuFalhar(id: string): Medico {
   return m;
 }
 
-function validar(entrada: EntradaMedico): DadosMedico {
+// Esquemas zod carregados sob demanda: o Painel e as listas só leem dados e não precisam
+// baixar o zod (14.5). Só as gravações validam.
+async function validar(entrada: EntradaMedico): Promise<DadosMedico> {
+  const { esquemaMedico } = await import('../schemas/medico');
   const r = esquemaMedico.safeParse(entrada);
   if (!r.success) throw ErroValidacao.deZod(r.error);
   return r.data;
@@ -164,10 +167,10 @@ export const consultasAfetadas = (id: string, nova: Disponibilidade): Promise<Co
 // ───────────────────────── escrita ─────────────────────────
 
 /** P6 */
-export const criarMedico = (entrada: EntradaMedico): Promise<Medico> =>
-  executar(() => {
-    const dados = validar(entrada);
-    return transacao(() => {
+export const criarMedico = async (entrada: EntradaMedico): Promise<Medico> => {
+  const dados = await validar(entrada);
+  return executar(() =>
+    transacao(() => {
       garantirUnicos(dados);
       const momento = agora().toISOString();
       const medico = repoMedicos.inserir({
@@ -187,29 +190,31 @@ export const criarMedico = (entrada: EntradaMedico): Promise<Medico> =>
         medico.id,
       );
       return medico;
-    });
-  });
+    }),
+  );
+};
 
 /**
  * P7 / R-M3: consultas já marcadas não mudam; o retorno informa quantas futuras
  * ficaram fora do novo horário.
  */
-export const atualizarMedico = (
+export const atualizarMedico = async (
   id: string,
   entrada: EntradaMedico,
   versao: number,
-): Promise<{ medico: Medico; consultasForaDoHorario: number }> =>
-  executar(() => {
-    const dados = validar(entrada);
-    return transacao(() => {
+): Promise<{ medico: Medico; consultasForaDoHorario: number }> => {
+  const dados = await validar(entrada);
+  return executar(() =>
+    transacao(() => {
       const atual = obterOuFalhar(id);
       if (atual.versao !== versao) throw new ErroConcorrencia();
       garantirUnicos(dados, id);
       const medico = repoMedicos.atualizar(id, paraMedico(dados));
       const fora = consultasForaDaDisponibilidade(medico.disponibilidade, futurasDoMedico(id));
       return { medico, consultasForaDoHorario: fora.length };
-    });
-  });
+    }),
+  );
+};
 
 /** P8 / R-M2: bloqueado enquanto houver consultas futuras agendadas. */
 export const inativarMedico = (id: string, motivo?: string): Promise<Medico> =>

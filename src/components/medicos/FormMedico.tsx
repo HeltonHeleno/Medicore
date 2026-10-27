@@ -105,8 +105,8 @@ export function FormMedico({ medico, aoEnviar, aoCancelar, topo, aoPronto }: For
           <Select
             {...register('tratamento')}
             opcoes={[
-              { valor: 'Dr.', rotulo: 'Dr.' },
-              { valor: 'Dra.', rotulo: 'Dra.' },
+              { valor: 'Dr.', rotulo: m.tratamentos['Dr.'] },
+              { valor: 'Dra.', rotulo: m.tratamentos['Dra.'] },
             ]}
           />
         </Campo>

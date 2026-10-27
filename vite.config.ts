@@ -1,7 +1,7 @@
-/// <reference types="vitest/config" />
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { configDefaults } from 'vitest/config';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -32,6 +32,8 @@ export default defineConfig({
     globals: true,
     setupFiles: './src/setupTests.ts',
     passWithNoTests: true,
+    // Os testes de ponta a ponta (Playwright) ficam em e2e/ e rodam com `npm run test:e2e`.
+    exclude: [...configDefaults.exclude, 'e2e/**'],
     // Roda em UTC para provar que as datas usam o fuso do hospital, não o do computador (M3).
     env: { TZ: 'UTC' },
     coverage: {

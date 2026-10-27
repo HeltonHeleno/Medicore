@@ -91,7 +91,7 @@ describe('Combobox (ARIA 1.2)', () => {
     render(<Teste />);
     const campo = screen.getByRole('combobox');
     await userEvent.type(campo, 'zzz');
-    expect(await screen.findByText('Nenhum resultado', { selector: 'li' })).toBeInTheDocument();
+    expect(await screen.findByText('Nenhum resultado', { selector: 'p' })).toBeInTheDocument();
     await userEvent.tab();
     expect(screen.getByRole('button', { name: 'depois' })).toHaveFocus();
     expect(screen.getByTestId('valor')).toHaveTextContent('nenhum');

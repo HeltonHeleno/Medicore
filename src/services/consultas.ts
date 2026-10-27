@@ -4,12 +4,7 @@
  */
 import { ANTECEDENCIA_MAX_DIAS, TOLERANCIA_PASSADO_MIN } from '../config/limites';
 import { t } from '../i18n/pt-BR';
-import {
-  esquemaAgendamento,
-  esquemaCancelamento,
-  type DadosAgendamento,
-  type EntradaAgendamento,
-} from '../schemas/consulta';
+import type { DadosAgendamento, EntradaAgendamento } from '../schemas/consulta';
 import type {
   Consulta,
   ConsultaDetalhada,
@@ -75,7 +70,10 @@ function obterOuFalhar(id: string): Consulta {
   return consulta;
 }
 
-function validar(entrada: EntradaAgendamento): DadosAgendamento {
+// Esquemas zod carregados sob demanda: o Painel e as listas só leem dados e não precisam
+// baixar o zod (14.5). Só as gravações validam.
+async function validar(entrada: EntradaAgendamento): Promise<DadosAgendamento> {
+  const { esquemaAgendamento } = await import('../schemas/consulta');
   const r = esquemaAgendamento.safeParse(entrada);
   if (!r.success) throw ErroValidacao.deZod(r.error);
   return r.data;
@@ -254,10 +252,10 @@ export const proximoDiaDisponivel = (
 // ───────────────────────── escrita ─────────────────────────
 
 /** P9 */
-export const agendarConsulta = (entrada: EntradaAgendamento): Promise<ConsultaDetalhada> =>
-  executar(() => {
-    const dados = validar(entrada);
-    return transacao(() => {
+export const agendarConsulta = async (entrada: EntradaAgendamento): Promise<ConsultaDetalhada> => {
+  const dados = await validar(entrada);
+  return executar(() =>
+    transacao(() => {
       const paciente = pacienteAtivo(dados.pacienteId);
       const medico = medicoAtivo(dados.medicoId);
       const inicio = validarAgenda(dados, medico, paciente.id);
@@ -284,21 +282,22 @@ export const agendarConsulta = (entrada: EntradaAgendamento): Promise<ConsultaDe
         consulta.id,
       );
       return detalhar(consulta);
-    });
-  });
+    }),
+  );
+};
 
 /**
  * P10 / R-C6: muda data, hora, duração, tipo, motivo e, opcionalmente, o médico.
  * O paciente não muda. Conflitos ignoram a própria consulta.
  */
-export const reagendarConsulta = (
+export const reagendarConsulta = async (
   id: string,
   entrada: EntradaAgendamento,
   versao: number,
-): Promise<ConsultaDetalhada> =>
-  executar(() => {
-    const dados = validar(entrada);
-    return transacao(() => {
+): Promise<ConsultaDetalhada> => {
+  const dados = await validar(entrada);
+  return executar(() =>
+    transacao(() => {
       const consulta = obterOuFalhar(id);
       if (consulta.status !== 'agendada') {
         throw new ErroConflito('transicao_invalida', c.transicaoInvalida);
@@ -331,19 +330,21 @@ export const reagendarConsulta = (
         id,
       );
       return detalhar(atualizada);
-    });
-  });
+    }),
+  );
+};
 
 /** P11: motivo obrigatório (5–300 caracteres). */
-export const cancelarConsulta = (
+export const cancelarConsulta = async (
   id: string,
   motivo: string,
   versao: number,
-): Promise<ConsultaDetalhada> =>
-  executar(() => {
-    const r = esquemaCancelamento.safeParse({ motivo });
-    if (!r.success) throw ErroValidacao.deZod(r.error);
-    return transacao(() => {
+): Promise<ConsultaDetalhada> => {
+  const { esquemaCancelamento } = await import('../schemas/consulta');
+  const r = esquemaCancelamento.safeParse({ motivo });
+  if (!r.success) throw ErroValidacao.deZod(r.error);
+  return executar(() =>
+    transacao(() => {
       const consulta = obterOuFalhar(id);
       transitar(consulta, 'cancelada');
       if (consulta.versao !== versao) throw new ErroConcorrencia();
@@ -361,8 +362,9 @@ export const cancelarConsulta = (
         id,
       );
       return detalhar(atualizada);
-    });
-  });
+    }),
+  );
+};
 
 /** P12 */
 export const concluirConsulta = (id: string): Promise<ConsultaDetalhada> =>

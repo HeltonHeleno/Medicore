@@ -31,16 +31,17 @@ export function Avatar({ nome, url, tamanho = 40, className }: AvatarProps) {
       />
     );
   }
+  // Iniciais desenhadas pelo CSS (`data-iniciais`): são decorativas e não entram no nome
+  // acessível do botão que contém o avatar (WCAG 2.5.3, "rótulo no nome").
   return (
     <span
       aria-hidden
       style={estilo}
       className={cn(
-        'inline-flex shrink-0 items-center justify-center rounded-full bg-primary-light font-semibold text-on-primary-light ring-2 ring-white/70',
+        'inline-flex shrink-0 items-center justify-center rounded-full bg-primary-light font-semibold text-on-primary-light ring-2 ring-white/70 before:content-[attr(data-iniciais)]',
         className,
       )}
-    >
-      {iniciais(nome)}
-    </span>
+      data-iniciais={iniciais(nome)}
+    />
   );
 }

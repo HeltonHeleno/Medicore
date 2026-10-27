@@ -4,3 +4,5 @@ package-lock.json
 PLANO_IMPLEMENTACAO_MEDICORE.md
 PLANO_CADASTROS_MEDICORE.md
 PLANO_EXECUCAO_CADASTROS.md
+test-results
+playwright-report

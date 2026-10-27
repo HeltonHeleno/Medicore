@@ -94,12 +94,15 @@ describe('Cadastro (P6)', () => {
     expect(
       screen.getByText('Seg a Sex · 08:00–17:00 · 18 horários de 30 min por dia'),
     ).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Sexta' }));
+    await user.click(screen.getByRole('button', { name: 'Sex, sexta-feira' }));
     await user.selectOptions(screen.getByRole('combobox', { name: /^Duração padrão/ }), '60');
     expect(
       screen.getByText('Seg a Qui · 08:00–17:00 · 9 horários de 60 min por dia'),
     ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Sexta' })).toHaveAttribute('aria-pressed', 'false');
+    expect(screen.getByRole('button', { name: 'Sex, sexta-feira' })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    );
   });
 
   it('CRM inválido e CRM já cadastrado (R-M1)', async () => {
@@ -125,15 +128,15 @@ describe('Cadastro (P6)', () => {
   it('sem dias, fim antes do início e pausa fora do expediente', async () => {
     renderizarComRotas('/medicos/novo');
     const user = await preencher();
-    for (const dia of ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta']) {
-      await user.click(screen.getByRole('button', { name: dia }));
+    for (const dia of ['Seg', 'Ter', 'Qua', 'Qui', 'Sex']) {
+      await user.click(screen.getByRole('button', { name: new RegExp(`^${dia}, `) }));
     }
     await user.click(screen.getByRole('button', { name: 'Salvar' }));
     expect(
       await screen.findByText('Selecione pelo menos um dia de atendimento', { selector: 'p' }),
     ).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Segunda' }));
+    await user.click(screen.getByRole('button', { name: 'Seg, segunda-feira' }));
     fireEvent.change(screen.getByLabelText(/^Fim do expediente/), { target: { value: '07:00' } });
     await user.click(screen.getByRole('button', { name: 'Salvar' }));
     expect(
@@ -177,7 +180,7 @@ describe('Edição (P7)', () => {
     });
     const user = userEvent.setup();
     renderizarComRotas('/medicos/med-paulo-mendes/editar');
-    await user.click(await screen.findByRole('button', { name: 'Sexta' }));
+    await user.click(await screen.findByRole('button', { name: 'Sex, sexta-feira' }));
     await user.click(screen.getByRole('button', { name: 'Salvar' }));
 
     const dialogo = await screen.findByRole('alertdialog', {
@@ -292,15 +295,17 @@ describe('Inativação (P8)', () => {
     }
     const inativar = within(dialogo).getByRole('button', { name: 'Inativar' });
     await waitFor(() =>
-      expect(within(dialogo).getAllByRole('button', { name: 'Cancelar' }).length).toBeGreaterThan(
-        0,
-      ),
+      expect(
+        within(dialogo).getAllByRole('button', { name: /^Cancelar consulta de/ }).length,
+      ).toBeGreaterThan(0),
     );
     expect(inativar).toBeDisabled();
 
     while (futuras().length > 0) {
       const antes = futuras().length;
-      await user.click(within(dialogo).getAllByRole('button', { name: 'Cancelar' })[0]);
+      await user.click(
+        within(dialogo).getAllByRole('button', { name: /^Cancelar consulta de/ })[0],
+      );
       await user.type(
         within(dialogo).getByRole('textbox', { name: 'Motivo do cancelamento' }),
         'Médico de licença',

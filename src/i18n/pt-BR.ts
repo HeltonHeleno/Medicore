@@ -262,6 +262,17 @@ export const t = {
   },
 
   diasSemanaCurto: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+  diasSemanaLongo: [
+    'domingo',
+    'segunda-feira',
+    'terça-feira',
+    'quarta-feira',
+    'quinta-feira',
+    'sexta-feira',
+    'sábado',
+  ],
+  /** Nome acessível que começa pelo texto visível (WCAG 2.5.3): "Seg, segunda-feira". */
+  diaBotao: (curto: string, longo: string) => `${curto}, ${longo}`,
   diasAte: (de: string, ate: string) => `${de} a ${ate}`,
 
   erro: {
@@ -560,6 +571,7 @@ export const t = {
       inativar: 'Inativar',
       reativar: 'Reativar',
     },
+    tratamentos: { 'Dr.': 'Dr.', 'Dra.': 'Dra.' },
     secoes: {
       identificacao: 'Identificação',
       contato: 'Contato',
@@ -648,6 +660,11 @@ export const t = {
     consultasPendentes: 'Consultas futuras',
     reagendar: 'Reagendar',
     cancelarConsulta: 'Cancelar',
+    // Nomes acessíveis completos dos botões de cada linha (começam pelo texto visível).
+    reagendarRotulo: (paciente: string, quando: string) =>
+      `Reagendar consulta de ${paciente} em ${quando}`,
+    cancelarRotulo: (paciente: string, quando: string) =>
+      `Cancelar consulta de ${paciente} em ${quando}`,
     motivoCancelamento: 'Motivo do cancelamento',
     confirmarCancelamento: 'Confirmar cancelamento',
     voltar: 'Voltar',

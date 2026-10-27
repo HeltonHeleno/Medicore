@@ -52,7 +52,11 @@ export function BarraFiltros({
   };
 
   return (
-    <div role="search" className={cn('flex flex-wrap items-end gap-3', className)}>
+    <div
+      role="search"
+      aria-label={rotuloBusca}
+      className={cn('flex flex-wrap items-end gap-3', className)}
+    >
       <div className="relative min-w-[220px] flex-1 basis-64">
         <label htmlFor={id} className="sr-only">
           {rotuloBusca}

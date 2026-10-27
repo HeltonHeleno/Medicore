@@ -34,9 +34,8 @@ const formatadorPartes = new Intl.DateTimeFormat('en-CA', {
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
-/** Ano, mês, dia, hora e minuto do instante no fuso do hospital. */
-export function partesNoFuso(instante: Date | string): Partes {
-  const d = typeof instante === 'string' ? new Date(instante) : instante;
+/** Partes de um instante pelo `Intl` (lento: usado só para preencher o cache abaixo). */
+function partesPorIntl(d: Date): Partes {
   const p = Object.fromEntries(
     formatadorPartes.formatToParts(d).map((x) => [x.type, x.value]),
   ) as Record<string, string>;
@@ -46,6 +45,41 @@ export function partesNoFuso(instante: Date | string): Partes {
     dia: Number(p.day),
     hora: Number(p.hour),
     minuto: Number(p.minute),
+  };
+}
+
+/**
+ * Deslocamento do fuso (em ms) por bloco de 15 minutos. Trocas de horário acontecem em
+ * horas cheias, então o deslocamento é o mesmo dentro de um bloco. O cache evita chamar
+ * o `Intl` milhares de vezes ao filtrar a agenda (14.5: 3.000 consultas).
+ */
+const BLOCO_MS = 15 * 60_000;
+const cacheDeslocamento = new Map<number, number>();
+
+function deslocamentoMs(ms: number): number {
+  const bloco = Math.floor(ms / BLOCO_MS);
+  let deslocamento = cacheDeslocamento.get(bloco);
+  if (deslocamento === undefined) {
+    const inicio = bloco * BLOCO_MS;
+    const p = partesPorIntl(new Date(inicio));
+    deslocamento = Date.UTC(p.ano, p.mes - 1, p.dia, p.hora, p.minuto) - inicio;
+    if (cacheDeslocamento.size > 20_000) cacheDeslocamento.clear();
+    cacheDeslocamento.set(bloco, deslocamento);
+  }
+  return deslocamento;
+}
+
+/** Ano, mês, dia, hora e minuto do instante no fuso do hospital. */
+export function partesNoFuso(instante: Date | string): Partes {
+  const ms = (typeof instante === 'string' ? new Date(instante) : instante).getTime();
+  if (Number.isNaN(ms)) return partesPorIntl(new Date(ms)); // mantém o erro do Intl
+  const local = new Date(ms + deslocamentoMs(ms));
+  return {
+    ano: local.getUTCFullYear(),
+    mes: local.getUTCMonth() + 1,
+    dia: local.getUTCDate(),
+    hora: local.getUTCHours(),
+    minuto: local.getUTCMinutes(),
   };
 }
 

@@ -864,14 +864,15 @@ medicore/
 
 - [ ] Integração com API real (REST ou GraphQL) usando React Query
 - [ ] Autenticação e perfis de acesso (Administrador, Médico, Enfermagem, Farmácia)
-- [ ] Páginas completas: Pacientes, Médicos, Consultas, Gestão de leitos, Emergência, Farmácia, Análises, Configurações
+- [x] Páginas de Pacientes, Médicos e Consultas → feitas nas Fases 8–14 (`PLANO_CADASTROS_MEDICORE.md`)
+- [ ] Páginas completas: Gestão de leitos, Emergência, Farmácia, Análises, Configurações
 - [ ] Alertas de emergência em tempo real (WebSocket ou SSE) com notificação sonora
 - [ ] Busca global funcional (pacientes, médicos, leitos)
 - [ ] Central de notificações e mensagens
 - [ ] Assistente com IA integrado a dados reais
 - [ ] Exportação de relatórios em PDF e Excel
 - [ ] Internacionalização completa (estrutura pronta para outros idiomas)
-- [ ] Conformidade com a LGPD (registro de acessos, mascaramento de dados sensíveis)
+- [ ] Conformidade com a LGPD (registro de acessos) — o mascaramento de CPF nas listas e o consentimento já existem desde a Fase 10
 - [ ] PWA com uso offline básico
 
 ---
@@ -918,3 +919,5 @@ medicore/
 | 26/10/2026 | Fase 7: cobertura geral 94,7% (84 testes); limites de 70% em `utils/` e `components/ui/` travados em `vite.config.ts` (`npm run test:coverage`) | |
 | 26/10/2026 | Fase 7: `vercel.json` e `netlify.toml` com fallback de SPA e cache longo para `/assets`; `public/robots.txt` adicionado; a rosca de ocupação trocou `<figure role="img">` por `<div role="img">` (papel ARIA não permitido) | |
 | 26/10/2026 | Fase 7: pendentes manuais — teste com NVDA/VoiceOver, deploy e PR final | |
+| 27/10/2026 | O projeto continuou com os cadastros (Pacientes, Médicos e Consultas) nas Fases 8–14, descritas em `PLANO_CADASTROS_MEDICORE.md` e `PLANO_EXECUCAO_CADASTROS.md`. Desde a Fase 13, o Painel lê consultas, atividades e os KPIs de pacientes e médicos dos cadastros | |
+| 27/10/2026 | Fase 14 (cadastros): testes de ponta a ponta com Playwright e axe em todas as rotas, nos dois temas. O teste com NVDA continua pendente e manual | |

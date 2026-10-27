@@ -5,8 +5,14 @@
  *   expediente, pausa e nenhum conflito de médico ou de paciente.
  * - Passadas viram concluídas, faltas ou canceladas; duas ficam "aguardando registro" (R-C7).
  */
-import { TIPOS_CONSULTA } from '../../schemas/consulta';
-import type { Consulta, EventoConsulta, Medico, Paciente, StatusConsulta } from '../../types';
+import {
+  TIPOS_CONSULTA,
+  type Consulta,
+  type EventoConsulta,
+  type Medico,
+  type Paciente,
+  type StatusConsulta,
+} from '../../types';
 import { atendeNoDia, gerarHorarios, intervaloDe, type Intervalo } from '../../utils/agenda';
 import { hojeNoFuso, idade, instanteNoFuso, somarDias } from '../../utils/datas';
 import { agora } from '../../utils/relogio';
@@ -112,7 +118,8 @@ export function semearConsultas(): Consulta[] {
     let motivoCancelamento: string | undefined;
     if (status === 'cancelada') {
       motivoCancelamento = sortear(rand, MOTIVOS_CANCELAMENTO);
-      const em = new Date(Math.min(intervalo.inicio - 3_600_000, momento.getTime()));
+      // Cancelada até 1 h antes; se isso cair no futuro, um pouco antes de "agora".
+      const em = new Date(Math.min(intervalo.inicio - 3_600_000, momento.getTime() - recuoMs / 3));
       eventos.push({
         tipo: 'cancelada',
         em: new Date(Math.max(em.getTime(), new Date(criadoEm).getTime())).toISOString(),
