@@ -145,3 +145,13 @@ describe('R-S1–R-S3 — transições', () => {
     expect(estaAtrasada('concluida', fim, new Date(iso(SEGUNDA, '12:00')))).toBe(false);
   });
 });
+
+describe('horariosPorDia (prévia do médico)', () => {
+  it('conta os horários com e sem pausa', async () => {
+    const { horariosPorDia } = await import('../utils/agenda');
+    expect(horariosPorDia(disp)).toBe(7); // 08–12, pausa 10–10:30, 30 min
+    expect(horariosPorDia({ ...disp, pausa: undefined })).toBe(8);
+    expect(horariosPorDia({ ...disp, duracaoPadraoMin: 60, pausa: undefined })).toBe(4);
+    expect(horariosPorDia({ ...disp, diasSemana: [] })).toBe(0);
+  });
+});

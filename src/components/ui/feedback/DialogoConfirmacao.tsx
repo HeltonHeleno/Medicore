@@ -1,6 +1,5 @@
 import { useCallback, useId, useRef, useState, type ReactNode } from 'react';
 import { t } from '../../../i18n/pt-BR';
-import { cn } from '../../../utils/cn';
 import { Button } from '../Button';
 import { classesControle } from '../form/estilos';
 import { ContextoConfirmacao, type OpcoesConfirmacao, type RespostaConfirmacao } from './contextos';
@@ -71,7 +70,7 @@ export function ConfirmacaoProvider({ children }: { children: ReactNode }) {
               ref={confirmarRef}
               disabled={!liberado}
               onClick={() => responder(true)}
-              className={cn(pendente?.perigo && 'bg-danger text-white hover:bg-danger/90')}
+              variante={pendente?.perigo ? 'perigo' : 'primario'}
             >
               {pendente?.rotuloConfirmar ?? t.confirmacao.confirmar}
             </Button>

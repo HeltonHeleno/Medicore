@@ -151,3 +151,21 @@ export function podeTransitar(
 /** R-C7: agendada e já terminou sem registro. */
 export const estaAtrasada = (status: StatusConsulta, fimIso: string, agora: Date): boolean =>
   status === 'agendada' && new Date(fimIso).getTime() < agora.getTime();
+
+/**
+ * Quantos horários a grade oferece num dia de atendimento, sem consultas marcadas
+ * (A1 "vazio"). Usado na prévia do formulário de médico.
+ */
+export function horariosPorDia(d: Disponibilidade): number {
+  if (d.diasSemana.length === 0) return 0;
+  // Uma semana qualquer no futuro distante: nenhum horário é "passado".
+  const domingoReferencia = '2030-01-06';
+  const data = somarDias(domingoReferencia, d.diasSemana[0]);
+  return gerarHorarios({
+    disponibilidade: d,
+    data,
+    duracaoMin: d.duracaoPadraoMin,
+    ocupacoesMedico: [],
+    agora: new Date(0),
+  }).filter((h) => h.livre).length;
+}

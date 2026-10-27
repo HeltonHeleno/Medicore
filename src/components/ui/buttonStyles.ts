@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 
-export type VarianteBotao = 'primario' | 'contorno' | 'suave';
+export type VarianteBotao = 'primario' | 'contorno' | 'suave' | 'perigo';
 export type TamanhoBotao = 'md' | 'sm';
 
 export interface PropsVisuais {
@@ -22,6 +22,8 @@ const variantes: Record<VarianteBotao, string> = {
   primario: 'bg-primary text-on-primary hover:bg-primary/90',
   contorno: 'border border-border bg-card text-on-primary-light hover:bg-primary-light/40',
   suave: 'bg-primary-light/70 text-on-primary-light hover:bg-primary-light',
+  /** Ações destrutivas (excluir, inativar, cancelar consulta). */
+  perigo: 'bg-danger text-on-danger hover:bg-danger/90',
 };
 
 const tamanhos: Record<TamanhoBotao, string> = {

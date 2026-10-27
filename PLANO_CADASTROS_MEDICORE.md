@@ -1133,43 +1133,43 @@ Um PR de fase só é aprovado quando:
 
 ### 11.1 Rotas
 
-- [ ] `medicos`, `medicos/novo`, `medicos/:id`, `medicos/:id/editar` (mesmo padrão)
+- [x] `medicos`, `medicos/novo`, `medicos/:id`, `medicos/:id/editar` (mesmo padrão)
 
 ### 11.2 Lista (`/medicos`)
 
-- [ ] Busca por nome ou CRM (A4); filtros por departamento e status
-- [ ] Colunas: Nome com tratamento · CRM (`12345/SP`) · Departamento · Dias (`Seg–Sex`) · Consultas hoje · Status · ações
-- [ ] Ações: Ver, Editar, Ver agenda (`/consultas?medicoId=`), Agendar (`/consultas/nova?medicoId=`), Inativar/Reativar
-- [ ] Alternância tabela/cartões (preferência guardada no `localStorage`, com try/catch)
+- [x] Busca por nome ou CRM (A4); filtros por departamento e status
+- [x] Colunas: Nome com tratamento · CRM (`12345/SP`) · Departamento · Dias (`Seg–Sex`) · Consultas hoje · Status · ações
+- [x] Ações: Ver, Editar, Ver agenda (`/consultas?medicoId=`), Agendar (`/consultas/nova?medicoId=`), Inativar/Reativar
+- [x] Alternância tabela/cartões (preferência guardada no `localStorage`, com try/catch)
 
 ### 11.3 Formulário — implementa P6 e P7
 
-- [ ] Seções: Identificação · Contato · Lotação · Disponibilidade
-- [ ] `EditorDisponibilidade`: dias como botões alternáveis (`aria-pressed`); início/fim/pausa (`type="time"`, passo de 5 min); duração padrão
-- [ ] `PreviaDisponibilidade` em tempo real (usa A1 sem consultas)
-- [ ] CRM disponível ao sair do campo (R-M1)
-- [ ] Na edição, aviso de consultas afetadas (P7 / A3)
+- [x] Seções: Identificação · Contato · Lotação · Disponibilidade
+- [x] `EditorDisponibilidade`: dias como botões alternáveis (`aria-pressed`); início/fim/pausa (`type="time"`, passo de 5 min); duração padrão
+- [x] `PreviaDisponibilidade` em tempo real (usa A1 sem consultas)
+- [x] CRM disponível ao sair do campo (R-M1)
+- [x] Na edição, aviso de consultas afetadas (P7 / A3)
 
 ### 11.4 Detalhe (`/medicos/:id`)
 
-- [ ] Cabeçalho com avatar, nome, CRM, departamento, status, ações
-- [ ] Disponibilidade em grade semanal (dias × faixa, com pausa)
-- [ ] "Agenda de hoje" (ocupados e livres) e "Próximos 7 dias" (quantidade por dia)
-- [ ] Indicadores do mês: consultas, taxa de faltas (`faltou / (concluida + faltou)`), cancelamentos
+- [x] Cabeçalho com avatar, nome, CRM, departamento, status, ações
+- [x] Disponibilidade em grade semanal (dias × faixa, com pausa)
+- [x] "Agenda de hoje" (ocupados e livres) e "Próximos 7 dias" (quantidade por dia)
+- [x] Indicadores do mês: consultas, taxa de faltas (`faltou / (concluida + faltou)`), cancelamentos
 
 ### 11.5 Inativar — P8
 
-- [ ] Diálogo bloqueante com a lista viva de consultas futuras, como descrito em P8
+- [x] Diálogo bloqueante com a lista viva de consultas futuras, como descrito em P8
 
 ### 11.6 Testes da fase
 
-- [ ] CRM inválido/duplicado; sem dias; fim antes do início; pausa fora do expediente
-- [ ] Prévia calcula a quantidade certa de horários (com e sem pausa)
-- [ ] Inativação bloqueada até zerar as consultas futuras
+- [x] CRM inválido/duplicado; sem dias; fim antes do início; pausa fora do expediente
+- [x] Prévia calcula a quantidade certa de horários (com e sem pausa)
+- [x] Inativação bloqueada até zerar as consultas futuras
 
 ### ✅ Critérios de conclusão — Fase 11
 
-- [ ] P6–P8 funcionando; disponibilidade refletida nos horários livres
+- [x] P6–P8 funcionando; disponibilidade refletida nos horários livres
 - [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto
 
 ---

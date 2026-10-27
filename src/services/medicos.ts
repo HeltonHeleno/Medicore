@@ -142,6 +142,17 @@ export const obterMedico = (id: string): Promise<Medico> => executar(() => obter
 export const crmDisponivel = (numero: string, uf: UF, ignorarId?: string): Promise<boolean> =>
   executar(() => !repoMedicos.todos().some((m) => m.id !== ignorarId && crmIgual(m, numero, uf)));
 
+/** Médico que já usa este CRM (para o link "Abrir cadastro existente"), ou `null`. */
+export const medicoComCrm = (
+  numero: string,
+  uf: UF,
+  ignorarId?: string,
+): Promise<{ id: string; nomeExibicao: string } | null> =>
+  executar(() => {
+    const m = repoMedicos.todos().find((x) => x.id !== ignorarId && crmIgual(x, numero, uf));
+    return m ? { id: m.id, nomeExibicao: nomeExibicaoMedico(m) } : null;
+  });
+
 /** R-M2: o diálogo de inativação lista estas consultas. */
 export const consultasFuturasDoMedico = (id: string): Promise<Consulta[]> =>
   executar(() => futurasDoMedico(id));

@@ -60,7 +60,7 @@
 | Fase 8 | Fundação de dados e roteamento | 129 | 3 | 🟨 código pronto; faltam commits/PR | 26/10/2026 | 27/10/2026 |
 | Fase 9 | Componentes de formulário e listagem | 67 | 2,5 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 10 | Cadastro de Pacientes | 55 | 2 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
-| Fase 11 | Cadastro de Médicos | 34 | 1,5 | ⬜ | | |
+| Fase 11 | Cadastro de Médicos | 34 | 1,5 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 12 | Cadastro e agenda de Consultas | 58 | 3 | ⬜ | | |
 | Fase 13 | Integração com o Painel | 20 | 1 | ⬜ | | |
 | Fase 14 | Qualidade, testes e entrega | 31 | 2 | ⬜ | | |
@@ -560,59 +560,59 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 11.0 Abertura
 
 - [ ] **11.0.1** Atualizar a `main` e criar `feat/fase-11-medicos`
-- [ ] **11.0.2** `npm run test` verde
+- [x] **11.0.2** `npm run test` verde
 
 ### 11.1 Rotas
 
-- [ ] **11.1.1** Rotas `medicos`, `medicos/novo`, `medicos/:id`, `medicos/:id/editar` (`lazy`, `handle`)
-- [ ] **11.1.2** Páginas vazias + E-08 "Médico não encontrado"; grupo `medicos` em `i18n/pt-BR.ts`
+- [x] **11.1.1** Rotas `medicos`, `medicos/novo`, `medicos/:id`, `medicos/:id/editar` (`lazy`, `handle`)
+- [x] **11.1.2** Páginas vazias + E-08 "Médico não encontrado"; grupo `medicos` em `i18n/pt-BR.ts`
 - [ ] **11.1.3** Commit `fase-11: 11.1 rotas de médicos`
 
 ### 11.2 Lista
 
-- [ ] **11.2.1** `ListaMedicos`: busca (nome/CRM), filtros por departamento e status, na URL
-- [ ] **11.2.2** Colunas: Nome com tratamento, CRM (`12345/SP`), Departamento, Dias (`Seg–Sex`), Consultas hoje, Status, ações
-- [ ] **11.2.3** Ações: Ver, Editar, Ver agenda, Agendar, Inativar/Reativar
-- [ ] **11.2.4** Alternância tabela/cartões (preferência no `localStorage`, com try/catch)
-- [ ] **11.2.5** Testes: busca por CRM, filtro por departamento, alternância de visualização
+- [x] **11.2.1** `ListaMedicos`: busca (nome/CRM), filtros por departamento e status, na URL
+- [x] **11.2.2** Colunas: Nome com tratamento, CRM (`12345/SP`), Departamento, Dias (`Seg–Sex`), Consultas hoje, Status, ações
+- [x] **11.2.3** Ações: Ver, Editar, Ver agenda, Agendar, Inativar/Reativar
+- [x] **11.2.4** Alternância tabela/cartões (preferência no `localStorage`, com try/catch)
+- [x] **11.2.5** Testes: busca por CRM, filtro por departamento, alternância de visualização
 - [ ] **11.2.6** Commit `fase-11: 11.2 lista de médicos`
 
 ### 11.3 Formulário (P6, P7)
 
-- [ ] **11.3.1** `components/medicos/FormMedico.tsx`: seções Identificação, Contato, Lotação, Disponibilidade
-- [ ] **11.3.2** ⭐ `components/medicos/EditorDisponibilidade.tsx`: dias com `aria-pressed`; início, fim e pausa (`type="time"`, passo de 5 min); duração padrão
-- [ ] **11.3.3** `components/medicos/PreviaDisponibilidade.tsx`: texto em tempo real ("Seg a Sex · 08:00–17:00 · pausa 12:00–13:00 · 16 horários de 30 min")
-- [ ] **11.3.4** CRM disponível ao sair do campo · 🔗 R-M1
-- [ ] **11.3.5** `NovoMedico` e `EditarMedico` (com `versao`); na edição, diálogo de consultas afetadas antes de salvar · 🔗 P7, A3
-- [ ] **11.3.6** Testes: CRM inválido/duplicado; sem dias; fim antes do início; pausa fora do expediente; prévia com e sem pausa; aviso de consultas afetadas
+- [x] **11.3.1** `components/medicos/FormMedico.tsx`: seções Identificação, Contato, Lotação, Disponibilidade
+- [x] **11.3.2** ⭐ `components/medicos/EditorDisponibilidade.tsx`: dias com `aria-pressed`; início, fim e pausa (`type="time"`, passo de 5 min); duração padrão
+- [x] **11.3.3** `components/medicos/PreviaDisponibilidade.tsx`: texto em tempo real ("Seg a Sex · 08:00–17:00 · pausa 12:00–13:00 · 16 horários de 30 min")
+- [x] **11.3.4** CRM disponível ao sair do campo · 🔗 R-M1
+- [x] **11.3.5** `NovoMedico` e `EditarMedico` (com `versao`); na edição, diálogo de consultas afetadas antes de salvar · 🔗 P7, A3
+- [x] **11.3.6** Testes: CRM inválido/duplicado; sem dias; fim antes do início; pausa fora do expediente; prévia com e sem pausa; aviso de consultas afetadas
 - [ ] **11.3.7** Commit `fase-11: 11.3 formulário de médico`
 
 ### 11.4 Detalhe
 
-- [ ] **11.4.1** `DetalheMedico`: cabeçalho (avatar, nome, CRM, departamento, status, ações)
-- [ ] **11.4.2** Grade semanal de disponibilidade (com pausa)
-- [ ] **11.4.3** `components/medicos/AgendaMedico.tsx`: "Agenda de hoje" (ocupados/livres) e "Próximos 7 dias" (quantidade por dia)
-- [ ] **11.4.4** Indicadores do mês: consultas, taxa de faltas, cancelamentos
-- [ ] **11.4.5** Testes: E-08; indicadores calculados com seeds e relógio fixo
+- [x] **11.4.1** `DetalheMedico`: cabeçalho (avatar, nome, CRM, departamento, status, ações)
+- [x] **11.4.2** Grade semanal de disponibilidade (com pausa)
+- [x] **11.4.3** `components/medicos/AgendaMedico.tsx`: "Agenda de hoje" (ocupados/livres) e "Próximos 7 dias" (quantidade por dia)
+- [x] **11.4.4** Indicadores do mês: consultas, taxa de faltas, cancelamentos
+- [x] **11.4.5** Testes: E-08; indicadores calculados com seeds e relógio fixo
 - [ ] **11.4.6** Commit `fase-11: 11.4 detalhe do médico`
 
 ### 11.5 Inativar (P8)
 
-- [ ] **11.5.1** Diálogo bloqueante com a lista viva de consultas futuras (links para reagendar/cancelar); botão habilita quando a lista zera
-- [ ] **11.5.2** Sem pendências: confirmação + motivo; reativar com confirmação
-- [ ] **11.5.3** Testes: bloqueio; a lista se atualiza ao cancelar uma consulta; inativação liberada
+- [x] **11.5.1** Diálogo bloqueante com a lista viva de consultas futuras (links para reagendar/cancelar); botão habilita quando a lista zera
+- [x] **11.5.2** Sem pendências: confirmação + motivo; reativar com confirmação
+- [x] **11.5.3** Testes: bloqueio; a lista se atualiza ao cancelar uma consulta; inativação liberada
 - [ ] **11.5.4** Commit `fase-11: 11.5 inativação de médico`
 
 ### 11.6 Verificação
 
-- [ ] **11.6.1** Cadastrar um médico novo e conferir os horários gerados em um teste rápido com `horariosLivres` (console ou teste)
-- [ ] **11.6.2** 375/768/1280px, claro/escuro, só teclado, axe nas 4 telas
+- [x] **11.6.1** Cadastrar um médico novo e conferir os horários gerados em um teste rápido com `horariosLivres` (console ou teste)
+- [x] **11.6.2** 375/768/1280px, claro/escuro, só teclado, axe nas 4 telas
 
 ### 11.7 Fechamento da Fase 11
 
-- [ ] **11.7.1** Lint, build, `test:coverage`
+- [x] **11.7.1** Lint, build, `test:coverage`
 - [ ] **11.7.2** PR "Fase 11 — Médicos" com capturas
-- [ ] **11.7.3** Atualizar checkboxes e painel de execução: Fase 11 ✅
+- [x] **11.7.3** Atualizar checkboxes e painel de execução: Fase 11 ✅
 - [ ] **11.7.4** Mesclar o PR
 
 ---
@@ -860,5 +860,6 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | 27/10/2026 | Fase 8 | Código e testes concluídos (214 testes; services 97,9% e utils 98,4% de linhas). Pendentes: branch, commits, PR e merge (feitos pelo usuário). `paraInputDate` (8.3.5) dispensado: `DataIso` já é o formato do `<input type="date">`. Dados de exemplo ocupam de −7 a +7 dias a partir de hoje; testes de serviço agendam fora dessa janela. Resumo e matriz de regras em `docs/PR_FASE_8.md`. |
 | 27/10/2026 | Fase 9 | Componentes concluídos (286 testes; `components/ui/` 93,8% das linhas). Vitrine `/ui` em 375, 768 e 1280px, claro e escuro: sem rolagem horizontal e 0 violações axe (também com combobox, menu, diálogo e toasts abertos). Ajustes: borda de campo com contraste ≥ 3:1 (`--color-border-input`); iniciais do avatar com contraste AA no escuro; vitrine carregada sob demanda (fora do build de produção). Banner de demonstração no topo do conteúdo desloca o Painel em ~32px. |
 | 27/10/2026 | Fase 10 | Pacientes de ponta a ponta (313 testes). Fluxo manual completo no navegador (cadastrar → ver → editar → inativar → reativar → excluir → E-08) sem erros; 4 telas em 375/768/1280px, claro/escuro: sem rolagem horizontal e 0 violações axe. Decisões: regras cruzadas do esquema de paciente rodam mesmo com outros erros (`when`); após conflito de versão, "Continuar editando" adota a versão atual e o próximo salvar grava por cima. Corrigido: texto `sr-only` do cabeçalho da tabela alargava a página em 768px. Links para `/consultas/...` dependem da Fase 12. |
+| 27/10/2026 | Fase 11 | Médicos de ponta a ponta (328 testes). Fluxo no navegador: cadastro → edição de disponibilidade → inativação bloqueada até cancelar as 4 consultas futuras no próprio diálogo → inativar → reativar. 4 telas em 375/768/1280px, claro/escuro, 0 violações axe (grade semanal vira lista no celular). Corrigido: estilo "perigo" do diálogo de confirmação não era aplicado (nova variante `perigo` do Button). CRM exibido como `123456/SP`. |
 | | | |
 | | | |

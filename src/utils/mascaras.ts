@@ -38,8 +38,8 @@ export function mascararCep(valor: string): string {
   return d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
 }
 
-/** { numero: '123456', uf: 'SP' } → "CRM/SP 123456". */
-export const formatarCrm = (crm: Crm): string => `CRM/${crm.uf} ${crm.numero}`;
+/** { numero: '123456', uf: 'SP' } → "123456/SP" (formato da especificação). */
+export const formatarCrm = (crm: Crm): string => `${crm.numero}/${crm.uf}`;
 
 /** Configuração de cada máscara de digitação (usada pelo `InputMascarado`). */
 export interface Mascara {

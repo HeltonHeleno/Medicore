@@ -31,7 +31,7 @@ describe('máscaras de exibição', () => {
   it('CEP e CRM', () => {
     expect(mascararCep('01310100')).toBe('01310-100');
     expect(mascararCep('013')).toBe('013');
-    expect(formatarCrm({ numero: '123456', uf: 'SP' })).toBe('CRM/SP 123456');
+    expect(formatarCrm({ numero: '123456', uf: 'SP' })).toBe('123456/SP');
   });
 });
 

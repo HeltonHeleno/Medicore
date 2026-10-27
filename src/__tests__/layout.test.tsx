@@ -39,9 +39,10 @@ describe('rotas e navegação', () => {
     ['/medicos', 'Médicos'],
     ['/leitos', 'Gestão de leitos'],
     ['/configuracoes', 'Configurações'],
-  ])('a rota %s mostra a página "%s"', (rota, titulo) => {
+  ])('a rota %s mostra a página "%s"', async (rota, titulo) => {
     renderizar(rota);
-    expect(screen.getByRole('heading', { level: 1, name: titulo })).toBeInTheDocument();
+    // Algumas telas são carregadas sob demanda.
+    expect(await screen.findByRole('heading', { level: 1, name: titulo })).toBeInTheDocument();
   });
 
   it('mostra "Página não encontrada" para rotas desconhecidas', () => {

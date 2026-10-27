@@ -50,6 +50,8 @@ interface DataTableProps<T> {
   acoes?: (linha: T) => ReactNode;
   /** Destaque visual de uma linha (ex.: consulta atrasada). */
   destacar?: (linha: T) => boolean;
+  /** Mostra sempre os cartões, mesmo em telas largas (preferência do usuário). */
+  forcarCartoes?: boolean;
 }
 
 function CaixaTodos({
@@ -100,6 +102,7 @@ export function DataTable<T>({
   selecao,
   acoes,
   destacar,
+  forcarCartoes,
 }: DataTableProps<T>) {
   if (erro) return <ErrorState aoTentarNovamente={aoTentarNovamente} />;
 
@@ -158,7 +161,9 @@ export function DataTable<T>({
   return (
     <div className="@container" aria-busy={carregando || undefined}>
       {/* Tabela: contêiner com 640px ou mais */}
-      <div className="relative hidden overflow-x-auto @min-[640px]:block">
+      <div
+        className={cn('relative hidden overflow-x-auto', !forcarCartoes && '@min-[640px]:block')}
+      >
         <table className="w-full border-collapse text-left text-[14px]">
           <caption className="sr-only">{legenda}</caption>
           <thead>
@@ -243,7 +248,14 @@ export function DataTable<T>({
       </div>
 
       {/* Cartões: contêiner estreito (celular) */}
-      <ul className="space-y-3 @min-[640px]:hidden" aria-label={legenda}>
+      <ul
+        className={cn(
+          forcarCartoes
+            ? 'grid gap-3 @min-[640px]:grid-cols-2 @min-[1000px]:grid-cols-3'
+            : 'space-y-3 @min-[640px]:hidden',
+        )}
+        aria-label={legenda}
+      >
         {linhas.map((linha) => (
           <li
             key={chave(linha)}

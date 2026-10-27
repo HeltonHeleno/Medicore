@@ -170,7 +170,7 @@ describe('listarMedicos', () => {
     const porId = Object.fromEntries(itens.map((m) => [m.id, m]));
     expect(porId['med-paulo-mendes'].diasResumo).toBe('Seg a Sex · 08:00–17:00');
     expect(porId['med-fernanda-lima'].diasResumo).toBe('Seg a Qui · 09:00–18:00');
-    expect(porId['med-paulo-mendes'].crmFormatado).toMatch(/^CRM\/SP \d{6}$/);
+    expect(porId['med-paulo-mendes'].crmFormatado).toMatch(/^\d{6}\/SP$/);
     expect(porId['med-paulo-mendes'].nomeExibicao).toBe('Dr. Paulo Mendes');
 
     const cardio = await listarMedicos({ departamentoId: 'cardiologia' });

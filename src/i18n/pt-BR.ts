@@ -510,6 +510,142 @@ export const t = {
     excluido: 'Cadastro excluído.',
   },
 
+  medicos: {
+    titulo: 'Médicos',
+    descricaoLista: 'Corpo clínico, lotação e horários de atendimento.',
+    novo: 'Novo médico',
+    editar: 'Editar médico',
+    detalhe: 'Médico',
+    editarBreadcrumb: 'Editar',
+    buscar: 'Buscar por nome ou CRM',
+    departamento: 'Departamento',
+    todosDepartamentos: 'Todos',
+    legendaTabela: 'Lista de médicos',
+    visualizacao: 'Visualização',
+    tabela: 'Tabela',
+    cartoes: 'Cartões',
+    colunas: {
+      nome: 'Nome',
+      crm: 'CRM',
+      departamento: 'Departamento',
+      dias: 'Atendimento',
+      consultasHoje: 'Consultas hoje',
+      status: 'Situação',
+    },
+    nenhumCadastrado: 'Nenhum médico cadastrado.',
+    nenhumEncontrado: (termo: string) =>
+      termo
+        ? `Nenhum médico encontrado para "${termo}".`
+        : 'Nenhum médico encontrado com estes filtros.',
+    naoEncontradoDescricao: 'O cadastro pode ter sido removido ou o endereço está incorreto.',
+    voltarLista: 'Voltar para a lista de médicos',
+    acoes: {
+      ver: 'Ver cadastro',
+      editar: 'Editar',
+      verAgenda: 'Ver agenda',
+      agendar: 'Agendar consulta',
+      inativar: 'Inativar',
+      reativar: 'Reativar',
+    },
+    secoes: {
+      identificacao: 'Identificação',
+      contato: 'Contato',
+      lotacao: 'Lotação',
+      disponibilidade: 'Disponibilidade',
+      disponibilidadeDescricao:
+        'Dias e horários em que o médico atende. Define os horários oferecidos no agendamento.',
+    },
+    campos: {
+      tratamento: 'Tratamento',
+      nome: 'Nome completo',
+      nomeDica: 'Sem o "Dr." ou "Dra.", que vem do campo Tratamento.',
+      crmNumero: 'Número do CRM',
+      crmUf: 'UF do CRM',
+      telefone: 'Telefone',
+      email: 'E-mail',
+      departamento: 'Departamento',
+      dias: 'Dias de atendimento',
+      inicio: 'Início do expediente',
+      fim: 'Fim do expediente',
+      temPausa: 'Tem pausa (ex.: almoço)',
+      pausaInicio: 'Início da pausa',
+      pausaFim: 'Fim da pausa',
+      duracao: 'Duração padrão da consulta',
+      minutos: (n: number) => `${n} minutos`,
+    },
+    previa: {
+      titulo: 'Prévia',
+      semDias: 'Selecione os dias e os horários para ver a prévia.',
+      pausa: (inicio: string, fim: string) => `pausa ${inicio}–${fim}`,
+      horarios: (n: number, duracao: number) =>
+        n === 1 ? `1 horário de ${duracao} min por dia` : `${n} horários de ${duracao} min por dia`,
+    },
+    salvar: 'Salvar',
+    salvando: 'Salvando…',
+    cancelar: 'Cancelar',
+    cadastrado: 'Médico cadastrado.',
+    alteracoesSalvas: 'Alterações salvas.',
+    avisoInativo: 'Este médico está inativo. Você pode corrigir os dados normalmente.',
+    afetadasTitulo: 'Consultas fora do novo horário',
+    afetadasMensagem: (n: number) =>
+      n === 1
+        ? '1 consulta futura ficará fora do novo horário. Ela não será alterada automaticamente.'
+        : `${n} consultas futuras ficarão fora do novo horário. Elas não serão alteradas automaticamente.`,
+    salvarMesmoAssim: 'Salvar mesmo assim',
+    revisar: 'Revisar',
+    salvasComAfetadas: (n: number) =>
+      n === 1
+        ? 'Alterações salvas. 1 consulta ficou fora do horário.'
+        : `Alterações salvas. ${n} consultas ficaram fora do horário.`,
+    verAfetadas: 'Ver consultas afetadas',
+    concorrenciaTitulo: 'Cadastro alterado em outro lugar',
+    recarregarDados: 'Recarregar dados',
+    continuarEditando: 'Continuar editando',
+    alteradoOutraAba:
+      'Este cadastro foi alterado em outra aba. Recarregue para ver a versão atual antes de salvar.',
+    // Detalhe
+    cards: {
+      contato: 'Contato',
+      disponibilidade: 'Disponibilidade semanal',
+      hoje: 'Agenda de hoje',
+      semana: 'Próximos 7 dias',
+      indicadores: 'Indicadores do mês',
+    },
+    gradeLegenda: 'Horário de atendimento por dia da semana',
+    naoAtende: 'Não atende',
+    naoAtendeHoje: 'Não atende hoje.',
+    livresHoje: (n: number) => (n === 1 ? '1 horário livre' : `${n} horários livres`),
+    semConsultasHoje: 'Nenhuma consulta hoje.',
+    consultasNoDia: (n: number) => (n === 1 ? '1 consulta' : `${n} consultas`),
+    indicadores: {
+      consultas: 'Consultas no mês',
+      taxaFaltas: 'Taxa de faltas',
+      taxaFaltasDica: 'Faltas ÷ (concluídas + faltas)',
+      cancelamentos: 'Cancelamentos',
+    },
+    inativoDesde: (data: string, motivo?: string) =>
+      motivo ? `Médico inativo desde ${data} — motivo: ${motivo}` : `Médico inativo desde ${data}`,
+    // Inativar / reativar
+    inativarTitulo: (nome: string) => `Inativar ${nome}?`,
+    inativarBloqueado: (n: number) =>
+      n === 1
+        ? 'Há 1 consulta futura agendada. Reagende ou cancele antes de inativar.'
+        : `Há ${n} consultas futuras agendadas. Reagende ou cancele cada uma antes de inativar.`,
+    inativarLiberado: 'Não há consultas futuras. O médico deixará de aparecer no agendamento.',
+    consultasPendentes: 'Consultas futuras',
+    reagendar: 'Reagendar',
+    cancelarConsulta: 'Cancelar',
+    motivoCancelamento: 'Motivo do cancelamento',
+    confirmarCancelamento: 'Confirmar cancelamento',
+    voltar: 'Voltar',
+    consultaCancelada: 'Consulta cancelada.',
+    motivoInativacao: 'Motivo da inativação (opcional)',
+    inativado: 'Médico inativado.',
+    reativarTitulo: (nome: string) => `Reativar ${nome}?`,
+    reativarMensagem: 'O médico volta a aparecer nas listas e no agendamento.',
+    reativado: 'Médico reativado.',
+  },
+
   /** Página interna /ui (somente em desenvolvimento) que mostra os componentes base. */
   vitrine: {
     titulo: 'Componentes de UI',

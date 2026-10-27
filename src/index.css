@@ -22,6 +22,7 @@
   --color-text-muted: #5e6a68;
   --color-danger: #c8102e;
   --color-danger-bg: #fbe9ec;
+  --color-on-danger: #ffffff;
   --color-warning: #8a1538;
   --color-info: #2563eb;
 
@@ -44,6 +45,7 @@
   --color-text-muted: #94a3a0;
   --color-danger: #f0566c;
   --color-danger-bg: #2a1519;
+  --color-on-danger: #1b0b0e;
   --color-warning: #e58aa3;
   --color-info: #60a5fa;
 
