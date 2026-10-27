@@ -5,16 +5,11 @@ import { vi } from 'vitest';
 import { KpiCards } from '../components/dashboard/KpiCards';
 import { StatCard } from '../components/dashboard/StatCard';
 import * as api from '../services/api';
-import { AppRoutes } from '../routes';
+import { renderizarComRotas } from './utils/renderizarComRotas';
 
 afterEach(() => vi.restoreAllMocks());
 
-const app = () =>
-  render(
-    <MemoryRouter>
-      <AppRoutes />
-    </MemoryRouter>,
-  );
+const app = () => renderizarComRotas('/');
 
 describe('StatCard', () => {
   it('formata o valor em pt-BR e mostra a seta de tendência', () => {

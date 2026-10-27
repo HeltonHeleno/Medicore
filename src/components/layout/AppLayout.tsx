@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
+import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { t } from '../../i18n/pt-BR';
 import { Header } from './Header';
 import { MobileDrawer } from './MobileDrawer';
@@ -10,6 +11,7 @@ export function AppLayout() {
   const [menuAberto, setMenuAberto] = useState(false);
   const botaoMenuRef = useRef<HTMLButtonElement>(null);
   const { pathname } = useLocation();
+  useDocumentTitle();
 
   const fecharMenu = useCallback(() => {
     setMenuAberto(false);

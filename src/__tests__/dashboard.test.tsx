@@ -38,7 +38,7 @@ describe('WelcomeCard', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: 'Veja como está o hospital hoje, Dr. Johnson.',
+        name: 'Veja como está o hospital hoje, Dr. Ricardo Almeida.',
       }),
     ).toBeInTheDocument();
     expect(
@@ -152,7 +152,7 @@ describe('ActivityTimeline e AIInsights', () => {
   it('mostra as atividades da mais recente para a mais antiga', async () => {
     comRouter(<ActivityTimeline />);
     const itens = await screen.findAllByRole('listitem');
-    expect(itens[0]).toHaveTextContent('Novo paciente John Smith internado');
+    expect(itens[0]).toHaveTextContent('Novo paciente João Pereira internado');
     expect(itens[0]).toHaveTextContent('10:30');
   });
 

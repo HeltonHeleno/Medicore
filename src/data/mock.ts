@@ -1,7 +1,7 @@
 import type {
   AlertaEmergencia,
-  Atividade,
-  Consulta,
+  AtividadePainel,
+  ConsultaPainel,
   Departamento,
   Insight,
   Kpis,
@@ -11,17 +11,16 @@ import type {
   SetorLeitos,
   Usuario,
 } from '../types';
+import { horaDosMinutos, hojeNoFuso, instanteNoFuso } from '../utils/datas';
 
-/** Gera o ISO da data de hoje no horário local informado. */
+/** Gera o ISO de hoje no horário informado, no fuso do hospital. */
 export function hojeAs(hora: number, minuto = 0): string {
-  const d = new Date();
-  d.setHours(hora, minuto, 0, 0);
-  return d.toISOString();
+  return instanteNoFuso(hojeNoFuso(), horaDosMinutos(hora * 60 + minuto)).toISOString();
 }
 
 export const usuario: Usuario = {
-  nome: 'Johnson',
-  tratamento: 'Dr. Johnson',
+  nome: 'Ricardo Almeida',
+  tratamento: 'Dr. Ricardo Almeida',
   cargo: 'Administrador',
 };
 
@@ -103,53 +102,53 @@ export const alertas: AlertaEmergencia[] = [
     id: 'a1',
     titulo: 'Paciente crítico',
     local: 'UTI, Leito 12',
-    medico: 'Dr. James Wilson',
+    medico: 'Dr. Paulo Mendes',
     prioridade: 'alta',
   },
   {
     id: 'a2',
     titulo: 'Acidente',
     local: 'Emergência, Leito 3',
-    medico: 'Dr. Michael Brown',
+    medico: 'Dr. Marcos Ribeiro',
     prioridade: 'media',
   },
   {
     id: 'a3',
     titulo: 'Infarto',
     local: 'UTI, Leito 7',
-    medico: 'Dra. Emily Davis',
+    medico: 'Dra. Fernanda Lima',
     prioridade: 'alta',
   },
 ];
 
 /** Gerado a cada chamada para que as consultas sejam sempre "de hoje". */
-export function criarConsultasHoje(): Consulta[] {
+export function criarConsultasHoje(): ConsultaPainel[] {
   return [
     {
       id: 'c1',
       horario: hojeAs(9, 0),
-      paciente: 'John Smith',
+      paciente: 'João Pereira',
       departamento: 'Cardiologia',
       status: 'concluida',
     },
     {
       id: 'c2',
       horario: hojeAs(10, 30),
-      paciente: 'Emily Davis',
+      paciente: 'Mariana Alves',
       departamento: 'Neurologia',
       status: 'agendada',
     },
     {
       id: 'c3',
       horario: hojeAs(12, 0),
-      paciente: 'Michael Brown',
+      paciente: 'Carlos Santos',
       departamento: 'Ortopedia',
       status: 'agendada',
     },
     {
       id: 'c4',
       horario: hojeAs(16, 0),
-      paciente: 'Daniel Taylor',
+      paciente: 'Daniel Oliveira',
       departamento: 'Clínica Geral',
       status: 'cancelada',
     },
@@ -157,14 +156,14 @@ export function criarConsultasHoje(): Consulta[] {
 }
 
 /** Gerado a cada chamada para que as atividades sejam sempre "de hoje". */
-export function criarAtividadesHoje(): Atividade[] {
+export function criarAtividadesHoje(): AtividadePainel[] {
   return [
-    { id: 'at1', descricao: 'Novo paciente John Smith internado', horario: hojeAs(10, 30) },
+    { id: 'at1', descricao: 'Novo paciente João Pereira internado', horario: hojeAs(10, 30) },
     { id: 'at2', descricao: 'Estoque de paracetamol atualizado', horario: hojeAs(9, 45) },
-    { id: 'at3', descricao: 'Consulta concluída com Emily Davis', horario: hojeAs(9, 30) },
+    { id: 'at3', descricao: 'Consulta concluída com Mariana Alves', horario: hojeAs(9, 30) },
     {
       id: 'at4',
-      descricao: 'Dr. Robert Lee entrou na equipe de Cardiologia',
+      descricao: 'Dr. Rafael Costa entrou na equipe de Cardiologia',
       horario: hojeAs(9, 0),
     },
   ];

@@ -1,16 +1,9 @@
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
 import { CHAVE_TEMA } from '../hooks/useTheme';
-import { AppRoutes } from '../routes';
+import { renderizarComRotas } from './utils/renderizarComRotas';
 
-function renderizar(rota = '/') {
-  return render(
-    <MemoryRouter initialEntries={[rota]}>
-      <AppRoutes />
-    </MemoryRouter>,
-  );
-}
+const renderizar = (rota = '/') => renderizarComRotas(rota);
 
 const navPrincipal = () => screen.getByRole('navigation', { name: 'Navegação principal' });
 

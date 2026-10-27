@@ -1,7 +1,13 @@
+import { FUSO_HOSPITAL } from '../config/limites';
+
 const LOCALE = 'pt-BR';
 
 const numeroFmt = new Intl.NumberFormat(LOCALE);
-const horaFmt = new Intl.DateTimeFormat(LOCALE, { hour: '2-digit', minute: '2-digit' });
+const horaFmt = new Intl.DateTimeFormat(LOCALE, {
+  hour: '2-digit',
+  minute: '2-digit',
+  timeZone: FUSO_HOSPITAL,
+});
 
 /** 1248 → "1.248" */
 export function formatNumero(n: number): string {
@@ -22,7 +28,7 @@ export function formatPercentual(n: number, casasDecimais = 0): string {
   return `${valor}%`;
 }
 
-/** ISO → "16:00" (24h, fuso local) */
+/** ISO → "16:00" (24h, no fuso do hospital — não no do computador) */
 export function formatHora(iso: string): string {
   return horaFmt.format(new Date(iso));
 }

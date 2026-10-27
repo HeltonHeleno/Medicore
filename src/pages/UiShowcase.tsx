@@ -7,7 +7,6 @@ import { PriorityBadge } from '../components/ui/PriorityBadge';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { SkeletonLinhas } from '../components/ui/Skeleton';
 import { StatusBadge } from '../components/ui/StatusBadge';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { t } from '../i18n/pt-BR';
 
 function Grupo({ titulo, children }: { titulo: string; children: ReactNode }) {
@@ -20,7 +19,6 @@ function Grupo({ titulo, children }: { titulo: string; children: ReactNode }) {
 
 /** Vitrine interna dos componentes base (rota /ui, só em desenvolvimento). */
 export default function UiShowcase() {
-  useDocumentTitle(t.vitrine.titulo);
   const v = t.vitrine;
 
   return (
@@ -90,6 +88,7 @@ export default function UiShowcase() {
         <StatusBadge status="concluida" />
         <StatusBadge status="agendada" />
         <StatusBadge status="cancelada" />
+        <StatusBadge status="faltou" />
         <PriorityBadge prioridade="alta" className="border border-border" />
         <PriorityBadge prioridade="media" className="border border-border" />
         <PriorityBadge prioridade="baixa" className="border border-border" />

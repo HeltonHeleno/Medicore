@@ -8,7 +8,6 @@ import { KpiCards } from '../components/dashboard/KpiCards';
 import { WelcomeCard } from '../components/dashboard/WelcomeCard';
 import { Card } from '../components/ui/Card';
 import { Skeleton } from '../components/ui/Skeleton';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { t } from '../i18n/pt-BR';
 
 // Recharts é carregado sob demanda, fora do bundle inicial.
@@ -57,8 +56,6 @@ const posicao = {
 } as const;
 
 export default function Dashboard() {
-  useDocumentTitle(t.menu.painel);
-
   return (
     <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
       <WelcomeCard className={posicao.boasVindas} />

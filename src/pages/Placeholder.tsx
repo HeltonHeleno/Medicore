@@ -1,11 +1,9 @@
 import { ArrowLeft, Construction } from 'lucide-react';
 import { ButtonLink } from '../components/ui/Button';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { t } from '../i18n/pt-BR';
 
 /** Página provisória para os itens do menu que ainda não foram implementados. */
 export default function Placeholder({ titulo }: { titulo: string }) {
-  useDocumentTitle(titulo);
   return (
     <section className="rounded-[var(--radius-card)] border border-border bg-card p-8 shadow-[var(--shadow-card)]">
       <Construction size={32} className="text-primary" aria-hidden />

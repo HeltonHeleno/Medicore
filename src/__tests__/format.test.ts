@@ -19,9 +19,9 @@ describe('formatPercentual', () => {
 });
 
 describe('formatHora', () => {
-  it('formata em 24h no fuso local', () => {
-    expect(formatHora(new Date(2026, 9, 26, 16, 0).toISOString())).toBe('16:00');
-    expect(formatHora(new Date(2026, 9, 26, 9, 5).toISOString())).toBe('09:05');
+  it('formata em 24h no fuso do hospital, qualquer que seja o fuso do computador', () => {
+    expect(formatHora('2026-10-26T16:00:00-03:00')).toBe('16:00');
+    expect(formatHora('2026-10-26T12:05:00Z')).toBe('09:05');
   });
 });
 

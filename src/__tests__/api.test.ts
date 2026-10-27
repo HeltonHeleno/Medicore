@@ -1,3 +1,4 @@
+import { dataDoInstante, hojeNoFuso } from '../utils/datas';
 import * as api from '../services/api';
 
 describe('serviço simulado', () => {
@@ -10,7 +11,7 @@ describe('serviço simulado', () => {
     const consultas = await api.getConsultasHoje();
     const horarios = consultas.map((c) => c.horario);
     expect(horarios).toEqual([...horarios].sort());
-    expect(new Date(horarios[0]).toDateString()).toBe(new Date().toDateString());
+    expect(dataDoInstante(horarios[0])).toBe(hojeNoFuso());
   });
 
   it('ordena atividades da mais recente para a mais antiga', async () => {

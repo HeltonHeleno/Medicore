@@ -6,6 +6,7 @@ const estilos: Record<StatusConsulta, string> = {
   concluida: 'bg-primary text-on-primary',
   agendada: 'bg-primary-light text-on-primary-light',
   cancelada: 'bg-danger-bg text-danger',
+  faltou: 'border border-warning/40 bg-card text-warning',
 };
 
 export function StatusBadge({ status, className }: { status: StatusConsulta; className?: string }) {

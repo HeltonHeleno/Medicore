@@ -19,8 +19,8 @@ import {
 import { t } from '../i18n/pt-BR';
 import type {
   AlertaEmergencia,
-  Atividade,
-  Consulta,
+  AtividadePainel,
+  ConsultaPainel,
   Departamento,
   Insight,
   Kpis,
@@ -71,9 +71,9 @@ export const getAlertas = (): Promise<AlertaEmergencia[]> =>
   );
 
 /** Consultas de hoje em ordem crescente de horário. */
-export const getConsultasHoje = (): Promise<Consulta[]> =>
+export const getConsultasHoje = (): Promise<ConsultaPainel[]> =>
   responder(criarConsultasHoje().sort((a, b) => a.horario.localeCompare(b.horario)));
 
 /** Atividades de hoje, da mais recente para a mais antiga. */
-export const getAtividades = (): Promise<Atividade[]> =>
+export const getAtividades = (): Promise<AtividadePainel[]> =>
   responder(criarAtividadesHoje().sort((a, b) => b.horario.localeCompare(a.horario)));

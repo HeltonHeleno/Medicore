@@ -32,6 +32,8 @@ export default defineConfig({
     globals: true,
     setupFiles: './src/setupTests.ts',
     passWithNoTests: true,
+    // Roda em UTC para provar que as datas usam o fuso do hospital, não o do computador (M3).
+    env: { TZ: 'UTC' },
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],
@@ -41,10 +43,11 @@ export default defineConfig({
         'src/vite-env.d.ts',
         'src/pages/UiShowcase.tsx',
       ],
-      reporter: ['text-summary', 'html'],
-      // Meta do plano: mínimo de 70% em utils/ e components/ui/.
+      reporter: ['text', 'text-summary', 'html'],
+      // Metas: utils/ ≥ 90% e services/ ≥ 85% (Fase 8); components/ui/ ≥ 70%.
       thresholds: {
-        'src/utils/**': { statements: 70, branches: 70, functions: 70, lines: 70 },
+        'src/utils/**': { statements: 90, branches: 90, functions: 90, lines: 90 },
+        'src/services/**': { statements: 85, branches: 85, functions: 85, lines: 85 },
         'src/components/ui/**': { statements: 70, branches: 70, functions: 70, lines: 70 },
       },
     },

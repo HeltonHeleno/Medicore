@@ -4,13 +4,13 @@ import { SkeletonLinhas } from '../ui/Skeleton';
 import { StatusBadge } from '../ui/StatusBadge';
 import { useConsultasHoje } from '../../hooks/useDashboardData';
 import { t } from '../../i18n/pt-BR';
-import type { Consulta } from '../../types';
+import type { ConsultaPainel } from '../../types';
 import { formatHora } from '../../utils/format';
 
 const th =
   'pr-3 pb-2 text-left text-[11px] font-medium tracking-[0.06em] whitespace-nowrap text-text-muted uppercase last:pr-0';
 
-function Tabela({ consultas }: { consultas: Consulta[] }) {
+function Tabela({ consultas }: { consultas: ConsultaPainel[] }) {
   const c = t.consultas.colunas;
   return (
     <table className="hidden w-full border-collapse text-[13px] @sm:table">
@@ -50,7 +50,7 @@ function Tabela({ consultas }: { consultas: Consulta[] }) {
 }
 
 /** Quando o card tem menos de 384px de largura útil, a tabela vira uma lista. */
-function Lista({ consultas }: { consultas: Consulta[] }) {
+function Lista({ consultas }: { consultas: ConsultaPainel[] }) {
   return (
     <ul className="divide-y divide-border @sm:hidden" aria-label={t.consultas.legendaTabela}>
       {consultas.map((con) => (

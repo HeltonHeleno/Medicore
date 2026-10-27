@@ -143,6 +143,7 @@ export const t = {
     concluida: 'Concluída',
     agendada: 'Agendada',
     cancelada: 'Cancelada',
+    faltou: 'Faltou',
   },
 
   prioridade: {
@@ -160,6 +161,104 @@ export const t = {
     consultas: 'Nenhuma consulta para hoje.',
     atividades: 'Nenhuma atividade registrada hoje.',
   },
+
+  /** Mensagens de validação de formulários (E-01). */
+  validacao: {
+    obrigatorio: 'Campo obrigatório',
+    selecione: 'Selecione uma opção',
+    minimo: (n: number) => `Use pelo menos ${n} caracteres`,
+    maximo: (n: number) => `Use no máximo ${n} caracteres`,
+    nomeCompleto: 'Informe nome e sobrenome',
+    cpfInvalido: 'Informe um CPF válido',
+    telefoneInvalido: 'Informe um telefone válido com DDD',
+    emailInvalido: 'Informe um e-mail válido',
+    cepInvalido: 'Informe um CEP com 8 dígitos',
+    ufInvalida: 'Selecione um estado (UF) válido',
+    dataInvalida: 'Informe uma data válida',
+    dataFutura: 'A data não pode estar no futuro',
+    idadeMaxima: 'Verifique a data de nascimento (idade acima de 130 anos)',
+    horaInvalida: 'Informe um horário válido (HH:mm)',
+    horaMultipla5: 'Use horários em intervalos de 5 minutos',
+    crmInvalido: 'Informe um CRM com 4 a 7 dígitos',
+    consentimento: 'É preciso autorizar o uso dos dados para salvar',
+    responsavelObrigatorio: 'Paciente menor de 18 anos: informe o responsável legal',
+    responsavelCpfIgual: 'O CPF do responsável deve ser diferente do CPF do paciente',
+    enderecoIncompleto: 'Preencha o endereço completo ou deixe todos os campos em branco',
+    diasObrigatorio: 'Selecione pelo menos um dia de atendimento',
+    fimAntesInicio: 'O fim do expediente deve ser depois do início',
+    pausaInvalida: 'O fim da pausa deve ser depois do início',
+    pausaForaExpediente: 'A pausa deve estar dentro do expediente',
+    expedienteCurto: 'O expediente é menor que a duração de uma consulta',
+    duracaoInvalida: 'A duração deve ser de 5 a 120 minutos, em múltiplos de 5',
+  },
+
+  /** Mensagens de erro dos cadastros (E-01 a E-10 da especificação). */
+  erros: {
+    resumoValidacao: (n: number) =>
+      n === 1 ? '1 campo precisa de correção' : `${n} campos precisam de correção`,
+    cpfDuplicado: 'Já existe um paciente com este CPF',
+    crmDuplicado: 'Já existe um médico com este CRM',
+    emailDuplicado: 'Já existe um médico com este e-mail',
+    abrirExistente: 'Abrir cadastro existente',
+    medicoInativo: 'Este médico foi inativado',
+    pacienteInativo: 'Este paciente foi inativado',
+    horarioOcupado: 'Este horário acabou de ser ocupado',
+    concorrencia:
+      'Este registro foi alterado em outra aba ou por outra pessoa. Recarregue para ver a versão atual.',
+    armazenamentoCheio:
+      'Não há espaço para salvar. Exclua dados antigos ou restaure os dados de exemplo.',
+    armazenamentoQuaseCheio: 'O armazenamento local está quase cheio.',
+    dadosCorrompidos: 'Alguns dados não puderam ser lidos e foram restaurados.',
+    pacienteNaoEncontrado: 'Paciente não encontrado',
+    medicoNaoEncontrado: 'Médico não encontrado',
+    consultaNaoEncontrada: 'Consulta não encontrada',
+    inesperadoTitulo: 'Algo deu errado nesta tela.',
+    inesperadoDescricao:
+      'O restante do sistema continua funcionando. Tente novamente ou volte para o Painel.',
+    cepFalhou: 'Não foi possível buscar o CEP. Preencha o endereço manualmente.',
+    cepNaoEncontrado: 'CEP não encontrado',
+  },
+
+  /** Mensagens das regras de negócio verificadas pelos serviços. */
+  conflitos: {
+    horarioPassado: 'Escolha um horário que ainda não passou',
+    foraExpediente: 'Fora do horário de atendimento do médico',
+    pausa: 'Este horário cruza a pausa do médico',
+    antecedenciaMaxima: (dias: number) => `Agendamentos só até ${dias} dias à frente`,
+    medicoOcupado: 'O médico já tem consulta neste horário',
+    pacienteOcupado: 'O paciente já tem consulta neste horário',
+    transicaoInvalida: 'Esta consulta não pode mais ser alterada',
+    antesDoInicio: 'Só é possível registrar a partir do horário de início',
+    consultasFuturas: (n: number) =>
+      n === 1
+        ? 'O médico tem 1 consulta futura agendada. Reagende ou cancele antes de inativar.'
+        : `O médico tem ${n} consultas futuras agendadas. Reagende ou cancele antes de inativar.`,
+    temHistorico:
+      'Este paciente tem consultas registradas e não pode ser excluído. Inative o cadastro.',
+    motivoPacienteInativado: 'Paciente inativado',
+  },
+
+  /** Textos da linha do tempo, gerados pelos serviços. */
+  textosAtividade: {
+    pacienteCadastrado: (nome: string) => `Paciente ${nome} cadastrado`,
+    pacienteInativado: (nome: string) => `Cadastro de ${nome} inativado`,
+    medicoCadastrado: (nome: string, departamento: string) =>
+      `${nome} entrou na equipe de ${departamento}`,
+    consultaAgendada: (paciente: string, medico: string) =>
+      `Consulta agendada: ${paciente} com ${medico}`,
+    consultaReagendada: (paciente: string, medico: string) =>
+      `Consulta reagendada: ${paciente} com ${medico}`,
+    consultaConcluida: (paciente: string) => `Consulta concluída com ${paciente}`,
+    consultaCancelada: (paciente: string) => `Consulta de ${paciente} cancelada`,
+    consultaFaltou: (paciente: string) => `${paciente} faltou à consulta`,
+  },
+
+  convenio: {
+    particular: 'Particular',
+  },
+
+  diasSemanaCurto: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+  diasAte: (de: string, ate: string) => `${de} a ${ate}`,
 
   erro: {
     carregar: 'Não foi possível carregar os dados.',

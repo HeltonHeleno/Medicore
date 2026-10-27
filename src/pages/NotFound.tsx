@@ -1,10 +1,8 @@
 import { ArrowLeft } from 'lucide-react';
 import { ButtonLink } from '../components/ui/Button';
-import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { t } from '../i18n/pt-BR';
 
 export default function NotFound() {
-  useDocumentTitle(t.paginas.naoEncontrada);
   return (
     <section className="rounded-[var(--radius-card)] border border-border bg-card p-8 shadow-[var(--shadow-card)]">
       <p className="text-5xl font-bold text-primary">404</p>
