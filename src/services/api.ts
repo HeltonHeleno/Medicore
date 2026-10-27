@@ -6,8 +6,6 @@
  */
 import {
   alertas,
-  criarAtividadesHoje,
-  criarConsultasHoje,
   departamentos,
   insights,
   internacoes,
@@ -19,8 +17,6 @@ import {
 import { t } from '../i18n/pt-BR';
 import type {
   AlertaEmergencia,
-  AtividadePainel,
-  ConsultaPainel,
   Departamento,
   Insight,
   Kpis,
@@ -69,11 +65,3 @@ export const getAlertas = (): Promise<AlertaEmergencia[]> =>
   responder(
     [...alertas].sort((a, b) => ORDEM_PRIORIDADE[a.prioridade] - ORDEM_PRIORIDADE[b.prioridade]),
   );
-
-/** Consultas de hoje em ordem crescente de horário. */
-export const getConsultasHoje = (): Promise<ConsultaPainel[]> =>
-  responder(criarConsultasHoje().sort((a, b) => a.horario.localeCompare(b.horario)));
-
-/** Atividades de hoje, da mais recente para a mais antiga. */
-export const getAtividades = (): Promise<AtividadePainel[]> =>
-  responder(criarAtividadesHoje().sort((a, b) => b.horario.localeCompare(a.horario)));

@@ -1,6 +1,6 @@
 import { MAX_ATIVIDADES } from '../config/limites';
 import { listarAtividades, registrarAtividade } from '../services/atividades';
-import { repoAtividades } from '../services/colecoes';
+import { repoAtividades, repoConsultas, repoPacientes } from '../services/colecoes';
 import { transacao } from '../services/repositorio';
 import { ajustarRelogio, prepararServicos } from './utils/servicos';
 
@@ -31,12 +31,28 @@ describe('atividades', () => {
   });
 
   it('é desfeita junto com a operação que falhou', () => {
+    const antes = repoAtividades.todos().length;
     expect(() =>
       transacao(() => {
         registrarAtividade('paciente_cadastrado', 'não deve ficar');
         throw new Error('falhou');
       }),
     ).toThrow('falhou');
-    expect(repoAtividades.todos()).toHaveLength(0);
+    expect(repoAtividades.todos()).toHaveLength(antes);
+  });
+
+  it('os dados de exemplo trazem o histórico das consultas, já ocorrido e sem duplicatas', async () => {
+    const todas = repoAtividades.todos();
+    expect(todas.length).toBeGreaterThan(4);
+    expect(new Set(todas.map((a) => a.id)).size).toBe(todas.length);
+    expect(todas.every((a) => a.em < '2026-11-09T11:00:00.000Z')).toBe(true);
+    const ultimas = await listarAtividades({ limite: 4 });
+    expect(ultimas.map((a) => a.em)).toEqual([...ultimas.map((a) => a.em)].sort().reverse());
+    // Cada item aponta para uma consulta de exemplo e traz o nome do paciente dela.
+    for (const a of todas) {
+      const consulta = repoConsultas.obter(a.referenciaId!)!;
+      const paciente = repoPacientes.obter(consulta.pacienteId)!;
+      expect(a.descricao).toContain(paciente.nomeSocial || paciente.nome);
+    }
   });
 });

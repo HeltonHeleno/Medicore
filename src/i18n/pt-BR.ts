@@ -127,6 +127,8 @@ export const t = {
     titulo: 'Consultas de hoje',
     verTodas: 'Ver todas',
     legendaTabela: 'Consultas agendadas para hoje',
+    aguardandoRegistro: (n: number) =>
+      n === 1 ? '1 consulta aguardando registro' : `${n} consultas aguardando registro`,
     colunas: {
       horario: 'Horário',
       paciente: 'Paciente',
@@ -137,6 +139,7 @@ export const t = {
 
   atividades: {
     titulo: 'Linha do tempo de atividades',
+    ontem: (hora: string) => `Ontem, ${hora}`,
   },
 
   status: {
@@ -159,7 +162,7 @@ export const t = {
     leitos: 'Nenhum setor de leitos cadastrado.',
     alertas: 'Nenhum alerta ativo.',
     consultas: 'Nenhuma consulta para hoje.',
-    atividades: 'Nenhuma atividade registrada hoje.',
+    atividades: 'Nenhuma atividade registrada ainda.',
   },
 
   /** Mensagens de validação de formulários (E-01). */
@@ -326,6 +329,15 @@ export const t = {
 
   demo: {
     aviso: 'Ambiente de demonstração — use apenas dados fictícios.',
+    dadosTitulo: 'Dados de exemplo',
+    dadosDescricao:
+      'Apaga pacientes, médicos, consultas e atividades gravados neste navegador e volta aos dados de exemplo. As outras abas abertas são atualizadas.',
+    restaurar: 'Restaurar dados de exemplo',
+    restaurarTitulo: 'Restaurar dados de exemplo?',
+    restaurarMensagem:
+      'Todos os cadastros e consultas feitos neste navegador serão apagados. Esta ação não pode ser desfeita.',
+    restaurarConfirmar: 'Apagar e restaurar',
+    restaurados: 'Dados de exemplo restaurados',
   },
 
   rota: {

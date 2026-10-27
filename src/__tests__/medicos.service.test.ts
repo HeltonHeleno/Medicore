@@ -1,4 +1,5 @@
-import { repoAtividades, repoConsultas, repoMedicos } from '../services/colecoes';
+import { listarAtividades } from '../services/atividades';
+import { repoConsultas, repoMedicos } from '../services/colecoes';
 import { agendarConsulta, cancelarConsulta, horariosLivres } from '../services/consultas';
 import { ErroConcorrencia } from '../services/erros';
 import {
@@ -72,7 +73,7 @@ describe('P6 — cadastrar médico', () => {
     });
     expect(m.disponibilidade.diasSemana).toEqual([1, 3, 5]);
     expect(await obterMedico(m.id)).toEqual(m);
-    expect(repoAtividades.todos()[0].descricao).toBe(
+    expect((await listarAtividades({ limite: 1 }))[0].descricao).toBe(
       'Dra. Clara Antunes entrou na equipe de Pediatria',
     );
   });

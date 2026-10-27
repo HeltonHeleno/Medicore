@@ -37,12 +37,7 @@ describe('KpiCards (erro)', () => {
     const kpis = vi
       .spyOn(api, 'getKpis')
       .mockRejectedValueOnce(new Error('falhou'))
-      .mockResolvedValueOnce({
-        totalPacientes: 10,
-        variacaoPacientes: -3,
-        medicosPlantao: 2,
-        casosEmergencia: 1,
-      });
+      .mockResolvedValueOnce({ variacaoPacientes: -3, casosEmergencia: 1 });
     const leitos = vi.spyOn(api, 'getLeitos');
     render(
       <MemoryRouter>

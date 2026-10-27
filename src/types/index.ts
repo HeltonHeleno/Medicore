@@ -1,5 +1,3 @@
-import type { StatusConsulta } from './consulta';
-
 /** Nível de prioridade de um alerta de emergência. */
 export type Prioridade = 'alta' | 'media' | 'baixa';
 
@@ -17,11 +15,10 @@ export interface Usuario {
   avatarUrl?: string;
 }
 
+/** Indicadores ainda simulados (o total de pacientes e os médicos de plantão vêm dos cadastros). */
 export interface Kpis {
-  totalPacientes: number;
-  /** Variação em relação ao dia anterior, em %. Ex.: 12 = +12%. */
+  /** Variação em relação ao dia anterior, em %. Ex.: 12 = +12%. Simulada até haver histórico. */
   variacaoPacientes: number;
-  medicosPlantao: number;
   casosEmergencia: number;
 }
 
@@ -59,24 +56,6 @@ export interface AlertaEmergencia {
   local: string;
   medico: string;
   prioridade: Prioridade;
-}
-
-/** Consulta como o card "Consultas de hoje" do Painel a recebe (até a Fase 13). */
-export interface ConsultaPainel {
-  id: string;
-  /** Data e hora em ISO 8601. */
-  horario: string;
-  paciente: string;
-  departamento: string;
-  status: StatusConsulta;
-}
-
-/** Atividade como a linha do tempo do Painel a recebe (até a Fase 13). */
-export interface AtividadePainel {
-  id: string;
-  descricao: string;
-  /** Data e hora em ISO 8601. */
-  horario: string;
 }
 
 export interface Insight {

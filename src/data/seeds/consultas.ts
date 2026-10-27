@@ -62,6 +62,9 @@ const MOTIVOS_CANCELAMENTO = [
 ];
 
 const QUANTIDADE_SORTEADAS = 36;
+
+const somaCodigos = (texto: string) =>
+  [...texto].reduce((soma, ch, i) => soma + ch.charCodeAt(0) * (i + 1), 0);
 const DIA_MS = 86_400_000;
 
 export function semearConsultas(): Consulta[] {
@@ -98,8 +101,11 @@ export function semearConsultas(): Consulta[] {
     const intervalo = intervaloDe(inicio, duracaoMin);
     const fim = new Date(intervalo.fim).toISOString();
     const status = statusPara(inicio, fim, pedido);
+    // Agendada de 1 a 10 dias antes; se isso cair no futuro, um pouco antes de "agora"
+    // (recuo derivado do id, sem consumir o sorteio, para não mudar os demais dados).
+    const recuoMs = (30 + ((somaCodigos(id) * 37) % (3 * 24 * 60))) * 60_000;
     const criadoEm = new Date(
-      Math.min(intervalo.inicio - inteiro(rand, 1, 10) * DIA_MS, momento.getTime()),
+      Math.min(intervalo.inicio - inteiro(rand, 1, 10) * DIA_MS, momento.getTime() - recuoMs),
     ).toISOString();
 
     const eventos: EventoConsulta[] = [{ tipo: 'agendada', em: criadoEm }];

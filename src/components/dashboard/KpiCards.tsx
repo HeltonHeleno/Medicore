@@ -1,17 +1,21 @@
 import { ErrorState } from '../ui/EmptyState';
-import { useKpis, useLeitos } from '../../hooks/useDashboardData';
+import { useIndicadoresPainel, useKpis, useLeitos } from '../../hooks/useDashboardData';
 import { t } from '../../i18n/pt-BR';
 import { cn } from '../../utils/cn';
 import { formatNumero, formatPercentual } from '../../utils/format';
 import { resumoLeitos } from '../../utils/leitos';
 import { StatCard } from './StatCard';
 
-/** Linha com os 4 indicadores do dia. "Leitos disponíveis" é calculado a partir dos setores. */
+/**
+ * Linha com os 4 indicadores do dia. "Leitos disponíveis" é calculado a partir dos setores;
+ * "Total de pacientes" e "Médicos de plantão" vêm dos cadastros e se atualizam sozinhos.
+ */
 export function KpiCards({ className }: { className?: string }) {
   const kpis = useKpis();
   const leitos = useLeitos();
+  const cadastros = useIndicadoresPainel();
 
-  if (kpis.erro || leitos.erro) {
+  if (kpis.erro || leitos.erro || cadastros.erro) {
     return (
       <div
         className={cn(
@@ -23,6 +27,7 @@ export function KpiCards({ className }: { className?: string }) {
           aoTentarNovamente={() => {
             if (kpis.erro) kpis.recarregar();
             if (leitos.erro) leitos.recarregar();
+            if (cadastros.erro) cadastros.recarregar();
           }}
         />
       </div>
@@ -30,6 +35,7 @@ export function KpiCards({ className }: { className?: string }) {
   }
 
   const k = kpis.data;
+  const c = cadastros.data;
   const l = leitos.data ? resumoLeitos(leitos.data) : null;
   const variacao = k?.variacaoPacientes ?? 0;
 
@@ -40,7 +46,7 @@ export function KpiCards({ className }: { className?: string }) {
     >
       <StatCard
         titulo={t.kpis.totalPacientes}
-        valor={k?.totalPacientes}
+        valor={c?.pacientesAtivos}
         tendencia={variacao > 0 ? 'alta' : variacao < 0 ? 'baixa' : undefined}
         detalhe={t.kpis.variacao(formatPercentual(Math.abs(variacao)))}
       />
@@ -51,7 +57,7 @@ export function KpiCards({ className }: { className?: string }) {
       />
       <StatCard
         titulo={t.kpis.medicosPlantao}
-        valor={k?.medicosPlantao}
+        valor={c?.medicosPlantao}
         detalhe={t.kpis.escaladosHoje}
       />
       <StatCard

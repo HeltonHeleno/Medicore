@@ -1,3 +1,4 @@
+import { listarAtividades } from '../services/atividades';
 import { repoAtividades, repoConsultas } from '../services/colecoes';
 import { agendarConsulta, concluirConsulta } from '../services/consultas';
 import { ErroConcorrencia, ErroConflito, ErroValidacao } from '../services/erros';
@@ -40,9 +41,10 @@ describe('P1 — cadastrar paciente', () => {
     expect(await obterPaciente(p.id)).toEqual(p);
     expect(await cpfDisponivel('52998224725')).toBe(false);
     expect(await cpfDisponivel('52998224725', p.id)).toBe(true);
-    expect(repoAtividades.todos()).toEqual([
-      expect.objectContaining({ tipo: 'paciente_cadastrado', referenciaId: p.id }),
+    expect(repoAtividades.todos().filter((a) => a.referenciaId === p.id)).toEqual([
+      expect.objectContaining({ tipo: 'paciente_cadastrado' }),
     ]);
+    expect((await listarAtividades({ limite: 1 }))[0].referenciaId).toBe(p.id);
   });
 
   it('R-P1: CPF duplicado vai para o campo, com o id do cadastro existente', async () => {

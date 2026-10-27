@@ -91,12 +91,12 @@ A estimativa subiu de 10–13 para **13–16 dias** por causa desses acréscimos
 
 | Fase | Descrição | Estimativa | Status | Início | Fim |
 |:---:|---|:---:|:---:|:---:|:---:|
-| 8 | Fundação de dados e roteamento | 2,5 dias | ⬜ Não iniciada | | |
-| 9 | Componentes de formulário e listagem | 2,5 dias | ⬜ Não iniciada | | |
-| 10 | Cadastro de Pacientes | 2 dias | ⬜ Não iniciada | | |
-| 11 | Cadastro de Médicos | 1,5 dia | ⬜ Não iniciada | | |
-| 12 | Cadastro e agenda de Consultas | 3 dias | ⬜ Não iniciada | | |
-| 13 | Integração com o Painel | 1 dia | ⬜ Não iniciada | | |
+| 8 | Fundação de dados e roteamento | 2,5 dias | 🟨 Código pronto (falta PR) | 26/10/2026 | 27/10/2026 |
+| 9 | Componentes de formulário e listagem | 2,5 dias | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
+| 10 | Cadastro de Pacientes | 2 dias | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
+| 11 | Cadastro de Médicos | 1,5 dia | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
+| 12 | Cadastro e agenda de Consultas | 3 dias | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
+| 13 | Integração com o Painel | 1 dia | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
 | 14 | Qualidade, testes e entrega | 2 dias | ⬜ Não iniciada | | |
 
 Legenda: ⬜ Não iniciada · 🟨 Em andamento · ✅ Concluída · 🟥 Bloqueada
@@ -1229,21 +1229,21 @@ Um PR de fase só é aprovado quando:
 
 **Estimativa:** 1 dia · **Branch:** `feat/fase-13-integracao`
 
-- [ ] **Consultas de hoje:** lê `listarConsultas({ data: hojeNoFuso() })` (`ConsultaDetalhada`); linhas clicáveis; aviso de pendências (P13)
-- [ ] **Resumo de boas-vindas:** "{n} consultas hoje" calculado do repositório
-- [ ] **KPI Total de pacientes:** pacientes ativos (variação diária segue mockada até haver histórico — registrar no Registro)
-- [ ] **KPI Médicos de plantão:** médicos ativos com atendimento no dia da semana atual
-- [ ] **Linha do tempo de atividades:** lê `listarAtividades({ limite: 4 })`
-- [ ] **Alertas e Desempenho:** continuam mockados (backlog)
-- [ ] Remover `criarConsultasHoje`/`criarAtividadesHoje` de `data/mock.ts` e as funções antigas de `api.ts` que ficarem sem uso
-- [ ] Ajustar `dashboard.test.tsx` para usar seeds + relógio fixo
-- [ ] Botão "Restaurar dados de exemplo" (só em dev) na vitrine `/ui`
+- [x] **Consultas de hoje:** lê `listarConsultas({ data: hojeNoFuso() })` (`ConsultaDetalhada`); linhas clicáveis; aviso de pendências (P13)
+- [x] **Resumo de boas-vindas:** "{n} consultas hoje" calculado do repositório
+- [x] **KPI Total de pacientes:** pacientes ativos (variação diária segue mockada até haver histórico — registrar no Registro)
+- [x] **KPI Médicos de plantão:** médicos ativos com atendimento no dia da semana atual
+- [x] **Linha do tempo de atividades:** lê `listarAtividades({ limite: 4 })`
+- [x] **Alertas e Desempenho:** continuam mockados (backlog)
+- [x] Remover `criarConsultasHoje`/`criarAtividadesHoje` de `data/mock.ts` e as funções antigas de `api.ts` que ficarem sem uso
+- [x] Ajustar `dashboard.test.tsx` para usar seeds + relógio fixo
+- [x] Botão "Restaurar dados de exemplo" (só em dev) na vitrine `/ui`
 
 ### ✅ Critérios de conclusão — Fase 13
 
-- [ ] Agendar, concluir ou cancelar muda o Painel sem recarregar (inclusive vindo de outra aba)
-- [ ] Painel visualmente igual ao da Fase 6 (comparação de captura em 1600px), exceto nomes (D6)
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto
+- [x] Agendar, concluir ou cancelar muda o Painel sem recarregar (inclusive vindo de outra aba)
+- [x] Painel visualmente igual ao da Fase 6 (comparação de captura em 1600px), exceto nomes (D6)
+- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto (código e testes prontos; PR com o usuário)
 
 ---
 
@@ -1366,4 +1366,6 @@ Um PR de fase só é aprovado quando:
 | 26/10/2026 | **Revisão 2:** novas regras R-P5 (menor de idade), R-P6 (nome social), R-M4 (pausa), R-C7 (baixa pendente), R-C8 (antecedência 180 dias), R-C9 (duração) | |
 | 26/10/2026 | **Revisão 2:** consulta ganha `eventos[]` (histórico); atividades geradas pelo serviço (máx. 200) | |
 | 26/10/2026 | **Revisão 2:** estimativa revista de 10–13 para 13–16 dias | |
+| 27/10/2026 | Fase 13: KPI "Total de pacientes" = pacientes ativos e "Médicos de plantão" = ativos que atendem no dia; a variação diária continua simulada até haver histórico | |
+| 27/10/2026 | Fase 13: atividades ganham dados de exemplo derivados do histórico das consultas de exemplo; "{n} consultas hoje" não conta canceladas | |
 | | | |

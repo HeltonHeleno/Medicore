@@ -13,7 +13,9 @@ export function WelcomeCard({ className }: { className?: string }) {
   const resumo = useResumoDia();
   const consultas = useConsultasHoje();
 
-  const resumoPronto = resumo.data && consultas.data;
+  // Canceladas não contam como "consultas hoje".
+  const consultasHoje = consultas.data?.filter((c) => c.status !== 'cancelada').length;
+  const resumoPronto = resumo.data && consultasHoje !== undefined;
   const resumoCarregando = resumo.carregando || consultas.carregando;
 
   return (
@@ -45,7 +47,7 @@ export function WelcomeCard({ className }: { className?: string }) {
           {resumoPronto ? (
             <p>
               {t.boasVindas.resumo(
-                consultas.data!.length,
+                consultasHoje!,
                 resumo.data!.previsaoOcupacaoUti,
                 resumo.data!.medicamentosEstoqueBaixo,
               )}

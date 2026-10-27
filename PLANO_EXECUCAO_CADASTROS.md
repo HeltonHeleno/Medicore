@@ -62,7 +62,7 @@
 | Fase 10 | Cadastro de Pacientes | 55 | 2 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 11 | Cadastro de Médicos | 34 | 1,5 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 12 | Cadastro e agenda de Consultas | 58 | 3 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
-| Fase 13 | Integração com o Painel | 20 | 1 | ⬜ | | |
+| Fase 13 | Integração com o Painel | 20 | 1 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 14 | Qualidade, testes e entrega | 31 | 2 | ⬜ | | |
 | Encerramento | Deploy final, versão e documentação | 8 | 0,5 | ⬜ | | |
 | **Total** | | **414** | **16** | | | |
@@ -721,43 +721,43 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 13.0 Abertura
 
 - [ ] **13.0.1** Atualizar a `main` e criar `feat/fase-13-integracao`
-- [ ] **13.0.2** `npm run test` verde
+- [x] **13.0.2** `npm run test` verde
 
 ### 13.1 Consultas de hoje
 
-- [ ] **13.1.1** `AppointmentsTable` passa a usar `useAgenda({ data: hojeNoFuso() })` com `ConsultaDetalhada`
-- [ ] **13.1.2** Linhas clicáveis → detalhe da consulta (link real na coluna do paciente)
-- [ ] **13.1.3** Aviso "N consultas aguardando registro" com link para o filtro de pendentes · 🔗 P13
-- [ ] **13.1.4** Testes: agendar uma consulta hoje aparece no card sem recarregar
+- [x] **13.1.1** `AppointmentsTable` passa a usar `useAgenda({ data: hojeNoFuso() })` com `ConsultaDetalhada`
+- [x] **13.1.2** Linhas clicáveis → detalhe da consulta (link real na coluna do paciente)
+- [x] **13.1.3** Aviso "N consultas aguardando registro" com link para o filtro de pendentes · 🔗 P13
+- [x] **13.1.4** Testes: agendar uma consulta hoje aparece no card sem recarregar
 
 ### 13.2 Boas-vindas e KPIs
 
-- [ ] **13.2.1** Resumo "{n} consultas hoje" calculado do repositório
-- [ ] **13.2.2** KPI "Total de pacientes" = pacientes ativos (variação continua mockada; registrar no Diário)
-- [ ] **13.2.3** KPI "Médicos de plantão" = médicos ativos que atendem no dia da semana atual
-- [ ] **13.2.4** Testes com seeds e relógio fixo
+- [x] **13.2.1** Resumo "{n} consultas hoje" calculado do repositório
+- [x] **13.2.2** KPI "Total de pacientes" = pacientes ativos (variação continua mockada; registrar no Diário)
+- [x] **13.2.3** KPI "Médicos de plantão" = médicos ativos que atendem no dia da semana atual
+- [x] **13.2.4** Testes com seeds e relógio fixo
 
 ### 13.3 Linha do tempo de atividades
 
-- [ ] **13.3.1** `ActivityTimeline` passa a ler `listarAtividades({ limite: 4 })`
-- [ ] **13.3.2** Teste: cadastrar paciente gera item no topo
+- [x] **13.3.1** `ActivityTimeline` passa a ler `listarAtividades({ limite: 4 })`
+- [x] **13.3.2** Teste: cadastrar paciente gera item no topo
 
 ### 13.4 Limpeza
 
-- [ ] **13.4.1** Remover `criarConsultasHoje`, `criarAtividadesHoje` e o tipo `ConsultaPainel` sem uso; remover funções antigas de `api.ts` que ficarem órfãs
-- [ ] **13.4.2** `npx tsc -b` e lint sem avisos de código não usado
+- [x] **13.4.1** Remover `criarConsultasHoje`, `criarAtividadesHoje` e o tipo `ConsultaPainel` sem uso; remover funções antigas de `api.ts` que ficarem órfãs
+- [x] **13.4.2** `npx tsc -b` e lint sem avisos de código não usado
 
 ### 13.5 Restaurar dados de exemplo
 
-- [ ] **13.5.1** Botão "Restaurar dados de exemplo" na vitrine `/ui` (só em desenvolvimento), com confirmação de perigo
-- [ ] **13.5.2** Teste: restaura os seeds e notifica as telas
+- [x] **13.5.1** Botão "Restaurar dados de exemplo" na vitrine `/ui` (só em desenvolvimento), com confirmação de perigo
+- [x] **13.5.2** Teste: restaura os seeds e notifica as telas
 
 ### 13.6 Verificação e fechamento da Fase 13
 
-- [ ] **13.6.1** Agendar, concluir e cancelar em uma aba e ver o Painel mudar em outra
-- [ ] **13.6.2** Comparar o Painel em 1600px com `referencia-fase7.png` · ✔ igual, exceto nomes e dados
-- [ ] **13.6.3** Lint, build, `test:coverage`; PR "Fase 13 — Integração"
-- [ ] **13.6.4** Atualizar checkboxes e painel de execução: Fase 13 ✅; mesclar o PR
+- [x] **13.6.1** Agendar, concluir e cancelar em uma aba e ver o Painel mudar em outra
+- [x] **13.6.2** Comparar o Painel em 1600px com `referencia-fase7.png` · ✔ igual, exceto nomes e dados
+- [x] **13.6.3** Lint, build, `test:coverage`; PR "Fase 13 — Integração" (texto em `docs/PR_FASE_13.md`; abrir o PR fica com o usuário)
+- [x] **13.6.4** Atualizar checkboxes e painel de execução: Fase 13 ✅ (mesclar o PR fica com o usuário)
 
 ---
 
@@ -846,7 +846,7 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 
 | Indicador | Linha de base | Final |
 |---|---|---|
-| Testes (quantidade) | 84 | (Fase 8: 214) |
+| Testes (quantidade) | 84 | (Fase 8: 214 · Fase 13: 352) |
 | Cobertura geral | | |
 | Cobertura `services/` / `utils/` | — | (Fase 8: 97,9% / 98,4% linhas) |
 | Pacote inicial (gzip) | | |
@@ -862,5 +862,6 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | 27/10/2026 | Fase 10 | Pacientes de ponta a ponta (313 testes). Fluxo manual completo no navegador (cadastrar → ver → editar → inativar → reativar → excluir → E-08) sem erros; 4 telas em 375/768/1280px, claro/escuro: sem rolagem horizontal e 0 violações axe. Decisões: regras cruzadas do esquema de paciente rodam mesmo com outros erros (`when`); após conflito de versão, "Continuar editando" adota a versão atual e o próximo salvar grava por cima. Corrigido: texto `sr-only` do cabeçalho da tabela alargava a página em 768px. Links para `/consultas/...` dependem da Fase 12. |
 | 27/10/2026 | Fase 11 | Médicos de ponta a ponta (328 testes). Fluxo no navegador: cadastro → edição de disponibilidade → inativação bloqueada até cancelar as 4 consultas futuras no próprio diálogo → inativar → reativar. 4 telas em 375/768/1280px, claro/escuro, 0 violações axe (grade semanal vira lista no celular). Corrigido: estilo "perigo" do diálogo de confirmação não era aplicado (nova variante `perigo` do Button). CRM exibido como `123456/SP`. |
 | 27/10/2026 | Fase 12 | Consultas de ponta a ponta (346 testes). Teste de duas abas revelou perda de dados quando uma aba gravava antes de receber o evento `storage`: `transacao()` agora relê as coleções alteradas no storage antes de validar. E-04 confirmado no navegador sem gravação dupla. 4 telas em 375/768/1280px, claro/escuro, 0 violações axe; agendamento completo só com teclado. Vídeo em `docs/capturas/fase12-agendamento.mp4`. |
+| 27/10/2026 | Fase 13 | Painel ligado ao repositório (352 testes). Consultas de hoje, resumo de boas-vindas, KPIs "Total de pacientes" (pacientes ativos) e "Médicos de plantão" (ativos que atendem no dia) e linha do tempo se atualizam sozinhos, inclusive vindos de outra aba (verificado no navegador: agendar, concluir e cancelar). **A variação "12% em relação a ontem" continua simulada** até haver histórico diário; alertas, desempenho, leitos e o resumo da UTI também. Atividades passaram a ter dados de exemplo (histórico das consultas de exemplo). Novo aviso "N consultas aguardando registro" no card. Botão "Restaurar dados de exemplo" na vitrine `/ui`. Pacote inicial subiu de 57 para 70 kB (o Painel agora carrega o repositório). Layout em 1600px igual à referência da Fase 7, exceto nomes e dados. |
 | | | |
 | | | |

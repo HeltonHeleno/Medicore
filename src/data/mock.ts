@@ -1,7 +1,5 @@
 import type {
   AlertaEmergencia,
-  AtividadePainel,
-  ConsultaPainel,
   Departamento,
   Insight,
   Kpis,
@@ -11,12 +9,6 @@ import type {
   SetorLeitos,
   Usuario,
 } from '../types';
-import { horaDosMinutos, hojeNoFuso, instanteNoFuso } from '../utils/datas';
-
-/** Gera o ISO de hoje no horário informado, no fuso do hospital. */
-export function hojeAs(hora: number, minuto = 0): string {
-  return instanteNoFuso(hojeNoFuso(), horaDosMinutos(hora * 60 + minuto)).toISOString();
-}
 
 export const usuario: Usuario = {
   nome: 'Ricardo Almeida',
@@ -24,10 +16,9 @@ export const usuario: Usuario = {
   cargo: 'Administrador',
 };
 
+/** Total de pacientes e médicos de plantão vêm dos cadastros (services/painel.ts). */
 export const kpis: Kpis = {
-  totalPacientes: 1248,
   variacaoPacientes: 12,
-  medicosPlantao: 42,
   casosEmergencia: 18,
 };
 
@@ -120,51 +111,3 @@ export const alertas: AlertaEmergencia[] = [
     prioridade: 'alta',
   },
 ];
-
-/** Gerado a cada chamada para que as consultas sejam sempre "de hoje". */
-export function criarConsultasHoje(): ConsultaPainel[] {
-  return [
-    {
-      id: 'c1',
-      horario: hojeAs(9, 0),
-      paciente: 'João Pereira',
-      departamento: 'Cardiologia',
-      status: 'concluida',
-    },
-    {
-      id: 'c2',
-      horario: hojeAs(10, 30),
-      paciente: 'Mariana Alves',
-      departamento: 'Neurologia',
-      status: 'agendada',
-    },
-    {
-      id: 'c3',
-      horario: hojeAs(12, 0),
-      paciente: 'Carlos Santos',
-      departamento: 'Ortopedia',
-      status: 'agendada',
-    },
-    {
-      id: 'c4',
-      horario: hojeAs(16, 0),
-      paciente: 'Daniel Oliveira',
-      departamento: 'Clínica Geral',
-      status: 'cancelada',
-    },
-  ];
-}
-
-/** Gerado a cada chamada para que as atividades sejam sempre "de hoje". */
-export function criarAtividadesHoje(): AtividadePainel[] {
-  return [
-    { id: 'at1', descricao: 'Novo paciente João Pereira internado', horario: hojeAs(10, 30) },
-    { id: 'at2', descricao: 'Estoque de paracetamol atualizado', horario: hojeAs(9, 45) },
-    { id: 'at3', descricao: 'Consulta concluída com Mariana Alves', horario: hojeAs(9, 30) },
-    {
-      id: 'at4',
-      descricao: 'Dr. Rafael Costa entrou na equipe de Cardiologia',
-      horario: hojeAs(9, 0),
-    },
-  ];
-}

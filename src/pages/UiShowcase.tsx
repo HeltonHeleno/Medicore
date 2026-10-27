@@ -9,6 +9,7 @@ import { SkeletonLinhas } from '../components/ui/Skeleton';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { CabecalhoPagina } from '../components/ui/lista/CabecalhoPagina';
 import { t } from '../i18n/pt-BR';
+import { VitrineDados } from './vitrine/VitrineDados';
 import { VitrineFeedback } from './vitrine/VitrineFeedback';
 import { VitrineFormularios } from './vitrine/VitrineFormularios';
 import { VitrineListagem } from './vitrine/VitrineListagem';
@@ -28,6 +29,8 @@ export default function UiShowcase() {
   return (
     <div className="space-y-5">
       <CabecalhoPagina titulo={v.titulo} descricao={v.descricao} className="mb-0" />
+
+      <VitrineDados />
 
       <Grupo titulo={v.botoes}>
         <Button>{v.primario}</Button>
