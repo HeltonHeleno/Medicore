@@ -58,7 +58,7 @@
 |---|---|:---:|:---:|:---:|:---:|:---:|
 | Etapa 0 | Preparação | 12 | 0,5 | ⬜ | | |
 | Fase 8 | Fundação de dados e roteamento | 129 | 3 | 🟨 código pronto; faltam commits/PR | 26/10/2026 | 27/10/2026 |
-| Fase 9 | Componentes de formulário e listagem | 67 | 2,5 | ⬜ | | |
+| Fase 9 | Componentes de formulário e listagem | 67 | 2,5 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
 | Fase 10 | Cadastro de Pacientes | 55 | 2 | ⬜ | | |
 | Fase 11 | Cadastro de Médicos | 34 | 1,5 | ⬜ | | |
 | Fase 12 | Cadastro e agenda de Consultas | 58 | 3 | ⬜ | | |
@@ -360,107 +360,107 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 9.0 Abertura
 
 - [ ] **9.0.1** Atualizar a `main` e criar `feat/fase-9-formularios`
-- [ ] **9.0.2** `npm run test` verde
+- [x] **9.0.2** `npm run test` verde
 
 ### 9.1 Validação e máscaras (versão completa)
 
-- [ ] **9.1.1** Completar `utils/validacao.ts`: CPF rejeita sequências repetidas; telefone com DDD 11–99 e celular começando com 9; CRM 4–7 dígitos
-- [ ] **9.1.2** `utils/mascaras.ts`: `mascararCpf`, `mascararTelefone` (fixo e celular), `mascararCep`, `somenteDigitos`, `ocultarCpf` · 🔗 R-P4
-- [ ] **9.1.3** Testes `validacao.test.ts` com uma lista de CPFs válidos e inválidos conhecidos, telefones fixos/celulares, CEP, CRM
-- [ ] **9.1.4** Testes `mascaras.test.ts`: digitação parcial, colagem de valor formatado e não formatado
+- [x] **9.1.1** Completar `utils/validacao.ts`: CPF rejeita sequências repetidas; telefone com DDD 11–99 e celular começando com 9; CRM 4–7 dígitos
+- [x] **9.1.2** `utils/mascaras.ts`: `mascararCpf`, `mascararTelefone` (fixo e celular), `mascararCep`, `somenteDigitos`, `ocultarCpf` · 🔗 R-P4
+- [x] **9.1.3** Testes `validacao.test.ts` com uma lista de CPFs válidos e inválidos conhecidos, telefones fixos/celulares, CEP, CRM
+- [x] **9.1.4** Testes `mascaras.test.ts`: digitação parcial, colagem de valor formatado e não formatado
 - [ ] **9.1.5** Commit `fase-9: 9.1 validação e máscaras`
 
 ### 9.2 Campos básicos
 
-- [ ] **9.2.1** `components/ui/form/Campo.tsx`: rótulo, `*` + "obrigatório" (sr-only), dica, erro; `aria-describedby`, `aria-invalid`, `aria-required`
-- [ ] **9.2.2** `Input.tsx` (com variante de erro e somente leitura)
-- [ ] **9.2.3** `Textarea.tsx` com contador de caracteres ("120/500")
-- [ ] **9.2.4** `Select.tsx` nativo estilizado
-- [ ] **9.2.5** `Checkbox.tsx` e `RadioGroup.tsx` (`fieldset` + `legend`)
-- [ ] **9.2.6** `SecaoFormulario.tsx` (título, descrição, grade 1/2/3 colunas)
-- [ ] **9.2.7** Estados nos temas claro e escuro: normal, foco, erro, desabilitado, somente leitura · ✔ contraste AA (axe)
-- [ ] **9.2.8** Testes: `Campo` liga dica e erro por `aria-describedby`; contador do `Textarea`
+- [x] **9.2.1** `components/ui/form/Campo.tsx`: rótulo, `*` + "obrigatório" (sr-only), dica, erro; `aria-describedby`, `aria-invalid`, `aria-required`
+- [x] **9.2.2** `Input.tsx` (com variante de erro e somente leitura)
+- [x] **9.2.3** `Textarea.tsx` com contador de caracteres ("120/500")
+- [x] **9.2.4** `Select.tsx` nativo estilizado
+- [x] **9.2.5** `Checkbox.tsx` e `RadioGroup.tsx` (`fieldset` + `legend`)
+- [x] **9.2.6** `SecaoFormulario.tsx` (título, descrição, grade 1/2/3 colunas)
+- [x] **9.2.7** Estados nos temas claro e escuro: normal, foco, erro, desabilitado, somente leitura · ✔ contraste AA (axe)
+- [x] **9.2.8** Testes: `Campo` liga dica e erro por `aria-describedby`; contador do `Textarea`
 - [ ] **9.2.9** Commit `fase-9: 9.2 campos de formulário`
 
 ### 9.3 Campo com máscara
 
-- [ ] **9.3.1** `InputMascarado.tsx`: exibe com máscara, entrega o valor limpo ao react-hook-form (`Controller`)
-- [ ] **9.3.2** Preservar a posição do cursor ao editar no meio do texto
-- [ ] **9.3.3** Testes: digitar, apagar no meio, colar · ✔ cursor não "pula"
+- [x] **9.3.1** `InputMascarado.tsx`: exibe com máscara, entrega o valor limpo ao react-hook-form (`Controller`)
+- [x] **9.3.2** Preservar a posição do cursor ao editar no meio do texto
+- [x] **9.3.3** Testes: digitar, apagar no meio, colar · ✔ cursor não "pula"
 - [ ] **9.3.4** Commit `fase-9: 9.3 campo com máscara`
 
 ### 9.4 Combobox acessível ⭐ (RS-05)
 
-- [ ] **9.4.1** `Combobox.tsx` (padrão ARIA 1.2): `role="combobox"`, `aria-expanded`, `aria-controls`, `aria-activedescendant`
-- [ ] **9.4.2** Busca com atraso de 250 ms via função `buscar(termo)` assíncrona; estado "Buscando…"; "Nenhum resultado"
-- [ ] **9.4.3** Teclado: ↑/↓ navegam, Enter seleciona, Esc fecha, Tab sai; anúncio "5 resultados" em `aria-live`
-- [ ] **9.4.4** Renderização customizada da opção (nome + detalhe, ex.: CPF mascarado)
-- [ ] **9.4.5** Testes só com teclado; seleção atualiza o valor do formulário
+- [x] **9.4.1** `Combobox.tsx` (padrão ARIA 1.2): `role="combobox"`, `aria-expanded`, `aria-controls`, `aria-activedescendant`
+- [x] **9.4.2** Busca com atraso de 250 ms via função `buscar(termo)` assíncrona; estado "Buscando…"; "Nenhum resultado"
+- [x] **9.4.3** Teclado: ↑/↓ navegam, Enter seleciona, Esc fecha, Tab sai; anúncio "5 resultados" em `aria-live`
+- [x] **9.4.4** Renderização customizada da opção (nome + detalhe, ex.: CPF mascarado)
+- [x] **9.4.5** Testes só com teclado; seleção atualiza o valor do formulário
 - [ ] **9.4.6** Commit `fase-9: 9.4 combobox`
 
 ### 9.5 Componentes de página e listagem
 
-- [ ] **9.5.1** `Breadcrumb.tsx` (lê `handle.breadcrumb` de `useMatches()`; `nav aria-label`; último item com `aria-current="page"`)
-- [ ] **9.5.2** `CabecalhoPagina.tsx` (`<h1 tabIndex={-1}>`, breadcrumb, área de ações)
-- [ ] **9.5.3** `BarraFiltros.tsx` (busca com atraso de 300 ms, filtros, "Limpar filtros")
-- [ ] **9.5.4** ⭐ `DataTable.tsx`: colunas declarativas, ordenação com `aria-sort`, link na 1ª coluna
-- [ ] **9.5.5** `DataTable`: versão em cartões abaixo de 640px (container query), estados carregando/vazio/erro
-- [ ] **9.5.6** `DataTable`: seleção múltipla opcional (checkbox por linha + "selecionar todos" da página)
-- [ ] **9.5.7** `Paginacao.tsx` ("Mostrando 1–10 de 48", `aria-current`)
-- [ ] **9.5.8** `MenuAcoes.tsx` ("⋯"), reaproveitando o teclado do `UserMenu`
-- [ ] **9.5.9** `DescricaoLista.tsx` (`<dl>` em grade)
-- [ ] **9.5.10** `hooks/useFiltrosUrl.ts`: busca, filtros, ordenação e página na query string; guarda a URL em `location.state.de` ao abrir um detalhe · 🔗 M14
-- [ ] **9.5.11** Testes: `DataTable` ordena, troca para cartões (container), seleciona; `Paginacao`; `useFiltrosUrl` lê e escreve a URL
+- [x] **9.5.1** `Breadcrumb.tsx` (lê `handle.breadcrumb` de `useMatches()`; `nav aria-label`; último item com `aria-current="page"`)
+- [x] **9.5.2** `CabecalhoPagina.tsx` (`<h1 tabIndex={-1}>`, breadcrumb, área de ações)
+- [x] **9.5.3** `BarraFiltros.tsx` (busca com atraso de 300 ms, filtros, "Limpar filtros")
+- [x] **9.5.4** ⭐ `DataTable.tsx`: colunas declarativas, ordenação com `aria-sort`, link na 1ª coluna
+- [x] **9.5.5** `DataTable`: versão em cartões abaixo de 640px (container query), estados carregando/vazio/erro
+- [x] **9.5.6** `DataTable`: seleção múltipla opcional (checkbox por linha + "selecionar todos" da página)
+- [x] **9.5.7** `Paginacao.tsx` ("Mostrando 1–10 de 48", `aria-current`)
+- [x] **9.5.8** `MenuAcoes.tsx` ("⋯"), reaproveitando o teclado do `UserMenu`
+- [x] **9.5.9** `DescricaoLista.tsx` (`<dl>` em grade)
+- [x] **9.5.10** `hooks/useFiltrosUrl.ts`: busca, filtros, ordenação e página na query string; guarda a URL em `location.state.de` ao abrir um detalhe · 🔗 M14
+- [x] **9.5.11** Testes: `DataTable` ordena, troca para cartões (container), seleciona; `Paginacao`; `useFiltrosUrl` lê e escreve a URL
 - [ ] **9.5.12** Commit `fase-9: 9.5 componentes de listagem`
 
 ### 9.6 Feedback
 
-- [ ] **9.6.1** `Modal.tsx`: foco preso, Esc, `aria-modal`, devolve o foco (lógica do `MobileDrawer`)
-- [ ] **9.6.2** `DialogoConfirmacao.tsx` + `hooks/useConfirmar.ts` (Promise; opção `perigo`; opção `exigirTexto` para P5)
-- [ ] **9.6.3** `ToastProvider.tsx` + `hooks/useToast.ts`: sucesso/erro/aviso; `role="status"`/`alert`; 5 s (erros ficam até fechar); botão de ação
-- [ ] **9.6.4** Montar `ToastProvider` e o provedor de confirmação no `AppLayout`
-- [ ] **9.6.5** Testes: `Modal` prende e devolve o foco; `useConfirmar` resolve `true`/`false`; toast some sozinho e o de erro não
+- [x] **9.6.1** `Modal.tsx`: foco preso, Esc, `aria-modal`, devolve o foco (lógica do `MobileDrawer`)
+- [x] **9.6.2** `DialogoConfirmacao.tsx` + `hooks/useConfirmar.ts` (Promise; opção `perigo`; opção `exigirTexto` para P5)
+- [x] **9.6.3** `ToastProvider.tsx` + `hooks/useToast.ts`: sucesso/erro/aviso; `role="status"`/`alert`; 5 s (erros ficam até fechar); botão de ação
+- [x] **9.6.4** Montar `ToastProvider` e o provedor de confirmação no `AppLayout`
+- [x] **9.6.5** Testes: `Modal` prende e devolve o foco; `useConfirmar` resolve `true`/`false`; toast some sozinho e o de erro não
 - [ ] **9.6.6** Commit `fase-9: 9.6 modal, confirmação e toast`
 
 ### 9.7 Resumo de erros e formulário de entidade ⭐
 
-- [ ] **9.7.1** `components/ui/form/ResumoErros.tsx` (`role="alert"`, links que focam cada campo)
-- [ ] **9.7.2** `hooks/useFormularioEntidade.ts`: `useForm` + `zodResolver`, `mode: 'onTouched'`, foco no 1º erro ao enviar, `aplicarErrosNoFormulario` para erros do serviço
-- [ ] **9.7.3** Em `useFormularioEntidade`: `useBlocker` só quando `isDirty` e não enviando + `DialogoConfirmacao` "Descartar alterações?" · 🔗 M1
-- [ ] **9.7.4** Em `useFormularioEntidade`: `beforeunload` quando houver alterações
-- [ ] **9.7.5** Testes: bloqueio de saída só com alterações; erro do serviço aparece no campo; foco no 1º erro
+- [x] **9.7.1** `components/ui/form/ResumoErros.tsx` (`role="alert"`, links que focam cada campo)
+- [x] **9.7.2** `hooks/useFormularioEntidade.ts`: `useForm` + `zodResolver`, `mode: 'onTouched'`, foco no 1º erro ao enviar, `aplicarErrosNoFormulario` para erros do serviço
+- [x] **9.7.3** Em `useFormularioEntidade`: `useBlocker` só quando `isDirty` e não enviando + `DialogoConfirmacao` "Descartar alterações?" · 🔗 M1
+- [x] **9.7.4** Em `useFormularioEntidade`: `beforeunload` quando houver alterações
+- [x] **9.7.5** Testes: bloqueio de saída só com alterações; erro do serviço aparece no campo; foco no 1º erro
 - [ ] **9.7.6** Commit `fase-9: 9.7 formulário de entidade`
 
 ### 9.8 Banner de demonstração (RS-01, M15)
 
-- [ ] **9.8.1** Componente `BannerDemonstracao` no `AppLayout` (texto de `t.demo`); oculto com `VITE_AMBIENTE=producao`
-- [ ] **9.8.2** Teste: aparece por padrão e some com a variável · ✔ axe sem violações
+- [x] **9.8.1** Componente `BannerDemonstracao` no `AppLayout` (texto de `t.demo`); oculto com `VITE_AMBIENTE=producao`
+- [x] **9.8.2** Teste: aparece por padrão e some com a variável · ✔ axe sem violações
 - [ ] **9.8.3** Commit `fase-9: 9.8 banner de demonstração`
 
 ### 9.9 Anúncio de rota (M11)
 
-- [ ] **9.9.1** `hooks/useAnunciarRota.ts`: a cada navegação, foca o `<h1>` e anuncia "Página: {titulo}" em `aria-live="polite"`
-- [ ] **9.9.2** Usar no `AppLayout` (não focar na primeira carga)
-- [ ] **9.9.3** Teste: navegar muda o foco para o `<h1>` e atualiza a região viva
+- [x] **9.9.1** `hooks/useAnunciarRota.ts`: a cada navegação, foca o `<h1>` e anuncia "Página: {titulo}" em `aria-live="polite"`
+- [x] **9.9.2** Usar no `AppLayout` (não focar na primeira carga)
+- [x] **9.9.3** Teste: navegar muda o foco para o `<h1>` e atualiza a região viva
 - [ ] **9.9.4** Commit `fase-9: 9.9 anúncio de rota`
 
 ### 9.10 Textos e vitrine
 
-- [ ] **9.10.1** Grupos `formulario`, `lista`, `confirmacao`, `toast`, `demo` em `i18n/pt-BR.ts`
-- [ ] **9.10.2** Vitrine `/ui`: seção de cada componente novo com todos os estados
+- [x] **9.10.1** Grupos `formulario`, `lista`, `confirmacao`, `toast`, `demo` em `i18n/pt-BR.ts`
+- [x] **9.10.2** Vitrine `/ui`: seção de cada componente novo com todos os estados
 - [ ] **9.10.3** Commit `fase-9: 9.10 textos e vitrine`
 
 ### 9.11 Verificação
 
-- [ ] **9.11.1** Vitrine em 375, 768 e 1280px, claro e escuro
-- [ ] **9.11.2** Vitrine só com teclado (todos os componentes interativos)
-- [ ] **9.11.3** axe na vitrine nos dois temas · ✔ 0 violações
+- [x] **9.11.1** Vitrine em 375, 768 e 1280px, claro e escuro
+- [x] **9.11.2** Vitrine só com teclado (todos os componentes interativos)
+- [x] **9.11.3** axe na vitrine nos dois temas · ✔ 0 violações
 
 ### 9.12 Fechamento da Fase 9
 
-- [ ] **9.12.1** Lint, build, `test:coverage` (`components/ui/` ≥ 70%)
+- [x] **9.12.1** Lint, build, `test:coverage` (`components/ui/` ≥ 70%)
 - [ ] **9.12.2** PR "Fase 9 — Componentes" com capturas da vitrine
-- [ ] **9.12.3** Atualizar checkboxes e painel de execução: Fase 9 ✅
+- [x] **9.12.3** Atualizar checkboxes e painel de execução: Fase 9 ✅
 - [ ] **9.12.4** Mesclar o PR
 
 ---
@@ -858,5 +858,6 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | Data | Fase / tarefa | Anotação (feito, bloqueio, decisão, desvio) |
 |---|---|---|
 | 27/10/2026 | Fase 8 | Código e testes concluídos (214 testes; services 97,9% e utils 98,4% de linhas). Pendentes: branch, commits, PR e merge (feitos pelo usuário). `paraInputDate` (8.3.5) dispensado: `DataIso` já é o formato do `<input type="date">`. Dados de exemplo ocupam de −7 a +7 dias a partir de hoje; testes de serviço agendam fora dessa janela. Resumo e matriz de regras em `docs/PR_FASE_8.md`. |
+| 27/10/2026 | Fase 9 | Componentes concluídos (286 testes; `components/ui/` 93,8% das linhas). Vitrine `/ui` em 375, 768 e 1280px, claro e escuro: sem rolagem horizontal e 0 violações axe (também com combobox, menu, diálogo e toasts abertos). Ajustes: borda de campo com contraste ≥ 3:1 (`--color-border-input`); iniciais do avatar com contraste AA no escuro; vitrine carregada sob demanda (fora do build de produção). Banner de demonstração no topo do conteúdo desloca o Painel em ~32px. |
 | | | |
 | | | |

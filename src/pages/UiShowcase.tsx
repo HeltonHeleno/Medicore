@@ -7,7 +7,11 @@ import { PriorityBadge } from '../components/ui/PriorityBadge';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { SkeletonLinhas } from '../components/ui/Skeleton';
 import { StatusBadge } from '../components/ui/StatusBadge';
+import { CabecalhoPagina } from '../components/ui/lista/CabecalhoPagina';
 import { t } from '../i18n/pt-BR';
+import { VitrineFeedback } from './vitrine/VitrineFeedback';
+import { VitrineFormularios } from './vitrine/VitrineFormularios';
+import { VitrineListagem } from './vitrine/VitrineListagem';
 
 function Grupo({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
@@ -23,10 +27,7 @@ export default function UiShowcase() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-2xl font-bold">{v.titulo}</h1>
-        <p className="text-text-muted">{v.descricao}</p>
-      </div>
+      <CabecalhoPagina titulo={v.titulo} descricao={v.descricao} className="mb-0" />
 
       <Grupo titulo={v.botoes}>
         <Button>{v.primario}</Button>
@@ -105,6 +106,10 @@ export default function UiShowcase() {
           <ErrorState aoTentarNovamente={() => undefined} />
         </Card>
       </div>
+
+      <VitrineFormularios />
+      <VitrineListagem />
+      <VitrineFeedback />
     </div>
   );
 }

@@ -12,10 +12,10 @@ describe('roteador de dados (createBrowserRouter)', () => {
     const silenciar = vi.spyOn(console, 'error').mockImplementation(() => {});
     renderizarComRotas('/explode', [{ path: 'explode', element: <Explode /> }]);
 
-    const alerta = await screen.findByRole('alert');
-    expect(
-      within(alerta).getByRole('heading', { name: 'Algo deu errado nesta tela.' }),
-    ).toBeInTheDocument();
+    // (a região de notificações também tem role="alert"; o erro é o que tem o título)
+    const titulo = await screen.findByRole('heading', { name: 'Algo deu errado nesta tela.' });
+    const alerta = titulo.closest<HTMLElement>('[role="alert"]')!;
+    expect(alerta).toBeInTheDocument();
     // Layout continua presente: menu principal e botão "Voltar para o Painel"
     expect(screen.getByRole('navigation', { name: 'Navegação principal' })).toBeInTheDocument();
     expect(within(alerta).getByRole('link', { name: 'Voltar para o Painel' })).toHaveAttribute(

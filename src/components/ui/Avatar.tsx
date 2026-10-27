@@ -36,7 +36,7 @@ export function Avatar({ nome, url, tamanho = 40, className }: AvatarProps) {
       aria-hidden
       style={estilo}
       className={cn(
-        'inline-flex shrink-0 items-center justify-center rounded-full bg-primary-light font-semibold text-primary ring-2 ring-white/70',
+        'inline-flex shrink-0 items-center justify-center rounded-full bg-primary-light font-semibold text-on-primary-light ring-2 ring-white/70',
         className,
       )}
     >

@@ -16,6 +16,8 @@
   --color-bg: #e9f0ef;
   --color-card: #ffffff;
   --color-border: #e3eae9;
+  /* Borda de campos de formulário: contraste ≥ 3:1 com o fundo (WCAG 1.4.11) */
+  --color-border-input: #7b8c89;
   --color-text: #1a1f1e;
   --color-text-muted: #5e6a68;
   --color-danger: #c8102e;
@@ -37,6 +39,7 @@
   --color-bg: #0e1716;
   --color-card: #16211f;
   --color-border: #24312f;
+  --color-border-input: #6a8580;
   --color-text: #e8eeed;
   --color-text-muted: #94a3a0;
   --color-danger: #f0566c;
@@ -62,6 +65,14 @@
     transition:
       background-color 0.2s ease,
       color 0.2s ease;
+  }
+
+  /* Títulos recebem foco por programa ao trocar de página (M11); não precisam de contorno. */
+  [tabindex='-1']:focus:not(:focus-visible) {
+    outline: none;
+  }
+  h1[tabindex='-1']:focus {
+    outline: none;
   }
 
   @media (prefers-reduced-motion: reduce) {

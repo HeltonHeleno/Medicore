@@ -40,3 +40,30 @@ export function mascararCep(valor: string): string {
 
 /** { numero: '123456', uf: 'SP' } → "CRM/SP 123456". */
 export const formatarCrm = (crm: Crm): string => `CRM/${crm.uf} ${crm.numero}`;
+
+/** Configuração de cada máscara de digitação (usada pelo `InputMascarado`). */
+export interface Mascara {
+  formatar: (valor: string) => string;
+  /** Quantidade máxima de dígitos aceitos. */
+  maxDigitos: number;
+  exemplo: string;
+}
+
+export const MASCARAS = {
+  cpf: { formatar: mascararCpf, maxDigitos: 11, exemplo: '000.000.000-00' },
+  telefone: { formatar: mascararTelefone, maxDigitos: 11, exemplo: '(00) 00000-0000' },
+  cep: { formatar: mascararCep, maxDigitos: 8, exemplo: '00000-000' },
+} satisfies Record<string, Mascara>;
+
+export type TipoMascara = keyof typeof MASCARAS;
+
+/** Posição no texto formatado logo depois do n-ésimo dígito (para o cursor não "pular"). */
+export function posicaoAposDigitos(formatado: string, digitos: number): number {
+  if (digitos <= 0) return 0;
+  let contados = 0;
+  for (let i = 0; i < formatado.length; i++) {
+    if (/\d/.test(formatado[i])) contados++;
+    if (contados === digitos) return i + 1;
+  }
+  return formatado.length;
+}

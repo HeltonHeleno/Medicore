@@ -6,7 +6,6 @@ import { t } from './i18n/pt-BR';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import Placeholder from './pages/Placeholder';
-import UiShowcase from './pages/UiShowcase';
 
 /** Metadados de cada rota, lidos por `useMatches()` (título da aba e, na Fase 9, breadcrumb). */
 export interface HandleRota {
@@ -47,8 +46,15 @@ export function criarRotas(rotasExtras: RouteObject[] = []): RouteObject[] {
               element: <Placeholder titulo={t.userMenu.meuPerfil} />,
               handle: handle(t.userMenu.meuPerfil),
             },
+            // Vitrine só em desenvolvimento; carregada sob demanda para não entrar no build.
             ...(import.meta.env.DEV
-              ? [{ path: 'ui', element: <UiShowcase />, handle: handle(t.vitrine.titulo) }]
+              ? [
+                  {
+                    path: 'ui',
+                    lazy: async () => ({ Component: (await import('./pages/UiShowcase')).default }),
+                    handle: handle(t.vitrine.titulo),
+                  },
+                ]
               : []),
             ...rotasExtras,
             { path: '*', element: <NotFound />, handle: handle(t.paginas.naoEncontrada) },

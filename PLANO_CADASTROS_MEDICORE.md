@@ -1018,59 +1018,59 @@ Um PR de fase só é aprovado quando:
 
 ### 9.1 Validação e máscaras
 
-- [ ] `utils/validacao.ts`: `cpfValido` (rejeita sequências repetidas), `telefoneValido` (DDD 11–99; celular com 9), `cepValido`, `emailValido`, `crmValido`, `ufValida`
-- [ ] `utils/mascaras.ts`: `mascararCpf`, `mascararTelefone`, `mascararCep` (durante a digitação, inclusive colagem), `somenteDigitos`, `ocultarCpf` (R-P4)
-- [ ] Testes com lista de CPFs válidos/inválidos conhecidos e telefones fixos/celulares
+- [x] `utils/validacao.ts`: `cpfValido` (rejeita sequências repetidas), `telefoneValido` (DDD 11–99; celular com 9), `cepValido`, `emailValido`, `crmValido`, `ufValida`
+- [x] `utils/mascaras.ts`: `mascararCpf`, `mascararTelefone`, `mascararCep` (durante a digitação, inclusive colagem), `somenteDigitos`, `ocultarCpf` (R-P4)
+- [x] Testes com lista de CPFs válidos/inválidos conhecidos e telefones fixos/celulares
 
 ### 9.2 Campos (`components/ui/form/`)
 
-- [ ] `Campo`: rótulo, `*` + texto "obrigatório" para leitores de tela, dica, erro; liga `aria-describedby`, `aria-invalid`, `aria-required`
-- [ ] `Input`, `Textarea` (contador de caracteres), `Select` nativo estilizado
-- [ ] `InputMascarado`: mostra com máscara, entrega ao RHF o valor limpo; cursor não "pula" ao editar no meio
-- [ ] `Checkbox`, `RadioGroup` (`fieldset` + `legend`)
-- [ ] `Combobox` (padrão ARIA 1.2 "combobox com lista"): digitar filtra com atraso de 250 ms, ↑/↓, Enter seleciona, Esc fecha, `aria-activedescendant`, anúncio "5 resultados"
-- [ ] `SecaoFormulario` (título, descrição, grade 1/2/3 colunas)
-- [ ] `ResumoErros`: lista os erros após tentar salvar, com links que focam cada campo (`role="alert"`)
-- [ ] Estados: normal, foco, erro, desabilitado, somente leitura — claro e escuro
+- [x] `Campo`: rótulo, `*` + texto "obrigatório" para leitores de tela, dica, erro; liga `aria-describedby`, `aria-invalid`, `aria-required`
+- [x] `Input`, `Textarea` (contador de caracteres), `Select` nativo estilizado
+- [x] `InputMascarado`: mostra com máscara, entrega ao RHF o valor limpo; cursor não "pula" ao editar no meio
+- [x] `Checkbox`, `RadioGroup` (`fieldset` + `legend`)
+- [x] `Combobox` (padrão ARIA 1.2 "combobox com lista"): digitar filtra com atraso de 250 ms, ↑/↓, Enter seleciona, Esc fecha, `aria-activedescendant`, anúncio "5 resultados"
+- [x] `SecaoFormulario` (título, descrição, grade 1/2/3 colunas)
+- [x] `ResumoErros`: lista os erros após tentar salvar, com links que focam cada campo (`role="alert"`)
+- [x] Estados: normal, foco, erro, desabilitado, somente leitura — claro e escuro
 
 ### 9.3 Listagem e página
 
-- [ ] `CabecalhoPagina`: `<h1>`, `Breadcrumb` (de `handle.breadcrumb`) e ações
-- [ ] `BarraFiltros`: busca com atraso de 300 ms; filtros em uma linha (quebra no celular); botão "Limpar filtros" quando houver filtro ativo
-- [ ] `DataTable<T>`: colunas declarativas, ordenação (`aria-sort`), link real na 1ª coluna, versão em cartões abaixo de 640px (container query), estados carregando/vazio/erro, seleção múltipla opcional (para P13)
-- [ ] `Paginacao`: "Mostrando 1–10 de 48", `aria-current`, volta à última página válida (A4)
-- [ ] `MenuAcoes` ("⋯") reaproveitando a lógica do `UserMenu`
-- [ ] `DescricaoLista` (`<dl>`) para detalhes
-- [ ] `useFiltrosUrl`: busca, filtros, ordenação e página na query string; o "Voltar" do detalhe retorna à mesma URL (M14)
+- [x] `CabecalhoPagina`: `<h1>`, `Breadcrumb` (de `handle.breadcrumb`) e ações
+- [x] `BarraFiltros`: busca com atraso de 300 ms; filtros em uma linha (quebra no celular); botão "Limpar filtros" quando houver filtro ativo
+- [x] `DataTable<T>`: colunas declarativas, ordenação (`aria-sort`), link real na 1ª coluna, versão em cartões abaixo de 640px (container query), estados carregando/vazio/erro, seleção múltipla opcional (para P13)
+- [x] `Paginacao`: "Mostrando 1–10 de 48", `aria-current`, volta à última página válida (A4)
+- [x] `MenuAcoes` ("⋯") reaproveitando a lógica do `UserMenu`
+- [x] `DescricaoLista` (`<dl>`) para detalhes
+- [x] `useFiltrosUrl`: busca, filtros, ordenação e página na query string; o "Voltar" do detalhe retorna à mesma URL (M14)
 
 ### 9.4 Feedback
 
-- [ ] `Modal` (foco preso, Esc, `aria-modal`, devolve o foco ao gatilho — lógica do `MobileDrawer`)
-- [ ] `DialogoConfirmacao` + `useConfirmar()` → `await confirmar({ titulo, mensagem, rotuloConfirmar, perigo, exigirTexto? })` (o `exigirTexto` atende P5)
-- [ ] `ToastProvider` + `useToast()`: sucesso, erro, aviso; `role="status"`/`alert`; 5 s (erros ficam até fechar); botão de ação opcional ("Ver consultas")
-- [ ] `useFormularioEntidade`: une RHF + zodResolver + `aplicarErrosNoFormulario` + bloqueio de saída com `useBlocker` (só com alterações) + `beforeunload` ao fechar a aba
+- [x] `Modal` (foco preso, Esc, `aria-modal`, devolve o foco ao gatilho — lógica do `MobileDrawer`)
+- [x] `DialogoConfirmacao` + `useConfirmar()` → `await confirmar({ titulo, mensagem, rotuloConfirmar, perigo, exigirTexto? })` (o `exigirTexto` atende P5)
+- [x] `ToastProvider` + `useToast()`: sucesso, erro, aviso; `role="status"`/`alert`; 5 s (erros ficam até fechar); botão de ação opcional ("Ver consultas")
+- [x] `useFormularioEntidade`: une RHF + zodResolver + `aplicarErrosNoFormulario` + bloqueio de saída com `useBlocker` (só com alterações) + `beforeunload` ao fechar a aba
 
 ### 9.5 Ambiente de demonstração (RS-01)
 
-- [ ] Banner discreto no topo do conteúdo: "Ambiente de demonstração — use apenas dados fictícios" (some com `VITE_AMBIENTE=producao`, que só será usado com backend)
+- [x] Banner discreto no topo do conteúdo: "Ambiente de demonstração — use apenas dados fictícios" (some com `VITE_AMBIENTE=producao`, que só será usado com backend)
 
 ### 9.6 Acessibilidade de navegação (M11)
 
-- [ ] `useAnunciarRota`: a cada mudança de rota, foca o `<h1>` da página (com `tabIndex={-1}`) e anuncia "Página: Novo paciente" em uma região `aria-live="polite"`
+- [x] `useAnunciarRota`: a cada mudança de rota, foca o `<h1>` da página (com `tabIndex={-1}`) e anuncia "Página: Novo paciente" em uma região `aria-live="polite"`
 
 ### 9.7 Textos
 
-- [ ] Novos grupos em `i18n/pt-BR.ts`: `formulario`, `validacao`, `lista`, `confirmacao`, `toast`, `erros` (E-01 a E-10), `demo`
-- [ ] Vitrine `/ui` com todos os componentes novos
+- [x] Novos grupos em `i18n/pt-BR.ts`: `formulario`, `validacao`, `lista`, `confirmacao`, `toast`, `erros` (E-01 a E-10), `demo`
+- [x] Vitrine `/ui` com todos os componentes novos
 
 ### 9.8 Testes da fase
 
-- [ ] `Campo` liga erro e dica; `InputMascarado` mantém o cursor; `Combobox` 100% por teclado; `DataTable` ordena, pagina e seleciona; `Modal` prende o foco; `useConfirmar` resolve `true`/`false`; `useFormularioEntidade` bloqueia a saída só com alterações
+- [x] `Campo` liga erro e dica; `InputMascarado` mantém o cursor; `Combobox` 100% por teclado; `DataTable` ordena, pagina e seleciona; `Modal` prende o foco; `useConfirmar` resolve `true`/`false`; `useFormularioEntidade` bloqueia a saída só com alterações
 
 ### ✅ Critérios de conclusão — Fase 9
 
-- [ ] Todos os componentes na vitrine `/ui`, nos dois temas, sem violações axe
-- [ ] Cobertura de `components/ui/` ≥ 70%
+- [x] Todos os componentes na vitrine `/ui`, nos dois temas, sem violações axe
+- [x] Cobertura de `components/ui/` ≥ 70%
 - [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto
 
 ---

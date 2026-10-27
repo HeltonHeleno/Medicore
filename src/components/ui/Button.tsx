@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 import { Link, type LinkProps } from 'react-router-dom';
 import { cn } from '../../utils/cn';
 import { classesBotao, type PropsVisuais } from './buttonStyles';
@@ -25,7 +25,8 @@ function Conteudo({
   );
 }
 
-type ButtonProps = PropsVisuais & ButtonHTMLAttributes<HTMLButtonElement>;
+type ButtonProps = PropsVisuais &
+  ButtonHTMLAttributes<HTMLButtonElement> & { ref?: Ref<HTMLButtonElement> };
 
 export function Button({
   variante,

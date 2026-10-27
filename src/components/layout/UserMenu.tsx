@@ -1,7 +1,8 @@
 import { ChevronDown, LogOut, Settings, UserRound } from 'lucide-react';
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
+import { useId } from 'react';
 import { Link } from 'react-router-dom';
 import { useUsuario } from '../../hooks/useDashboardData';
+import { useMenuSuspenso } from '../../hooks/useMenuSuspenso';
 import { t } from '../../i18n/pt-BR';
 import { cn } from '../../utils/cn';
 import { Avatar } from '../ui/Avatar';
@@ -12,57 +13,9 @@ const classeItem =
 /** Avatar com menu suspenso (Meu perfil, Configurações, Sair). */
 export function UserMenu() {
   const { data: usuario } = useUsuario();
-  const [aberto, setAberto] = useState(false);
-  const raizRef = useRef<HTMLDivElement>(null);
-  const botaoRef = useRef<HTMLButtonElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const { aberto, alternar, fechar, raizRef, botaoRef, menuRef, aoTeclarNoMenu, aoTeclarNoBotao } =
+    useMenuSuspenso();
   const menuId = useId();
-
-  const itens = () =>
-    Array.from(menuRef.current?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? []);
-
-  const fechar = (devolverFoco = true) => {
-    setAberto(false);
-    if (devolverFoco) botaoRef.current?.focus();
-  };
-
-  // Ao abrir, o foco vai para o primeiro item.
-  useEffect(() => {
-    if (aberto) itens()[0]?.focus();
-  }, [aberto]);
-
-  // Fecha ao clicar fora.
-  useEffect(() => {
-    if (!aberto) return;
-    const aoClicar = (e: PointerEvent) => {
-      if (!raizRef.current?.contains(e.target as Node)) setAberto(false);
-    };
-    document.addEventListener('pointerdown', aoClicar);
-    return () => document.removeEventListener('pointerdown', aoClicar);
-  }, [aberto]);
-
-  const aoTeclarNoMenu = (e: KeyboardEvent<HTMLDivElement>) => {
-    const lista = itens();
-    const atual = lista.indexOf(document.activeElement as HTMLElement);
-    if (e.key === 'Escape') {
-      e.preventDefault();
-      fechar();
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      lista[(atual + 1) % lista.length]?.focus();
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      lista[(atual - 1 + lista.length) % lista.length]?.focus();
-    } else if (e.key === 'Home') {
-      e.preventDefault();
-      lista[0]?.focus();
-    } else if (e.key === 'End') {
-      e.preventDefault();
-      lista[lista.length - 1]?.focus();
-    } else if (e.key === 'Tab') {
-      setAberto(false);
-    }
-  };
 
   return (
     <div ref={raizRef} className="relative">
@@ -73,13 +26,8 @@ export function UserMenu() {
         aria-haspopup="menu"
         aria-expanded={aberto}
         aria-controls={aberto ? menuId : undefined}
-        onClick={() => setAberto((a) => !a)}
-        onKeyDown={(e) => {
-          if (e.key === 'ArrowDown' && !aberto) {
-            e.preventDefault();
-            setAberto(true);
-          }
-        }}
+        onClick={alternar}
+        onKeyDown={aoTeclarNoBotao}
         className="flex items-center gap-2 rounded-full p-0.5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
       >
         <Avatar nome={usuario?.tratamento ?? t.app.nome} url={usuario?.avatarUrl} />

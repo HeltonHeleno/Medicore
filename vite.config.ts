@@ -42,6 +42,7 @@ export default defineConfig({
         'src/main.tsx',
         'src/vite-env.d.ts',
         'src/pages/UiShowcase.tsx',
+        'src/pages/vitrine/**',
       ],
       reporter: ['text', 'text-summary', 'html'],
       // Metas: utils/ ≥ 90% e services/ ≥ 85% (Fase 8); components/ui/ ≥ 70%.
