@@ -2,5 +2,8 @@ node_modules
 dist
 package-lock.json
 docs/planos/
+PLANO_OPERACOES_MEDICORE.md
+BACKLOG_MEDICORE.md
 test-results
 playwright-report
+PLANO_EXECUCAO_OPERACOES.md
