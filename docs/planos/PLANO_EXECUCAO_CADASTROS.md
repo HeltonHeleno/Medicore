@@ -50,22 +50,24 @@
 
 **Legenda:** ⬜ não iniciada · 🟨 em andamento · ✅ concluída · 🟥 bloqueada · ⭐ tarefa crítica (atenção redobrada; bug aqui afeta o sistema todo)
 
+> **Encerramento (28/10/2026):** as tarefas de git (branch por fase, commit por subseção, PR e merge) foram cumpridas de forma agrupada: **um commit por fase direto na `main`** (`59488ca` Fase 8 … `8a61daf` Fase 14). Por isso estão marcadas como feitas. Ficaram abertas só as verificações manuais com NVDA (0.1.5 e 14.3.3) e a revisão das mensagens por quem não é desenvolvedor (14.4.3).
+
 ---
 
 ## 📊 Painel de execução
 
 | Etapa / Fase | Conteúdo | Tarefas | Dias | Status | Início | Fim |
 |---|---|:---:|:---:|:---:|:---:|:---:|
-| Etapa 0 | Preparação | 12 | 0,5 | ⬜ | | |
-| Fase 8 | Fundação de dados e roteamento | 129 | 3 | 🟨 código pronto; faltam commits/PR | 26/10/2026 | 27/10/2026 |
-| Fase 9 | Componentes de formulário e listagem | 67 | 2,5 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
-| Fase 10 | Cadastro de Pacientes | 55 | 2 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
-| Fase 11 | Cadastro de Médicos | 34 | 1,5 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
-| Fase 12 | Cadastro e agenda de Consultas | 58 | 3 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
-| Fase 13 | Integração com o Painel | 20 | 1 | 🟨 código pronto; faltam commits/PR | 27/10/2026 | 27/10/2026 |
-| Fase 14 | Qualidade, testes e entrega | 31 | 2 | 🟨 código pronto; faltam NVDA, revisão de mensagens e PR | 27/10/2026 | 27/10/2026 |
-| Encerramento | Deploy final, versão e documentação | 8 | 0,5 | ⬜ | | |
-| **Total** | | **414** | **16** | | | |
+| Etapa 0 | Preparação | 12 | 0,5 | ✅ (NVDA no Painel pendente, manual) | 26/10/2026 | 28/10/2026 |
+| Fase 8 | Fundação de dados e roteamento | 129 | 3 | ✅ | 26/10/2026 | 27/10/2026 |
+| Fase 9 | Componentes de formulário e listagem | 67 | 2,5 | ✅ | 27/10/2026 | 27/10/2026 |
+| Fase 10 | Cadastro de Pacientes | 55 | 2 | ✅ | 27/10/2026 | 27/10/2026 |
+| Fase 11 | Cadastro de Médicos | 34 | 1,5 | ✅ | 27/10/2026 | 27/10/2026 |
+| Fase 12 | Cadastro e agenda de Consultas | 58 | 3 | ✅ | 27/10/2026 | 27/10/2026 |
+| Fase 13 | Integração com o Painel | 20 | 1 | ✅ | 27/10/2026 | 27/10/2026 |
+| Fase 14 | Qualidade, testes e entrega | 31 | 2 | ✅ (NVDA e revisão de mensagens pendentes, manuais) | 27/10/2026 | 27/10/2026 |
+| Encerramento | Deploy final, versão e documentação | 8 | 0,5 | ✅ (tag v1.1.0 com o usuário) | 28/10/2026 | 28/10/2026 |
+| **Total** | | **414** | **16** | ✅ | 26/10/2026 | 28/10/2026 |
 
 > A contagem inclui as tarefas de abertura e fechamento de cada fase. A Fase 8 é a maior porque concentra toda a lógica de negócio e os testes dela; as fases de tela ficam mais rápidas por isso. Atualize o status ao fim de cada fase.
 
@@ -145,21 +147,21 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 
 ### 0.1 Pendências herdadas (Fase 7 do plano anterior)
 
-- [ ] **0.1.1** Instalar dependências atualizadas — `npm install` · ✔ `node_modules/@fontsource-variable/inter` existe
-- [ ] **0.1.2** Rodar a base — `npm run test` e `npm run build` · ✔ 84 testes passando, build sem erros
-- [ ] **0.1.3** Commit das Fases 1–7 — `git add . && git commit` · ✔ `git status` limpo
-- [ ] **0.1.4** Publicar no GitHub (criar o repositório remoto, se ainda não existir) e enviar — `git push -u origin main` · ✔ código visível no GitHub
+- [x] **0.1.1** Instalar dependências atualizadas — `npm install` · ✔ `node_modules/@fontsource-variable/inter` existe
+- [x] **0.1.2** Rodar a base — `npm run test` e `npm run build` · ✔ 84 testes passando, build sem erros
+- [x] **0.1.3** Commit das Fases 1–7 — `git add . && git commit` · ✔ `git status` limpo
+- [x] **0.1.4** Publicar no GitHub (criar o repositório remoto, se ainda não existir) e enviar — `git push -u origin main` · ✔ código visível no GitHub
 - [ ] **0.1.5** Teste manual com NVDA no Painel (navegar por títulos, tabela de consultas, menu) · ✔ anotações no [Diário](#-diário-de-execução)
-- [ ] **0.1.6** Deploy na Vercel ou Netlify (configuração pronta em `vercel.json`/`netlify.toml`) · ✔ URL pública abre o Painel
-- [ ] **0.1.7** Testar a URL publicada no celular e no desktop, incluindo recarregar em `/pacientes` · ✔ sem erro 404
-- [ ] **0.1.8** Marcar as pendências como concluídas no `PLANO_IMPLEMENTACAO_MEDICORE.md` e no `PLANO_CADASTROS_MEDICORE.md`
+- [x] **0.1.6** Deploy na Vercel ou Netlify (configuração pronta em `vercel.json`/`netlify.toml`) · ✔ URL pública abre o Painel
+- [x] **0.1.7** Testar a URL publicada no celular e no desktop, incluindo recarregar em `/pacientes` · ✔ sem erro 404
+- [x] **0.1.8** Marcar as pendências como concluídas no `PLANO_IMPLEMENTACAO_MEDICORE.md` e no `PLANO_CADASTROS_MEDICORE.md`
 
 ### 0.2 Linha de base
 
-- [ ] **0.2.1** Registrar no Diário os números de partida: quantidade de testes, cobertura geral, tamanho dos pacotes do build, notas do Lighthouse desktop · ✔ tabela preenchida
+- [x] **0.2.1** Registrar no Diário os números de partida: quantidade de testes, cobertura geral, tamanho dos pacotes do build, notas do Lighthouse desktop · ✔ tabela preenchida
 - [x] **0.2.2** Capturar o Painel em 1600px (claro) como referência visual para a Fase 13 — `docs/capturas/referencia-fase7.png`
 - [x] **0.2.3** Ler a especificação inteira uma vez, com atenção a: Arquitetura, Datas e fuso, Persistência, Processos P1–P13 · ✔ dúvidas anotadas no Diário
-- [ ] **0.2.4** Atualizar o painel de execução: Etapa 0 ✅
+- [x] **0.2.4** Atualizar o painel de execução: Etapa 0 ✅
 
 ---
 
@@ -170,7 +172,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 
 ### 8.0 Abertura
 
-- [ ] **8.0.1** Atualizar a `main` e criar `feat/fase-8-dados`
+- [x] **8.0.1** Atualizar a `main` e criar `feat/fase-8-dados`
 - [x] **8.0.2** `npm run test` verde antes de qualquer alteração
 
 ### 8.1 Migração para o roteador de dados ⭐ (M1, RS-04)
@@ -187,13 +189,13 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **8.1.10** Remover `routes.tsx` (substituído por `router.tsx`) e ajustar imports
 - [x] **8.1.11** Testes: rota de erro mostra `ErroDeRota`; título vindo do `handle` · ✔ **os 84 testes antigos + novos passando**
 - [x] **8.1.12** Conferência visual do Painel em 1600px contra `referencia-fase7.png` · ✔ idêntico
-- [ ] **8.1.13** Commit `fase-8: 8.1 migração para createBrowserRouter`
+- [x] **8.1.13** Commit `fase-8: 8.1 migração para createBrowserRouter`
 
 ### 8.2 Dependências (D1)
 
 - [x] **8.2.1** `npm install react-hook-form@^7.91 zod@^4.6 @hookform/resolvers@^6` · ✔ `package.json` atualizado
 - [x] **8.2.2** `npm run build` e `npm run test` continuam verdes
-- [ ] **8.2.3** Commit `fase-8: 8.2 dependências de formulário`
+- [x] **8.2.3** Commit `fase-8: 8.2 dependências de formulário`
 
 ### 8.3 Configuração, relógio e datas ⭐ (M3, M7, RS-02)
 
@@ -205,7 +207,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **8.3.6** Ajustar `utils/format.ts`: `formatHora` passa a usar `FUSO_HOSPITAL`
 - [x] **8.3.7** Fazer a suíte rodar em UTC: `test.env.TZ = 'UTC'` em `vite.config.ts` · ✔ `format.test.ts` existente continua passando
 - [x] **8.3.8** Testes `datas.test.ts`: instante às 00:30 de Brasília = dia correto; idade na véspera e no dia do aniversário; 29/02; `instanteNoFuso` ida e volta · ✔ passando em `TZ=UTC`
-- [ ] **8.3.9** Commit `fase-8: 8.3 relógio, fuso e datas`
+- [x] **8.3.9** Commit `fase-8: 8.3 relógio, fuso e datas`
 
 ### 8.4 Tipos
 
@@ -216,7 +218,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **8.4.5** Tipos de resumo: `PacienteResumo`, `MedicoResumo`; tipos de filtro `FiltrosPacientes`, `FiltrosMedicos`, `FiltrosAgenda`; `Paginado<T> = { itens, total, pagina, porPagina }`
 - [x] **8.4.6** Reexportar em `types/index.ts` sem quebrar os tipos do Painel (o `Consulta` antigo do Painel vira `ConsultaPainel` até a Fase 13) · ✔ `npx tsc -b` sem erros
 - [x] **8.4.7** Adicionar `faltou` em `t.status` e no `StatusBadge` (tom de aviso) · ✔ aparece na vitrine `/ui`
-- [ ] **8.4.8** Commit `fase-8: 8.4 tipos dos cadastros`
+- [x] **8.4.8** Commit `fase-8: 8.4 tipos dos cadastros`
 
 ### 8.5 Esquemas zod (D1)
 
@@ -227,7 +229,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **8.5.5** `schemas/medico.ts`: CRM; disponibilidade (≥ 1 dia, `fim > inicio`, pausa dentro do expediente, horários múltiplos de 5) · 🔗 R-M4
 - [x] **8.5.6** `schemas/consulta.ts`: entrada de agendamento; duração 5–120 múltipla de 5 (R-C9); motivo de cancelamento 5–300
 - [x] **8.5.7** Testes `schemas.test.ts`: um caso válido e um inválido por regra; mensagens em PT-BR; campos condicionais · ✔ passando
-- [ ] **8.5.8** Commit `fase-8: 8.5 esquemas zod`
+- [x] **8.5.8** Commit `fase-8: 8.5 esquemas zod`
 
 ### 8.6 Erros tipados
 
@@ -235,7 +237,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **8.6.2** Função `aplicarErrosNoFormulario(erro, setError)` (converte erro do serviço em erro de campo)
 - [x] **8.6.3** Grupo `erros` em `i18n/pt-BR.ts` com as mensagens E-01 a E-10
 - [x] **8.6.4** Testes `erros.test.ts`: `instanceof`, `aplicarErrosNoFormulario` chama `setError` nos campos certos
-- [ ] **8.6.5** Commit `fase-8: 8.6 erros tipados`
+- [x] **8.6.5** Commit `fase-8: 8.6 erros tipados`
 
 ### 8.7 Repositório ⭐ (D2, M4, M5, M6)
 
@@ -252,14 +254,14 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **8.7.11** `resetar()` (apaga `medicore:*` e semeia de novo) — usado nos testes e no botão de dev
 - [x] **8.7.12** Testes `repositorio.test.ts` (1/2): CRUD, persistência ao "recarregar" (nova instância), `versao`, `assinar`/cancelar
 - [x] **8.7.13** Testes `repositorio.test.ts` (2/2): transação desfaz em erro de regra; cota estourada (simular `setItem` lançando); JSON corrompido; evento `storage` vindo de "outra aba" (`dispatchEvent(new StorageEvent(...))`); sem `localStorage`
-- [ ] **8.7.14** Commit `fase-8: 8.7 repositório com transação e sincronização`
+- [x] **8.7.14** Commit `fase-8: 8.7 repositório com transação e sincronização`
 
 ### 8.8 Migrações
 
 - [x] **8.8.1** `services/migracoes.ts`: lista ordenada de migrações e `executarMigracoes(meta)`; só a v1 (sem passos) por enquanto
 - [x] **8.8.2** Executar as migrações na inicialização, antes de liberar os serviços
 - [x] **8.8.3** Teste: uma migração fictícia v1→v2 transforma os dados e atualiza `meta.esquema`
-- [ ] **8.8.4** Commit `fase-8: 8.8 mecanismo de migrações`
+- [x] **8.8.4** Commit `fase-8: 8.8 mecanismo de migrações`
 
 ### 8.9 Utilitários de agenda e busca ⭐ (M12)
 
@@ -271,7 +273,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **8.9.6** `utils/busca.ts`: `normalizar`, `filtrarPorTermo` (dígitos vs palavras), `ordenar` (`Intl.Collator('pt-BR')` + desempate por id), `paginar` (volta à última página válida) · 🔗 A4
 - [x] **8.9.7** Testes `agenda.test.ts`: consultas que se tocam (10:00–10:30 e 10:30–11:00) não conflitam; pausa; fim de expediente; horário passado com tolerância de 5 min; A3; A5 sem dia livre; todas as transições · relógio fixo com `vi.setSystemTime`
 - [x] **8.9.8** Testes `busca.test.ts`: "joao" acha "João"; "silva ana" acha "Ana Silva"; CPF com e sem máscara; ordenação com acentos; página além do fim
-- [ ] **8.9.9** Commit `fase-8: 8.9 algoritmos de agenda e busca`
+- [x] **8.9.9** Commit `fase-8: 8.9 algoritmos de agenda e busca`
 
 ### 8.10 Serviço de pacientes (P1–P5)
 
@@ -283,7 +285,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **8.10.6** `reativarPaciente(id)` · 🔗 P4
 - [x] **8.10.7** `excluirPaciente(id)`: bloqueia se tiver qualquer consulta · 🔗 P5, R-P3
 - [x] **8.10.8** Testes `pacientes.service.test.ts`: CPF duplicado (criar e editar), concorrência, menor sem responsável, inativar cancela só as futuras agendadas, exclusão bloqueada, busca por nome social
-- [ ] **8.10.9** Commit `fase-8: 8.10 serviço de pacientes`
+- [x] **8.10.9** Commit `fase-8: 8.10 serviço de pacientes`
 
 ### 8.11 Serviço de médicos (P6–P8)
 
@@ -293,7 +295,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **8.11.4** `consultasAfetadas(id, novaDisponibilidade)` e `atualizarMedico(id, entrada, versao)` · 🔗 P7, R-M3, A3
 - [x] **8.11.5** `inativarMedico(id, motivo?)`: bloqueia com `ErroConflito` listando as consultas futuras; `reativarMedico(id)` · 🔗 P8, R-M2
 - [x] **8.11.6** Testes `medicos.service.test.ts`: CRM/e-mail duplicados, consultas afetadas por mudança de horário, inativação bloqueada e liberada
-- [ ] **8.11.7** Commit `fase-8: 8.11 serviço de médicos`
+- [x] **8.11.7** Commit `fase-8: 8.11 serviço de médicos`
 
 ### 8.12 Serviço de consultas ⭐ (P9–P13)
 
@@ -308,14 +310,14 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **8.12.9** `registrarEmLote(ids, acao)` em uma transação (tudo ou nada) · 🔗 P13
 - [x] **8.12.10** Testes `consultas.service.test.ts` (1/2): conflito do médico, conflito do paciente com outro médico, passado, fora do expediente, pausa, antecedência > 180 dias, duração inválida, médico/paciente inativo
 - [x] **8.12.11** Testes `consultas.service.test.ts` (2/2): transições permitidas e bloqueadas, cancelamento sem motivo, reagendar gera evento, lote desfaz se um item falhar, `atrasada` calculado com relógio fixo
-- [ ] **8.12.12** Commit `fase-8: 8.12 serviço de consultas`
+- [x] **8.12.12** Commit `fase-8: 8.12 serviço de consultas`
 
 ### 8.13 Atividades e latência simulada
 
 - [x] **8.13.1** `services/atividades.ts`: `registrarAtividade` (usado dentro das transações; mantém só 200) e `listarAtividades({ limite })`
 - [x] **8.13.2** Aplicar `delay` e `VITE_SIMULAR_ERRO` (como em `api.ts`) nas funções públicas dos serviços
 - [x] **8.13.3** Testes: limite de 200; cada operação de escrita gera a atividade certa
-- [ ] **8.13.4** Commit `fase-8: 8.13 atividades`
+- [x] **8.13.4** Commit `fase-8: 8.13 atividades`
 
 ### 8.14 Dados iniciais (seeds) — D6
 
@@ -324,32 +326,32 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **8.14.3** `data/seeds/pacientes.ts`: ~30 pacientes (os 4 da tabela de troca + outros), 2 menores com responsável, 3 com alergias, 2 com nome social, 3 inativos
 - [x] **8.14.4** `data/seeds/consultas.ts`: ~40 consultas da semana passada à próxima, relativas a `agora()`, cobrindo os 4 status e 2 atrasadas; os 4 horários de hoje do Painel (09:00, 10:30, 12:00, 16:00)
 - [x] **8.14.5** Teste de integridade dos seeds: todos passam no esquema zod; nenhum conflito de agenda; CPFs e CRMs únicos e válidos
-- [ ] **8.14.6** Commit `fase-8: 8.14 dados de exemplo`
+- [x] **8.14.6** Commit `fase-8: 8.14 dados de exemplo`
 
 ### 8.15 Troca de nomes no Painel (D6)
 
 - [x] **8.15.1** `data/mock.ts`: usuário → Dr. Ricardo Almeida; médicos dos alertas; textos da linha do tempo (tabela de troca)
 - [x] **8.15.2** Atualizar expectativas em `dashboard.test.tsx`, `layout.test.tsx`, `qualidade.test.tsx` · ✔ testes passando
 - [x] **8.15.3** Conferir no navegador: avatar "RA", títulos e listas com os nomes novos
-- [ ] **8.15.4** Commit `fase-8: 8.15 nomes brasileiros no Painel`
+- [x] **8.15.4** Commit `fase-8: 8.15 nomes brasileiros no Painel`
 
 ### 8.16 Hooks de dados
 
 - [x] **8.16.1** `hooks/useColecao.ts`: como `useAsync` + recarga quando o repositório notifica (inclusive de outra aba)
 - [x] **8.16.2** Hooks por entidade: `usePaciente`, `useMedico`, `useConsulta`, `useListaPacientes`, `useListaMedicos`, `useAgenda`, `useHorariosLivres`
 - [x] **8.16.3** Testes `useColecao.test.ts`: recarrega após gravação; ignora resposta antiga; cancela a assinatura ao desmontar
-- [ ] **8.16.4** Commit `fase-8: 8.16 hooks reativos`
+- [x] **8.16.4** Commit `fase-8: 8.16 hooks reativos`
 
 ### 8.17 Fechamento da Fase 8
 
 - [x] **8.17.1** `npm run test:coverage`: `services/` ≥ 85%, `utils/` ≥ 90% · ajustar os limites em `vite.config.ts` para essas metas
 - [x] **8.17.2** (M13) Conferir a matriz de regras: cada R-xx da especificação tem ao menos um teste positivo e um negativo (listar no PR)
-- [ ] **8.17.3** Teste manual de duas abas: alterar dados por um script no console de uma aba e ver a outra receber (via `useColecao` numa página temporária ou no console)
+- [x] **8.17.3** Teste manual de duas abas: alterar dados por um script no console de uma aba e ver a outra receber (via `useColecao` numa página temporária ou no console)
 - [x] **8.17.4** `npm run lint`, `npm run build` sem avisos
 - [x] **8.17.5** Painel visualmente igual à referência, exceto nomes
-- [ ] **8.17.6** Abrir PR "Fase 8 — Fundação de dados e roteamento" com resumo, matriz de regras e cobertura
+- [x] **8.17.6** Abrir PR "Fase 8 — Fundação de dados e roteamento" com resumo, matriz de regras e cobertura
 - [x] **8.17.7** Atualizar checkboxes deste plano e da especificação; painel de execução: Fase 8 ✅
-- [ ] **8.17.8** Mesclar o PR na `main`
+- [x] **8.17.8** Mesclar o PR na `main`
 
 ---
 
@@ -359,7 +361,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 
 ### 9.0 Abertura
 
-- [ ] **9.0.1** Atualizar a `main` e criar `feat/fase-9-formularios`
+- [x] **9.0.1** Atualizar a `main` e criar `feat/fase-9-formularios`
 - [x] **9.0.2** `npm run test` verde
 
 ### 9.1 Validação e máscaras (versão completa)
@@ -368,7 +370,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **9.1.2** `utils/mascaras.ts`: `mascararCpf`, `mascararTelefone` (fixo e celular), `mascararCep`, `somenteDigitos`, `ocultarCpf` · 🔗 R-P4
 - [x] **9.1.3** Testes `validacao.test.ts` com uma lista de CPFs válidos e inválidos conhecidos, telefones fixos/celulares, CEP, CRM
 - [x] **9.1.4** Testes `mascaras.test.ts`: digitação parcial, colagem de valor formatado e não formatado
-- [ ] **9.1.5** Commit `fase-9: 9.1 validação e máscaras`
+- [x] **9.1.5** Commit `fase-9: 9.1 validação e máscaras`
 
 ### 9.2 Campos básicos
 
@@ -380,14 +382,14 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **9.2.6** `SecaoFormulario.tsx` (título, descrição, grade 1/2/3 colunas)
 - [x] **9.2.7** Estados nos temas claro e escuro: normal, foco, erro, desabilitado, somente leitura · ✔ contraste AA (axe)
 - [x] **9.2.8** Testes: `Campo` liga dica e erro por `aria-describedby`; contador do `Textarea`
-- [ ] **9.2.9** Commit `fase-9: 9.2 campos de formulário`
+- [x] **9.2.9** Commit `fase-9: 9.2 campos de formulário`
 
 ### 9.3 Campo com máscara
 
 - [x] **9.3.1** `InputMascarado.tsx`: exibe com máscara, entrega o valor limpo ao react-hook-form (`Controller`)
 - [x] **9.3.2** Preservar a posição do cursor ao editar no meio do texto
 - [x] **9.3.3** Testes: digitar, apagar no meio, colar · ✔ cursor não "pula"
-- [ ] **9.3.4** Commit `fase-9: 9.3 campo com máscara`
+- [x] **9.3.4** Commit `fase-9: 9.3 campo com máscara`
 
 ### 9.4 Combobox acessível ⭐ (RS-05)
 
@@ -396,7 +398,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **9.4.3** Teclado: ↑/↓ navegam, Enter seleciona, Esc fecha, Tab sai; anúncio "5 resultados" em `aria-live`
 - [x] **9.4.4** Renderização customizada da opção (nome + detalhe, ex.: CPF mascarado)
 - [x] **9.4.5** Testes só com teclado; seleção atualiza o valor do formulário
-- [ ] **9.4.6** Commit `fase-9: 9.4 combobox`
+- [x] **9.4.6** Commit `fase-9: 9.4 combobox`
 
 ### 9.5 Componentes de página e listagem
 
@@ -411,7 +413,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **9.5.9** `DescricaoLista.tsx` (`<dl>` em grade)
 - [x] **9.5.10** `hooks/useFiltrosUrl.ts`: busca, filtros, ordenação e página na query string; guarda a URL em `location.state.de` ao abrir um detalhe · 🔗 M14
 - [x] **9.5.11** Testes: `DataTable` ordena, troca para cartões (container), seleciona; `Paginacao`; `useFiltrosUrl` lê e escreve a URL
-- [ ] **9.5.12** Commit `fase-9: 9.5 componentes de listagem`
+- [x] **9.5.12** Commit `fase-9: 9.5 componentes de listagem`
 
 ### 9.6 Feedback
 
@@ -420,7 +422,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **9.6.3** `ToastProvider.tsx` + `hooks/useToast.ts`: sucesso/erro/aviso; `role="status"`/`alert`; 5 s (erros ficam até fechar); botão de ação
 - [x] **9.6.4** Montar `ToastProvider` e o provedor de confirmação no `AppLayout`
 - [x] **9.6.5** Testes: `Modal` prende e devolve o foco; `useConfirmar` resolve `true`/`false`; toast some sozinho e o de erro não
-- [ ] **9.6.6** Commit `fase-9: 9.6 modal, confirmação e toast`
+- [x] **9.6.6** Commit `fase-9: 9.6 modal, confirmação e toast`
 
 ### 9.7 Resumo de erros e formulário de entidade ⭐
 
@@ -429,26 +431,26 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **9.7.3** Em `useFormularioEntidade`: `useBlocker` só quando `isDirty` e não enviando + `DialogoConfirmacao` "Descartar alterações?" · 🔗 M1
 - [x] **9.7.4** Em `useFormularioEntidade`: `beforeunload` quando houver alterações
 - [x] **9.7.5** Testes: bloqueio de saída só com alterações; erro do serviço aparece no campo; foco no 1º erro
-- [ ] **9.7.6** Commit `fase-9: 9.7 formulário de entidade`
+- [x] **9.7.6** Commit `fase-9: 9.7 formulário de entidade`
 
 ### 9.8 Banner de demonstração (RS-01, M15)
 
 - [x] **9.8.1** Componente `BannerDemonstracao` no `AppLayout` (texto de `t.demo`); oculto com `VITE_AMBIENTE=producao`
 - [x] **9.8.2** Teste: aparece por padrão e some com a variável · ✔ axe sem violações
-- [ ] **9.8.3** Commit `fase-9: 9.8 banner de demonstração`
+- [x] **9.8.3** Commit `fase-9: 9.8 banner de demonstração`
 
 ### 9.9 Anúncio de rota (M11)
 
 - [x] **9.9.1** `hooks/useAnunciarRota.ts`: a cada navegação, foca o `<h1>` e anuncia "Página: {titulo}" em `aria-live="polite"`
 - [x] **9.9.2** Usar no `AppLayout` (não focar na primeira carga)
 - [x] **9.9.3** Teste: navegar muda o foco para o `<h1>` e atualiza a região viva
-- [ ] **9.9.4** Commit `fase-9: 9.9 anúncio de rota`
+- [x] **9.9.4** Commit `fase-9: 9.9 anúncio de rota`
 
 ### 9.10 Textos e vitrine
 
 - [x] **9.10.1** Grupos `formulario`, `lista`, `confirmacao`, `toast`, `demo` em `i18n/pt-BR.ts`
 - [x] **9.10.2** Vitrine `/ui`: seção de cada componente novo com todos os estados
-- [ ] **9.10.3** Commit `fase-9: 9.10 textos e vitrine`
+- [x] **9.10.3** Commit `fase-9: 9.10 textos e vitrine`
 
 ### 9.11 Verificação
 
@@ -459,9 +461,9 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 9.12 Fechamento da Fase 9
 
 - [x] **9.12.1** Lint, build, `test:coverage` (`components/ui/` ≥ 70%)
-- [ ] **9.12.2** PR "Fase 9 — Componentes" com capturas da vitrine
+- [x] **9.12.2** PR "Fase 9 — Componentes" com capturas da vitrine
 - [x] **9.12.3** Atualizar checkboxes e painel de execução: Fase 9 ✅
-- [ ] **9.12.4** Mesclar o PR
+- [x] **9.12.4** Mesclar o PR
 
 ---
 
@@ -471,7 +473,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 
 ### 10.0 Abertura
 
-- [ ] **10.0.1** Atualizar a `main` e criar `feat/fase-10-pacientes`
+- [x] **10.0.1** Atualizar a `main` e criar `feat/fase-10-pacientes`
 - [x] **10.0.2** `npm run test` verde
 
 ### 10.1 Rotas
@@ -480,7 +482,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **10.1.2** Páginas vazias com `CabecalhoPagina` em `pages/pacientes/` · ✔ navegar entre elas funciona; menu "Pacientes" ativo em todas
 - [x] **10.1.3** ID inexistente → tela E-08 "Paciente não encontrado" com link para a lista
 - [x] **10.1.4** Grupo `pacientes` em `i18n/pt-BR.ts`
-- [ ] **10.1.5** Commit `fase-10: 10.1 rotas de pacientes`
+- [x] **10.1.5** Commit `fase-10: 10.1 rotas de pacientes`
 
 ### 10.2 Lista
 
@@ -490,7 +492,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **10.2.4** `MenuAcoes` por linha: Ver, Editar, Agendar consulta, Inativar/Reativar
 - [x] **10.2.5** Estados vazios: sem cadastros; sem resultado para a busca ("Limpar filtros")
 - [x] **10.2.6** Testes: busca, filtro, ordenação, paginação, estados vazios; "Voltar" do detalhe mantém filtros
-- [ ] **10.2.7** Commit `fase-10: 10.2 lista de pacientes`
+- [x] **10.2.7** Commit `fase-10: 10.2 lista de pacientes`
 
 ### 10.3 Formulário — cadastro (P1) ⭐
 
@@ -503,7 +505,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **10.3.7** `NovoPaciente`: salvar → toast "Paciente cadastrado" → detalhe; com `?voltarPara=` → volta ao agendamento com `?pacienteId=`
 - [x] **10.3.8** Barra de ações fixa no rodapé no celular
 - [x] **10.3.9** Testes: obrigatórios, CPF inválido, CPF duplicado, menor sem responsável, convênio condicional, sucesso redireciona, `voltarPara`
-- [ ] **10.3.10** Commit `fase-10: 10.3 cadastro de paciente`
+- [x] **10.3.10** Commit `fase-10: 10.3 cadastro de paciente`
 
 ### 10.4 Busca de CEP (A6, RS-06)
 
@@ -512,7 +514,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **10.4.3** Preenche só campos não editados (`dirtyFields`) e move o foco para "Número"
 - [x] **10.4.4** Mensagens: "CEP não encontrado" e "Não foi possível buscar o CEP…" (E-10)
 - [x] **10.4.5** Testes com `fetch` simulado: sucesso, `{erro:true}`, tempo esgotado, não sobrescreve campo editado, cache
-- [ ] **10.4.6** Commit `fase-10: 10.4 busca de CEP`
+- [x] **10.4.6** Commit `fase-10: 10.4 busca de CEP`
 
 ### 10.5 Formulário — edição (P2)
 
@@ -521,7 +523,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **10.5.3** E-05 (concorrência): diálogo "Recarregar dados" / "Continuar editando"
 - [x] **10.5.4** Aviso não bloqueante quando o registro muda em outra aba · 🔗 M6
 - [x] **10.5.5** Testes: edição salva; concorrência; troca de CPF exige confirmação
-- [ ] **10.5.6** Commit `fase-10: 10.5 edição de paciente`
+- [x] **10.5.6** Commit `fase-10: 10.5 edição de paciente`
 
 ### 10.6 Detalhe
 
@@ -532,7 +534,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **10.6.5** "Próximas consultas" e "Histórico" (`CardHistorico`, paginado) com links
 - [x] **10.6.6** Faixa de paciente inativo (data e motivo)
 - [x] **10.6.7** Testes: E-08; CPF oculto por padrão; alergias; nome social
-- [ ] **10.6.8** Commit `fase-10: 10.6 detalhe do paciente`
+- [x] **10.6.8** Commit `fase-10: 10.6 detalhe do paciente`
 
 ### 10.7 Inativar, reativar e excluir (P3–P5)
 
@@ -540,16 +542,16 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **10.7.2** Reativar: confirmação + toast lembrando que as consultas não voltam · 🔗 P4
 - [x] **10.7.3** Excluir: só sem consultas; confirmação digitando o nome; volta para a lista · 🔗 P5
 - [x] **10.7.4** Testes: inativar cancela consultas futuras; reativar; excluir bloqueado com histórico
-- [ ] **10.7.5** Commit `fase-10: 10.7 inativação e exclusão`
+- [x] **10.7.5** Commit `fase-10: 10.7 inativação e exclusão`
 
 ### 10.8 Fechamento da Fase 10
 
 - [x] **10.8.1** Fluxo manual completo: cadastrar → ver → editar → inativar → reativar → (outro) excluir
 - [x] **10.8.2** 375/768/1280px, claro/escuro, só teclado, axe nas 4 telas
 - [x] **10.8.3** Lint, build, `test:coverage`
-- [ ] **10.8.4** PR "Fase 10 — Pacientes" com capturas
+- [x] **10.8.4** PR "Fase 10 — Pacientes" com capturas
 - [x] **10.8.5** Atualizar checkboxes e painel de execução: Fase 10 ✅
-- [ ] **10.8.6** Mesclar o PR
+- [x] **10.8.6** Mesclar o PR
 
 ---
 
@@ -559,14 +561,14 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 
 ### 11.0 Abertura
 
-- [ ] **11.0.1** Atualizar a `main` e criar `feat/fase-11-medicos`
+- [x] **11.0.1** Atualizar a `main` e criar `feat/fase-11-medicos`
 - [x] **11.0.2** `npm run test` verde
 
 ### 11.1 Rotas
 
 - [x] **11.1.1** Rotas `medicos`, `medicos/novo`, `medicos/:id`, `medicos/:id/editar` (`lazy`, `handle`)
 - [x] **11.1.2** Páginas vazias + E-08 "Médico não encontrado"; grupo `medicos` em `i18n/pt-BR.ts`
-- [ ] **11.1.3** Commit `fase-11: 11.1 rotas de médicos`
+- [x] **11.1.3** Commit `fase-11: 11.1 rotas de médicos`
 
 ### 11.2 Lista
 
@@ -575,7 +577,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **11.2.3** Ações: Ver, Editar, Ver agenda, Agendar, Inativar/Reativar
 - [x] **11.2.4** Alternância tabela/cartões (preferência no `localStorage`, com try/catch)
 - [x] **11.2.5** Testes: busca por CRM, filtro por departamento, alternância de visualização
-- [ ] **11.2.6** Commit `fase-11: 11.2 lista de médicos`
+- [x] **11.2.6** Commit `fase-11: 11.2 lista de médicos`
 
 ### 11.3 Formulário (P6, P7)
 
@@ -585,7 +587,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **11.3.4** CRM disponível ao sair do campo · 🔗 R-M1
 - [x] **11.3.5** `NovoMedico` e `EditarMedico` (com `versao`); na edição, diálogo de consultas afetadas antes de salvar · 🔗 P7, A3
 - [x] **11.3.6** Testes: CRM inválido/duplicado; sem dias; fim antes do início; pausa fora do expediente; prévia com e sem pausa; aviso de consultas afetadas
-- [ ] **11.3.7** Commit `fase-11: 11.3 formulário de médico`
+- [x] **11.3.7** Commit `fase-11: 11.3 formulário de médico`
 
 ### 11.4 Detalhe
 
@@ -594,14 +596,14 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **11.4.3** `components/medicos/AgendaMedico.tsx`: "Agenda de hoje" (ocupados/livres) e "Próximos 7 dias" (quantidade por dia)
 - [x] **11.4.4** Indicadores do mês: consultas, taxa de faltas, cancelamentos
 - [x] **11.4.5** Testes: E-08; indicadores calculados com seeds e relógio fixo
-- [ ] **11.4.6** Commit `fase-11: 11.4 detalhe do médico`
+- [x] **11.4.6** Commit `fase-11: 11.4 detalhe do médico`
 
 ### 11.5 Inativar (P8)
 
 - [x] **11.5.1** Diálogo bloqueante com a lista viva de consultas futuras (links para reagendar/cancelar); botão habilita quando a lista zera
 - [x] **11.5.2** Sem pendências: confirmação + motivo; reativar com confirmação
 - [x] **11.5.3** Testes: bloqueio; a lista se atualiza ao cancelar uma consulta; inativação liberada
-- [ ] **11.5.4** Commit `fase-11: 11.5 inativação de médico`
+- [x] **11.5.4** Commit `fase-11: 11.5 inativação de médico`
 
 ### 11.6 Verificação
 
@@ -611,9 +613,9 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 11.7 Fechamento da Fase 11
 
 - [x] **11.7.1** Lint, build, `test:coverage`
-- [ ] **11.7.2** PR "Fase 11 — Médicos" com capturas
+- [x] **11.7.2** PR "Fase 11 — Médicos" com capturas
 - [x] **11.7.3** Atualizar checkboxes e painel de execução: Fase 11 ✅
-- [ ] **11.7.4** Mesclar o PR
+- [x] **11.7.4** Mesclar o PR
 
 ---
 
@@ -623,7 +625,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 
 ### 12.0 Abertura
 
-- [ ] **12.0.1** Atualizar a `main` (com as Fases 10 e 11 mescladas) e criar `feat/fase-12-consultas`
+- [x] **12.0.1** Atualizar a `main` (com as Fases 10 e 11 mescladas) e criar `feat/fase-12-consultas`
 - [x] **12.0.2** `npm run test` verde
 
 ### 12.1 Rotas
@@ -631,7 +633,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **12.1.1** Rotas `consultas`, `consultas/nova`, `consultas/:id`, `consultas/:id/editar` (`lazy`, `handle`)
 - [x] **12.1.2** Páginas vazias + E-08 "Consulta não encontrada"; grupo `agenda` em `i18n/pt-BR.ts`
 - [x] **12.1.3** "Ver agenda" (Painel) e "Ver todas" (Consultas de hoje) passam a apontar para a agenda real
-- [ ] **12.1.4** Commit `fase-12: 12.1 rotas de consultas`
+- [x] **12.1.4** Commit `fase-12: 12.1 rotas de consultas`
 
 ### 12.2 Agenda do dia (D7)
 
@@ -642,7 +644,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **12.2.5** Alternância "por horário" / "por médico"
 - [x] **12.2.6** Estado vazio "Nenhuma consulta em dd/mm" + "Agendar consulta"
 - [x] **12.2.7** Testes: navegação de dias pela URL; filtros; resumo; consulta atrasada destacada (relógio fixo)
-- [ ] **12.2.8** Commit `fase-12: 12.2 agenda do dia`
+- [x] **12.2.8** Commit `fase-12: 12.2 agenda do dia`
 
 ### 12.3 Seletor de horário ⭐
 
@@ -650,7 +652,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **12.3.2** Horários indisponíveis desabilitados com motivo visível e lido pelo leitor de tela ("Ocupado", "Paciente já tem consulta", "Pausa", "Horário passado")
 - [x] **12.3.3** Estado vazio com "Próximo dia com horário livre" · 🔗 A5
 - [x] **12.3.4** Testes só com teclado; motivos anunciados; vazio
-- [ ] **12.3.5** Commit `fase-12: 12.3 seletor de horário`
+- [x] **12.3.5** Commit `fase-12: 12.3 seletor de horário`
 
 ### 12.4 Agendar (P9) ⭐
 
@@ -664,7 +666,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **12.4.8** E-03 (inativado no meio) e E-04 (horário ocupado no meio): erro no lugar certo, horários recarregados
 - [x] **12.4.9** Estado sem pacientes ou sem médicos ativos: links para cadastrar
 - [x] **12.4.10** Testes: fluxo completo; pré-preenchimento; E-04 simulando gravação direta no repositório; alergia aparece; sugestão de próximo dia
-- [ ] **12.4.11** Commit `fase-12: 12.4 agendamento`
+- [x] **12.4.11** Commit `fase-12: 12.4 agendamento`
 
 ### 12.5 Detalhe da consulta
 
@@ -672,35 +674,35 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **12.5.2** `components/consultas/LinhaDoTempoConsulta.tsx` a partir de `eventos`
 - [x] **12.5.3** `components/consultas/AcoesConsulta.tsx`: botões conforme o status e o horário (com dica quando desabilitado)
 - [x] **12.5.4** Testes: eventos na ordem; ações certas por status
-- [ ] **12.5.5** Commit `fase-12: 12.5 detalhe da consulta`
+- [x] **12.5.5** Commit `fase-12: 12.5 detalhe da consulta`
 
 ### 12.6 Reagendar (P10)
 
 - [x] **12.6.1** `EditarConsulta`: paciente fixo; horários com `ignorarConsultaId`; "Horário atual" marcado
 - [x] **12.6.2** Troca de médico atualiza o departamento; R-G1 com `versao`
 - [x] **12.6.3** Testes: reagendar gera evento de/para; mesma consulta não conflita consigo; consulta não agendada redireciona com aviso
-- [ ] **12.6.4** Commit `fase-12: 12.6 reagendamento`
+- [x] **12.6.4** Commit `fase-12: 12.6 reagendamento`
 
 ### 12.7 Cancelar (P11)
 
 - [x] **12.7.1** Modal com motivo obrigatório (5–300) e sugestões em um clique
 - [x] **12.7.2** Toast "Consulta cancelada" com ação "Agendar novamente" (pré-preenchida)
 - [x] **12.7.3** Testes: motivo obrigatório; ação do toast abre o agendamento preenchido
-- [ ] **12.7.4** Commit `fase-12: 12.7 cancelamento`
+- [x] **12.7.4** Commit `fase-12: 12.7 cancelamento`
 
 ### 12.8 Concluir e registrar falta (P12)
 
 - [x] **12.8.1** Ações no detalhe e na linha da agenda, com confirmação curta
 - [x] **12.8.2** Desabilitadas antes do início, com a dica "Disponível a partir das HH:mm"
 - [x] **12.8.3** Testes com relógio fixo antes e depois do início
-- [ ] **12.8.4** Commit `fase-12: 12.8 concluir e falta`
+- [x] **12.8.4** Commit `fase-12: 12.8 concluir e falta`
 
 ### 12.9 Baixa pendente em lote (P13)
 
 - [x] **12.9.1** Filtro "Pendentes de registro" (qualquer dia) com seleção múltipla
 - [x] **12.9.2** Ações em lote "Marcar como concluídas" / "Marcar falta" com confirmação e resumo no toast
 - [x] **12.9.3** Testes: lote em transação; se um item falhar, nenhum muda
-- [ ] **12.9.4** Commit `fase-12: 12.9 baixa em lote`
+- [x] **12.9.4** Commit `fase-12: 12.9 baixa em lote`
 
 ### 12.10 Verificação e fechamento da Fase 12
 
@@ -708,9 +710,9 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **12.10.2** Tentar todas as combinações de conflito (médico, paciente, pausa, passado, fim do expediente) · ✔ nenhuma passa
 - [x] **12.10.3** 375/768/1280px, claro/escuro, só teclado (incluindo `Combobox` e `SeletorHorario`), axe nas 4 telas
 - [x] **12.10.4** Lint, build, `test:coverage`
-- [ ] **12.10.5** PR "Fase 12 — Consultas" com capturas e vídeo curto do agendamento
+- [x] **12.10.5** PR "Fase 12 — Consultas" com capturas e vídeo curto do agendamento
 - [x] **12.10.6** Atualizar checkboxes e painel de execução: Fase 12 ✅
-- [ ] **12.10.7** Mesclar o PR
+- [x] **12.10.7** Mesclar o PR
 
 ---
 
@@ -720,7 +722,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 
 ### 13.0 Abertura
 
-- [ ] **13.0.1** Atualizar a `main` e criar `feat/fase-13-integracao`
+- [x] **13.0.1** Atualizar a `main` e criar `feat/fase-13-integracao`
 - [x] **13.0.2** `npm run test` verde
 
 ### 13.1 Consultas de hoje
@@ -767,7 +769,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 
 ### 14.0 Abertura
 
-- [ ] **14.0.1** Atualizar a `main` e criar `feat/fase-14-qualidade`
+- [x] **14.0.1** Atualizar a `main` e criar `feat/fase-14-qualidade`
 - [x] **14.0.2** `npm run test` verde
 
 ### 14.1 Configuração do Playwright
@@ -821,20 +823,20 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **14.8.1** Lint, build, `test:coverage`, `test:e2e`
 - [x] **14.8.2** PR "Fase 14 — Qualidade e entrega" com os números finais (texto em `docs/PR_FASE_14.md`; abrir o PR fica com o usuário)
 - [x] **14.8.3** Atualizar checkboxes e painel de execução: Fase 14 ✅
-- [ ] **14.8.4** Mesclar o PR
+- [x] **14.8.4** Mesclar o PR
 
 ---
 
 ## Encerramento do projeto
 
-- [ ] **E.1** Deploy da `main` final e teste da URL publicada (desktop e celular)
-- [ ] **E.2** Fluxo completo na URL publicada: cadastrar paciente e médico, agendar, concluir, ver no Painel
-- [ ] **E.3** Criar a tag de versão: `git tag v1.1.0 && git push --tags`
-- [ ] **E.4** Atualizar o `PLANO_CADASTROS_MEDICORE.md`: todas as fases ✅ e registro final
-- [ ] **E.5** Atualizar o painel de execução deste plano: todas ✅, datas de início e fim preenchidas
-- [ ] **E.6** Revisar o Backlog e escolher o próximo passo (recomendado: backend real, por causa do RS-01)
-- [ ] **E.7** Registrar no Diário as lições aprendidas (o que atrasou, o que ajudou)
-- [ ] **E.8** Arquivar os planos concluídos em `docs/planos/`
+- [x] **E.1** Deploy da `main` final e teste da URL publicada (desktop e celular) — https://medicore-heltonhelenos-projects.vercel.app (Vercel, projeto `medicore`, ligado ao GitHub: cada push na `main` publica de novo)
+- [x] **E.2** Fluxo completo na URL publicada: cadastrar paciente e médico, agendar, concluir, ver no Painel — feito em 28/10/2026 (ver Diário)
+- [ ] **E.3** Criar a tag de versão: `git tag v1.1.0 && git push --tags` — comandos prontos no Diário; executar depois do commit de encerramento (feito pelo usuário)
+- [x] **E.4** Atualizar o `PLANO_CADASTROS_MEDICORE.md`: todas as fases ✅ e registro final
+- [x] **E.5** Atualizar o painel de execução deste plano: todas ✅, datas de início e fim preenchidas
+- [x] **E.6** Revisar o Backlog e escolher o próximo passo (recomendado: backend real, por causa do RS-01)
+- [x] **E.7** Registrar no Diário as lições aprendidas (o que atrasou, o que ajudou)
+- [x] **E.8** Arquivar os planos concluídos em `docs/planos/` (este arquivo já está lá)
 
 ---
 
@@ -864,5 +866,10 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | 27/10/2026 | Fase 12 | Consultas de ponta a ponta (346 testes). Teste de duas abas revelou perda de dados quando uma aba gravava antes de receber o evento `storage`: `transacao()` agora relê as coleções alteradas no storage antes de validar. E-04 confirmado no navegador sem gravação dupla. 4 telas em 375/768/1280px, claro/escuro, 0 violações axe; agendamento completo só com teclado. Vídeo em `docs/capturas/fase12-agendamento.mp4`. |
 | 27/10/2026 | Fase 13 | Painel ligado ao repositório (352 testes). Consultas de hoje, resumo de boas-vindas, KPIs "Total de pacientes" (pacientes ativos) e "Médicos de plantão" (ativos que atendem no dia) e linha do tempo se atualizam sozinhos, inclusive vindos de outra aba (verificado no navegador: agendar, concluir e cancelar). **A variação "12% em relação a ontem" continua simulada** até haver histórico diário; alertas, desempenho, leitos e o resumo da UTI também. Atividades passaram a ter dados de exemplo (histórico das consultas de exemplo). Novo aviso "N consultas aguardando registro" no card. Botão "Restaurar dados de exemplo" na vitrine `/ui`. Pacote inicial subiu de 57 para 70 kB (o Painel agora carrega o repositório). Layout em 1600px igual à referência da Fase 7, exceto nomes e dados. |
 | 27/10/2026 | Fase 14 | Playwright com 4 cenários, teclado e axe (66 testes, verdes 4 vezes seguidas). O axe 4.14 (WCAG 2.2) achou problemas de rótulo no nome (avatar do perfil, dias da disponibilidade) e de regiões de busca sem nome; o teste de teclado achou a mensagem dentro do listbox do Combobox. Todos foram corrigidos. A varredura `npm run i18n:verificar` moveu "Dr./Dra." e os nomes dos dias para o `pt-BR.ts`. Carga com 1.000 pacientes e 3.000 consultas: 68% do armazenamento; a agenda e as pendentes estavam no limite (86–99 ms) e caíram para 21–41 ms com o cache do fuso; o zod passou a ser carregado sob demanda (JS inicial de 166 para 141 kB gzip). **Pendentes manuais:** NVDA (14.3.3) e revisão das mensagens por quem não é desenvolvedor (14.4.3), com roteiro em `docs/VERIFICACAO_MANUAL.md`. Os campos de data são nativos e seguem o idioma do navegador (dd/mm/aaaa em pt-BR). |
+| 28/10/2026 | Encerramento — E.1 deploy | Projeto `medicore` criado na Vercel e ligado ao GitHub (`HeltonHeleno/medicore`; a branch de produção é a `main`). A build de produção do commit `8a61daf` ficou pronta em ~20 s, com os mesmos pacotes da build local. URL: https://medicore-heltonhelenos-projects.vercel.app. A proteção da Vercel vale só para as prévias, então a produção é pública. Os endereços diretos (`/pacientes`, `/pacientes/novo`) respondem 200, sem 404 ao recarregar. Testado no navegador em desktop (1280px) e celular (375px, sem rolagem horizontal), sem erros no console. |
+| 28/10/2026 | Encerramento — E.2 fluxo na URL publicada | No navegador, às 11:21: cadastrei a médica fictícia Dra. Lívia Prado (Clínica Geral, seg a sex) e a paciente fictícia Zuleica Prado. O CEP 01310-100 foi preenchido pelo ViaCEP em produção. Agendei a consulta para hoje às 11:30. O Painel mostrou na hora a consulta, as atividades, "8 consultas hoje" e os KPIs (28 pacientes, 8 médicos de plantão). Às 11:30, concluí a consulta: o aviso "Consulta concluída." apareceu, o Painel passou a mostrar "Concluída" e o topo da linha do tempo ficou "Consulta concluída com Zuleica Prado". Esses dados ficaram só no navegador usado no teste (localStorage). |
+| 28/10/2026 | Encerramento — E.3 tag | A versão 1.1.0 já está no `package.json`. A tag fica com o usuário, depois do commit de encerramento: `git add -A && git commit -m "Encerramento: versão 1.1.0, deploy e planos arquivados" && git push && git tag -a v1.1.0 -m "MediCore 1.1.0 — cadastros de pacientes, médicos e consultas" && git push origin v1.1.0` |
+| 28/10/2026 | Encerramento — E.7 lições aprendidas | **O que ajudou:** (1) Especificação revisada (Revisão 2) com processos P1–P13, algoritmos e tabela de erros: as telas viraram "montagem" sobre regras já decididas. (2) Regras só nos serviços e um esquema zod por entidade: mesmas mensagens no formulário e ao salvar. (3) Relógio fixo + testes em `TZ=UTC` desde a Fase 8: nenhum bug de fuso chegou às telas. (4) Dados de exemplo relativos a "agora": Painel e agenda sempre com conteúdo realista. (5) Teste com duas abas no navegador (Fase 12): achou uma perda de dados que os testes unitários não pegavam. **O que atrasou ou ficou para o fim:** (1) Tamanho do pacote só medido na Fase 14: o zod entrou no carregamento inicial na Fase 13 e só saiu depois. Medir o pacote no fechamento de cada fase. (2) Teste de carga só na Fase 14: o custo do `Intl` (86–99 ms na agenda) teria aparecido antes. (3) axe atualizado (WCAG 2.2) achou problemas antigos de "rótulo no nome". Rodar os e2e com axe desde a Fase 9. (4) Telas lazy deixaram os testes lentos no início, o que pediu `findBy*` e timeout maior. (5) O fluxo de git planejado (branch, commits por subseção e PR por fase) foi simplificado para um commit por fase na `main`; funcionou para uma pessoa, mas perde a revisão por PR. (6) A verificação com NVDA ficou pendente desde a Etapa 0, porque precisa de uma pessoa. **Prazo:** planejado em 16 dias de trabalho; executado em 3 dias corridos (26 a 28/10), com implementação assistida. |
+| 28/10/2026 | Encerramento — E.6 backlog | Backlog revisado e priorizado na especificação ("Revisão do backlog"). Próximo passo escolhido: **backend real com autenticação, perfis de acesso e auditoria (RS-01)**. |
 | | | |
 | | | |

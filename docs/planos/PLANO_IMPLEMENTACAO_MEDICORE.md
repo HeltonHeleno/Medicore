@@ -46,7 +46,7 @@
 | 4 | Componentes de UI base | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 5 | Cards do painel | 2 dias | ✅ Concluída | 26/10/2026 | 26/10/2026 |
 | 6 | Montagem da grade | 0,5 dia | ✅ Concluída | 26/10/2026 | 26/10/2026 |
-| 7 | Qualidade, testes e entrega | 1 dia | 🟨 Falta deploy e teste com leitor de tela | 26/10/2026 | |
+| 7 | Qualidade, testes e entrega | 1 dia | ✅ Concluída (deploy em 28/10; NVDA pendente, manual) | 26/10/2026 | 28/10/2026 |
 
 Legenda: ⬜ Não iniciada · 🟨 Em andamento · ✅ Concluída · 🟥 Bloqueada
 
@@ -921,3 +921,4 @@ medicore/
 | 26/10/2026 | Fase 7: pendentes manuais — teste com NVDA/VoiceOver, deploy e PR final | |
 | 27/10/2026 | O projeto continuou com os cadastros (Pacientes, Médicos e Consultas) nas Fases 8–14, descritas em `PLANO_CADASTROS_MEDICORE.md` e `PLANO_EXECUCAO_CADASTROS.md`. Desde a Fase 13, o Painel lê consultas, atividades e os KPIs de pacientes e médicos dos cadastros | |
 | 27/10/2026 | Fase 14 (cadastros): testes de ponta a ponta com Playwright e axe em todas as rotas, nos dois temas. O teste com NVDA continua pendente e manual | |
+| 28/10/2026 | Encerramento: deploy na Vercel (https://medicore-heltonhelenos-projects.vercel.app); planos arquivados em `docs/planos/` | |

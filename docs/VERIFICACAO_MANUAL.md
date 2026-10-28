@@ -6,7 +6,7 @@ Dois itens da Fase 14 precisam de uma pessoa e não podem ser automatizados:
 - **14.4.3:** revisão das mensagens de erro por alguém que não seja desenvolvedor.
 
 Os roteiros abaixo levam cerca de 30 minutos no total. Anote os problemas em
-"Registro" e no Diário de `PLANO_EXECUCAO_CADASTROS.md`.
+"Registro" e no Diário de `docs/planos/PLANO_EXECUCAO_CADASTROS.md`.
 
 ## Preparação
 

@@ -325,6 +325,14 @@ A página também tem o botão de restaurar os dados de exemplo.
 
 ## Deploy
 
+**Versão publicada (1.1.0):** https://medicore-heltonhelenos-projects.vercel.app
+
+- O projeto `medicore` na Vercel está ligado a este repositório no GitHub.
+- Cada push na `main` gera uma nova versão de produção. Pushes em outras branches geram prévias,
+  que só abrem para quem tem acesso ao time na Vercel.
+- É um ambiente de demonstração: cada visitante tem os próprios dados, gravados só no
+  navegador dele.
+
 O projeto já vem configurado para dois serviços. Nos dois, as rotas do React Router funcionam ao
 recarregar a página.
 
@@ -336,11 +344,11 @@ A página interna `/ui` existe apenas em desenvolvimento e não vai para a build
 
 ## Andamento
 
-Os planos, com checklists por fase:
+Os planos concluídos, com checklists por fase, estão arquivados em `docs/planos/`:
 
 - `PLANO_IMPLEMENTACAO_MEDICORE.md` — Painel, Fases 1–7;
-- `PLANO_CADASTROS_MEDICORE.md` — especificação dos cadastros;
-- `PLANO_EXECUCAO_CADASTROS.md` — tarefas das Fases 8–14.
+- `PLANO_CADASTROS_MEDICORE.md` — especificação dos cadastros, backlog revisado e próximo passo;
+- `PLANO_EXECUCAO_CADASTROS.md` — tarefas das Fases 8–14, diário e lições aprendidas.
 
 - [x] Fases 1–7 — Painel (configuração, layout, componentes, cards, grade, qualidade)
 - [x] Fase 8 — Fundação de dados e roteamento
@@ -350,3 +358,10 @@ Os planos, com checklists por fase:
 - [x] Fase 12 — Agenda de consultas
 - [x] Fase 13 — Integração com o Painel
 - [x] Fase 14 — Qualidade, testes e entrega
+- [x] Encerramento — versão 1.1.0 publicada
+
+**Pendências manuais:** o teste com o leitor de tela NVDA e a revisão das mensagens de erro por
+quem não é desenvolvedor (roteiros em `docs/VERIFICACAO_MANUAL.md`).
+
+**Próximo passo:** backend real com autenticação, perfis de acesso e auditoria. Veja a "Revisão
+do backlog" na especificação.

@@ -91,15 +91,17 @@ A estimativa subiu de 10–13 para **13–16 dias** por causa desses acréscimos
 
 | Fase | Descrição | Estimativa | Status | Início | Fim |
 |:---:|---|:---:|:---:|:---:|:---:|
-| 8 | Fundação de dados e roteamento | 2,5 dias | 🟨 Código pronto (falta PR) | 26/10/2026 | 27/10/2026 |
-| 9 | Componentes de formulário e listagem | 2,5 dias | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
-| 10 | Cadastro de Pacientes | 2 dias | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
-| 11 | Cadastro de Médicos | 1,5 dia | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
-| 12 | Cadastro e agenda de Consultas | 3 dias | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
-| 13 | Integração com o Painel | 1 dia | 🟨 Código pronto (falta PR) | 27/10/2026 | 27/10/2026 |
-| 14 | Qualidade, testes e entrega | 2 dias | 🟨 Código pronto (faltam NVDA, revisão de mensagens e PR) | 27/10/2026 | 27/10/2026 |
+| 8 | Fundação de dados e roteamento | 2,5 dias | ✅ Concluída | 26/10/2026 | 27/10/2026 |
+| 9 | Componentes de formulário e listagem | 2,5 dias | ✅ Concluída | 27/10/2026 | 27/10/2026 |
+| 10 | Cadastro de Pacientes | 2 dias | ✅ Concluída | 27/10/2026 | 27/10/2026 |
+| 11 | Cadastro de Médicos | 1,5 dia | ✅ Concluída | 27/10/2026 | 27/10/2026 |
+| 12 | Cadastro e agenda de Consultas | 3 dias | ✅ Concluída | 27/10/2026 | 27/10/2026 |
+| 13 | Integração com o Painel | 1 dia | ✅ Concluída | 27/10/2026 | 27/10/2026 |
+| 14 | Qualidade, testes e entrega | 2 dias | ✅ Concluída (NVDA e revisão de mensagens pendentes, manuais) | 27/10/2026 | 27/10/2026 |
 
 Legenda: ⬜ Não iniciada · 🟨 Em andamento · ✅ Concluída · 🟥 Bloqueada
+
+> **Projeto encerrado em 28/10/2026 — versão 1.1.0.** Publicado em https://medicore-heltonhelenos-projects.vercel.app. Código em `main` (um commit por fase). Verificações manuais pendentes: NVDA e revisão das mensagens por quem não é desenvolvedor (`docs/VERIFICACAO_MANUAL.md`).
 
 ### Dependências entre fases
 
@@ -189,10 +191,10 @@ O que **precisa mudar** (pontos de atenção):
 
 Itens do `PLANO_IMPLEMENTACAO_MEDICORE.md` (Fase 7) ainda abertos. Feche-os **antes da Fase 8**, para começar a partir de uma base publicada e versionada.
 
-- [ ] Commit das Fases 1–7 e PR mesclado na `main`
-- [ ] Teste manual com leitor de tela (NVDA no Windows) no fluxo principal do Painel
-- [ ] Deploy (Vercel ou Netlify; configuração pronta em `vercel.json` / `netlify.toml`)
-- [ ] Testar a URL publicada no celular e no desktop
+- [x] Commit das Fases 1–7 e PR mesclado na `main`
+- [ ] Teste manual com leitor de tela (NVDA no Windows) no fluxo principal do Painel — pendente, manual (`docs/VERIFICACAO_MANUAL.md`)
+- [x] Deploy (Vercel ou Netlify; configuração pronta em `vercel.json` / `netlify.toml`) — feito no Encerramento: https://medicore-heltonhelenos-projects.vercel.app
+- [x] Testar a URL publicada no celular e no desktop
 
 ---
 
@@ -1006,9 +1008,9 @@ Um PR de fase só é aprovado quando:
 - [x] Roteador migrado sem regressão (84 testes antigos passando)
 - [x] Nenhuma tela mudou de layout; no Painel, só os nomes foram trocados
 - [x] Todas as regras R-xx cobertas por teste de serviço
-- [ ] Dados sobrevivem ao recarregar; duas abas ficam sincronizadas
+- [x] Dados sobrevivem ao recarregar; duas abas ficam sincronizadas
 - [x] Cobertura: `services/` ≥ 85%, `utils/` ≥ 90%
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto — um commit por fase direto na `main`
 
 ---
 
@@ -1071,7 +1073,7 @@ Um PR de fase só é aprovado quando:
 
 - [x] Todos os componentes na vitrine `/ui`, nos dois temas, sem violações axe
 - [x] Cobertura de `components/ui/` ≥ 70%
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto — um commit por fase direto na `main`
 
 ---
 
@@ -1123,7 +1125,7 @@ Um PR de fase só é aprovado quando:
 
 - [x] P1–P5 funcionando de ponta a ponta
 - [x] Responsivo (formulário em 1 coluna no celular), teclado e axe ok
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto — um commit por fase direto na `main`
 
 ---
 
@@ -1170,7 +1172,7 @@ Um PR de fase só é aprovado quando:
 ### ✅ Critérios de conclusão — Fase 11
 
 - [x] P6–P8 funcionando; disponibilidade refletida nos horários livres
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto — um commit por fase direto na `main`
 
 ---
 
@@ -1221,7 +1223,7 @@ Um PR de fase só é aprovado quando:
 
 - [x] Nenhuma combinação permite conflito de médico ou de paciente (incluindo duas abas)
 - [x] P9–P13 funcionando; agenda navegável pela URL
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto — um commit por fase direto na `main`
 
 ---
 
@@ -1243,7 +1245,7 @@ Um PR de fase só é aprovado quando:
 
 - [x] Agendar, concluir ou cancelar muda o Painel sem recarregar (inclusive vindo de outra aba)
 - [x] Painel visualmente igual ao da Fase 6 (comparação de captura em 1600px), exceto nomes (D6)
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto (código e testes prontos; PR com o usuário)
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; PR aberto — um commit por fase direto na `main`
 
 ---
 
@@ -1292,7 +1294,7 @@ Um PR de fase só é aprovado quando:
 - [x] Testes unitários, de componentes e e2e passando
 - [x] Cobertura nas metas da [estratégia de testes](#-estratégia-de-testes)
 - [x] Lighthouse e axe nas metas
-- [ ] README atualizado; PR final aprovado e mesclado na `main` — README ✅; PR com o usuário
+- [x] README atualizado; PR final aprovado e mesclado na `main` — commit `8a61daf` na `main`
 
 ---
 
@@ -1326,6 +1328,23 @@ Um PR de fase só é aprovado quando:
 ---
 
 ## 🚀 Backlog futuro (fora do escopo)
+
+### Revisão do backlog (Encerramento, 28/10/2026)
+
+Ordem sugerida para a próxima etapa. A primeira é **pré-requisito** para qualquer uso com
+pessoas reais (RS-01).
+
+| Prioridade | Item | Por quê |
+| :---: | --- | --- |
+| 1 | **Backend real + autenticação e perfis de acesso** | Hoje os dados ficam só no navegador, sem login nem backup. O README já explica a troca (`services/` mantém as assinaturas; erros HTTP viram as classes de `services/erros.ts`). |
+| 2 | **Auditoria de acesso (LGPD)** | Precisa do backend. Registrar quem viu e quem alterou cada cadastro. |
+| 3 | **Monitoramento de erros (ex.: Sentry)** | Barato de fazer junto com o backend. Mostra erros que hoje só apareceriam no navegador de quem usa. |
+| 4 | Bloqueios de agenda (férias, feriados) e horários por dia da semana | Pedido mais provável de quem usa a agenda no dia a dia. |
+| 5 | Calendário semanal/mensal | Hoje a agenda é uma lista por dia (D7). |
+| 6 | Campo de data próprio (sempre `dd/mm/aaaa`) | O campo nativo segue o idioma do navegador. Só vale se aparecerem usuários com navegador em inglês. |
+| — | Demais itens abaixo | Sem mudança de prioridade. |
+
+**Próximo passo escolhido:** item 1, backend real.
 
 - [ ] **Backend real** (API REST/GraphQL) com autenticação, perfis de acesso, criptografia e backup — pré-requisito para dados reais (RS-01)
 - [ ] Auditoria de acesso (quem criou, alterou ou **visualizou** cada registro — LGPD)
@@ -1371,4 +1390,6 @@ Um PR de fase só é aprovado quando:
 | 27/10/2026 | Fase 14: e2e com Playwright contra a build de produção (fuso e idioma fixos, relógio fixado); axe 4.14 com WCAG 2.2 em todas as rotas | |
 | 27/10/2026 | Fase 14: esquemas zod carregados sob demanda nos serviços; deslocamento do fuso em cache por bloco de 15 min (`partesNoFuso`) | |
 | 27/10/2026 | Fase 14: campos de data continuam nativos (formato segue o idioma do navegador); campo de data próprio fica no backlog se necessário | |
+| 28/10/2026 | **Encerramento:** publicado na Vercel (https://medicore-heltonhelenos-projects.vercel.app), ligado ao GitHub (`HeltonHeleno/medicore`, `main`); versão 1.1.0; planos arquivados em `docs/planos/` | |
+| 28/10/2026 | **Encerramento — próximo passo escolhido:** backend real com autenticação e auditoria (RS-01), antes de qualquer uso com dados reais. Ver "Revisão do backlog" | |
 | | | |
