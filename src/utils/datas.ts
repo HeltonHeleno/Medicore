@@ -239,3 +239,14 @@ export function somarMinutos(instante: Date | string, minutos: number): Date {
 export function formatarDataHora(instante: Date | string): string {
   return `${formatarData(dataDoInstante(instante))} · ${horaDoInstante(instante)}`;
 }
+
+/** Valor de um `<input type="datetime-local">` (AAAA-MM-DDTHH:mm) no fuso do hospital. */
+export const paraCampoDataHora = (instante: Date | string): string =>
+  `${dataDoInstante(instante)}T${horaDoInstante(instante)}`;
+
+/** Lê o valor de um `datetime-local` (no fuso do hospital) como ISO; inválido → ''. */
+export function deCampoDataHora(texto: string): string {
+  const [data, hora] = texto.split('T');
+  if (!data || !hora || !dataValida(data) || !/^\d{2}:\d{2}$/.test(hora.slice(0, 5))) return '';
+  return instanteNoFuso(data, hora.slice(0, 5)).toISOString();
+}

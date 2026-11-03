@@ -127,7 +127,7 @@ A Revisão 1 foi analisada por inteiro, com foco em **o que acontece quando algo
 |:---:|---|:---:|:---:|:---:|:---:|
 | 15 | Fundação dos módulos operacionais | 4 dias | ✅ Concluída | 28/10/2026 | 28/10/2026 |
 | 16 | Componentes compartilhados | 1,5 dia | ✅ Concluída | 03/11/2026 | 03/11/2026 |
-| 17 | Gestão de leitos | 3,5 dias | ⬜ Não iniciada | | |
+| 17 | Gestão de leitos | 3,5 dias | ✅ Concluída | 03/11/2026 | 03/11/2026 |
 | 18 | Emergência | 3,5 dias | ⬜ Não iniciada | | |
 | 19 | Farmácia | 3,5 dias | ⬜ Não iniciada | | |
 | 20 | Integração com o Painel e os cadastros | 1,5 dia | ⬜ Não iniciada | | |
@@ -2055,48 +2055,48 @@ A definição de pronto do plano de cadastros continua valendo. Acrescente:
 **Estimativa:** 3,5 dias · **Objetivo:** L1–L9 funcionando nas telas.
 
 ### 17.1 Rotas e navegação
-- [ ] Rotas `/leitos/*` (lazy), `handle` com título e breadcrumb; `/leitos` sai de `COM_TELA`/`Placeholder`
-- [ ] `AbasModulo`: Mapa · Internações
+- [x] Rotas `/leitos/*` (lazy), `handle` com título e breadcrumb; `/leitos` sai de `COM_TELA`/`Placeholder`
+- [x] `AbasModulo`: Mapa · Internações
 
 ### 17.2 Mapa de leitos (`/leitos`)
-- [ ] Resumo por setor (ocupados/operacionais e %), livres, em higienização, bloqueados e reservados
-- [ ] Grade por setor e quarto com `CartaoLeito`; versão em lista no celular
-- [ ] Filtros na URL: setor, situação, perfil, só isolamento
-- [ ] Ações rápidas conforme a [matriz](#matriz-de-ações-por-estado): Internar (livre), Concluir higienização (com "Desfazer" por 10 s), "Concluir todas do setor"
-- [ ] Busca de paciente no mapa (destaca o cartão e rola até ele); "Previsão: +N leitos em 24 h" no resumo
-- [ ] Painel "Solicitações de leito" (L6, L9): emergência e eletivas, ordem por prioridade e espera ou data prevista; Reservar, Internar, Cancelar; "Nova solicitação" (eletiva)
-- [ ] Anúncio de solicitação nova vinda de outra aba
-- [ ] Estados de carregamento (esqueleto), vazio por filtro e erro
+- [x] Resumo por setor (ocupados/operacionais e %), livres, em higienização, bloqueados e reservados
+- [x] Grade por setor e quarto com `CartaoLeito`; versão em lista no celular
+- [x] Filtros na URL: setor, situação, perfil, só isolamento
+- [x] Ações rápidas conforme a [matriz](#matriz-de-ações-por-estado): Internar (livre), Concluir higienização (com "Desfazer" por 10 s), "Concluir todas do setor"
+- [x] Busca de paciente no mapa (destaca o cartão e rola até ele); "Previsão: +N leitos em 24 h" no resumo
+- [x] Painel "Solicitações de leito" (L6, L9): emergência e eletivas, ordem por prioridade e espera ou data prevista; Reservar, Internar, Cancelar; "Nova solicitação" (eletiva)
+- [x] Anúncio de solicitação nova vinda de outra aba
+- [x] Estados de carregamento (esqueleto), vazio por filtro e erro
 
 ### 17.3 Internar (`/leitos/internar`) — L1 e L6
-- [ ] Formulário com `ComboboxPaciente`, origem, precaução, setor desejado e `SeletorLeito` (A11, sugerido em primeiro lugar)
-- [ ] Pré-preenchimento por `?pacienteId=`, `?leitoId=` e `?solicitacaoId=` (L6 vem com os dados do atendimento)
-- [ ] Justificativa obrigatória para exceção de perfil ou isolamento (R-L5, R-L6)
-- [ ] E-11 e E-14 tratados (leitos recarregados, link para a internação existente)
+- [x] Formulário com `ComboboxPaciente`, origem, precaução, setor desejado e `SeletorLeito` (A11, sugerido em primeiro lugar)
+- [x] Pré-preenchimento por `?pacienteId=`, `?leitoId=` e `?solicitacaoId=` (L6 vem com os dados do atendimento)
+- [x] Justificativa obrigatória para exceção de perfil ou isolamento (R-L5, R-L6)
+- [x] E-11 e E-14 tratados (leitos recarregados, link para a internação existente)
 
 ### 17.4 Internações (`/leitos/internacoes`)
-- [ ] `DataTable`: paciente, leito, setor, médico, dia de internação, previsão de alta (com "vencida" e "hoje"), precaução
-- [ ] Busca, filtros e paginação na URL; abas Ativas e Encerradas (30 dias, D15)
+- [x] `DataTable`: paciente, leito, setor, médico, dia de internação, previsão de alta (com "vencida" e "hoje"), precaução
+- [x] Busca, filtros e paginação na URL; abas Ativas e Encerradas (30 dias, D15)
 
 ### 17.5 Detalhe e edição da internação
-- [ ] Dados, alergias em destaque, linha do tempo (eventos) e dispensações (aparecem na Fase 19/20)
-- [ ] Transferir (L2), Dar alta (L3, com o fluxo de óbito), Editar (L7, com R-G1/E-05) e Desfazer alta (L8, aviso com prazo e E-18)
-- [ ] Consultas agendadas durante a internação (R-X8)
-- [ ] Atalhos: "Dispensar medicamento" (a partir da Fase 19) e "Ver paciente"
+- [x] Dados, alergias em destaque, linha do tempo (eventos) e dispensações (aparecem na Fase 19/20) — dispensações ficam para a Fase 19
+- [x] Transferir (L2), Dar alta (L3, com o fluxo de óbito), Editar (L7, com R-G1/E-05) e Desfazer alta (L8, aviso com prazo e E-18)
+- [x] Consultas agendadas durante a internação (R-X8)
+- [x] Atalhos: "Dispensar medicamento" (a partir da Fase 19) e "Ver paciente"
 
 ### 17.6 Detalhe do leito (`/leitos/:leitoId`) — L5
-- [ ] Situação atual, ocupante e histórico dos últimos 30 dias (a partir das internações e eventos)
-- [ ] Bloquear e desbloquear (motivo, previsão)
+- [x] Situação atual, ocupante e histórico dos últimos 30 dias (a partir das internações e eventos)
+- [x] Bloquear e desbloquear (motivo, previsão)
 
 ### 17.7 Testes da fase
-- [ ] Páginas: internar (eletiva, por solicitação e pedido eletivo L9), transferir, alta → higienização → livre, desfazer alta (dentro e fora da janela), óbito (R-X7), bloquear, busca no mapa, filtros na URL, celular
-- [ ] Concorrência: outra aba ocupa o leito antes de salvar (E-11)
-- [ ] axe nas telas novas (375/768/1280px, claro e escuro)
+- [x] Páginas: internar (eletiva, por solicitação e pedido eletivo L9), transferir, alta → higienização → livre, desfazer alta (dentro e fora da janela), óbito (R-X7), bloquear, busca no mapa, filtros na URL, celular
+- [x] Concorrência: outra aba ocupa o leito antes de salvar (E-11)
+- [x] axe nas telas novas (375/768/1280px, claro e escuro)
 
 ### ✅ Critérios de conclusão — Fase 17
-- [ ] L1–L9 funcionando, inclusive com duas abas
-- [ ] O mapa mostra 130 leitos com situação correta e sem rolagem horizontal em 375px
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; pacote inicial medido
+- [x] L1–L9 funcionando, inclusive com duas abas
+- [x] O mapa mostra 130 leitos com situação correta e sem rolagem horizontal em 375px
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; pacote inicial medido
 
 ---
 
@@ -2339,4 +2339,5 @@ A definição de pronto do plano de cadastros continua valendo. Acrescente:
 | 28/10/2026 | **Decisões D8–D20 aprovadas** pelo usuário, todas como recomendadas. A D18 (faixas de alerta de sinais vitais por idade) conta como validada: `SINALIZACAO_PEDIATRICA_ATIVA` fica ligada. Nenhuma seção da especificação precisou mudar (0.1.3). Da leitura da Etapa 0: A8 passa a tirar o dia da própria chegada (chegada retroativa) e a matriz ganhou a nota sobre dispensar a partir de atendimento provisório | Usuário |
 | 28/10/2026 | **Fase 15 concluída** (fundação, sem telas). 557 testes Vitest e 66 Playwright verdes; `services/` 97,5% e `utils/` 97,8%; pacote inicial 149,0 kB (+3,3 kB, justificado). Ajustes nesta especificação: INV-1 conta atendimento **aberto** com leito de observação; `ESQUEMA_ATUAL` = 2 pela migração dos pacientes extras. Desvios de implementação (registro arquivado como flag, hooks num arquivo, busca do mapa pelos dois nomes) estão no Diário do plano de execução e no `docs/PR_FASE_15.md` | |
 | 03/11/2026 | **Fase 16 concluída** (componentes compartilhados). 589 testes Vitest e 66 Playwright verdes; `components/ui/` 95,4%; pacote inicial 150,1 kB (+1,1 kB, quase todo de CSS; +4,4 kB desde a Etapa 0). Tokens `--color-risco-*` (com `--color-on-risco-*` e `--color-borda-risco-*`) e `--color-leito-*` (com `--color-on-leito-*`); todos os pares AA. Vitrine "Módulos operacionais" sem violações axe. Detalhes no `docs/PR_FASE_16.md` | |
+| 03/11/2026 | **Fase 17 concluída** (Gestão de leitos): mapa, internar (L1/L6), internações, detalhe, transferir, alta (com óbito), desfazer alta, editar, bloqueio e pedidos de leito (L9). 610 testes Vitest e 86 Playwright verdes; Lighthouse no mapa 99 · 100 · 100 · 100; pacote 151,3 kB (+1,2 kB; +5,6 kB desde a Etapa 0, justificado no `docs/PR_FASE_17.md`). Falta o teste manual com duas abas (17.13.3) | |
 | | | |

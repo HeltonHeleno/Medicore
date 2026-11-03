@@ -4,7 +4,7 @@
 > **Base:** `PLANO_OPERACOES_MEDICORE.md` (Revisão 2), que é a **especificação**. Este documento diz **o que fazer e em que ordem**; a especificação diz **como deve funcionar**. Em caso de dúvida, vale a especificação.
 > **Fases:** 15 a 21, iguais às da especificação, precedidas da Etapa 0 (preparação) e seguidas do Encerramento (versão 1.2.0).
 > **Estimativa:** 20 dias úteis (1 desenvolvedor): 19 das fases + ½ da Etapa 0 + ½ do Encerramento · ver [cronograma](#-cronograma-dia-a-dia)
-> **Criado em:** 28/10/2026 · **Situação:** Fases 15 e 16 concluídas (faltam as branches, os commits e os PRs, que são seus); próxima: Fase 17
+> **Criado em:** 28/10/2026 · **Situação:** Fases 15 a 17 concluídas (faltam os pushes e os PRs, que são seus, e o teste manual com duas abas da 17.13.3); próxima: Fase 18
 
 ---
 
@@ -63,7 +63,7 @@
 | Etapa 0 | Preparação e linha de base | 12 | 0,5 | ✅ (falta 0.2.1 e 0.4.1, suas) | 28/10/2026 | 28/10/2026 |
 | Fase 15 | Fundação dos módulos operacionais | 160 | 4 | ✅ (falta 15.0.1, os commits e 15.18.7, seus) | 28/10/2026 | 28/10/2026 |
 | Fase 16 | Componentes compartilhados | 56 | 1,5 | ✅ (falta 16.0.1, os commits e 16.13.5, seus) | 03/11/2026 | 03/11/2026 |
-| Fase 17 | Gestão de leitos | 78 | 3,5 | ⬜ | | |
+| Fase 17 | Gestão de leitos | 78 | 3,5 | ✅ (faltam 17.0.1, 17.13.3 e 17.14.5, seus) | 03/11/2026 | 03/11/2026 |
 | Fase 18 | Emergência | 67 | 3,5 | ⬜ | | |
 | Fase 19 | Farmácia | 67 | 3,5 | ⬜ | | |
 | Fase 20 | Integração com o Painel e os cadastros | 44 | 1,5 | ⬜ | | |
@@ -549,124 +549,124 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 17.0 Abertura
 
 - [ ] **17.0.1** 👤 Atualizar a `main` e criar `feat/fase-17-leitos`
-- [ ] **17.0.2** `npm run test` verde
+- [x] **17.0.2** `npm run test` verde
 
 ### 17.1 Rotas e navegação · esp. 17.1
 
-- [ ] **17.1.1** `router.tsx`: `rotasLeitos` com `/leitos`, `/leitos/internar`, `/leitos/internacoes`, `/leitos/internacoes/:id`, `/leitos/internacoes/:id/editar` e `/leitos/:leitoId`, todas `lazy`, com `handle` (título e breadcrumb) · 🔗 Mapa de telas
-- [ ] **17.1.2** Incluir `/leitos` em `COM_TELA` (sai do `Placeholder`)
-- [ ] **17.1.3** Páginas vazias com `CabecalhoPagina` e `AbasModulo` (Mapa · Internações); id inexistente → `NaoEncontrado` (E-08) com link para o mapa
-- [ ] **17.1.4** As páginas importam `i18n/pt-BR/leitos.ts` · ✔ `pacote:medir`: marcadores dos módulos = 0 no pacote inicial
+- [x] **17.1.1** `router.tsx`: `rotasLeitos` com `/leitos`, `/leitos/internar`, `/leitos/internacoes`, `/leitos/internacoes/:id`, `/leitos/internacoes/:id/editar` e `/leitos/:leitoId`, todas `lazy`, com `handle` (título e breadcrumb) · 🔗 Mapa de telas
+- [x] **17.1.2** Incluir `/leitos` em `COM_TELA` (sai do `Placeholder`)
+- [x] **17.1.3** Páginas vazias com `CabecalhoPagina` e `AbasModulo` (Mapa · Internações); id inexistente → `NaoEncontrado` (E-08) com link para o mapa
+- [x] **17.1.4** As páginas importam `i18n/pt-BR/leitos.ts` · ✔ `pacote:medir`: marcadores dos módulos = 0 no pacote inicial — marcadores dos módulos = 0; os títulos das rotas ficam em `t.rotasLeitos` (o roteador está no pacote inicial)
 - [ ] **17.1.5** Commit `fase-17: 17.1 rotas de leitos`
 
 ### 17.2 Mapa de leitos · esp. 17.2
 
-- [ ] **17.2.1** `pages/leitos/MapaLeitos.tsx`: `ResumoNumeros` por setor (ocupados/operacionais e %), livres, em higienização, bloqueados, reservados e "Previsão: +N leitos em 24 h" · 🔗 A13, M24
-- [ ] **17.2.2** `components/leitos/GradeLeitos.tsx`: uma `section` com título por setor; enfermaria agrupada por quarto; `CartaoLeito` em grade; lista por setor abaixo de 640px
-- [ ] **17.2.3** Filtros na URL com `useFiltrosUrl`: setor, situação, perfil, só isolamento; estado vazio por filtro com "Limpar filtros"
-- [ ] **17.2.4** Busca de paciente: destaca o cartão, rola até ele e move o foco; "Paciente não está internado" quando não acha · 🔗 M24
-- [ ] **17.2.5** Esqueleto ao carregar e estado de erro (E-07, E-09)
-- [ ] **17.2.6** Testes: resumo com os dados de exemplo (22/30, 50/69…); filtros na URL; busca destaca e foca
+- [x] **17.2.1** `pages/leitos/MapaLeitos.tsx`: `ResumoNumeros` por setor (ocupados/operacionais e %), livres, em higienização, bloqueados, reservados e "Previsão: +N leitos em 24 h" · 🔗 A13, M24
+- [x] **17.2.2** `components/leitos/GradeLeitos.tsx`: uma `section` com título por setor; enfermaria agrupada por quarto; `CartaoLeito` em grade; lista por setor abaixo de 640px — a enfermaria mostra os quartos lado a lado, com os dois leitos juntos; o setor Observação também aparece no mapa
+- [x] **17.2.3** Filtros na URL com `useFiltrosUrl`: setor, situação, perfil, só isolamento; estado vazio por filtro com "Limpar filtros"
+- [x] **17.2.4** Busca de paciente: destaca o cartão, rola até ele e move o foco; "Paciente não está internado" quando não acha · 🔗 M24 — acha pelo nome civil ou social, mostra só o social
+- [x] **17.2.5** Esqueleto ao carregar e estado de erro (E-07, E-09)
+- [x] **17.2.6** Testes: resumo com os dados de exemplo (22/30, 50/69…); filtros na URL; busca destaca e foca
 - [ ] **17.2.7** Commit `fase-17: 17.2 mapa de leitos`
 
 ### 17.3 Ações rápidas no mapa · esp. 17.2
 
-- [ ] **17.3.1** `hooks/useAcoesLeito.tsx`: ações conforme a [matriz](PLANO_OPERACOES_MEDICORE.md#matriz-de-ações-por-estado), com a `versao` carregada e E-16 (ação descartada, tela atualizada, aviso explicando) · 🔗 M34
-- [ ] **17.3.2** "Concluir" higienização sem diálogo, com aviso e "Desfazer" por 10 s · 🔗 L4
-- [ ] **17.3.3** "Concluir todas do setor": confirmação com a lista dos leitos; aviso com quantos foram concluídos e quais mudaram
-- [ ] **17.3.4** "Internar neste leito" (livre) → `/leitos/internar?leitoId=`
-- [ ] **17.3.5** Testes: concluir e desfazer; concluir em lote com um leito alterado por "outra aba"
+- [x] **17.3.1** `hooks/useAcoesLeito.tsx`: ações conforme a [matriz](PLANO_OPERACOES_MEDICORE.md#matriz-de-ações-por-estado), com a `versao` carregada e E-16 (ação descartada, tela atualizada, aviso explicando) · 🔗 M34
+- [x] **17.3.2** "Concluir" higienização sem diálogo, com aviso e "Desfazer" por 10 s · 🔗 L4
+- [x] **17.3.3** "Concluir todas do setor": confirmação com a lista dos leitos; aviso com quantos foram concluídos e quais mudaram
+- [x] **17.3.4** "Internar neste leito" (livre) → `/leitos/internar?leitoId=`
+- [x] **17.3.5** Testes: concluir e desfazer; concluir em lote com um leito alterado por "outra aba"
 - [ ] **17.3.6** Commit `fase-17: 17.3 ações rápidas do mapa`
 
 ### 17.4 Solicitações de leito · esp. 17.2
 
-- [ ] **17.4.1** `components/leitos/PainelSolicitacoes.tsx`: emergência e eletivas, ordenadas por prioridade e espera (ou data prevista), com `BadgeRisco`, paciente, setor, precaução e `TempoDecorrido`; destaques de reserva há mais de 2 h e aguardando há mais de 4 h · 🔗 L6, L9
-- [ ] **17.4.2** "Reservar": diálogo com `SeletorLeito` filtrado pelo setor e pela precaução; "Cancelar reserva" · 🔗 L6
-- [ ] **17.4.3** "Internar" → `/leitos/internar?solicitacaoId=`; "Cancelar" com motivo
-- [ ] **17.4.4** "Nova solicitação" (eletiva): diálogo com `ComboboxPaciente`, setor, precaução, data prevista, motivo e prioridade (amarelo com justificativa) · 🔗 L9
-- [ ] **17.4.5** Anúncio `aria-live="polite"` quando chega uma solicitação nova de outra aba · 🔗 Acessibilidade › Anúncios
-- [ ] **17.4.6** Celular: as solicitações ficam acima do mapa
-- [ ] **17.4.7** Testes: ordem; reservar; cancelar solicitação de emergência devolve o atendimento ao status anterior; anúncio de outra aba
+- [x] **17.4.1** `components/leitos/PainelSolicitacoes.tsx`: emergência e eletivas, ordenadas por prioridade e espera (ou data prevista), com `BadgeRisco`, paciente, setor, precaução e `TempoDecorrido`; destaques de reserva há mais de 2 h e aguardando há mais de 4 h · 🔗 L6, L9
+- [x] **17.4.2** "Reservar": diálogo com `SeletorLeito` filtrado pelo setor e pela precaução; "Cancelar reserva" · 🔗 L6 — com o pedido já reservado, a ação vira "Trocar leito"
+- [x] **17.4.3** "Internar" → `/leitos/internar?solicitacaoId=`; "Cancelar" com motivo
+- [x] **17.4.4** "Nova solicitação" (eletiva): diálogo com `ComboboxPaciente`, setor, precaução, data prevista, motivo e prioridade (amarelo com justificativa) · 🔗 L9
+- [x] **17.4.5** Anúncio `aria-live="polite"` quando chega uma solicitação nova de outra aba · 🔗 Acessibilidade › Anúncios
+- [x] **17.4.6** Celular: as solicitações ficam acima do mapa
+- [x] **17.4.7** Testes: ordem; reservar; cancelar solicitação de emergência devolve o atendimento ao status anterior; anúncio de outra aba
 - [ ] **17.4.8** Commit `fase-17: 17.4 painel de solicitações`
 
 ### 17.5 Internar · esp. 17.3 · L1, L6
 
-- [ ] **17.5.1** `pages/leitos/Internar.tsx` com `useFormularioEntidade`: paciente (`ComboboxPaciente`) e resumo (idade, convênio, alergias, consultas dos próximos 7 dias) · 🔗 L1 passo 1, R-X8
-- [ ] **17.5.2** Origem (eletiva ou transferência externa) e hospital de origem condicional; precaução · 🔗 M25, R-L6
-- [ ] **17.5.3** Setor desejado e `SeletorLeito` com o sugerido marcado; leito da URL vem escolhido e é limpo com aviso se ficar incompatível · 🔗 L1 passo 4
-- [ ] **17.5.4** Exceção de perfil ou isolamento com "Usar mesmo assim" e justificativa · 🔗 R-L5, R-L6
-- [ ] **17.5.5** Médico responsável (do departamento ligado ao setor primeiro), motivo, início (padrão agora) e previsão de alta
-- [ ] **17.5.6** Pré-preenchimento por `?pacienteId=`, `?leitoId=` e `?solicitacaoId=` (L6: paciente, médico do atendimento, queixa, precaução e leito reservado)
-- [ ] **17.5.7** Sem leito compatível livre: "Pedir leito (eletiva)" abre o diálogo de 17.4.4 com os dados preenchidos · 🔗 L9
-- [ ] **17.5.8** Falhas: E-11 (leitos recarregados, escolha limpa, demais campos mantidos), E-14 com link, E-03, E-01, E-06 · 🔗 L1 › Falhas
-- [ ] **17.5.9** Salvar → aviso "Zuleica Prado internada no leito ENF-104A" → detalhe da internação
-- [ ] **17.5.10** Testes: eletiva; transferência externa sem hospital; por solicitação (encerra o atendimento); exceção sem justificativa; E-11 com gravação direta no repositório; paciente em atendimento só pela solicitação (R-X1)
+- [x] **17.5.1** `pages/leitos/Internar.tsx` com `useFormularioEntidade`: paciente (`ComboboxPaciente`) e resumo (idade, convênio, alergias, consultas dos próximos 7 dias) · 🔗 L1 passo 1, R-X8
+- [x] **17.5.2** Origem (eletiva ou transferência externa) e hospital de origem condicional; precaução · 🔗 M25, R-L6
+- [x] **17.5.3** Setor desejado e `SeletorLeito` com o sugerido marcado; leito da URL vem escolhido e é limpo com aviso se ficar incompatível · 🔗 L1 passo 4
+- [x] **17.5.4** Exceção de perfil ou isolamento com "Usar mesmo assim" e justificativa · 🔗 R-L5, R-L6
+- [x] **17.5.5** Médico responsável (do departamento ligado ao setor primeiro), motivo, início (padrão agora) e previsão de alta
+- [x] **17.5.6** Pré-preenchimento por `?pacienteId=`, `?leitoId=` e `?solicitacaoId=` (L6: paciente, médico do atendimento, queixa, precaução e leito reservado) — também `?deInternacao=` para "Internar novamente"
+- [x] **17.5.7** Sem leito compatível livre: "Pedir leito (eletiva)" abre o diálogo de 17.4.4 com os dados preenchidos · 🔗 L9
+- [x] **17.5.8** Falhas: E-11 (leitos recarregados, escolha limpa, demais campos mantidos), E-14 com link, E-03, E-01, E-06 · 🔗 L1 › Falhas
+- [x] **17.5.9** Salvar → aviso "Zuleica Prado internada no leito ENF-104A" → detalhe da internação
+- [x] **17.5.10** Testes: eletiva; transferência externa sem hospital; por solicitação (encerra o atendimento); exceção sem justificativa; E-11 com gravação direta no repositório; paciente em atendimento só pela solicitação (R-X1) — em `leitos.paginas.test.tsx`
 - [ ] **17.5.11** Commit `fase-17: 17.5 internar paciente`
 
 ### 17.6 Lista de internações · esp. 17.4
 
-- [ ] **17.6.1** `pages/leitos/ListaInternacoes.tsx`: `DataTable` com paciente, leito, setor, médico, dia de internação, previsão de alta ("vencida", "hoje") e precaução
-- [ ] **17.6.2** Abas Ativas e Encerradas (30 dias); busca, filtros (setor, médico, "alta prevista hoje", "alta prevista vencida") e paginação na URL; "registro arquivado" sem link · 🔗 D15, M30
-- [ ] **17.6.3** Testes: filtros; encerradas; "Voltar" do detalhe mantém os filtros
+- [x] **17.6.1** `pages/leitos/ListaInternacoes.tsx`: `DataTable` com paciente, leito, setor, médico, dia de internação, previsão de alta ("vencida", "hoje") e precaução
+- [x] **17.6.2** Abas Ativas e Encerradas (30 dias); busca, filtros (setor, médico, "alta prevista hoje", "alta prevista vencida") e paginação na URL; "registro arquivado" sem link · 🔗 D15, M30
+- [x] **17.6.3** Testes: filtros; encerradas; "Voltar" do detalhe mantém os filtros
 - [ ] **17.6.4** Commit `fase-17: 17.6 lista de internações`
 
 ### 17.7 Detalhe da internação · esp. 17.5
 
-- [ ] **17.7.1** `pages/leitos/DetalheInternacao.tsx`: cabeçalho (nome de exibição, idade, leito, setor, dia de internação, status), alergias em destaque, dados e precaução · 🔗 R-X5
-- [ ] **17.7.2** Consultas agendadas durante a internação com "Ver na agenda" · 🔗 R-X8
-- [ ] **17.7.3** Linha do tempo a partir dos eventos (com autor); seção de dispensações (preenchida na Fase 19)
-- [ ] **17.7.4** Ações por estado: ativa → Transferir, Dar alta, Editar (Dispensar entra em 19.10); encerrada → Desfazer alta (até 6 h) e Internar novamente; "Ver paciente" · 🔗 Matriz › Internação
-- [ ] **17.7.5** Testes: E-08; ações por estado; consultas no período
+- [x] **17.7.1** `pages/leitos/DetalheInternacao.tsx`: cabeçalho (nome de exibição, idade, leito, setor, dia de internação, status), alergias em destaque, dados e precaução · 🔗 R-X5
+- [x] **17.7.2** Consultas agendadas durante a internação com "Ver na agenda" · 🔗 R-X8
+- [x] **17.7.3** Linha do tempo a partir dos eventos (com autor); seção de dispensações (preenchida na Fase 19) — a seção de dispensações entra na Fase 19
+- [x] **17.7.4** Ações por estado: ativa → Transferir, Dar alta, Editar (Dispensar entra em 19.10); encerrada → Desfazer alta (até 6 h) e Internar novamente; "Ver paciente" · 🔗 Matriz › Internação
+- [x] **17.7.5** Testes: E-08; ações por estado; consultas no período
 - [ ] **17.7.6** Commit `fase-17: 17.7 detalhe da internação`
 
 ### 17.8 Transferir, dar alta e desfazer · esp. 17.5
 
-- [ ] **17.8.1** `components/leitos/DialogoTransferir.tsx`: `SeletorLeito` sem o leito atual, motivo com sugestões, justificativa na exceção; E-11, E-05, E-16 · 🔗 L2
-- [ ] **17.8.2** `components/leitos/DialogoAlta.tsx`: resumo (leito, permanência, dispensações em 7 dias); tipo; data; hospital de destino na transferência · 🔗 L3
-- [ ] **17.8.3** ⭐ Óbito: segunda confirmação com o aviso de R-X7 (cadastro inativado e consultas futuras canceladas) · 🔗 R-X7
-- [ ] **17.8.4** Aviso "Alta registrada. Leito ENF-104A em higienização" com "Desfazer" e "Ver mapa"
-- [ ] **17.8.5** Desfazer alta: motivo; "Pode ser desfeita até 16:40"; depois do prazo o botão some e aparece E-18 com "Internar novamente"; óbito desfeito avisa que as consultas não voltam · 🔗 L8, E-18
-- [ ] **17.8.6** "Internar novamente": `/leitos/internar` com os dados copiados da internação encerrada · 🔗 R-L11
-- [ ] **17.8.7** Testes: transferir; alta comum; alta por óbito; desfazer dentro e fora da janela (relógio falso); desfazer com o leito ocupado (E-11)
+- [x] **17.8.1** `components/leitos/DialogoTransferir.tsx`: `SeletorLeito` sem o leito atual, motivo com sugestões, justificativa na exceção; E-11, E-05, E-16 · 🔗 L2
+- [x] **17.8.2** `components/leitos/DialogoAlta.tsx`: resumo (leito, permanência, dispensações em 7 dias); tipo; data; hospital de destino na transferência · 🔗 L3
+- [x] **17.8.3** ⭐ Óbito: segunda confirmação com o aviso de R-X7 (cadastro inativado e consultas futuras canceladas) · 🔗 R-X7 — segundo passo dentro do mesmo diálogo, sem abrir outra janela modal
+- [x] **17.8.4** Aviso "Alta registrada. Leito ENF-104A em higienização" com "Desfazer" e "Ver mapa" — o aviso tem só "Desfazer" (uma ação por aviso)
+- [x] **17.8.5** Desfazer alta: motivo; "Pode ser desfeita até 16:40"; depois do prazo o botão some e aparece E-18 com "Internar novamente"; óbito desfeito avisa que as consultas não voltam · 🔗 L8, E-18
+- [x] **17.8.6** "Internar novamente": `/leitos/internar` com os dados copiados da internação encerrada · 🔗 R-L11
+- [x] **17.8.7** Testes: transferir; alta comum; alta por óbito; desfazer dentro e fora da janela (relógio falso); desfazer com o leito ocupado (E-11)
 - [ ] **17.8.8** Commit `fase-17: 17.8 transferir, alta e desfazer`
 
 ### 17.9 Editar internação · esp. 17.5
 
-- [ ] **17.9.1** `pages/leitos/EditarInternacao.tsx`: médico, previsão, precaução e motivo, com a `versao` e E-05 (Recarregar / Continuar editando) · 🔗 L7, R-G1
-- [ ] **17.9.2** Precaução nova sem isolamento no leito: aviso com "Transferir agora" (abre o diálogo de 17.8.1) ou justificativa para salvar · 🔗 R-L6
-- [ ] **17.9.3** Testes: um evento por campo alterado; E-05; precaução incompatível
+- [x] **17.9.1** `pages/leitos/EditarInternacao.tsx`: médico, previsão, precaução e motivo, com a `versao` e E-05 (Recarregar / Continuar editando) · 🔗 L7, R-G1
+- [x] **17.9.2** Precaução nova sem isolamento no leito: aviso com "Transferir agora" (abre o diálogo de 17.8.1) ou justificativa para salvar · 🔗 R-L6
+- [x] **17.9.3** Testes: um evento por campo alterado; E-05; precaução incompatível
 - [ ] **17.9.4** Commit `fase-17: 17.9 editar internação`
 
 ### 17.10 Detalhe do leito · esp. 17.6
 
-- [ ] **17.10.1** `pages/leitos/DetalheLeito.tsx`: situação, ocupante (link), há quanto tempo, histórico de ocupação dos últimos 30 dias (das internações e eventos)
-- [ ] **17.10.2** `components/leitos/DialogoBloqueio.tsx`: motivo com sugestões, previsão de liberação; desbloquear com confirmação; "Liberação prevista vencida" · 🔗 L5, R-L14
-- [ ] **17.10.3** Testes: bloquear só livre ou em higienização; desbloquear; E-16
+- [x] **17.10.1** `pages/leitos/DetalheLeito.tsx`: situação, ocupante (link), há quanto tempo, histórico de ocupação dos últimos 30 dias (das internações e eventos)
+- [x] **17.10.2** `components/leitos/DialogoBloqueio.tsx`: motivo com sugestões, previsão de liberação; desbloquear com confirmação; "Liberação prevista vencida" · 🔗 L5, R-L14
+- [x] **17.10.3** Testes: bloquear só livre ou em higienização; desbloquear; E-16
 - [ ] **17.10.4** Commit `fase-17: 17.10 detalhe do leito`
 
 ### 17.11 Testes de páginas · esp. 17.7
 
-- [ ] **17.11.1** `leitos.paginas.test.tsx`: internar (eletiva, por solicitação e pedido eletivo L9), transferir, alta → higienização → livre, desfazer alta (dentro e fora da janela), óbito (R-X7), bloquear, busca no mapa, filtros na URL · ✔ `esperarConsistente()` no fim de cada fluxo
-- [ ] **17.11.2** Concorrência: outra aba ocupa o leito antes de salvar (E-11)
+- [x] **17.11.1** `leitos.paginas.test.tsx`: internar (eletiva, por solicitação e pedido eletivo L9), transferir, alta → higienização → livre, desfazer alta (dentro e fora da janela), óbito (R-X7), bloquear, busca no mapa, filtros na URL · ✔ `esperarConsistente()` no fim de cada fluxo — 21 testes
+- [x] **17.11.2** Concorrência: outra aba ocupa o leito antes de salvar (E-11)
 
 ### 17.12 Acessibilidade ponta a ponta
 
-- [ ] **17.12.1** Incluir as rotas de leitos no `e2e/acessibilidade.spec.ts` (claro e escuro), com o mapa em 375px e os diálogos de alta e transferência abertos · ✔ 0 violações
-- [ ] **17.12.2** Incluir no `e2e/teclado.spec.ts`: `SeletorLeito` e grade de leitos por Tab na ordem visual
+- [x] **17.12.1** Incluir as rotas de leitos no `e2e/acessibilidade.spec.ts` (claro e escuro), com o mapa em 375px e os diálogos de alta e transferência abertos · ✔ 0 violações — 8 rotas novas nos dois temas; diálogos de alta e transferência; `/leitos` em 375px
+- [x] **17.12.2** Incluir no `e2e/teclado.spec.ts`: `SeletorLeito` e grade de leitos por Tab na ordem visual
 
 ### 17.13 Verificação
 
-- [ ] **17.13.1** Telas em 375, 768 e 1280px, nos temas claro e escuro · ✔ mapa com 130 leitos sem rolagem horizontal em 375px
-- [ ] **17.13.2** Só teclado e escala de cinza no mapa, no internar e nos diálogos
+- [x] **17.13.1** Telas em 375, 768 e 1280px, nos temas claro e escuro · ✔ mapa com 130 leitos sem rolagem horizontal em 375px — 11 rotas × 3 larguras × 2 temas: sem rolagem, 0 violações axe, 0 erros no console
+- [x] **17.13.2** Só teclado e escala de cinza no mapa, no internar e nos diálogos — teclado coberto no e2e (`SeletorLeito` e ordem de Tab na grade); `docs/capturas/fase17-mapa-cinza-1280.png`
 - [ ] **17.13.3** 👤 Teste manual com duas abas: internar no mesmo leito nas duas (a segunda recebe E-11) e concluir higienização numa enquanto a outra bloqueia (E-16)
-- [ ] **17.13.4** Lighthouse desktop no mapa · ✔ ≥ 90 em todas as categorias (RS-16)
+- [x] **17.13.4** Lighthouse desktop no mapa · ✔ ≥ 90 em todas as categorias (RS-16) — 99 · 100 · 100 · 100
 
 ### 17.14 Fechamento da Fase 17
 
-- [ ] **17.14.1** Lint, build, `test:coverage`, `i18n:verificar`, `test:e2e`
-- [ ] **17.14.2** `npm run pacote:medir` · ✔ marcadores dos módulos = 0; crescimento ≤ 5 kB gzip
-- [ ] **17.14.3** `docs/PR_FASE_17.md` com capturas (mapa claro 1280, escuro 375, internar, detalhe)
-- [ ] **17.14.4** Atualizar checkboxes e painel de execução: Fase 17 ✅
+- [x] **17.14.1** Lint, build, `test:coverage`, `i18n:verificar`, `test:e2e`
+- [x] **17.14.2** `npm run pacote:medir` · ✔ marcadores dos módulos = 0; crescimento ≤ 5 kB gzip — 151,3 kB (+1,2 kB na fase; +5,6 kB desde a Etapa 0, com justificativa no PR)
+- [x] **17.14.3** `docs/PR_FASE_17.md` com capturas (mapa claro 1280, escuro 375, internar, detalhe)
+- [x] **17.14.4** Atualizar checkboxes e painel de execução: Fase 17 ✅
 - [ ] **17.14.5** 👤 Abrir, revisar e mesclar o PR "Fase 17 — Gestão de leitos"
 
 ---
@@ -1095,7 +1095,7 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | Etapa 0 | 145,7 kB (JS 137,1 · CSS 8,6) | 0 | Linha de base, commit `cb5931d` (v1.1.0) |
 | 15 | 149,0 kB (JS 140,4 · CSS 8,6) | 0 | +3,3 kB: gerador dos 90 pacientes extras (~1,5), textos de atividades e pendências (~0,9), R-X2–R-X4, migração v2 e meta no repositório (~0,9). 0,6 kB recuperados movendo os textos só dos serviços para `i18n/pt-BR/operacoes.ts` |
 | 16 | 150,1 kB (JS 140,5 · CSS 9,6) | 0 | +1,1 kB, quase todo de CSS (tokens de risco e de leito e classes dos componentes novos). Textos dos módulos e da vitrine fora do pacote. Total desde a Etapa 0: +4,4 kB; na Fase 20, os indicadores precisam ficar sob demanda (D20) |
-| 17 | | | |
+| 17 | 151,3 kB (JS 141,4 · CSS 9,9) | 0 | +1,2 kB: 6 rotas de leitos e a lista de pré-carga das páginas sob demanda (79 nomes, ~2,7 kB sem compressão) + CSS das telas. **Acumulado desde a Etapa 0: +5,6 kB**, acima de 5 kB: justificado no PR; se passar de 8 kB, carregar cada módulo por um único `import()` |
 | 18 | | | |
 | 19 | | | |
 | 20 | | | |
@@ -1116,4 +1116,6 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | 03/11/2026 | Fase 16 — base | A Fase 15 ainda não estava no GitHub nem em `C:\Projects\medicore`; a Fase 16 foi feita sobre a Fase 15 do ambiente de trabalho e entregue separada, para manter um PR por fase. |
 | 03/11/2026 | Fase 16 — 16.1 contraste | Claro (texto/fundo · × card): vermelho 6,54 · 6,54; laranja 5,57 · 5,57; amarelo 9,96 · 1,68 (borda #8a6a00: 5,07); verde 5,38 · 5,38; azul 6,79 · 6,79; leitos livre 6,50 · 7,43; ocupado 7,24 · 8,99; reservado 6,70 · 8,20; higienização 6,07 · 6,80; bloqueado 6,51 · 7,73. Escuro: todos acima de 5,8. |
 | 03/11/2026 | Fase 16 — números e achados | 589 testes Vitest (56 arquivos) e 66 Playwright verdes; `components/ui/` 95,4%; pacote 150,1 kB. Vitrine: 0 violações axe em 375/768/1280, claro e escuro, sem rolagem horizontal. Corrigido na revisão visual: ícone do vermelho (octógono parecia o círculo do amarelo em cinza → sirene); concordância do alerta de alergia ("à classe"); borda de "atenção" nos sinais vitais igual à de erro (removida, o aviso fica em texto). No teste do `ComboboxPaciente`, a Ana Paula Silva está internada nos dados de exemplo: os testes usam `pacienteLivre()`. |
+| 03/11/2026 | Fase 17 — números | 610 testes Vitest (57 arquivos) e 86 Playwright verdes; cobertura geral 93,8% (as telas novas baixaram a média); `services/` 97,9%, `utils/` 97,8%, `components/ui/` 95,4%; páginas de leitos 88,5%. Lighthouse no mapa 99 · 100 · 100 · 100. Pacote 151,3 kB. |
+| 03/11/2026 | Fase 17 — decisões | (1) Óbito na alta: segundo passo no mesmo diálogo, sem modal sobre modal. (2) O aviso da alta tem só "Desfazer". (3) `historicoLeito` passou a devolver as internações detalhadas. (4) Campo de data e hora com `paraCampoDataHora`/`deCampoDataHora` no fuso do hospital. (5) Os testes de página do mapa precisam de 30 s de limite (130 cartões). (6) Os commits das Fases 15 e 16 foram feitos neste ambiente a pedido do usuário, e o push foi recusado (sem acesso de escrita do app do Claude ao repositório); entregues por *bundle*. |
 | | | |

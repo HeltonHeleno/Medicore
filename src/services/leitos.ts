@@ -190,7 +190,7 @@ export const buscarPacienteNoMapa = (termo: string): Promise<LeitoDetalhado[]> =
   });
 
 /** Histórico de ocupação do leito nos últimos N dias (17.10). */
-export const historicoLeito = (id: string, dias = 30): Promise<Internacao[]> =>
+export const historicoLeito = (id: string, dias = 30): Promise<InternacaoDetalhada[]> =>
   executar(() => {
     const limite = agora().getTime() - dias * 86_400_000;
     return repoInternacoes
@@ -201,7 +201,8 @@ export const historicoLeito = (id: string, dias = 30): Promise<Internacao[]> =>
             i.eventos.some((e) => e.tipo === 'transferida' && e.de === codigoLeito(id))) &&
           new Date(i.alta?.em ?? agora()).getTime() >= limite,
       )
-      .sort((a, b) => b.inicio.localeCompare(a.inicio));
+      .sort((a, b) => b.inicio.localeCompare(a.inicio))
+      .map(detalharInternacao);
   });
 
 export interface CriterioCompatibilidade {

@@ -1020,6 +1020,16 @@ export const t = {
     textoExclusao: 'EXCLUIR',
   },
 
+  /** Títulos e breadcrumbs das rotas de leitos (o roteador fica no pacote inicial). */
+  rotasLeitos: {
+    internar: 'Internar paciente',
+    internacoes: 'Internações',
+    internacao: 'Internação',
+    editar: 'Editar internação',
+    editarBreadcrumb: 'Editar',
+    leito: 'Leito',
+  },
+
   paginas: {
     emConstrucao: 'Esta página será implementada em breve.',
     emConstrucaoDetalhe:
