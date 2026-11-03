@@ -54,11 +54,11 @@ describe('KpiCards', () => {
     const plantao = repoMedicos
       .todos()
       .filter((m) => m.ativo && m.disponibilidade.diasSemana.includes(1)).length;
-    // 30 pacientes de exemplo, 3 inativos.
+    // 120 pacientes de exemplo (30 da D6 + 90 da D13), 3 inativos.
     const total = within(regiao).getByRole('heading', {
       name: 'Total de pacientes',
     }).parentElement!;
-    await waitFor(() => expect(total).toHaveTextContent('27'));
+    await waitFor(() => expect(total).toHaveTextContent('117'));
     const medicos = within(regiao).getByRole('heading', {
       name: 'Médicos de plantão',
     }).parentElement!;
@@ -76,11 +76,11 @@ describe('KpiCards', () => {
   it('atualiza sem recarregar ao cadastrar e ao inativar pacientes', async () => {
     comRouter(<KpiCards />);
     const total = screen.getByRole('heading', { name: 'Total de pacientes' }).parentElement!;
-    await waitFor(() => expect(total).toHaveTextContent('27'));
+    await waitFor(() => expect(total).toHaveTextContent('117'));
     const p = await novoPaciente();
-    await waitFor(() => expect(total).toHaveTextContent('28'));
+    await waitFor(() => expect(total).toHaveTextContent('118'));
     await inativarPaciente(p.id);
-    await waitFor(() => expect(total).toHaveTextContent('27'));
+    await waitFor(() => expect(total).toHaveTextContent('117'));
   });
 
   it('não conta médico inativo nem quem não atende no dia', async () => {

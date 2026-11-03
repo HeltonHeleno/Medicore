@@ -38,7 +38,32 @@ export type CodigoConflito =
   | 'paciente_ocupado'
   | 'transicao_invalida'
   | 'consultas_futuras'
-  | 'tem_historico';
+  | 'tem_historico'
+  // Módulos operacionais (Fase 15)
+  /** E-11 */
+  | 'leito_indisponivel'
+  /** E-12 (`detalhes.disponivel`) */
+  | 'estoque_insuficiente'
+  /** E-14 (`detalhes.referencia`) */
+  | 'paciente_internado'
+  | 'paciente_em_atendimento'
+  | 'paciente_com_solicitacao'
+  /** E-15 */
+  | 'destino_inativo'
+  /** E-17 (`detalhes.itens`) */
+  | 'pendencias_modulos'
+  /** E-18 (`detalhes.limite`) */
+  | 'janela_correcao_expirada'
+  /** E-02 na farmácia */
+  | 'medicamento_duplicado'
+  | 'medicamento_inativo';
+
+/** Pendência listada no E-17, com o link para resolvê-la. */
+export interface PendenciaModulo {
+  tipo: 'internacao' | 'atendimento';
+  id: string;
+  descricao: string;
+}
 
 /** E-02/E-03/E-04: a operação viola uma regra de negócio. */
 export class ErroConflito extends Error {

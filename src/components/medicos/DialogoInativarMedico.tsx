@@ -7,16 +7,19 @@ import { t } from '../../i18n/pt-BR';
 import { repoConsultas } from '../../services/colecoes';
 import { cancelarConsulta, listarConsultas } from '../../services/consultas';
 import { ErroValidacao } from '../../services/erros';
-import { inativarMedico } from '../../services/medicos';
+import { inativarMedico, pendenciasDoMedico } from '../../services/medicos';
 import type { ConsultaDetalhada } from '../../types';
 import { formatarDataHora } from '../../utils/datas';
 import { agora } from '../../utils/relogio';
 import { Button } from '../ui/Button';
+import { ListaPendencias } from '../ui/ListaPendencias';
 import { Modal } from '../ui/feedback/Modal';
 import { classesControle } from '../ui/form/estilos';
 
 const m = t.medicos;
 const COLECOES = [repoConsultas.nome];
+/** Coleções dos módulos operacionais (R-X4), pelo nome, sem carregar os módulos. */
+const COLECOES_MODULOS = ['internacoes', 'atendimentos'];
 
 interface Props {
   medico: { id: string; nomeExibicao: string } | null;
@@ -150,9 +153,16 @@ export function DialogoInativarMedico({ medico, aoFechar }: Props) {
     setEnviando(false);
   }
 
+  const modulos = useColecao(
+    () => (id ? pendenciasDoMedico(id) : Promise.resolve([])),
+    [id],
+    COLECOES_MODULOS,
+  );
+
   const pendentes = futuras.data ?? [];
-  const carregando = futuras.data === null;
-  const liberado = !carregando && pendentes.length === 0;
+  const pendenciasModulos = modulos.data ?? [];
+  const carregando = futuras.data === null || modulos.data === null;
+  const liberado = !carregando && pendentes.length === 0 && pendenciasModulos.length === 0;
 
   async function inativar() {
     if (!medico) return;
@@ -177,7 +187,9 @@ export function DialogoInativarMedico({ medico, aoFechar }: Props) {
           ? undefined
           : liberado
             ? m.inativarLiberado
-            : m.inativarBloqueado(pendentes.length)
+            : pendentes.length > 0
+              ? m.inativarBloqueado(pendentes.length)
+              : t.operacoes.pendenciasInativarMedico(pendenciasModulos.length)
       }
       papel="alertdialog"
       tamanho="md"
@@ -192,6 +204,7 @@ export function DialogoInativarMedico({ medico, aoFechar }: Props) {
         </>
       }
     >
+      <ListaPendencias itens={pendenciasModulos} />
       {pendentes.length > 0 && (
         <section aria-label={m.consultasPendentes}>
           <h3 className="flex items-center gap-2 text-[13.5px] font-semibold">

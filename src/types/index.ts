@@ -69,3 +69,10 @@ export * from './paciente';
 export * from './medico';
 export * from './consulta';
 export * from './atividade';
+
+// Módulos operacionais (Fase 15)
+export * from './leito';
+export * from './internacao';
+export * from './emergencia';
+export * from './farmacia';
+export * from './resumo';

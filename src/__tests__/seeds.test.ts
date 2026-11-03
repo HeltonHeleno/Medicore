@@ -54,14 +54,14 @@ describe('dados de exemplo (D6)', () => {
 
   it('pacientes passam no esquema, com CPFs únicos e os casos especiais', () => {
     const pacientes = semearPacientes();
-    expect(pacientes.length).toBeGreaterThanOrEqual(30);
+    expect(pacientes).toHaveLength(120); // 30 (D6) + 90 (D13)
     for (const p of pacientes) {
       const r = esquemaPaciente.safeParse({ ...p, consentimentoLgpd: true });
       expect(r.success, `${p.nome}: ${JSON.stringify(r.error?.issues)}`).toBe(true);
     }
     expect(new Set(pacientes.map((p) => p.cpf)).size).toBe(pacientes.length);
-    expect(pacientes.filter((p) => p.responsavel)).toHaveLength(2);
-    expect(pacientes.filter((p) => p.alergias)).toHaveLength(3);
+    expect(pacientes.filter((p) => p.responsavel)).toHaveLength(11);
+    expect(pacientes.filter((p) => p.alergias)).toHaveLength(16);
     expect(pacientes.filter((p) => p.nomeSocial)).toHaveLength(2);
     expect(pacientes.filter((p) => !p.ativo)).toHaveLength(3);
     const nomes = pacientes.map((p) => p.nome);

@@ -154,12 +154,12 @@ describe('listarPacientes', () => {
 
   it('pagina e ordena (padrão: só ativos, por nome)', async () => {
     const pagina1 = await listarPacientes();
-    expect(pagina1.total).toBe(27);
+    expect(pagina1.total).toBe(117); // 27 da D6 + 90 da D13
     expect(pagina1.itens).toHaveLength(10);
-    expect(pagina1.itens[0].nomeExibicao).toBe('Aline Carvalho');
-    expect((await listarPacientes({ pagina: 3 })).itens).toHaveLength(7);
+    expect(pagina1.itens[0].nomeExibicao).toBe('Adriana Duarte Rezende');
+    expect((await listarPacientes({ pagina: 12 })).itens).toHaveLength(7);
     const porIdade = await listarPacientes({ ordenarPor: 'idade', ordem: 'desc' });
-    expect(porIdade.itens[0].nomeExibicao).toBe('Antônio Batista');
+    expect(porIdade.itens[0].nomeExibicao).toBe('Tatiana Costa Medeiros');
   });
 
   it('mostra a próxima consulta agendada', async () => {

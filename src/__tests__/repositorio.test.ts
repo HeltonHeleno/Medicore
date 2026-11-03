@@ -1,3 +1,4 @@
+import { ESQUEMA_ATUAL } from '../services/migracoes';
 import { vi } from 'vitest';
 import { ErroArmazenamento } from '../services/erros';
 import { executarMigracoes, type Migracao } from '../services/migracoes';
@@ -53,7 +54,7 @@ describe('carga e semeadura', () => {
   it('semeia na primeira leitura e grava no localStorage', () => {
     expect(repo.todos().map((i) => i.nome)).toEqual(['Alfa']);
     expect(JSON.parse(localStorage.getItem('medicore:teste_itens:v1')!)).toHaveLength(1);
-    expect(JSON.parse(localStorage.getItem(CHAVE_META)!).esquema).toBe(1);
+    expect(JSON.parse(localStorage.getItem(CHAVE_META)!).esquema).toBe(ESQUEMA_ATUAL);
   });
 
   it('os dados sobrevivem a um "recarregar a página"', () => {

@@ -59,6 +59,8 @@ export interface Paciente extends EntidadeBase, Inativavel {
   contatoEmergencia?: ContatoEmergencia;
   observacoes?: string;
   consentimentoLgpd: { aceito: true; em: string };
+  /** R-X7: inativado por óbito (alta ou desfecho). Desfazer o óbito apaga o campo. */
+  obito?: { em: string; referencia: { tipo: 'internacao' | 'atendimento'; id: string } };
 }
 
 /** Linha da lista de pacientes. */

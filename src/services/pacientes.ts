@@ -205,11 +205,21 @@ export const atualizarPaciente = async (
  * P3 / R-P2: inativa e cancela, na mesma transação, as consultas futuras agendadas.
  * Devolve quantas consultas foram canceladas.
  */
-export const inativarPaciente = (id: string, motivo?: string): Promise<number> =>
-  executar(() =>
+export const inativarPaciente = async (id: string, motivo?: string): Promise<number> => {
+  const { pendenciasPaciente } = await import('./pendencias-modulos');
+  return executar(() =>
     transacao(() => {
       const paciente = obterOuFalhar(id);
       if (!paciente.ativo) return 0;
+      // R-X2: internação ativa ou atendimento aberto impedem a inativação (E-17).
+      const pendencias = pendenciasPaciente(id);
+      if (pendencias.length > 0) {
+        throw new ErroConflito(
+          'pendencias_modulos',
+          t.operacoes.pendenciasInativarPaciente(pendencias.length),
+          { detalhes: { itens: pendencias } },
+        );
+      }
       const momento = agora().toISOString();
       const futuras = consultasFuturasAgendadas((c) => c.pacienteId === id);
       const motivoCancelamento = t.conflitos.motivoPacienteInativado;
@@ -233,6 +243,7 @@ export const inativarPaciente = (id: string, motivo?: string): Promise<number> =
       return futuras.length;
     }),
   );
+};
 
 /** P4 */
 export const reativarPaciente = (id: string): Promise<Paciente> =>
@@ -247,14 +258,28 @@ export const reativarPaciente = (id: string): Promise<Paciente> =>
     }),
   );
 
-/** P5 / R-P3: só quem nunca teve consulta pode ser excluído de vez. */
-export const excluirPaciente = (id: string): Promise<void> =>
-  executar(() =>
+/**
+ * P5 / R-P3 / R-X3: só quem nunca teve consulta, internação, atendimento, pedido de leito
+ * nem dispensação pode ser excluído de vez.
+ */
+export const excluirPaciente = async (id: string): Promise<void> => {
+  const { temHistoricoNosModulos } = await import('./pendencias-modulos');
+  return executar(() =>
     transacao(() => {
       obterOuFalhar(id);
       if (repoConsultas.todos().some((c) => c.pacienteId === id)) {
         throw new ErroConflito('tem_historico', t.conflitos.temHistorico);
       }
+      if (temHistoricoNosModulos(id)) {
+        throw new ErroConflito('tem_historico', t.operacoes.pendenciasExcluirPaciente);
+      }
       repoPacientes.remover(id);
     }),
   );
+};
+
+/** R-X2: pendências nos módulos (para o diálogo de inativação mostrar antes de confirmar). */
+export const pendenciasDoPaciente = async (id: string) => {
+  const { pendenciasPaciente } = await import('./pendencias-modulos');
+  return executar(() => pendenciasPaciente(id));
+};

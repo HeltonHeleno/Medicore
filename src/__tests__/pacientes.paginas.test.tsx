@@ -34,11 +34,12 @@ describe('Lista de pacientes', () => {
   it('pagina de 10 em 10, busca (inclusive nome social) e mantém tudo na URL', async () => {
     const user = userEvent.setup();
     const { router } = renderizarComRotas('/pacientes');
-    expect(await screen.findByText('Mostrando 1–10 de 27')).toBeInTheDocument();
+    expect(await screen.findByText('Mostrando 1–10 de 117')).toBeInTheDocument();
     expect(nomesNaTabela()).toHaveLength(10);
 
     await user.click(screen.getByRole('button', { name: 'Página 3' }));
-    await waitFor(() => expect(nomesNaTabela()).toHaveLength(7));
+    await screen.findByText('Mostrando 21–30 de 117');
+    expect(nomesNaTabela()).toHaveLength(10);
     expect(router.state.location.search).toBe('?pagina=3');
 
     await user.type(
@@ -52,7 +53,7 @@ describe('Lista de pacientes', () => {
   it('filtra por situação e ordena pelo cabeçalho', async () => {
     const user = userEvent.setup();
     renderizarComRotas('/pacientes');
-    await screen.findByText('Mostrando 1–10 de 27');
+    await screen.findByText('Mostrando 1–10 de 117');
     await user.selectOptions(screen.getByRole('combobox', { name: 'Situação' }), 'inativos');
     await waitFor(() =>
       expect(nomesNaTabela()).toEqual(['Luíza Monteiro', 'Roberto Vieira', 'Sandra Lopes']),
@@ -61,9 +62,9 @@ describe('Lista de pacientes', () => {
 
     await user.selectOptions(screen.getByRole('combobox', { name: 'Situação' }), 'ativos');
     await user.click(within(tabela()).getByRole('button', { name: 'Idade' }));
-    await waitFor(() => expect(nomesNaTabela()[0]).toBe('Beatriz Lima')); // 10 anos
+    await waitFor(() => expect(nomesNaTabela()[0]).toBe('Júlia Almeida Pacheco')); // menos de 1 ano (D13)
     await user.click(within(tabela()).getByRole('button', { name: 'Idade' }));
-    await waitFor(() => expect(nomesNaTabela()[0]).toBe('Antônio Batista')); // 78 anos
+    await waitFor(() => expect(nomesNaTabela()[0]).toBe('Tatiana Costa Medeiros')); // 85 anos (D13)
     expect(within(tabela()).getAllByRole('columnheader')[2]).toHaveAttribute(
       'aria-sort',
       'descending',
@@ -76,7 +77,7 @@ describe('Lista de pacientes', () => {
     expect(await screen.findByText('Nenhum paciente encontrado para "xyzw".')).toBeInTheDocument();
     // (há um na barra de filtros e outro no estado vazio)
     await user.click(screen.getAllByRole('button', { name: 'Limpar filtros' })[0]);
-    expect(await screen.findByText('Mostrando 1–10 de 27')).toBeInTheDocument();
+    expect(await screen.findByText('Mostrando 1–10 de 117')).toBeInTheDocument();
     expect(router.state.location.search).toBe('');
   });
 

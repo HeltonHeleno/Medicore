@@ -194,6 +194,19 @@ export const t = {
     pausaForaExpediente: 'A pausa deve estar dentro do expediente',
     expedienteCurto: 'O expediente é menor que a duração de uma consulta',
     duracaoInvalida: 'A duração deve ser de 5 a 120 minutos, em múltiplos de 5',
+    // Módulos operacionais (Fase 15)
+    instanteInvalido: 'Informe data e hora válidas',
+    foraDaFaixa: (min: number, max: number, unidade: string) =>
+      `Valor fora da faixa possível (${min} a ${max}${unidade ? ` ${unidade}` : ''})`,
+    pasMenorQuePad: 'A pressão sistólica deve ser maior que a diastólica',
+    inteiroPositivo: 'Informe um número inteiro maior que zero',
+    inteiroNaoNegativo: 'Informe um número inteiro igual ou maior que zero',
+    idadeAproximada: 'Informe uma idade de 0 a 120 anos',
+    justificativaObrigatoria: 'Escreva a justificativa',
+    hospitalObrigatorio: 'Informe o hospital',
+    itensMinimo: 'Inclua pelo menos um item',
+    itensMaximo: (n: number) => `Inclua no máximo ${n} itens`,
+    validadeVencida: 'A validade não pode estar vencida',
   },
 
   /** Mensagens de erro dos cadastros (E-01 a E-10 da especificação). */
@@ -216,6 +229,12 @@ export const t = {
     pacienteNaoEncontrado: 'Paciente não encontrado',
     medicoNaoEncontrado: 'Médico não encontrado',
     consultaNaoEncontrada: 'Consulta não encontrada',
+    internacaoNaoEncontrada: 'Internação não encontrada',
+    leitoNaoEncontrado: 'Leito não encontrado',
+    atendimentoNaoEncontrado: 'Atendimento não encontrado',
+    medicamentoNaoEncontrado: 'Medicamento não encontrado',
+    loteNaoEncontrado: 'Lote não encontrado',
+    dispensacaoNaoEncontrada: 'Dispensação não encontrada',
     inesperadoTitulo: 'Algo deu errado nesta tela.',
     inesperadoDescricao:
       'O restante do sistema continua funcionando. Tente novamente ou volte para o Painel.',
@@ -255,6 +274,61 @@ export const t = {
     consultaConcluida: (paciente: string) => `Consulta concluída com ${paciente}`,
     consultaCancelada: (paciente: string) => `Consulta de ${paciente} cancelada`,
     consultaFaltou: (paciente: string) => `${paciente} faltou à consulta`,
+    // Módulos operacionais (Fase 15)
+    pacienteInternado: (nome: string, leito: string) =>
+      `Paciente ${nome} internado no leito ${leito}`,
+    pacienteTransferido: (nome: string, de: string, para: string) =>
+      `${nome} transferido de ${de} para ${para}`,
+    altaRegistrada: (nome: string, tipo: string) => `Alta de ${nome} (${tipo})`,
+    altaDesfeita: (nome: string, motivo: string) => `Alta de ${nome} desfeita: ${motivo}`,
+    obitoRegistrado: (nome: string) => `Óbito registrado: ${nome}`,
+    emergenciaVermelho: (numero: string) =>
+      `Emergência: paciente classificado como vermelho (${numero})`,
+    emergenciaDesfecho: (numero: string, desfecho: string) =>
+      `Atendimento ${numero} encerrado: ${desfecho}`,
+    atendimentoReaberto: (numero: string) => `Atendimento ${numero} reaberto`,
+    leitoBloqueado: (leito: string, motivo: string) => `Leito ${leito} bloqueado: ${motivo}`,
+    leitoDesbloqueado: (leito: string) => `Leito ${leito} liberado`,
+    loteRecebido: (qtd: number, unidade: string, medicamento: string) =>
+      `Entrada de ${qtd} ${unidade} de ${medicamento}`,
+    loteBloqueado: (lote: string, medicamento: string, motivo: string) =>
+      `Lote ${lote} de ${medicamento} bloqueado: ${motivo}`,
+    loteVencido: (lote: string, medicamento: string, qtd: number, unidade: string) =>
+      `Lote ${lote} de ${medicamento} venceu (${qtd} ${unidade})`,
+    estoqueBaixo: (medicamento: string) => `${medicamento} abaixo do estoque mínimo`,
+    dispensacaoEstornada: (nome: string) => `Dispensação para ${nome} estornada`,
+  },
+
+  /** Tempos decorridos, prazos e validades (utils/tempos.ts). */
+  tempo: {
+    minutos: (m: number) => `${m} min`,
+    horasMinutos: (h: number, m: number) => `${h} h ${String(m).padStart(2, '0')} min`,
+    dias: (d: number) => (d === 1 ? '1 dia' : `${d} dias`),
+    ha: (duracao: string) => `há ${duracao}`,
+    ate: (hora: string) => `até ${hora}`,
+    venceHoje: 'Vence hoje',
+    venceEm: (d: number) => (d === 1 ? 'Vence amanhã' : `Vence em ${d} dias`),
+    venceuHa: (d: number) => (d === 1 ? 'Venceu ontem' : `Venceu há ${d} dias`),
+  },
+
+  /**
+   * Textos dos módulos operacionais usados também fora deles (Painel, cadastros, serviços
+   * comuns). O restante fica em `i18n/pt-BR/leitos.ts`, `emergencia.ts` e `farmacia.ts` (D16).
+   */
+  /** Textos dos módulos usados também pelos cadastros (pendências R-X2 a R-X4). */
+  operacoes: {
+    pendenciasInativarPaciente: (n: number) =>
+      n === 1
+        ? 'Não é possível inativar: há 1 pendência nos módulos de leitos e emergência.'
+        : `Não é possível inativar: há ${n} pendências nos módulos de leitos e emergência.`,
+    pendenciasExcluirPaciente:
+      'Este paciente tem internações, atendimentos ou dispensações registrados e não pode ser excluído. Inative o cadastro.',
+    pendenciasInativarMedico: (n: number) =>
+      n === 1
+        ? 'Não é possível inativar: o médico tem 1 pendência em internações ou na emergência.'
+        : `Não é possível inativar: o médico tem ${n} pendências em internações ou na emergência.`,
+    pendenciasTitulo: 'Pendências em leitos e emergência',
+    entendi: 'Entendi',
   },
 
   convenio: {

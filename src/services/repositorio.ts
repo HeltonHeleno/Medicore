@@ -32,6 +32,7 @@ interface Colecao {
 // ───────────────────────── estado do módulo ─────────────────────────
 
 const colecoes = new Map<string, Colecao>();
+const aoResetarFns = new Set<() => void>();
 const ouvintes = new Set<Ouvinte>();
 const ouvintesAviso = new Set<OuvinteAviso>();
 let emTransacao: {
@@ -339,7 +340,40 @@ export function resetar(): void {
   for (const c of colecoes.values()) c.itens = null;
   migracoesExecutadas = false;
   avisoCotaDado = false;
+  for (const fn of aoResetarFns) fn();
   notificar(new Set(colecoes.keys()));
+}
+
+/** Registra uma limpeza extra para `resetar()` (ex.: dados de exemplo guardados em cache). */
+export function aoResetar(fn: () => void): () => void {
+  aoResetarFns.add(fn);
+  return () => aoResetarFns.delete(fn);
+}
+
+/** Lê um campo de `medicore:meta` (ex.: `retencaoEm`, A15). */
+export function lerMeta<T = unknown>(campo: string): T | undefined {
+  try {
+    const bruto = lerChave(CHAVE_META);
+    return bruto ? ((JSON.parse(bruto) as Record<string, unknown>)[campo] as T) : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/** Grava um campo em `medicore:meta`, mantendo os demais (esquema, semeadoEm). */
+export function gravarMeta(campo: string, valor: unknown): void {
+  garantirMigracoes();
+  let meta: Record<string, unknown> = {};
+  try {
+    meta = JSON.parse(lerChave(CHAVE_META) ?? '{}') as Record<string, unknown>;
+  } catch {
+    /* meta ilegível: recria */
+  }
+  try {
+    gravarChave(CHAVE_META, JSON.stringify({ ...meta, [campo]: valor }));
+  } catch {
+    /* sem storage: segue em memória */
+  }
 }
 
 /** Só para testes: esquece a memória sem tocar no storage (simula recarregar a página). */
