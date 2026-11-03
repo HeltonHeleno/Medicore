@@ -199,6 +199,7 @@ export const t = {
     foraDaFaixa: (min: number, max: number, unidade: string) =>
       `Valor fora da faixa possível (${min} a ${max}${unidade ? ` ${unidade}` : ''})`,
     pasMenorQuePad: 'A pressão sistólica deve ser maior que a diastólica',
+    numeroInvalido: 'Informe um número (use vírgula para decimais)',
     inteiroPositivo: 'Informe um número inteiro maior que zero',
     inteiroNaoNegativo: 'Informe um número inteiro igual ou maior que zero',
     idadeAproximada: 'Informe uma idade de 0 a 120 anos',
@@ -309,13 +310,15 @@ export const t = {
     venceHoje: 'Vence hoje',
     venceEm: (d: number) => (d === 1 ? 'Vence amanhã' : `Vence em ${d} dias`),
     venceuHa: (d: number) => (d === 1 ? 'Venceu ontem' : `Venceu há ${d} dias`),
+    /** Variante de prazo do `TempoDecorrido`: "até 10:28 (+15 min)". */
+    passou: (min: number) => `+${min} min`,
+    prazoPassou: (prazo: string, min: number) => `${prazo}, passou ${min} min`,
   },
 
   /**
-   * Textos dos módulos operacionais usados também fora deles (Painel, cadastros, serviços
-   * comuns). O restante fica em `i18n/pt-BR/leitos.ts`, `emergencia.ts` e `farmacia.ts` (D16).
+   * Textos dos módulos usados também pelos cadastros (pendências R-X2 a R-X4). O restante fica
+   * em `i18n/pt-BR/leitos.ts`, `emergencia.ts`, `farmacia.ts` e `operacoes.ts` (D16).
    */
-  /** Textos dos módulos usados também pelos cadastros (pendências R-X2 a R-X4). */
   operacoes: {
     pendenciasInativarPaciente: (n: number) =>
       n === 1
@@ -358,6 +361,8 @@ export const t = {
   formulario: {
     obrigatorio: 'obrigatório',
     opcional: '(opcional)',
+    diminuirQuantidade: 'Diminuir quantidade',
+    aumentarQuantidade: 'Aumentar quantidade',
     contador: (atual: number, maximo: number) => `${atual}/${maximo}`,
     contadorLeitor: (atual: number, maximo: number) => `${atual} de ${maximo} caracteres`,
     selecione: 'Selecione…',
@@ -556,6 +561,8 @@ export const t = {
     mostrarCpf: 'Mostrar CPF',
     ocultarCpf: 'Ocultar CPF',
     alergiasTitulo: 'Alergias',
+    /** R-F15: campo vazio não é o mesmo que "sem alergias". */
+    alergiasNaoInformadas: 'Alergias não informadas — confirme com a equipe',
     inativoDesde: (data: string, motivo?: string) =>
       motivo
         ? `Paciente inativo desde ${data} — motivo: ${motivo}`

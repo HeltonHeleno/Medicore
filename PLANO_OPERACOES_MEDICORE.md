@@ -126,7 +126,7 @@ A Revisão 1 foi analisada por inteiro, com foco em **o que acontece quando algo
 | Fase | Descrição | Estimativa | Status | Início | Fim |
 |:---:|---|:---:|:---:|:---:|:---:|
 | 15 | Fundação dos módulos operacionais | 4 dias | ✅ Concluída | 28/10/2026 | 28/10/2026 |
-| 16 | Componentes compartilhados | 1,5 dia | ⬜ Não iniciada | | |
+| 16 | Componentes compartilhados | 1,5 dia | ✅ Concluída | 03/11/2026 | 03/11/2026 |
 | 17 | Gestão de leitos | 3,5 dias | ⬜ Não iniciada | | |
 | 18 | Emergência | 3,5 dias | ⬜ Não iniciada | | |
 | 19 | Farmácia | 3,5 dias | ⬜ Não iniciada | | |
@@ -2019,34 +2019,34 @@ A definição de pronto do plano de cadastros continua valendo. Acrescente:
 **Estimativa:** 1,5 dia · **Objetivo:** peças visuais reutilizáveis, acessíveis e na vitrine `/ui`.
 
 ### 16.1 Tokens de cor
-- [ ] Risco (5 cores) e situação do leito (5), com par de texto, nos temas claro e escuro
-- [ ] Contraste AA calculado e registrado no Diário. Verificação em escala de cinza
+- [x] Risco (5 cores) e situação do leito (5), com par de texto, nos temas claro e escuro
+- [x] Contraste AA calculado e registrado no Diário. Verificação em escala de cinza — o amarelo do tema claro tem 1,68:1 contra o card; o selo ganhou a borda `--color-borda-risco-amarelo` (5,07:1)
 
 ### 16.2 Componentes gerais (`components/ui/`)
-- [ ] `AbasModulo`: links com `aria-current="page"`; rolagem horizontal no celular, sem quebrar a página
-- [ ] `TempoDecorrido`: usa `useRelogio`; `<time datetime>`; texto "há 12 min"; sem `aria-live`
-- [ ] `ResumoNumeros`: linha de números com rótulo, ex.: "Baixo 3", reaproveitando o estilo do `StatCard`
-- [ ] `CampoQuantidade`: inteiro, com botões − e + acessíveis e a unidade no rótulo
-- [ ] `LinhaDoTempo` genérica, extraída da `LinhaDoTempoConsulta` (que passa a usá-la)
-- [ ] `ComboboxPaciente`, extraído do `FormConsulta`, com prop de filtro (ex.: só internados ou em atendimento) e etiqueta de contexto ("Internado em UTI-07")
+- [x] `AbasModulo`: links com `aria-current="page"`; rolagem horizontal no celular, sem quebrar a página
+- [x] `TempoDecorrido`: usa `useRelogio`; `<time datetime>`; texto "há 12 min"; sem `aria-live`
+- [x] `ResumoNumeros`: linha de números com rótulo, ex.: "Baixo 3", reaproveitando o estilo do `StatCard`
+- [x] `CampoQuantidade`: inteiro, com botões − e + acessíveis e a unidade no rótulo
+- [x] `LinhaDoTempo` genérica, extraída da `LinhaDoTempoConsulta` (que passa a usá-la)
+- [x] `ComboboxPaciente`, extraído do `FormConsulta`, com prop de filtro (ex.: só internados ou em atendimento) e etiqueta de contexto ("Internado em UTI-07")
 
 ### 16.3 Componentes dos módulos
-- [ ] `BadgeRisco`: cor, ícone e nome; variante com o tempo-alvo
-- [ ] `BadgeLeito` e `CartaoLeito`: situação, código, ocupante, sinais e ação rápida
-- [ ] `SeletorLeito`: radiogroup no padrão `SeletorHorario`; agrupado por setor; motivo de indisponibilidade; sugerido em primeiro lugar
-- [ ] `CamposSinaisVitais`: unidades, faixas válidas (R-E5), sinalização de alerta em texto
-- [ ] `BadgeEstoque`: OK, baixo, zerado, vencendo (texto + ícone)
-- [ ] `AlertaAlergia`: `role="alert"`, termo encontrado × medicamento, caixa "Ciente" e justificativa
+- [x] `BadgeRisco`: cor, ícone e nome; variante com o tempo-alvo
+- [x] `BadgeLeito` e `CartaoLeito`: situação, código, ocupante, sinais e ação rápida
+- [x] `SeletorLeito`: radiogroup no padrão `SeletorHorario`; agrupado por setor; motivo de indisponibilidade; sugerido em primeiro lugar
+- [x] `CamposSinaisVitais`: unidades, faixas válidas (R-E5), sinalização de alerta em texto
+- [x] `BadgeEstoque`: OK, baixo, zerado, vencendo (texto + ícone)
+- [x] `AlertaAlergia`: `role="alert"`, termo encontrado × medicamento, caixa "Ciente" e justificativa
 
 ### 16.4 Vitrine e testes
-- [ ] Seção "Módulos operacionais" na vitrine `/ui`, com todos os estados
-- [ ] Testes de componente: teclado do `SeletorLeito`, faixas e alertas do `CamposSinaisVitais`, `TempoDecorrido` com relógio falso, `ComboboxPaciente` com filtro
-- [ ] axe na vitrine (claro e escuro) sem violações
+- [x] Seção "Módulos operacionais" na vitrine `/ui`, com todos os estados
+- [x] Testes de componente: teclado do `SeletorLeito`, faixas e alertas do `CamposSinaisVitais`, `TempoDecorrido` com relógio falso, `ComboboxPaciente` com filtro
+- [x] axe na vitrine (claro e escuro) sem violações
 
 ### ✅ Critérios de conclusão — Fase 16
-- [ ] Componentes na vitrine, testados e acessíveis
-- [ ] `FormConsulta` e `DetalheConsulta` continuam funcionando com os componentes extraídos (testes da Fase 12 verdes)
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida
+- [x] Componentes na vitrine, testados e acessíveis
+- [x] `FormConsulta` e `DetalheConsulta` continuam funcionando com os componentes extraídos (testes da Fase 12 verdes)
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida
 
 ---
 
@@ -2338,4 +2338,5 @@ A definição de pronto do plano de cadastros continua valendo. Acrescente:
 | 28/10/2026 | **Plano de execução** criado (`PLANO_EXECUCAO_OPERACOES.md`, 529 tarefas). Ajustes de consistência nesta especificação: tabelas de serviços e testes com L1–L9, E1–E10 e F1–F9; "prazo" no lugar de "tempo-alvo" na fila e no atendimento; transações das correções e do óbito; tempos-alvo e limites em `config/limites.ts`; tela e cenários e2e 9 e 10 na estrutura de pastas; captura de referência do Painel | |
 | 28/10/2026 | **Decisões D8–D20 aprovadas** pelo usuário, todas como recomendadas. A D18 (faixas de alerta de sinais vitais por idade) conta como validada: `SINALIZACAO_PEDIATRICA_ATIVA` fica ligada. Nenhuma seção da especificação precisou mudar (0.1.3). Da leitura da Etapa 0: A8 passa a tirar o dia da própria chegada (chegada retroativa) e a matriz ganhou a nota sobre dispensar a partir de atendimento provisório | Usuário |
 | 28/10/2026 | **Fase 15 concluída** (fundação, sem telas). 557 testes Vitest e 66 Playwright verdes; `services/` 97,5% e `utils/` 97,8%; pacote inicial 149,0 kB (+3,3 kB, justificado). Ajustes nesta especificação: INV-1 conta atendimento **aberto** com leito de observação; `ESQUEMA_ATUAL` = 2 pela migração dos pacientes extras. Desvios de implementação (registro arquivado como flag, hooks num arquivo, busca do mapa pelos dois nomes) estão no Diário do plano de execução e no `docs/PR_FASE_15.md` | |
+| 03/11/2026 | **Fase 16 concluída** (componentes compartilhados). 589 testes Vitest e 66 Playwright verdes; `components/ui/` 95,4%; pacote inicial 150,1 kB (+1,1 kB, quase todo de CSS; +4,4 kB desde a Etapa 0). Tokens `--color-risco-*` (com `--color-on-risco-*` e `--color-borda-risco-*`) e `--color-leito-*` (com `--color-on-leito-*`); todos os pares AA. Vitrine "Módulos operacionais" sem violações axe. Detalhes no `docs/PR_FASE_16.md` | |
 | | | |

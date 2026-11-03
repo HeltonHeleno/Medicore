@@ -8,6 +8,8 @@ import type {
   UnidadeDispensacao,
 } from '../../types';
 
+import type { CampoAlergia } from '../../utils/alergia';
+
 const plural = (n: number, um: string, varios: string) => (n === 1 ? um : varios);
 
 export const tf = {
@@ -117,9 +119,21 @@ export const tf = {
     motivoDevolucaoBloqueado: 'Devolução de lote bloqueado',
   },
 
-  camposAlergia: {
-    principioAtivo: 'princípio ativo',
-    classe: 'classe',
-    nome: 'nome',
+
+
+  /** Alerta de alergia na dispensação (16.10). */
+  alertaAlergia: {
+    titulo: 'Possível alergia',
+    /** "corresponde à classe de Amoxicilina 500 mg" (com a concordância de cada campo). */
+    detalhe: (termo: string, campo: CampoAlergia, medicamento: string) =>
+      `Alergia registrada a "${termo}" corresponde ${tf.alertaAlergia.campos[campo]} de ${medicamento}.`,
+    campos: {
+      principioAtivo: 'ao princípio ativo',
+      classe: 'à classe',
+      nome: 'ao nome',
+    } satisfies Record<CampoAlergia, string>,
+    ciente: 'Ciente: dispensar mesmo assim',
+    justificativa: 'Justificativa',
+    justificativaDica: 'De 10 a 300 caracteres. Fica registrada na dispensação.',
   },
 };

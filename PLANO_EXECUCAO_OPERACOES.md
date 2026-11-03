@@ -4,7 +4,7 @@
 > **Base:** `PLANO_OPERACOES_MEDICORE.md` (Revisão 2), que é a **especificação**. Este documento diz **o que fazer e em que ordem**; a especificação diz **como deve funcionar**. Em caso de dúvida, vale a especificação.
 > **Fases:** 15 a 21, iguais às da especificação, precedidas da Etapa 0 (preparação) e seguidas do Encerramento (versão 1.2.0).
 > **Estimativa:** 20 dias úteis (1 desenvolvedor): 19 das fases + ½ da Etapa 0 + ½ do Encerramento · ver [cronograma](#-cronograma-dia-a-dia)
-> **Criado em:** 28/10/2026 · **Situação:** Fase 15 concluída em 28/10/2026 (faltam a branch, os commits e o PR, que são seus); próxima: Fase 16
+> **Criado em:** 28/10/2026 · **Situação:** Fases 15 e 16 concluídas (faltam as branches, os commits e os PRs, que são seus); próxima: Fase 17
 
 ---
 
@@ -62,7 +62,7 @@
 |---|---|:---:|:---:|:---:|:---:|:---:|
 | Etapa 0 | Preparação e linha de base | 12 | 0,5 | ✅ (falta 0.2.1 e 0.4.1, suas) | 28/10/2026 | 28/10/2026 |
 | Fase 15 | Fundação dos módulos operacionais | 160 | 4 | ✅ (falta 15.0.1, os commits e 15.18.7, seus) | 28/10/2026 | 28/10/2026 |
-| Fase 16 | Componentes compartilhados | 56 | 1,5 | ⬜ | | |
+| Fase 16 | Componentes compartilhados | 56 | 1,5 | ✅ (falta 16.0.1, os commits e 16.13.5, seus) | 03/11/2026 | 03/11/2026 |
 | Fase 17 | Gestão de leitos | 78 | 3,5 | ⬜ | | |
 | Fase 18 | Emergência | 67 | 3,5 | ⬜ | | |
 | Fase 19 | Farmácia | 67 | 3,5 | ⬜ | | |
@@ -444,99 +444,99 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 16.0 Abertura
 
 - [ ] **16.0.1** 👤 Atualizar a `main` (com a Fase 15 mesclada) e criar `feat/fase-16-componentes-operacoes`
-- [ ] **16.0.2** `npm run test` verde
+- [x] **16.0.2** `npm run test` verde
 
 ### 16.1 Tokens de cor · esp. 16.1
 
-- [ ] **16.1.1** Em `index.css`: `--color-risco-{vermelho,laranja,amarelo,verde,azul}` e os pares `--color-on-risco-*`, nos temas claro e escuro · 🔗 Acessibilidade › Novos tokens
-- [ ] **16.1.2** Em `index.css`: `--color-leito-{livre,ocupado,reservado,higienizacao,bloqueado}` com os pares de texto, nos dois temas
-- [ ] **16.1.3** Calcular o contraste de cada par (texto ≥ 4,5:1; borda e ícone ≥ 3:1) e registrar a tabela no Diário · ✔ todos AA
+- [x] **16.1.1** Em `index.css`: `--color-risco-{vermelho,laranja,amarelo,verde,azul}` e os pares `--color-on-risco-*`, nos temas claro e escuro · 🔗 Acessibilidade › Novos tokens
+- [x] **16.1.2** Em `index.css`: `--color-leito-{livre,ocupado,reservado,higienizacao,bloqueado}` com os pares de texto, nos dois temas
+- [x] **16.1.3** Calcular o contraste de cada par (texto ≥ 4,5:1; borda e ícone ≥ 3:1) e registrar a tabela no Diário · ✔ todos AA — tabela no Diário e no `docs/PR_FASE_16.md`; o amarelo claro ganhou borda própria (1,68 → 5,07:1)
 - [ ] **16.1.4** Commit `fase-16: 16.1 tokens de risco e de leito`
 
 ### 16.2 Navegação e números · esp. 16.2
 
-- [ ] **16.2.1** `components/ui/AbasModulo.tsx`: links com `aria-current="page"`, rolagem horizontal própria no celular sem alargar a página
-- [ ] **16.2.2** `components/ui/ResumoNumeros.tsx`: linha de números com rótulo ("Baixo 3"), no estilo do `StatCard`, com link opcional para o filtro
-- [ ] **16.2.3** Testes: `AbasModulo` marca a aba da URL atual; `ResumoNumeros` com e sem link
+- [x] **16.2.1** `components/ui/AbasModulo.tsx`: links com `aria-current="page"`, rolagem horizontal própria no celular sem alargar a página
+- [x] **16.2.2** `components/ui/ResumoNumeros.tsx`: linha de números com rótulo ("Baixo 3"), no estilo do `StatCard`, com link opcional para o filtro
+- [x] **16.2.3** Testes: `AbasModulo` marca a aba da URL atual; `ResumoNumeros` com e sem link
 - [ ] **16.2.4** Commit `fase-16: 16.2 abas do módulo e resumo de números`
 
 ### 16.3 Tempo e quantidade · esp. 16.2
 
-- [ ] **16.3.1** `components/ui/TempoDecorrido.tsx`: usa `useRelogio`; `<time dateTime>`; texto "há 12 min"; **sem** `aria-live`; variante de prazo ("até 10:28") com destaque quando passa · 🔗 Tempos, RS-14
-- [ ] **16.3.2** `components/ui/form/CampoQuantidade.tsx`: inteiro, botões − e + com nome acessível ("Diminuir quantidade"), unidade no rótulo, mínimo e máximo
-- [ ] **16.3.3** Testes: `TempoDecorrido` com relógio falso (muda o texto a cada tique, sem anunciar); `CampoQuantidade` por teclado e por botões, limites
+- [x] **16.3.1** `components/ui/TempoDecorrido.tsx`: usa `useRelogio`; `<time dateTime>`; texto "há 12 min"; **sem** `aria-live`; variante de prazo ("até 10:28") com destaque quando passa · 🔗 Tempos, RS-14
+- [x] **16.3.2** `components/ui/form/CampoQuantidade.tsx`: inteiro, botões − e + com nome acessível ("Diminuir quantidade"), unidade no rótulo, mínimo e máximo
+- [x] **16.3.3** Testes: `TempoDecorrido` com relógio falso (muda o texto a cada tique, sem anunciar); `CampoQuantidade` por teclado e por botões, limites
 - [ ] **16.3.4** Commit `fase-16: 16.3 tempo decorrido e campo de quantidade`
 
 ### 16.4 Linha do tempo genérica · esp. 16.2
 
-- [ ] **16.4.1** `components/ui/LinhaDoTempo.tsx` extraída da `LinhaDoTempoConsulta` (itens com instante, título, detalhe, autor e ícone)
-- [ ] **16.4.2** `LinhaDoTempoConsulta` passa a usar a genérica · ✔ `consultas.paginas.test.tsx` verde, sem mudança visual
+- [x] **16.4.1** `components/ui/LinhaDoTempo.tsx` extraída da `LinhaDoTempoConsulta` (itens com instante, título, detalhe, autor e ícone)
+- [x] **16.4.2** `LinhaDoTempoConsulta` passa a usar a genérica · ✔ `consultas.paginas.test.tsx` verde, sem mudança visual — `consultas.paginas.test.tsx` verde
 - [ ] **16.4.3** Commit `fase-16: 16.4 linha do tempo genérica`
 
 ### 16.5 ComboboxPaciente · esp. 16.2
 
-- [ ] **16.5.1** ⭐ `components/pacientes/ComboboxPaciente.tsx` extraído do `FormConsulta`: busca por nome, nome social e CPF; só ativos; resumo com alergias (ou "Alergias não informadas")
-- [ ] **16.5.2** Prop `filtro` (ex.: "internados ou em atendimento") e etiqueta de contexto na opção ("Internado em UTI-07", "Emergência E-0039") usando `situacaoHospitalar` · 🔗 R-X8, F3
-- [ ] **16.5.3** `FormConsulta` passa a usar o componente · ✔ testes da Fase 12 verdes
-- [ ] **16.5.4** Testes: filtro aplicado; etiqueta lida pelo leitor de tela; teclado igual ao `Combobox`
+- [x] **16.5.1** ⭐ `components/pacientes/ComboboxPaciente.tsx` extraído do `FormConsulta`: busca por nome, nome social e CPF; só ativos; resumo com alergias (ou "Alergias não informadas") — o resumo ficou num componente irmão, `ResumoPaciente`, no mesmo arquivo
+- [x] **16.5.2** Prop `filtro` (ex.: "internados ou em atendimento") e etiqueta de contexto na opção ("Internado em UTI-07", "Emergência E-0039") usando `situacaoHospitalar` · 🔗 R-X8, F3 — etiquetas por `etiquetasHospitalares()`, carregada sob demanda e relida quando os dados mudam
+- [x] **16.5.3** `FormConsulta` passa a usar o componente · ✔ testes da Fase 12 verdes — testes da Fase 12 verdes
+- [x] **16.5.4** Testes: filtro aplicado; etiqueta lida pelo leitor de tela; teclado igual ao `Combobox`
 - [ ] **16.5.5** Commit `fase-16: 16.5 combobox de paciente`
 
 ### 16.6 Selos · esp. 16.3
 
-- [ ] **16.6.1** `components/emergencia/BadgeRisco.tsx`: cor, ícone e nome por extenso; variante com o tempo-alvo ("Laranja — até 10 min") · 🔗 Acessibilidade › Cor nunca sozinha
-- [ ] **16.6.2** `components/leitos/BadgeLeito.tsx`: situação com ícone, texto e cor
-- [ ] **16.6.3** `components/farmacia/BadgeEstoque.tsx`: OK, baixo, zerado, vencendo, vencido e bloqueado (texto + ícone)
-- [ ] **16.6.4** Testes: cada selo tem texto visível, não só cor
+- [x] **16.6.1** `components/emergencia/BadgeRisco.tsx`: cor, ícone e nome por extenso; variante com o tempo-alvo ("Laranja — até 10 min") · 🔗 Acessibilidade › Cor nunca sozinha — ícones de forma diferente por cor (sirene, triângulo, círculos)
+- [x] **16.6.2** `components/leitos/BadgeLeito.tsx`: situação com ícone, texto e cor
+- [x] **16.6.3** `components/farmacia/BadgeEstoque.tsx`: OK, baixo, zerado, vencendo, vencido e bloqueado (texto + ícone)
+- [x] **16.6.4** Testes: cada selo tem texto visível, não só cor
 - [ ] **16.6.5** Commit `fase-16: 16.6 selos de risco, leito e estoque`
 
 ### 16.7 Cartão de leito · esp. 16.3
 
-- [ ] **16.7.1** `components/leitos/CartaoLeito.tsx`: link para o detalhe com nome acessível completo ("UTI-03, em higienização há 40 minutos"); ocupado mostra nome, dia de internação, ⚠ alergia e precaução; reservado mostra a solicitação · 🔗 Acessibilidade › Grade de leitos
-- [ ] **16.7.2** Ação rápida como botão separado com nome completo ("Concluir higienização do leito UTI-03") e menu do cartão (`MenuAcoes`) conforme a matriz · 🔗 [Matriz de ações](PLANO_OPERACOES_MEDICORE.md#matriz-de-ações-por-estado)
-- [ ] **16.7.3** Destaques: higienização acima do tempo de referência, reserva há mais de 2 h, liberação prevista vencida · 🔗 R-L9, R-L13, R-L14
-- [ ] **16.7.4** Memorizar o cartão (`memo`) para o mapa de 130 leitos · 🔗 RS-16
-- [ ] **16.7.5** Testes: um cartão por situação; nome acessível; ações certas por situação
+- [x] **16.7.1** `components/leitos/CartaoLeito.tsx`: link para o detalhe com nome acessível completo ("UTI-03, em higienização há 40 minutos"); ocupado mostra nome, dia de internação, ⚠ alergia e precaução; reservado mostra a solicitação · 🔗 Acessibilidade › Grade de leitos
+- [x] **16.7.2** Ação rápida como botão separado com nome completo ("Concluir higienização do leito UTI-03") e menu do cartão (`MenuAcoes`) conforme a matriz · 🔗 [Matriz de ações](PLANO_OPERACOES_MEDICORE.md#matriz-de-ações-por-estado)
+- [x] **16.7.3** Destaques: higienização acima do tempo de referência, reserva há mais de 2 h, liberação prevista vencida · 🔗 R-L9, R-L13, R-L14
+- [x] **16.7.4** Memorizar o cartão (`memo`) para o mapa de 130 leitos · 🔗 RS-16
+- [x] **16.7.5** Testes: um cartão por situação; nome acessível; ações certas por situação
 - [ ] **16.7.6** Commit `fase-16: 16.7 cartão de leito`
 
 ### 16.8 Seletor de leito · esp. 16.3
 
-- [ ] **16.8.1** ⭐ `components/leitos/SeletorLeito.tsx` no padrão do `SeletorHorario`: radiogroup com setas, Home e End; agrupado por setor; sugerido primeiro e marcado · 🔗 A11
-- [ ] **16.8.2** Leitos incompatíveis desabilitados com o motivo visível e lido pelo leitor de tela; opção "Usar mesmo assim" com justificativa (exceção de perfil e isolamento) · 🔗 R-L5, R-L6
-- [ ] **16.8.3** Estado vazio com a ação configurável (ex.: "Pedir leito (eletiva)") · 🔗 L9
-- [ ] **16.8.4** Testes só com teclado; motivos anunciados; exceção exige justificativa
+- [x] **16.8.1** ⭐ `components/leitos/SeletorLeito.tsx` no padrão do `SeletorHorario`: radiogroup com setas, Home e End; agrupado por setor; sugerido primeiro e marcado · 🔗 A11
+- [x] **16.8.2** Leitos incompatíveis desabilitados com o motivo visível e lido pelo leitor de tela; opção "Usar mesmo assim" com justificativa (exceção de perfil e isolamento) · 🔗 R-L5, R-L6
+- [x] **16.8.3** Estado vazio com a ação configurável (ex.: "Pedir leito (eletiva)") · 🔗 L9
+- [x] **16.8.4** Testes só com teclado; motivos anunciados; exceção exige justificativa
 - [ ] **16.8.5** Commit `fase-16: 16.8 seletor de leito`
 
 ### 16.9 Campos de sinais vitais · esp. 16.3
 
-- [ ] **16.9.1** ⭐ `components/emergencia/CamposSinaisVitais.tsx`: rótulos com unidade ("Frequência cardíaca (bpm)"), dica com a faixa válida, peso opcional · 🔗 R-E5, Acessibilidade › Sinais vitais
-- [ ] **16.9.2** Sinalização de alerta por faixa etária em texto ("Atenção: abaixo de 92%"), sem ser erro; aviso "faixa de adulto" quando não há idade · 🔗 D18
-- [ ] **16.9.3** Testes: valor fora da faixa válida é erro; valor na faixa de alerta mostra o texto; muda com a idade
+- [x] **16.9.1** ⭐ `components/emergencia/CamposSinaisVitais.tsx`: rótulos com unidade ("Frequência cardíaca (bpm)"), dica com a faixa válida, peso opcional · 🔗 R-E5, Acessibilidade › Sinais vitais
+- [x] **16.9.2** Sinalização de alerta por faixa etária em texto ("Atenção: abaixo de 92%"), sem ser erro; aviso "faixa de adulto" quando não há idade · 🔗 D18
+- [x] **16.9.3** Testes: valor fora da faixa válida é erro; valor na faixa de alerta mostra o texto; muda com a idade
 - [ ] **16.9.4** Commit `fase-16: 16.9 campos de sinais vitais`
 
 ### 16.10 Alerta de alergia na dispensação · esp. 16.3
 
-- [ ] **16.10.1** `components/farmacia/AlertaAlergia.tsx`: `role="alert"` na primeira exibição; termo encontrado × campo do medicamento; caixa "Ciente" com rótulo explícito; justificativa; texto "Verificação por texto; confira sempre a prescrição" · 🔗 A10, R-F8
-- [ ] **16.10.2** Testes: anúncio uma vez; justificativa obrigatória quando marcado
+- [x] **16.10.1** `components/farmacia/AlertaAlergia.tsx`: `role="alert"` na primeira exibição; termo encontrado × campo do medicamento; caixa "Ciente" com rótulo explícito; justificativa; texto "Verificação por texto; confira sempre a prescrição" · 🔗 A10, R-F8
+- [x] **16.10.2** Testes: anúncio uma vez; justificativa obrigatória quando marcado
 - [ ] **16.10.3** Commit `fase-16: 16.10 alerta de alergia`
 
 ### 16.11 Vitrine · esp. 16.4
 
-- [ ] **16.11.1** `pages/vitrine/VitrineOperacoes.tsx`: seção "Módulos operacionais" com todos os componentes e estados (os 5 riscos, as 5 situações de leito, os selos de estoque, seletor com incompatíveis, sinais com alerta, alerta de alergia)
+- [x] **16.11.1** `pages/vitrine/VitrineOperacoes.tsx`: seção "Módulos operacionais" com todos os componentes e estados (os 5 riscos, as 5 situações de leito, os selos de estoque, seletor com incompatíveis, sinais com alerta, alerta de alergia) — textos em `i18n/pt-BR/vitrine-operacoes.ts` (fora do pacote inicial)
 - [ ] **16.11.2** Commit `fase-16: 16.11 vitrine dos módulos`
 
 ### 16.12 Verificação
 
-- [ ] **16.12.1** Vitrine em 375, 768 e 1280px, nos temas claro e escuro, sem rolagem horizontal
-- [ ] **16.12.2** Vitrine só com teclado (seletor de leito, campo de quantidade, combobox de paciente)
-- [ ] **16.12.3** Vitrine em escala de cinza (DevTools › Rendering › Emulate vision deficiencies) · ✔ riscos e situações distinguíveis pelo texto e pelo ícone
-- [ ] **16.12.4** axe na vitrine nos dois temas · ✔ 0 violações
+- [x] **16.12.1** Vitrine em 375, 768 e 1280px, nos temas claro e escuro, sem rolagem horizontal — script Playwright no servidor de desenvolvimento: `scrollWidth` igual à largura nos 6 casos
+- [x] **16.12.2** Vitrine só com teclado (seletor de leito, campo de quantidade, combobox de paciente) — coberto pelos testes com `userEvent` (seletor, quantidade, combobox)
+- [x] **16.12.3** Vitrine em escala de cinza (DevTools › Rendering › Emulate vision deficiencies) · ✔ riscos e situações distinguíveis pelo texto e pelo ícone — `docs/capturas/fase16-vitrine-cinza-1280.png`
+- [x] **16.12.4** axe na vitrine nos dois temas · ✔ 0 violações — mesmas regras do `acessibilidade.spec.ts`; 0 violações nos dois temas e nas 3 larguras
 
 ### 16.13 Fechamento da Fase 16
 
-- [ ] **16.13.1** Lint, build, `test:coverage` (`components/ui/` ≥ 70%), `i18n:verificar`
-- [ ] **16.13.2** `npm run pacote:medir` · ✔ crescimento ≤ 5 kB gzip (só a extração de componentes usados pelo `FormConsulta`)
-- [ ] **16.13.3** `docs/PR_FASE_16.md` com capturas da vitrine
-- [ ] **16.13.4** Atualizar checkboxes e painel de execução: Fase 16 ✅
+- [x] **16.13.1** Lint, build, `test:coverage` (`components/ui/` ≥ 70%), `i18n:verificar` — `components/ui/` 95,4% (linhas)
+- [x] **16.13.2** `npm run pacote:medir` · ✔ crescimento ≤ 5 kB gzip (só a extração de componentes usados pelo `FormConsulta`) — 150,1 kB (+1,1 kB sobre a Fase 15, quase todo de CSS; +4,4 kB desde a Etapa 0)
+- [x] **16.13.3** `docs/PR_FASE_16.md` com capturas da vitrine
+- [x] **16.13.4** Atualizar checkboxes e painel de execução: Fase 16 ✅
 - [ ] **16.13.5** 👤 Abrir, revisar e mesclar o PR "Fase 16 — Componentes compartilhados"
 
 ---
@@ -1094,7 +1094,7 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 |---|---|---|---|
 | Etapa 0 | 145,7 kB (JS 137,1 · CSS 8,6) | 0 | Linha de base, commit `cb5931d` (v1.1.0) |
 | 15 | 149,0 kB (JS 140,4 · CSS 8,6) | 0 | +3,3 kB: gerador dos 90 pacientes extras (~1,5), textos de atividades e pendências (~0,9), R-X2–R-X4, migração v2 e meta no repositório (~0,9). 0,6 kB recuperados movendo os textos só dos serviços para `i18n/pt-BR/operacoes.ts` |
-| 16 | | | |
+| 16 | 150,1 kB (JS 140,5 · CSS 9,6) | 0 | +1,1 kB, quase todo de CSS (tokens de risco e de leito e classes dos componentes novos). Textos dos módulos e da vitrine fora do pacote. Total desde a Etapa 0: +4,4 kB; na Fase 20, os indicadores precisam ficar sob demanda (D20) |
 | 17 | | | |
 | 18 | | | |
 | 19 | | | |
@@ -1113,4 +1113,7 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | 28/10/2026 | Fase 15 — números | 557 testes Vitest (54 arquivos, +204) e 66 Playwright verdes. Cobertura: geral 95,2% das linhas (86,6% dos ramos); `services/` 97,5%; `utils/` 97,8%. Pacote inicial 149,0 kB (+3,3 kB), marcadores 0. Dados de exemplo: semeadura em 73 ms, ~985 KB, 0 violações; 22/30, 50/69 e 14/20 ocupados; 13 atendimentos abertos; 1 pedido reservado (UTI-12) e 2 pendentes (1 eletivo); estoque com 3 baixo, 1 zerado, 5 vencendo e 2 vencidos. |
 | 28/10/2026 | Fase 15 — desvios | (1) **Migração v2** acrescenta os 90 pacientes extras a quem já usa a 1.1.0 (`ESQUEMA_ATUAL = 2`). (2) Registro arquivado é a flag `arquivado: true` na mesma coleção. (3) **INV-1** conta atendimento **aberto** com `leitoObservacaoId` (o "Retomar" mantém o leito). (4) Hooks de dados num arquivo só (`useDadosOperacoes.ts`). (5) Resumos mensais em escala realista (~70 internações por mês, mesmo desenho do gráfico). (6) Responsáveis das internações de exemplo vêm de clínica geral, neurologia e ortopedia (pediatria para menores), para os cardiologistas continuarem inativáveis no cenário 3 do e2e. (7) Pacote inicial +3,3 kB, justificado no PR. |
 | 28/10/2026 | Fase 15 — fechamento | Achados do fechamento, corrigidos: (a) o axe e2e em 375px achou 2 px de rolagem na paginação, que agora tem 12 páginas; `gap-0.5` no celular. (b) R-E7 e L1 passo 6 não tinham leitura: criados `medicosParaChamar()` e `medicosResponsaveis(setorId)` (departamento preferido primeiro). (c) A busca do mapa só achava pelo nome exibido; agora acha pelo nome civil ou social, como a lista de pacientes, e mostra só o social (R-X5). (d) Faltavam testes de `paciente_transferido`, `atendimento_reaberto`, R-L14 positivo e dos hooks de dados (`dados-operacoes.test.tsx`). **Para a Fase 20:** o KPI "Leitos disponíveis" passa de 34 para 29 (só livres). |
+| 03/11/2026 | Fase 16 — base | A Fase 15 ainda não estava no GitHub nem em `C:\Projects\medicore`; a Fase 16 foi feita sobre a Fase 15 do ambiente de trabalho e entregue separada, para manter um PR por fase. |
+| 03/11/2026 | Fase 16 — 16.1 contraste | Claro (texto/fundo · × card): vermelho 6,54 · 6,54; laranja 5,57 · 5,57; amarelo 9,96 · 1,68 (borda #8a6a00: 5,07); verde 5,38 · 5,38; azul 6,79 · 6,79; leitos livre 6,50 · 7,43; ocupado 7,24 · 8,99; reservado 6,70 · 8,20; higienização 6,07 · 6,80; bloqueado 6,51 · 7,73. Escuro: todos acima de 5,8. |
+| 03/11/2026 | Fase 16 — números e achados | 589 testes Vitest (56 arquivos) e 66 Playwright verdes; `components/ui/` 95,4%; pacote 150,1 kB. Vitrine: 0 violações axe em 375/768/1280, claro e escuro, sem rolagem horizontal. Corrigido na revisão visual: ícone do vermelho (octógono parecia o círculo do amarelo em cinza → sirene); concordância do alerta de alergia ("à classe"); borda de "atenção" nos sinais vitais igual à de erro (removida, o aviso fica em texto). No teste do `ComboboxPaciente`, a Ana Paula Silva está internada nos dados de exemplo: os testes usam `pacienteLivre()`. |
 | | | |

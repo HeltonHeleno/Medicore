@@ -145,4 +145,14 @@ export const te = {
     reservaLonga: (tempo: string, leito: string) => `Reserva há ${tempo}: ${leito}`,
     localEmergencia: 'Emergência',
   },
+
+  /** Selo de risco com o tempo-alvo (16.6). */
+  comTempoAlvo: (cor: string, minutos: number) =>
+    minutos === 0 ? `${cor} — imediato` : `${cor} — até ${minutos} min`,
+  /** Campos de sinais vitais (16.9). */
+  faixaValida: (min: string, max: string, unidade: string) =>
+    unidade ? `Faixa válida: ${min} a ${max} ${unidade}` : `Faixa válida: ${min} a ${max}`,
+  sinaisVitais: 'Sinais vitais',
+  pesoOpcional: 'Peso (kg), opcional',
+  sinalizacaoNaoDiagnostico: 'Sinalização por faixa etária: apoio visual, não diagnóstico.',
 };

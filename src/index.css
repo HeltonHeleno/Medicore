@@ -26,6 +26,36 @@
   --color-warning: #8a1538;
   --color-info: #2563eb;
 
+  /* Classificação de risco (Fase 16): fundo + texto (AA ≥ 4,5:1). Borda ≥ 3:1 com o card. */
+  --color-risco-vermelho: #b3261e;
+  --color-on-risco-vermelho: #ffffff;
+  --color-borda-risco-vermelho: #b3261e;
+  --color-risco-laranja: #b4440b;
+  --color-on-risco-laranja: #ffffff;
+  --color-borda-risco-laranja: #b4440b;
+  --color-risco-amarelo: #f2c230;
+  --color-on-risco-amarelo: #1a1f1e;
+  /* O amarelo claro não chega a 3:1 com o card: a borda escura delimita o selo. */
+  --color-borda-risco-amarelo: #8a6a00;
+  --color-risco-verde: #1d7a3c;
+  --color-on-risco-verde: #ffffff;
+  --color-borda-risco-verde: #1d7a3c;
+  --color-risco-azul: #1d4fd1;
+  --color-on-risco-azul: #ffffff;
+  --color-borda-risco-azul: #1d4fd1;
+
+  /* Situação do leito (Fase 16): fundo suave + texto/ícone/borda (AA no fundo e no card). */
+  --color-leito-livre: #e3f4e8;
+  --color-on-leito-livre: #17622f;
+  --color-leito-ocupado: #dde7fb;
+  --color-on-leito-ocupado: #1e429f;
+  --color-leito-reservado: #efe4fb;
+  --color-on-leito-reservado: #6b2fa3;
+  --color-leito-higienizacao: #fdf1d8;
+  --color-on-leito-higienizacao: #8a4b00;
+  --color-leito-bloqueado: #e9ecec;
+  --color-on-leito-bloqueado: #4a5553;
+
   --radius-card: 12px;
   --shadow-card: 0 1px 2px rgb(16 24 23 / 0.04);
 }
@@ -48,6 +78,33 @@
   --color-on-danger: #1b0b0e;
   --color-warning: #e58aa3;
   --color-info: #60a5fa;
+
+  --color-risco-vermelho: #f2727a;
+  --color-on-risco-vermelho: #1b0b0e;
+  --color-borda-risco-vermelho: #f2727a;
+  --color-risco-laranja: #f59a52;
+  --color-on-risco-laranja: #1f0e04;
+  --color-borda-risco-laranja: #f59a52;
+  --color-risco-amarelo: #f3cd4b;
+  --color-on-risco-amarelo: #1a1500;
+  --color-borda-risco-amarelo: #f3cd4b;
+  --color-risco-verde: #5fcf86;
+  --color-on-risco-verde: #052e16;
+  --color-borda-risco-verde: #5fcf86;
+  --color-risco-azul: #7aa8f7;
+  --color-on-risco-azul: #0b1a33;
+  --color-borda-risco-azul: #7aa8f7;
+
+  --color-leito-livre: #163826;
+  --color-on-leito-livre: #7fe0a2;
+  --color-leito-ocupado: #1b2c4d;
+  --color-on-leito-ocupado: #9dbcf8;
+  --color-leito-reservado: #2f2045;
+  --color-on-leito-reservado: #cfaef5;
+  --color-leito-higienizacao: #3a2a10;
+  --color-on-leito-higienizacao: #f3c46b;
+  --color-leito-bloqueado: #26302e;
+  --color-on-leito-bloqueado: #b3c0bd;
 
   color-scheme: dark;
 }
