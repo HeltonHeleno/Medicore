@@ -3,6 +3,7 @@
  * dependem mudam (nesta aba ou em outra, M6). Importados só pelas páginas dos módulos.
  */
 import { COLECOES } from '../services/colecoes-operacoes';
+import { obterIndicadoresLeitos } from '../services/indicadores-operacionais';
 import { listarFila, obterAtendimento, listarHistorico } from '../services/emergencia';
 import {
   listarEstoque,
@@ -11,6 +12,7 @@ import {
   obterMedicamento,
 } from '../services/farmacia';
 import {
+  historicoLeito,
   listarInternacoes,
   listarLeitos,
   listarSolicitacoes,
@@ -24,6 +26,7 @@ import type {
   FiltrosLeitos,
   FiltrosMovimentacoes,
 } from '../types';
+import { situacaoHospitalar } from '../services/situacao-hospitalar';
 import { useColecao } from './useColecao';
 
 const LEITOS = COLECOES.leitos;
@@ -38,6 +41,17 @@ export const useInternacoes = (filtros: FiltrosInternacoes) =>
   useColecao(() => listarInternacoes(filtros), [JSON.stringify(filtros)], LEITOS);
 export const useInternacao = (id: string) => useColecao(() => obterInternacao(id), [id], LEITOS);
 export const useSolicitacoes = () => useColecao(() => listarSolicitacoes(), [], LEITOS);
+export const useIndicadoresLeitos = () => useColecao(() => obterIndicadoresLeitos(), [], LEITOS);
+export const useHistoricoLeito = (id: string) => useColecao(() => historicoLeito(id), [id], LEITOS);
+export const useSituacaoHospitalar = (pacienteId: string) =>
+  useColecao(
+    () =>
+      pacienteId
+        ? situacaoHospitalar(pacienteId)
+        : Promise.resolve<Awaited<ReturnType<typeof situacaoHospitalar>>>({}),
+    [pacienteId],
+    LEITOS,
+  );
 
 // Emergência
 export const useFila = () => useColecao(() => listarFila(), [], EMERGENCIA);

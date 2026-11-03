@@ -119,8 +119,6 @@ export const tf = {
     motivoDevolucaoBloqueado: 'Devolução de lote bloqueado',
   },
 
-
-
   /** Alerta de alergia na dispensação (16.10). */
   alertaAlergia: {
     titulo: 'Possível alergia',

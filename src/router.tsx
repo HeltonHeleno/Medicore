@@ -124,8 +124,59 @@ const rotasConsultas: RouteObject = {
   ],
 };
 
+/** Gestão de leitos (Fase 17): mapa, internar, internações e detalhe do leito. */
+const rl = t.rotasLeitos;
+const rotasLeitos: RouteObject = {
+  path: 'leitos',
+  handle: handle(t.menu.leitos),
+  children: [
+    {
+      index: true,
+      lazy: pagina(() => import('./pages/leitos/MapaLeitos')),
+      handle: { titulo: t.menu.leitos },
+    },
+    {
+      path: 'internar',
+      lazy: pagina(() => import('./pages/leitos/Internar')),
+      handle: handle(rl.internar),
+    },
+    {
+      path: 'internacoes',
+      handle: handle(rl.internacoes),
+      children: [
+        {
+          index: true,
+          lazy: pagina(() => import('./pages/leitos/ListaInternacoes')),
+          handle: { titulo: rl.internacoes },
+        },
+        {
+          path: ':id',
+          handle: handle(rl.internacao),
+          children: [
+            {
+              index: true,
+              lazy: pagina(() => import('./pages/leitos/DetalheInternacao')),
+              handle: { titulo: rl.internacao },
+            },
+            {
+              path: 'editar',
+              lazy: pagina(() => import('./pages/leitos/EditarInternacao')),
+              handle: handle(rl.editar, rl.editarBreadcrumb),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      path: ':leitoId',
+      lazy: pagina(() => import('./pages/leitos/DetalheLeito')),
+      handle: handle(rl.leito),
+    },
+  ],
+};
+
 /** Itens do menu que já têm telas próprias (os demais usam o Placeholder). */
-const COM_TELA = new Set(['/', '/pacientes', '/medicos', '/consultas']);
+const COM_TELA = new Set(['/', '/pacientes', '/medicos', '/consultas', '/leitos']);
 
 /**
  * Árvore de rotas da aplicação.
@@ -150,6 +201,7 @@ export function criarRotas(rotasExtras: RouteObject[] = []): RouteObject[] {
             rotasPacientes,
             rotasMedicos,
             rotasConsultas,
+            rotasLeitos,
             ...itensNavegacao
               .filter((item) => !COM_TELA.has(item.caminho))
               .map<RouteObject>((item) => ({

@@ -22,6 +22,14 @@ const ROTAS = [
   '/consultas/con-hoje-1200/editar',
   '/perfil',
   '/leitos',
+  '/leitos?setor=uti&situacao=livre',
+  '/leitos/internar',
+  '/leitos/internacoes',
+  '/leitos/internacoes?situacao=encerrada',
+  '/leitos/internacoes/int-1',
+  '/leitos/internacoes/int-1/editar',
+  '/leitos/lei-uti-01',
+  '/leitos/internacoes/nao-existe',
   '/emergencia',
   '/farmacia',
   '/analises',
@@ -80,9 +88,21 @@ for (const tema of ['claro', 'escuro'] as const) {
       await semViolacoes(page);
     });
 
+    test('axe: diálogos de alta e de transferência abertos (17.12)', async ({ page }) => {
+      await page.goto('/leitos/internacoes/int-1');
+      await page.getByRole('button', { name: 'Dar alta' }).click();
+      await expect(page.getByRole('dialog', { name: /^Dar alta a/ })).toBeVisible();
+      await semViolacoes(page);
+      await page.keyboard.press('Escape');
+      await page.getByRole('button', { name: 'Transferir' }).click();
+      const transferir = page.getByRole('dialog', { name: /^Transferir/ });
+      await expect(transferir.getByRole('radio').first()).toBeVisible();
+      await semViolacoes(page);
+    });
+
     test('axe: celular (375px) no Painel, na lista e na agenda', async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 800 });
-      for (const rota of ['/', '/pacientes', '/consultas']) {
+      for (const rota of ['/', '/pacientes', '/consultas', '/leitos']) {
         await page.goto(rota);
         await semViolacoes(page);
         const largura = await page.evaluate(() => document.documentElement.scrollWidth);

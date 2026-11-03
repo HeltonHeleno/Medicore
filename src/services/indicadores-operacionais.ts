@@ -496,6 +496,19 @@ export const obterIndicadoresOperacionais = (): Promise<IndicadoresOperacionais>
     };
   });
 
+/** Só os indicadores de leitos (resumo do mapa, 17.2). */
+export const obterIndicadoresLeitos = (): Promise<IndicadoresLeitos> =>
+  executar(() =>
+    calcularIndicadoresLeitos(
+      {
+        leitos: repoLeitos.todos(),
+        internacoes: repoInternacoes.todos(),
+        solicitacoes: repoSolicitacoes.todos(),
+      },
+      agora(),
+    ),
+  );
+
 export const listarAlertas = (): Promise<AlertaOperacional[]> =>
   executar(() =>
     calcularAlertas(
