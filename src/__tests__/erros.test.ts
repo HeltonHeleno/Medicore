@@ -61,3 +61,68 @@ describe('aplicarErrosNoFormulario', () => {
     expect(aplicarErrosNoFormulario(new ErroConcorrencia(), vi.fn())).toBe(false);
   });
 });
+
+describe('erros dos módulos operacionais (E-11 a E-18)', () => {
+  it('cada conflito vai para o campo certo do formulário', () => {
+    const casos: [ErroConflito, string][] = [
+      [
+        new ErroConflito('leito_indisponivel', 'Este leito acabou de ser ocupado. Escolha outro.', {
+          campo: 'leitoId',
+        }),
+        'leitoId',
+      ],
+      [
+        new ErroConflito(
+          'estoque_insuficiente',
+          'Estoque insuficiente: disponível 4 comprimidos.',
+          {
+            campo: 'itens.0.quantidade',
+            detalhes: { disponivel: 4 },
+          },
+        ),
+        'itens.0.quantidade',
+      ],
+      [
+        new ErroConflito('paciente_internado', 'Fulana está internada no leito ENF-104A.', {
+          campo: 'pacienteId',
+        }),
+        'pacienteId',
+      ],
+      [
+        new ErroConflito(
+          'destino_inativo',
+          'O paciente não está mais internado nem em atendimento.',
+          { campo: 'pacienteId' },
+        ),
+        'pacienteId',
+      ],
+    ];
+    for (const [erro, campo] of casos) {
+      const setError = vi.fn();
+      expect(aplicarErrosNoFormulario(erro, setError)).toBe(true);
+      expect(setError).toHaveBeenCalledWith(campo, { type: erro.codigo, message: erro.message });
+    }
+  });
+
+  it('E-13 é erro de validação no campo do lote', () => {
+    const setError = vi.fn();
+    aplicarErrosNoFormulario(
+      new ErroValidacao({ numero: 'Já existe o lote L123 com outra validade.' }),
+      setError,
+    );
+    expect(setError).toHaveBeenCalledWith(
+      'numero',
+      expect.objectContaining({ message: 'Já existe o lote L123 com outra validade.' }),
+    );
+  });
+
+  it('E-16, E-17 e E-18 não têm campo: a tela mostra em aviso ou diálogo', () => {
+    for (const codigo of [
+      'transicao_invalida',
+      'pendencias_modulos',
+      'janela_correcao_expirada',
+    ] as const) {
+      expect(aplicarErrosNoFormulario(new ErroConflito(codigo, 'x'), vi.fn())).toBe(false);
+    }
+  });
+});

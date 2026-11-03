@@ -1,11 +1,13 @@
 /**
- * ~30 pacientes de exemplo (D6), todos fictícios (RS-01).
+ * ~30 pacientes de exemplo (D6), todos fictícios (RS-01), mais os 90 extras da D13
+ * (`pacientes-extras.ts`), que dão gente suficiente para os leitos e a emergência.
  * Incluem os 4 da tabela de troca de nomes, 2 menores com responsável,
  * 3 com alergias, 2 com nome social e 3 inativos.
  */
 import type { Convenio, Paciente, Sexo } from '../../types';
 import { agora } from '../../utils/relogio';
 import { criarAleatorio, gerarCelular, gerarCpfValido, sortear, unicos } from './gerador';
+import { gerarPacientesExtras } from './pacientes-extras';
 
 const CONVENIOS = ['Unimed', 'Bradesco Saúde', 'SulAmérica', 'Amil', 'Porto Saúde'] as const;
 
@@ -109,7 +111,7 @@ export function semearPacientes(): Paciente[] {
   const cpf = unicos(() => gerarCpfValido(rand));
   const momento = agora().toISOString();
 
-  return MODELOS_PACIENTES.map(([id, nome, sexo, dataNascimento, extra = {}], i) => {
+  const base = MODELOS_PACIENTES.map(([id, nome, sexo, dataNascimento, extra = {}], i) => {
     const { menor, inativo, particular, ...opcionais } = extra;
     const convenio: Convenio = particular
       ? { tipo: 'particular' }
@@ -157,4 +159,8 @@ export function semearPacientes(): Paciente[] {
       ...(inativo ? { inativadoEm: momento, motivoInativacao: 'Mudou de cidade' } : {}),
     };
   });
+  const usados = new Set(
+    base.flatMap((p) => [p.cpf, ...(p.responsavel ? [p.responsavel.cpf] : [])]),
+  );
+  return [...base, ...gerarPacientesExtras(usados, momento)];
 }

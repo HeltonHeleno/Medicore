@@ -35,7 +35,7 @@ export function Paginacao({ pagina, porPagina, total, aoMudar, className }: Pagi
       </p>
       {ultima > 1 && (
         <nav aria-label={t.lista.paginacao}>
-          <ul className="flex items-center gap-1">
+          <ul className="flex flex-wrap items-center gap-0.5 sm:gap-1">
             <li>
               <button
                 type="button"

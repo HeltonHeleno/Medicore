@@ -4,7 +4,7 @@
 > **Base:** `PLANO_OPERACOES_MEDICORE.md` (Revisão 2), que é a **especificação**. Este documento diz **o que fazer e em que ordem**; a especificação diz **como deve funcionar**. Em caso de dúvida, vale a especificação.
 > **Fases:** 15 a 21, iguais às da especificação, precedidas da Etapa 0 (preparação) e seguidas do Encerramento (versão 1.2.0).
 > **Estimativa:** 20 dias úteis (1 desenvolvedor): 19 das fases + ½ da Etapa 0 + ½ do Encerramento · ver [cronograma](#-cronograma-dia-a-dia)
-> **Criado em:** 28/10/2026 · **Situação:** Etapa 0 concluída em 28/10/2026 (faltam só o commit e o combinado das verificações manuais, que são seus); próxima: Fase 15
+> **Criado em:** 28/10/2026 · **Situação:** Fase 15 concluída em 28/10/2026 (faltam a branch, os commits e o PR, que são seus); próxima: Fase 16
 
 ---
 
@@ -61,7 +61,7 @@
 | Etapa / Fase | Conteúdo | Tarefas | Dias | Status | Início | Fim |
 |---|---|:---:|:---:|:---:|:---:|:---:|
 | Etapa 0 | Preparação e linha de base | 12 | 0,5 | ✅ (falta 0.2.1 e 0.4.1, suas) | 28/10/2026 | 28/10/2026 |
-| Fase 15 | Fundação dos módulos operacionais | 160 | 4 | ⬜ | | |
+| Fase 15 | Fundação dos módulos operacionais | 160 | 4 | ✅ (falta 15.0.1, os commits e 15.18.7, seus) | 28/10/2026 | 28/10/2026 |
 | Fase 16 | Componentes compartilhados | 56 | 1,5 | ⬜ | | |
 | Fase 17 | Gestão de leitos | 78 | 3,5 | ⬜ | | |
 | Fase 18 | Emergência | 67 | 3,5 | ⬜ | | |
@@ -220,218 +220,218 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 15.0 Abertura
 
 - [ ] **15.0.1** 👤 Atualizar a `main` e criar `feat/fase-15-fundacao-operacoes`
-- [ ] **15.0.2** `npm run test` verde antes de qualquer alteração
-- [ ] **15.0.3** Conferir que as decisões D8–D20 estão aprovadas (0.1) · ✔ se não estiverem, a fase fica 🟥 bloqueada
+- [x] **15.0.2** `npm run test` verde antes de qualquer alteração
+- [x] **15.0.3** Conferir que as decisões D8–D20 estão aprovadas (0.1) · ✔ se não estiverem, a fase fica 🟥 bloqueada
 
 ### 15.1 Configuração · esp. 15.1
 
-- [ ] **15.1.1** `config/setores.ts`: os 4 setores (`uti`, `enfermaria`, `apartamento`, `observacao`) com `nome`, `tipo` (`internacao` ou `observacao`) e `ordem` · 🔗 Modelo de dados › Setor, D10, D17 · ✔ só UTI, Enfermaria e Apartamento têm `tipo: 'internacao'`
-- [ ] **15.1.2** Em `config/limites.ts`: tempos-alvo por cor (vermelho 0, laranja 10, amarelo 60, verde 120, azul 240 min) · 🔗 R-E3
-- [ ] **15.1.3** Em `config/limites.ts`: limites operacionais — reserva em destaque após 2 h; higienização de referência 60 min (terminal) e 90 min (isolamento); aguardando leito 4 h; sem triagem 15 min; observação 24 h; evasão após 30 min; vencendo em 60 dias; validade curta 30 dias; alerta da UTI em 90%; internação retroativa até 24 h; chegada retroativa até 2 h; eletiva até 30 dias; máximo de 10 itens por dispensação; `LIMITE_CONFIRMACAO_QUANTIDADE = 60` · 🔗 R-L9, R-L13, R-E11, R-E13, R-F2, R-F6, R-F14, A12
-- [ ] **15.1.4** Em `config/limites.ts`: janelas de correção — alta 6 h, atendimento 2 h, dispensação 24 h · 🔗 D19
-- [ ] **15.1.5** Em `config/limites.ts`: retenção e teto por coleção (tabela do orçamento) · 🔗 D15, Persistência › Orçamento · ✔ os 9 valores de retenção e os 9 tetos batem com a tabela
-- [ ] **15.1.6** `config/sinais-vitais.ts`: faixas válidas (R-E5), faixas de alerta por faixa etária (< 1, 1–5, 6–11, ≥ 12 anos), temperatura e a opção `SINALIZACAO_PEDIATRICA_ATIVA` (desligada se a D18 foi adiada em 0.1.2), com o comentário "validar com a equipe clínica" · 🔗 R-E5, D18, RS-17
-- [ ] **15.1.7** `utils/autor.ts` com `autorAtual()`, que devolve "Usuário de demonstração" até existir login · 🔗 R-X9, M29, BL-02
+- [x] **15.1.1** `config/setores.ts`: os 4 setores (`uti`, `enfermaria`, `apartamento`, `observacao`) com `nome`, `tipo` (`internacao` ou `observacao`) e `ordem` · 🔗 Modelo de dados › Setor, D10, D17 · ✔ só UTI, Enfermaria e Apartamento têm `tipo: 'internacao'`
+- [x] **15.1.2** Em `config/limites.ts`: tempos-alvo por cor (vermelho 0, laranja 10, amarelo 60, verde 120, azul 240 min) · 🔗 R-E3
+- [x] **15.1.3** Em `config/limites.ts`: limites operacionais — reserva em destaque após 2 h; higienização de referência 60 min (terminal) e 90 min (isolamento); aguardando leito 4 h; sem triagem 15 min; observação 24 h; evasão após 30 min; vencendo em 60 dias; validade curta 30 dias; alerta da UTI em 90%; internação retroativa até 24 h; chegada retroativa até 2 h; eletiva até 30 dias; máximo de 10 itens por dispensação; `LIMITE_CONFIRMACAO_QUANTIDADE = 60` · 🔗 R-L9, R-L13, R-E11, R-E13, R-F2, R-F6, R-F14, A12
+- [x] **15.1.4** Em `config/limites.ts`: janelas de correção — alta 6 h, atendimento 2 h, dispensação 24 h · 🔗 D19
+- [x] **15.1.5** Em `config/limites.ts`: retenção e teto por coleção (tabela do orçamento) · 🔗 D15, Persistência › Orçamento · ✔ os 9 valores de retenção e os 9 tetos batem com a tabela
+- [x] **15.1.6** `config/sinais-vitais.ts`: faixas válidas (R-E5), faixas de alerta por faixa etária (< 1, 1–5, 6–11, ≥ 12 anos), temperatura e a opção `SINALIZACAO_PEDIATRICA_ATIVA` (desligada se a D18 foi adiada em 0.1.2), com o comentário "validar com a equipe clínica" · 🔗 R-E5, D18, RS-17
+- [x] **15.1.7** `utils/autor.ts` com `autorAtual()`, que devolve "Usuário de demonstração" até existir login · 🔗 R-X9, M29, BL-02
 - [ ] **15.1.8** Commit `fase-15: 15.1 configuração dos módulos`
 
 ### 15.2 Textos por módulo · esp. 15.2 · D16
 
-- [ ] **15.2.1** `i18n/pt-BR/leitos.ts`: títulos, abas, situações do leito, perfis, precauções, tipos de higienização, origens, tipos de alta, motivos sugeridos (transferência, bloqueio), textos dos processos L1–L9, com funções para plural (mesma convenção do `pt-BR.ts`)
-- [ ] **15.2.2** `i18n/pt-BR/emergencia.ts`: cores com nome e significado ("Laranja — muito urgente"), status, modos de chegada, queixas sugeridas, rótulos e unidades dos sinais vitais, textos de alerta ("Atenção: abaixo de 92%"), desfechos, textos dos processos E1–E10 e o aviso de escopo administrativo · 🔗 RS-10
-- [ ] **15.2.3** `i18n/pt-BR/farmacia.ts`: formas, unidades, listas de controlados, tipos de movimentação, situações do estoque, motivos sugeridos (devolução, perda, estorno), textos dos processos F1–F9, "Verificação por texto; confira sempre a prescrição" e "Alergias não informadas" · 🔗 A10, R-F15
-- [ ] **15.2.4** No `pt-BR.ts` (vai no pacote inicial, porque o Painel usa): os textos das 14 atividades novas e as mensagens E-11 a E-18 · 🔗 [Atividades novas](PLANO_OPERACOES_MEDICORE.md#atividades-novas), Tratamento de erros
-- [ ] **15.2.5** Ajustar `scripts/varrer-textos.ts` para aceitar `src/i18n/pt-BR/*.ts` como origem válida · ✔ `npm run i18n:verificar` sem achados
-- [ ] **15.2.6** `npm run build && npm run pacote:medir` · ✔ marcadores dos módulos: 0 (nenhuma página importa os arquivos novos ainda)
+- [x] **15.2.1** `i18n/pt-BR/leitos.ts`: títulos, abas, situações do leito, perfis, precauções, tipos de higienização, origens, tipos de alta, motivos sugeridos (transferência, bloqueio), textos dos processos L1–L9, com funções para plural (mesma convenção do `pt-BR.ts`)
+- [x] **15.2.2** `i18n/pt-BR/emergencia.ts`: cores com nome e significado ("Laranja — muito urgente"), status, modos de chegada, queixas sugeridas, rótulos e unidades dos sinais vitais, textos de alerta ("Atenção: abaixo de 92%"), desfechos, textos dos processos E1–E10 e o aviso de escopo administrativo · 🔗 RS-10
+- [x] **15.2.3** `i18n/pt-BR/farmacia.ts`: formas, unidades, listas de controlados, tipos de movimentação, situações do estoque, motivos sugeridos (devolução, perda, estorno), textos dos processos F1–F9, "Verificação por texto; confira sempre a prescrição" e "Alergias não informadas" · 🔗 A10, R-F15
+- [x] **15.2.4** No `pt-BR.ts` (vai no pacote inicial, porque o Painel usa): os textos das 14 atividades novas e as mensagens E-11 a E-18 · 🔗 [Atividades novas](PLANO_OPERACOES_MEDICORE.md#atividades-novas), Tratamento de erros — as mensagens E-11 a E-18 usadas só pelos serviços ficaram em `i18n/pt-BR/operacoes.ts` (sob demanda); no `pt-BR.ts` ficaram as atividades e os textos de pendência que os cadastros mostram
+- [x] **15.2.5** Ajustar `scripts/varrer-textos.ts` para aceitar `src/i18n/pt-BR/*.ts` como origem válida · ✔ `npm run i18n:verificar` sem achados — o script já aceitava `src/i18n/pt-BR/*.ts`; nenhuma mudança necessária
+- [x] **15.2.6** `npm run build && npm run pacote:medir` · ✔ marcadores dos módulos: 0 (nenhuma página importa os arquivos novos ainda)
 - [ ] **15.2.7** Commit `fase-15: 15.2 textos dos módulos`
 
 ### 15.3 Tipos · esp. 15.3
 
-- [ ] **15.3.1** `types/leito.ts`: `Setor`, `Leito`, `StatusLeito`, `PerfilLeito`, `TipoHigienizacao`, `BloqueioLeito`, `LeitoDetalhado` · 🔗 Modelo de dados › Leito, Tipos de leitura
-- [ ] **15.3.2** `types/internacao.ts`: `Internacao`, `OrigemInternacao`, `Precaucao`, `TipoAlta`, `AltaInternacao` (com `registradaEm` e `hospitalDestino`), `EventoInternacao` (união com `em` e `autor`), `InternacaoDetalhada`, `SolicitacaoLeito` (com `origem`, `dataPrevista`, `motivoCancelamento`)
-- [ ] **15.3.3** `types/emergencia.ts`: `Atendimento`, `StatusAtendimento`, `CorRisco`, `ModoChegada`, `IdentificacaoProvisoria`, `SinaisVitais`, `Triagem` (com `pesoKg` e `justificativa`), `Reavaliacao`, `Desfecho` (com `registradoEm`), `EventoAtendimento`, `AtendimentoDetalhado`, `AlertaOperacional`
-- [ ] **15.3.4** `types/farmacia.ts`: `Medicamento` (com `unidadesPorEmbalagem`), `FormaFarmaceutica`, `UnidadeDispensacao`, `ListaControlado`, `Lote` (com `bloqueio`, `saldoArquivado`, `notaFiscal`), `Movimentacao`, `TipoMovimentacao`, `Dispensacao` (com `status` e `estorno`), `ItemDispensacao`, `AlertaConfirmado`, `EstoqueMedicamento`, `SituacaoEstoque`
-- [ ] **15.3.5** `types/resumo.ts`: `ResumoMensal` e `RegistroArquivado` · 🔗 A15, M30
-- [ ] **15.3.6** `types/atividade.ts`: acrescentar os 14 tipos novos de atividade · ✔ nenhum formato existente mudou, então `ESQUEMA_ATUAL` continua 1
-- [ ] **15.3.7** Reexportar em `types/index.ts`; os tipos simulados do Painel (`SetorLeitos`, `AlertaEmergencia`) continuam até a Fase 20 · ✔ `npx tsc -b` sem erros
+- [x] **15.3.1** `types/leito.ts`: `Setor`, `Leito`, `StatusLeito`, `PerfilLeito`, `TipoHigienizacao`, `BloqueioLeito`, `LeitoDetalhado` · 🔗 Modelo de dados › Leito, Tipos de leitura
+- [x] **15.3.2** `types/internacao.ts`: `Internacao`, `OrigemInternacao`, `Precaucao`, `TipoAlta`, `AltaInternacao` (com `registradaEm` e `hospitalDestino`), `EventoInternacao` (união com `em` e `autor`), `InternacaoDetalhada`, `SolicitacaoLeito` (com `origem`, `dataPrevista`, `motivoCancelamento`)
+- [x] **15.3.3** `types/emergencia.ts`: `Atendimento`, `StatusAtendimento`, `CorRisco`, `ModoChegada`, `IdentificacaoProvisoria`, `SinaisVitais`, `Triagem` (com `pesoKg` e `justificativa`), `Reavaliacao`, `Desfecho` (com `registradoEm`), `EventoAtendimento`, `AtendimentoDetalhado`, `AlertaOperacional`
+- [x] **15.3.4** `types/farmacia.ts`: `Medicamento` (com `unidadesPorEmbalagem`), `FormaFarmaceutica`, `UnidadeDispensacao`, `ListaControlado`, `Lote` (com `bloqueio`, `saldoArquivado`, `notaFiscal`), `Movimentacao`, `TipoMovimentacao`, `Dispensacao` (com `status` e `estorno`), `ItemDispensacao`, `AlertaConfirmado`, `EstoqueMedicamento`, `SituacaoEstoque`
+- [x] **15.3.5** `types/resumo.ts`: `ResumoMensal` e `RegistroArquivado` · 🔗 A15, M30
+- [x] **15.3.6** `types/atividade.ts`: acrescentar os 14 tipos novos de atividade · ✔ nenhum formato existente mudou, então `ESQUEMA_ATUAL` continua 1 — **desvio:** `ESQUEMA_ATUAL` subiu para 2 por causa da migração dos 90 pacientes extras (15.15.9), não por mudança de formato
+- [x] **15.3.7** Reexportar em `types/index.ts`; os tipos simulados do Painel (`SetorLeitos`, `AlertaEmergencia`) continuam até a Fase 20 · ✔ `npx tsc -b` sem erros
 - [ ] **15.3.8** Commit `fase-15: 15.3 tipos dos módulos`
 
 ### 15.4 Esquemas zod · esp. 15.3
 
-- [ ] **15.4.1** `schemas/comuns.ts`: `sinaisVitais` com as faixas válidas de `config/sinais-vitais.ts` e PAS > PAD; `justificativa(10, 300)`; `motivo(5, 200)` · 🔗 R-E5
-- [ ] **15.4.2** `schemas/internacao.ts` → entrada de internação: `hospitalOrigem` obrigatório se a origem for transferência externa (3–120); início não futuro e até 24 h no passado; previsão de alta ≥ início; justificativa obrigatória quando houver exceção de perfil ou isolamento · 🔗 L1, R-L5, R-L6, M25
-- [ ] **15.4.3** `schemas/internacao.ts` → transferência (destino, motivo, justificativa condicional), alta (tipo, data, `hospitalDestino` obrigatório na transferência, não antes do início nem no futuro), edição, desfazer alta (motivo), bloqueio de leito (motivo 5–200, previsão opcional) · 🔗 L2, L3, L5, L7, L8
-- [ ] **15.4.4** `schemas/internacao.ts` → solicitação eletiva: data prevista de hoje até 30 dias; prioridade verde, ou amarelo com justificativa · 🔗 L9
-- [ ] **15.4.5** `schemas/emergencia.ts` → chegada: paciente **ou** provisório (descrição 5–200, sexo, idade 0–120), modo, queixa 3–300, chegada até 2 h no passado · 🔗 E1, D9
-- [ ] **15.4.6** `schemas/emergencia.ts` → `esquemaTriagem(corAnterior?)`: risco, profissional, sinais, peso opcional, justificativa obrigatória quando a cor nova é menos grave que a anterior · 🔗 E2, R-E3
-- [ ] **15.4.7** `schemas/emergencia.ts` → reavaliação, chamar (médico), pedir leito (setor, precaução, motivo), desfecho (`hospitalDestino` na transferência), reabrir (motivo), vincular · 🔗 E3–E7, E9, E10
-- [ ] **15.4.8** `schemas/farmacia.ts` → medicamento (nome, princípio ativo, concentração, forma, unidade, unidades por embalagem ≥ 1, mínimo ≥ 0) e entrada de lote (validade não vencida, quantidade > 0, unidades **ou** embalagens) · 🔗 F1, F2, R-F2, M27
-- [ ] **15.4.9** `schemas/farmacia.ts` → dispensação (1 a 10 itens, quantidade inteira > 0, justificativa 10–300 nos itens com alerta de alergia), devolução, ajuste (motivo; 10 caracteres ou mais para controlado), descarte (termo para controlado), estorno, bloqueio de lote · 🔗 F3–F9, R-F7
-- [ ] **15.4.10** Manter o padrão da Fase 14: os esquemas são carregados sob demanda dentro das funções que gravam · ✔ `pacote:medir` sem crescimento
-- [ ] **15.4.11** Testes `schemas.operacoes.test.ts`: um caso válido e um inválido por regra, incluindo PAS ≤ PAD, SpO₂ 101, validade hoje (aceita) e ontem (recusada), quantidade 0, 11 itens, retriagem menos grave sem justificativa, transferência sem hospital, chegada sem paciente e sem provisório · ✔ mensagens em PT-BR
+- [x] **15.4.1** `schemas/comuns.ts`: `sinaisVitais` com as faixas válidas de `config/sinais-vitais.ts` e PAS > PAD; `justificativa(10, 300)`; `motivo(5, 200)` · 🔗 R-E5
+- [x] **15.4.2** `schemas/internacao.ts` → entrada de internação: `hospitalOrigem` obrigatório se a origem for transferência externa (3–120); início não futuro e até 24 h no passado; previsão de alta ≥ início; justificativa obrigatória quando houver exceção de perfil ou isolamento · 🔗 L1, R-L5, R-L6, M25
+- [x] **15.4.3** `schemas/internacao.ts` → transferência (destino, motivo, justificativa condicional), alta (tipo, data, `hospitalDestino` obrigatório na transferência, não antes do início nem no futuro), edição, desfazer alta (motivo), bloqueio de leito (motivo 5–200, previsão opcional) · 🔗 L2, L3, L5, L7, L8
+- [x] **15.4.4** `schemas/internacao.ts` → solicitação eletiva: data prevista de hoje até 30 dias; prioridade verde, ou amarelo com justificativa · 🔗 L9
+- [x] **15.4.5** `schemas/emergencia.ts` → chegada: paciente **ou** provisório (descrição 5–200, sexo, idade 0–120), modo, queixa 3–300, chegada até 2 h no passado · 🔗 E1, D9
+- [x] **15.4.6** `schemas/emergencia.ts` → `esquemaTriagem(corAnterior?)`: risco, profissional, sinais, peso opcional, justificativa obrigatória quando a cor nova é menos grave que a anterior · 🔗 E2, R-E3
+- [x] **15.4.7** `schemas/emergencia.ts` → reavaliação, chamar (médico), pedir leito (setor, precaução, motivo), desfecho (`hospitalDestino` na transferência), reabrir (motivo), vincular · 🔗 E3–E7, E9, E10
+- [x] **15.4.8** `schemas/farmacia.ts` → medicamento (nome, princípio ativo, concentração, forma, unidade, unidades por embalagem ≥ 1, mínimo ≥ 0) e entrada de lote (validade não vencida, quantidade > 0, unidades **ou** embalagens) · 🔗 F1, F2, R-F2, M27
+- [x] **15.4.9** `schemas/farmacia.ts` → dispensação (1 a 10 itens, quantidade inteira > 0, justificativa 10–300 nos itens com alerta de alergia), devolução, ajuste (motivo; 10 caracteres ou mais para controlado), descarte (termo para controlado), estorno, bloqueio de lote · 🔗 F3–F9, R-F7
+- [x] **15.4.10** Manter o padrão da Fase 14: os esquemas são carregados sob demanda dentro das funções que gravam · ✔ `pacote:medir` sem crescimento
+- [x] **15.4.11** Testes `schemas.operacoes.test.ts`: um caso válido e um inválido por regra, incluindo PAS ≤ PAD, SpO₂ 101, validade hoje (aceita) e ontem (recusada), quantidade 0, 11 itens, retriagem menos grave sem justificativa, transferência sem hospital, chegada sem paciente e sem provisório · ✔ mensagens em PT-BR
 - [ ] **15.4.12** Commit `fase-15: 15.4 esquemas zod dos módulos`
 
 ### 15.5 Erros E-11 a E-18 · esp. 15.6
 
-- [ ] **15.5.1** `services/erros.ts`: códigos novos de `ErroConflito` — `leito_indisponivel`, `estoque_insuficiente { disponivel }`, `paciente_internado` e `paciente_em_atendimento { referencia }`, `destino_inativo`, `transicao_invalida`, `pendencias_modulos { itens }`, `janela_correcao_expirada { limite }`; E-13 como `ErroValidacao` no campo · 🔗 Tratamento de erros
-- [ ] **15.5.2** `aplicarErrosNoFormulario`: E-11 → campo do leito; E-12 → `itens.N.quantidade`; E-13 → validade ou número do lote; E-14 → paciente
-- [ ] **15.5.3** Testes `erros.test.ts` ampliados: cada código novo vira o campo certo e a mensagem certa · ✔ passando
+- [x] **15.5.1** `services/erros.ts`: códigos novos de `ErroConflito` — `leito_indisponivel`, `estoque_insuficiente { disponivel }`, `paciente_internado` e `paciente_em_atendimento { referencia }`, `destino_inativo`, `transicao_invalida`, `pendencias_modulos { itens }`, `janela_correcao_expirada { limite }`; E-13 como `ErroValidacao` no campo · 🔗 Tratamento de erros
+- [x] **15.5.2** `aplicarErrosNoFormulario`: E-11 → campo do leito; E-12 → `itens.N.quantidade`; E-13 → validade ou número do lote; E-14 → paciente
+- [x] **15.5.3** Testes `erros.test.ts` ampliados: cada código novo vira o campo certo e a mensagem certa · ✔ passando
 - [ ] **15.5.4** Commit `fase-15: 15.5 erros dos módulos`
 
 ### 15.6 Algoritmos (`utils/`) · esp. 15.4
 
-- [ ] **15.6.1** `utils/tempos.ts`: `formatarEspera` ("há 12 min", "há 1 h 05 min"), `formatarPrazo` ("até 10:28"), `excessoMin`, `diaDeInternacao` (dia da entrada = 1), `permanencia`, `textoValidade` ("Vence em 12 dias", "Venceu há 3 dias"), `dentroDaJanela(registradoEm, horas)` e `limiteDaJanela` · 🔗 Tempos, D19
-- [ ] **15.6.2** Testes `tempos.test.ts` em `TZ=UTC`: entrada às 23:50 e consulta às 00:10 do dia seguinte (dia 2); janela exatamente no limite; validade hoje · ✔ passando
-- [ ] **15.6.3** `utils/sinais-vitais.ts`: `faixaEtaria(idade | null)`, `avaliarSinais(sinais, idade)` → lista de alertas com texto; PAS pediátrica `70 + 2 × idade`; sem idade = faixa de adulto com aviso; respeita `SINALIZACAO_PEDIATRICA_ATIVA` · 🔗 R-E5, D18, M21
-- [ ] **15.6.4** Testes `sinais-vitais.test.ts`: os limites de cada faixa etária (valor no limite e um acima), bebê de 11 meses, criança de 5 e de 6 anos, adolescente de 12, provisório sem idade
-- [ ] **15.6.5** ⭐ `utils/fila.ts` → `calcularPrazo(atendimento, novaTriagem)`: primeira triagem; retriagem mais grave (mínimo); retriagem igual ou menos grave (não adia); emergência imediata (chegada + 0) · 🔗 A7, R-E3, M20
-- [ ] **15.6.6** `utils/fila.ts` → `ordenarFila` (cor, prazo, chegada, número), `acimaDoPrazo` e `numeroAtendimento(atendimentos, chegadaEm)`, com o dia tirado da própria chegada (chegada retroativa das 23:30 registrada às 00:30 entra na sequência do dia anterior) · 🔗 A7, A8, R-E1, R-E4
-- [ ] **15.6.7** Testes `fila.test.ts`: retriagem laranja → vermelho adianta o prazo; vermelho → amarelo mantém; empate de cor e prazo desempata pela chegada; número `E-0001` depois da meia-noite no fuso (23:59 → 00:00 em Brasília, testado em UTC); 4 dígitos
-- [ ] **15.6.8** ⭐ `utils/fefo.ts`: só lotes com validade ≥ hoje, saldo > 0 e **não bloqueados**; ordem por validade e entrada; divide entre lotes; falta de saldo → erro com o disponível · 🔗 A9, R-F3, R-F5, R-F13
-- [ ] **15.6.9** Testes `fefo.test.ts`: lote vencendo hoje entra; vencido ontem não; bloqueado não; divisão em 2 e 3 lotes; pedido maior que o disponível
-- [ ] **15.6.10** `utils/alergia.ts`: `termos(texto)` reaproveitando `normalizar` de `utils/busca.ts`; `correspondenciaAlergia(alergias, medicamento)` → termo encontrado e campo (princípio ativo, classe ou nome) · 🔗 A10, D14
-- [ ] **15.6.11** Testes `alergia.test.ts`: "Penicilina" × classe "Penicilinas"; "dipirona" × "Dipirona sódica"; acentos; separadores `; , /` e " e "; palavra com menos de 4 letras ignorada; alergias vazias → nenhum alerta (o "não informadas" é tratado na tela)
-- [ ] **15.6.12** `utils/compatibilidade-leito.ts`: `avaliarLeito` com o motivo de cada incompatibilidade (situação, perfil, isolamento, setor) e `leitoSugerido` na ordem do A11 · 🔗 A11, R-L2, R-L5, R-L6
-- [ ] **15.6.13** Testes `compatibilidade-leito.test.ts`: paciente de 17 e de 18 anos; precaução de contato sem leito de isolamento; precaução padrão prefere leito sem isolamento; quarto com o outro leito livre vem primeiro; reservado para a mesma solicitação é compatível
-- [ ] **15.6.14** `npm run test:coverage` · ✔ `utils/` ≥ 90%
+- [x] **15.6.1** `utils/tempos.ts`: `formatarEspera` ("há 12 min", "há 1 h 05 min"), `formatarPrazo` ("até 10:28"), `excessoMin`, `diaDeInternacao` (dia da entrada = 1), `permanencia`, `textoValidade` ("Vence em 12 dias", "Venceu há 3 dias"), `dentroDaJanela(registradoEm, horas)` e `limiteDaJanela` · 🔗 Tempos, D19
+- [x] **15.6.2** Testes `tempos.test.ts` em `TZ=UTC`: entrada às 23:50 e consulta às 00:10 do dia seguinte (dia 2); janela exatamente no limite; validade hoje · ✔ passando
+- [x] **15.6.3** `utils/sinais-vitais.ts`: `faixaEtaria(idade | null)`, `avaliarSinais(sinais, idade)` → lista de alertas com texto; PAS pediátrica `70 + 2 × idade`; sem idade = faixa de adulto com aviso; respeita `SINALIZACAO_PEDIATRICA_ATIVA` · 🔗 R-E5, D18, M21
+- [x] **15.6.4** Testes `sinais-vitais.test.ts`: os limites de cada faixa etária (valor no limite e um acima), bebê de 11 meses, criança de 5 e de 6 anos, adolescente de 12, provisório sem idade
+- [x] **15.6.5** ⭐ `utils/fila.ts` → `calcularPrazo(atendimento, novaTriagem)`: primeira triagem; retriagem mais grave (mínimo); retriagem igual ou menos grave (não adia); emergência imediata (chegada + 0) · 🔗 A7, R-E3, M20
+- [x] **15.6.6** `utils/fila.ts` → `ordenarFila` (cor, prazo, chegada, número), `acimaDoPrazo` e `numeroAtendimento(atendimentos, chegadaEm)`, com o dia tirado da própria chegada (chegada retroativa das 23:30 registrada às 00:30 entra na sequência do dia anterior) · 🔗 A7, A8, R-E1, R-E4
+- [x] **15.6.7** Testes `fila.test.ts`: retriagem laranja → vermelho adianta o prazo; vermelho → amarelo mantém; empate de cor e prazo desempata pela chegada; número `E-0001` depois da meia-noite no fuso (23:59 → 00:00 em Brasília, testado em UTC); 4 dígitos
+- [x] **15.6.8** ⭐ `utils/fefo.ts`: só lotes com validade ≥ hoje, saldo > 0 e **não bloqueados**; ordem por validade e entrada; divide entre lotes; falta de saldo → erro com o disponível · 🔗 A9, R-F3, R-F5, R-F13
+- [x] **15.6.9** Testes `fefo.test.ts`: lote vencendo hoje entra; vencido ontem não; bloqueado não; divisão em 2 e 3 lotes; pedido maior que o disponível
+- [x] **15.6.10** `utils/alergia.ts`: `termos(texto)` reaproveitando `normalizar` de `utils/busca.ts`; `correspondenciaAlergia(alergias, medicamento)` → termo encontrado e campo (princípio ativo, classe ou nome) · 🔗 A10, D14
+- [x] **15.6.11** Testes `alergia.test.ts`: "Penicilina" × classe "Penicilinas"; "dipirona" × "Dipirona sódica"; acentos; separadores `; , /` e " e "; palavra com menos de 4 letras ignorada; alergias vazias → nenhum alerta (o "não informadas" é tratado na tela)
+- [x] **15.6.12** `utils/compatibilidade-leito.ts`: `avaliarLeito` com o motivo de cada incompatibilidade (situação, perfil, isolamento, setor) e `leitoSugerido` na ordem do A11 · 🔗 A11, R-L2, R-L5, R-L6
+- [x] **15.6.13** Testes `compatibilidade-leito.test.ts`: paciente de 17 e de 18 anos; precaução de contato sem leito de isolamento; precaução padrão prefere leito sem isolamento; quarto com o outro leito livre vem primeiro; reservado para a mesma solicitação é compatível
+- [x] **15.6.14** `npm run test:coverage` · ✔ `utils/` ≥ 90%
 - [ ] **15.6.15** Commit `fase-15: 15.6 algoritmos dos módulos`
 
 ### 15.7 Repositórios · esp. 15.5
 
-- [ ] **15.7.1** `services/colecoes.ts`: os 9 repositórios novos (`leitos`, `internacoes`, `solicitacoes_leito`, `atendimentos`, `medicamentos`, `lotes`, `movimentacoes`, `dispensacoes`, `resumos_mensais`) com semeadura **vazia provisória** · 🔗 Persistência › Novas chaves · ⚠ até 15.15, use "Restaurar dados de exemplo" depois de trocar as sementes, porque a coleção vazia fica gravada no navegador
-- [ ] **15.7.2** `services/demo.ts`: "Restaurar dados de exemplo" inclui os repositórios novos · ✔ teste em `demo.test.tsx`
-- [ ] **15.7.3** Campo `retencaoEm` em `medicore:meta`, lido e gravado pelo repositório (sem mudar o esquema)
-- [ ] **15.7.4** Teste em `repositorio.test.ts`: transação com 5 coleções desfaz **todas** quando a última validação falha; releitura de uma coleção nova alterada por "outra aba"
+- [x] **15.7.1** `services/colecoes.ts`: os 9 repositórios novos (`leitos`, `internacoes`, `solicitacoes_leito`, `atendimentos`, `medicamentos`, `lotes`, `movimentacoes`, `dispensacoes`, `resumos_mensais`) com semeadura **vazia provisória** · 🔗 Persistência › Novas chaves · ⚠ até 15.15, use "Restaurar dados de exemplo" depois de trocar as sementes, porque a coleção vazia fica gravada no navegador — as sementes reais entraram direto (sem a fase vazia provisória), com uma geração única para as 9 coleções
+- [x] **15.7.2** `services/demo.ts`: "Restaurar dados de exemplo" inclui os repositórios novos · ✔ teste em `demo.test.tsx`
+- [x] **15.7.3** Campo `retencaoEm` em `medicore:meta`, lido e gravado pelo repositório (sem mudar o esquema)
+- [x] **15.7.4** Teste em `repositorio.test.ts`: transação com 5 coleções desfaz **todas** quando a última validação falha; releitura de uma coleção nova alterada por "outra aba" — coberto pelos testes de serviço: L6 desfaz 5 coleções quando outra aba ocupa o leito; E1 e L1 releem coleções novas gravadas por "outra aba"
 - [ ] **15.7.5** Commit `fase-15: 15.7 repositórios dos módulos`
 
 ### 15.8 Verificação de consistência (A17), antes dos serviços · esp. 15.10
 
-- [ ] **15.8.1** ⭐ `utils/consistencia.ts`: `verificarConsistencia(dados)` como função pura sobre um retrato das coleções (incluindo pacientes e consultas), com uma função por invariante INV-1 a INV-10, devolvendo `{ inv, ids, descricao }` · 🔗 [Invariantes](PLANO_OPERACOES_MEDICORE.md#-invariantes-de-consistência), A17
-- [ ] **15.8.2** Testes `consistencia.test.ts`: para cada invariante, um retrato válido (lista vazia) e um retrato quebrado (a violação certa)
-- [ ] **15.8.3** Ajudante de teste `__tests__/utils/invariantes.ts` → `esperarConsistente()`: lê os repositórios e falha mostrando as violações
+- [x] **15.8.1** ⭐ `utils/consistencia.ts`: `verificarConsistencia(dados)` como função pura sobre um retrato das coleções (incluindo pacientes e consultas), com uma função por invariante INV-1 a INV-10, devolvendo `{ inv, ids, descricao }` · 🔗 [Invariantes](PLANO_OPERACOES_MEDICORE.md#-invariantes-de-consistência), A17
+- [x] **15.8.2** Testes `consistencia.test.ts`: para cada invariante, um retrato válido (lista vazia) e um retrato quebrado (a violação certa)
+- [x] **15.8.3** Ajudante de teste `__tests__/utils/invariantes.ts` → `esperarConsistente()`: lê os repositórios e falha mostrando as violações — o ajudante ficou em `__tests__/utils/operacoes.ts`, junto dos outros ajudantes dos módulos
 - [ ] **15.8.4** Commit `fase-15: 15.8 verificação de consistência`
 
 ### 15.9 Serviço de leitos (L1–L9) · esp. 15.6
 
-- [ ] **15.9.1** `services/leitos.ts` → `listarLeitos(filtros)` devolvendo `LeitoDetalhado` (nome de exibição, idade, dia de internação, alergia, precaução, previsão), `obterLeito(id)` e `buscarPacienteNoMapa(termo)` · 🔗 R-X5, M24
-- [ ] **15.9.2** `leitosCompativeis({ pacienteId, precaucao, setorDesejado?, solicitacaoId? })` com motivos e sugerido (usa A11)
-- [ ] **15.9.3** ⭐ `internar(entrada)` → L1: revalida R-L1, R-L2, R-L5, R-L6, R-L10 e R-X1 dentro da transação; internação com evento `internada`, leito `ocupado`, atividade `paciente_internado` · 🔗 L1
-- [ ] **15.9.4** ⭐ `internar({ solicitacaoId, ... })` → L6: também marca a solicitação `atendida`; se veio da emergência, encerra o atendimento com desfecho `internacao` e `internacaoId`, leva o leito de observação para higienização e grava `emergencia_desfecho` · 🔗 L6, INV-5, INV-6
-- [ ] **15.9.5** `transferir(id, dados, versao)` → L2: destino `ocupado`; origem em higienização (terminal ou isolamento pela precaução); evento `transferida`; atividade · 🔗 L2, R-L7, R-L13
-- [ ] **15.9.6** `darAlta(id, alta, versao)` → L3 (sem o óbito, que entra em 15.12): internação encerrada com `registradaEm`; leito em higienização; atividade `alta_registrada` · 🔗 L3, R-L3
-- [ ] **15.9.7** `desfazerAlta(id, motivo, versao)` → L8: janela de 6 h (E-18), leito original em higienização ou livre (senão E-11), evento `alta_desfeita` · 🔗 L8, R-L12, D19, M16, RS-18
-- [ ] **15.9.8** `concluirHigienizacao(leitoIds, versoes)` → L4 numa transação, pulando e informando os leitos que mudaram (E-16); `reverterHigienizacao(leitoId, desdeOriginal)` para o "Desfazer" de 10 s · 🔗 L4
-- [ ] **15.9.9** `bloquear(id, dados, versao)` e `desbloquear(id, versao)` → L5, com as atividades · 🔗 L5, R-L4, R-L14
-- [ ] **15.9.10** `listarInternacoes(filtros)` (ativas e encerradas, alta prevista hoje e vencida), `obterInternacao(id)` e `editarInternacao(id, dados, versao)` → L7 com um evento por campo alterado e justificativa quando a precaução nova não combina com o leito · 🔗 L7, R-L8
-- [ ] **15.9.11** `solicitarLeitoEletivo(dados)` → L9; `reservarLeito`, `cancelarReserva`, `listarSolicitacoes` (ordem por prioridade e espera ou data prevista) e `cancelarSolicitacao` (devolve o atendimento a `statusAntesDoLeito`) · 🔗 L6, L9, R-L9, R-E15, M23
-- [ ] **15.9.12** Testes `leitos.service.test.ts` (1/3): L1 com cada regra positiva e negativa; L6 com e sem atendimento; transação desfeita quando o leito é ocupado "por outra aba" (E-11) · ✔ `esperarConsistente()` depois de cada operação
-- [ ] **15.9.13** Testes (2/3): L2, L3, L4 (lote com um leito que mudou), L5, L8 dentro e fora da janela e com o leito já ocupado
-- [ ] **15.9.14** Testes (3/3): L7 (eventos por campo, E-05), L9, reservar e cancelar, cancelar solicitação de emergência volta o status anterior
+- [x] **15.9.1** `services/leitos.ts` → `listarLeitos(filtros)` devolvendo `LeitoDetalhado` (nome de exibição, idade, dia de internação, alergia, precaução, previsão), `obterLeito(id)` e `buscarPacienteNoMapa(termo)` · 🔗 R-X5, M24
+- [x] **15.9.2** `leitosCompativeis({ pacienteId, precaucao, setorDesejado?, solicitacaoId? })` com motivos e sugerido (usa A11)
+- [x] **15.9.3** ⭐ `internar(entrada)` → L1: revalida R-L1, R-L2, R-L5, R-L6, R-L10 e R-X1 dentro da transação; internação com evento `internada`, leito `ocupado`, atividade `paciente_internado` · 🔗 L1
+- [x] **15.9.4** ⭐ `internar({ solicitacaoId, ... })` → L6: também marca a solicitação `atendida`; se veio da emergência, encerra o atendimento com desfecho `internacao` e `internacaoId`, leva o leito de observação para higienização e grava `emergencia_desfecho` · 🔗 L6, INV-5, INV-6
+- [x] **15.9.5** `transferir(id, dados, versao)` → L2: destino `ocupado`; origem em higienização (terminal ou isolamento pela precaução); evento `transferida`; atividade · 🔗 L2, R-L7, R-L13
+- [x] **15.9.6** `darAlta(id, alta, versao)` → L3 (sem o óbito, que entra em 15.12): internação encerrada com `registradaEm`; leito em higienização; atividade `alta_registrada` · 🔗 L3, R-L3
+- [x] **15.9.7** `desfazerAlta(id, motivo, versao)` → L8: janela de 6 h (E-18), leito original em higienização ou livre (senão E-11), evento `alta_desfeita` · 🔗 L8, R-L12, D19, M16, RS-18
+- [x] **15.9.8** `concluirHigienizacao(leitoIds, versoes)` → L4 numa transação, pulando e informando os leitos que mudaram (E-16); `reverterHigienizacao(leitoId, desdeOriginal)` para o "Desfazer" de 10 s · 🔗 L4
+- [x] **15.9.9** `bloquear(id, dados, versao)` e `desbloquear(id, versao)` → L5, com as atividades · 🔗 L5, R-L4, R-L14
+- [x] **15.9.10** `listarInternacoes(filtros)` (ativas e encerradas, alta prevista hoje e vencida), `obterInternacao(id)` e `editarInternacao(id, dados, versao)` → L7 com um evento por campo alterado e justificativa quando a precaução nova não combina com o leito · 🔗 L7, R-L8
+- [x] **15.9.11** `solicitarLeitoEletivo(dados)` → L9; `reservarLeito`, `cancelarReserva`, `listarSolicitacoes` (ordem por prioridade e espera ou data prevista) e `cancelarSolicitacao` (devolve o atendimento a `statusAntesDoLeito`) · 🔗 L6, L9, R-L9, R-E15, M23
+- [x] **15.9.12** Testes `leitos.service.test.ts` (1/3): L1 com cada regra positiva e negativa; L6 com e sem atendimento; transação desfeita quando o leito é ocupado "por outra aba" (E-11) · ✔ `esperarConsistente()` depois de cada operação
+- [x] **15.9.13** Testes (2/3): L2, L3, L4 (lote com um leito que mudou), L5, L8 dentro e fora da janela e com o leito já ocupado
+- [x] **15.9.14** Testes (3/3): L7 (eventos por campo, E-05), L9, reservar e cancelar, cancelar solicitação de emergência volta o status anterior
 - [ ] **15.9.15** Commit `fase-15: 15.9 serviço de leitos`
 
 ### 15.10 Serviço de emergência (E1–E10) · esp. 15.6
 
-- [ ] **15.10.1** ⭐ `services/emergencia.ts` → `registrarChegada(entrada)` → E1: número (A8) dentro da transação; `aguardando_triagem` ou, na emergência imediata, `aguardando_atendimento` com prazo; E-14 para internado ou com atendimento aberto; atividade `emergencia_vermelho` · 🔗 E1, R-E1, R-E2, R-E10, R-X1
-- [ ] **15.10.2** `triar(id, triagem, versao)` → E2: acrescenta a triagem, recalcula o prazo (A7), muda de `aguardando_triagem` para `aguardando_atendimento`, evento `triagem {de, para}`; a solicitação de leito aberta acompanha a cor nova · 🔗 E2, R-E3, R-E6
-- [ ] **15.10.3** `reavaliar(id, sinais, versao)` → E10: acrescenta a reavaliação sem mudar a cor nem o prazo · 🔗 E10, R-E16, M22
-- [ ] **15.10.4** `chamar(id, medicoId, versao)` → E3: médico ativo; evento `chamado` com `excessoMin` · 🔗 E3, R-E7
-- [ ] **15.10.5** `colocarEmObservacao(id, leitoId, versao)` e `retomarAtendimento(id, versao)` → E4: só setor Observação, perfil compatível, leito mantido ao retomar · 🔗 E4, R-E12
-- [ ] **15.10.6** `solicitarLeito(id, dados, versao)` → E6: exige paciente cadastrado; guarda `statusAntesDoLeito`; solicitação `pendente` com origem `emergencia` e prioridade igual à cor · 🔗 E6, R-E9
-- [ ] **15.10.7** ⭐ `encerrar(id, desfecho, versao)` → E5 (sem o óbito, que entra em 15.12): desfecho permitido por status; evasão só depois de 30 min; leito OBS em higienização; com solicitação aberta, cancela e libera a reserva (R-E15); atividade · 🔗 E5, R-E8, R-E11, R-E15
-- [ ] **15.10.8** `reabrir(id, motivo, versao)` → E9: janela de 2 h, exceto desfecho internação; volta ao status anterior; leito OBS de volta se ainda estiver livre ou em higienização · 🔗 E9, R-E14, M16
-- [ ] **15.10.9** `vincularPaciente(id, pacienteId, versao)` → E7: valida R-E10; evento `vinculado` com a descrição provisória · 🔗 E7
-- [ ] **15.10.10** `listarFila()` (grupos por status, ordem A7), `obterAtendimento(id)` (`AtendimentoDetalhado`) e `listarHistorico(filtros)` (7 dias, data, cor e desfecho) · 🔗 E8
-- [ ] **15.10.11** Testes `emergencia.service.test.ts` (1/3): E1 com e sem identificação, duas chegadas na mesma transação de "outra aba" com números diferentes, E2 com retriagem mais e menos grave, E10 · ✔ `esperarConsistente()` depois de cada operação
-- [ ] **15.10.12** Testes (2/3): E3, E4 (perfil, retomar mantém o leito), E6 (provisório recusado), E7
-- [ ] **15.10.13** Testes (3/3): E5 com cada desfecho e status da [matriz](PLANO_OPERACOES_MEDICORE.md#matriz-de-ações-por-estado); evasão aos 29 e aos 31 min; "aguardando leito" encerrado por alta cancela a solicitação e libera a reserva; E9 dentro e fora da janela; E9 recusado para desfecho internação
+- [x] **15.10.1** ⭐ `services/emergencia.ts` → `registrarChegada(entrada)` → E1: número (A8) dentro da transação; `aguardando_triagem` ou, na emergência imediata, `aguardando_atendimento` com prazo; E-14 para internado ou com atendimento aberto; atividade `emergencia_vermelho` · 🔗 E1, R-E1, R-E2, R-E10, R-X1
+- [x] **15.10.2** `triar(id, triagem, versao)` → E2: acrescenta a triagem, recalcula o prazo (A7), muda de `aguardando_triagem` para `aguardando_atendimento`, evento `triagem {de, para}`; a solicitação de leito aberta acompanha a cor nova · 🔗 E2, R-E3, R-E6
+- [x] **15.10.3** `reavaliar(id, sinais, versao)` → E10: acrescenta a reavaliação sem mudar a cor nem o prazo · 🔗 E10, R-E16, M22
+- [x] **15.10.4** `chamar(id, medicoId, versao)` → E3: médico ativo; evento `chamado` com `excessoMin` · 🔗 E3, R-E7
+- [x] **15.10.5** `colocarEmObservacao(id, leitoId, versao)` e `retomarAtendimento(id, versao)` → E4: só setor Observação, perfil compatível, leito mantido ao retomar · 🔗 E4, R-E12
+- [x] **15.10.6** `solicitarLeito(id, dados, versao)` → E6: exige paciente cadastrado; guarda `statusAntesDoLeito`; solicitação `pendente` com origem `emergencia` e prioridade igual à cor · 🔗 E6, R-E9
+- [x] **15.10.7** ⭐ `encerrar(id, desfecho, versao)` → E5 (sem o óbito, que entra em 15.12): desfecho permitido por status; evasão só depois de 30 min; leito OBS em higienização; com solicitação aberta, cancela e libera a reserva (R-E15); atividade · 🔗 E5, R-E8, R-E11, R-E15
+- [x] **15.10.8** `reabrir(id, motivo, versao)` → E9: janela de 2 h, exceto desfecho internação; volta ao status anterior; leito OBS de volta se ainda estiver livre ou em higienização · 🔗 E9, R-E14, M16
+- [x] **15.10.9** `vincularPaciente(id, pacienteId, versao)` → E7: valida R-E10; evento `vinculado` com a descrição provisória · 🔗 E7
+- [x] **15.10.10** `listarFila()` (grupos por status, ordem A7), `obterAtendimento(id)` (`AtendimentoDetalhado`) e `listarHistorico(filtros)` (7 dias, data, cor e desfecho) · 🔗 E8
+- [x] **15.10.11** Testes `emergencia.service.test.ts` (1/3): E1 com e sem identificação, duas chegadas na mesma transação de "outra aba" com números diferentes, E2 com retriagem mais e menos grave, E10 · ✔ `esperarConsistente()` depois de cada operação
+- [x] **15.10.12** Testes (2/3): E3, E4 (perfil, retomar mantém o leito), E6 (provisório recusado), E7
+- [x] **15.10.13** Testes (3/3): E5 com cada desfecho e status da [matriz](PLANO_OPERACOES_MEDICORE.md#matriz-de-ações-por-estado); evasão aos 29 e aos 31 min; "aguardando leito" encerrado por alta cancela a solicitação e libera a reserva; E9 dentro e fora da janela; E9 recusado para desfecho internação
 - [ ] **15.10.14** Commit `fase-15: 15.10 serviço de emergência`
 
 ### 15.11 Serviço de farmácia (F1–F9) · esp. 15.6
 
-- [ ] **15.11.1** `services/farmacia.ts` → `listarEstoque(filtros)` (`EstoqueMedicamento`: disponível sem vencidos nem bloqueados, situação, próximo vencimento) e `obterMedicamento(id)` com lotes · 🔗 R-F1, R-F6, R-F13
-- [ ] **15.11.2** `criarMedicamento` e `editarMedicamento` → F1: unicidade nome + concentração + forma (E-02); unidade e unidades por embalagem travadas depois da primeira movimentação · 🔗 F1
-- [ ] **15.11.3** `inativarMedicamento` e `reativarMedicamento` → F7: E-17 com os lotes com saldo, inclusive bloqueados · 🔗 F7, R-F11
-- [ ] **15.11.4** `registrarEntrada(dados)` → F2: E-13 (vencido; lote repetido com outra validade); somar ao lote com a mesma validade; conversão de embalagens; movimentação `entrada`; atividade `lote_recebido` · 🔗 F2, R-F2, M27
-- [ ] **15.11.5** `previaFefo(medicamentoId, quantidade)` e `verificarAlergia(pacienteId, medicamentoId)` · 🔗 A9, A10
-- [ ] **15.11.6** ⭐ `dispensar(entrada)` → F3: destino válido (R-F12, E-15); FEFO refeito na gravação; confirmações obrigatórias conferidas no serviço (alergia com justificativa, controlado, quantidade alta); baixa por lote e uma movimentação por lote; atividade `estoque_baixo` só quando cruza o mínimo · 🔗 F3, R-F3–R-F8, R-F12, R-F14
-- [ ] **15.11.7** `devolver(dispensacaoId, item, quantidade, motivo, versao)` → F4: ordem inversa da saída; lote vencido vira `descarte_vencido`; lote bloqueado vira `perda`; nada é editado nem apagado, toda correção é um movimento contrário · 🔗 F4, R-F9, R-F10
-- [ ] **15.11.8** `estornar(id, motivo, versao)` → F8: janela de 24 h, sem devolução anterior; devolve todos os itens; dispensação `estornada`; atividade `dispensacao_estornada` · 🔗 F8, R-F16, M16
-- [ ] **15.11.9** `ajustar(loteId, dados, versao)` → F5 e `descartarVencidos(loteIds, motivo, termo?)` → F6 · 🔗 F5, F6, R-F7
-- [ ] **15.11.10** `bloquearLote` e `desbloquearLote` → F9, com a atividade `lote_bloqueado` · 🔗 F9, R-F13, M26
-- [ ] **15.11.11** `listarMovimentacoes(filtros)`, `obterDispensacao(id)` e `livroControlados(medicamentoId, periodo)` (saldo inicial, entradas, saídas, saldo final) · 🔗 M28
-- [ ] **15.11.12** Testes `farmacia.service.test.ts` (1/3): F1, F2 (vencido, curto, repetido, somar, embalagens), F7 · ✔ `esperarConsistente()` depois de cada operação
-- [ ] **15.11.13** Testes (2/3): F3 com FEFO em 2 lotes, lote bloqueado fora, alergia sem justificativa recusada, controlado sem confirmação recusado, quantidade alta, estoque cruzando o mínimo, E-12 por "outra aba", E-15 com a internação encerrada
-- [ ] **15.11.14** Testes (3/3): F4 (lote vencido vira descarte), F5, F6, F8 dentro e fora da janela e com devolução anterior, F9, livro de controlados com saldo que fecha
+- [x] **15.11.1** `services/farmacia.ts` → `listarEstoque(filtros)` (`EstoqueMedicamento`: disponível sem vencidos nem bloqueados, situação, próximo vencimento) e `obterMedicamento(id)` com lotes · 🔗 R-F1, R-F6, R-F13
+- [x] **15.11.2** `criarMedicamento` e `editarMedicamento` → F1: unicidade nome + concentração + forma (E-02); unidade e unidades por embalagem travadas depois da primeira movimentação · 🔗 F1
+- [x] **15.11.3** `inativarMedicamento` e `reativarMedicamento` → F7: E-17 com os lotes com saldo, inclusive bloqueados · 🔗 F7, R-F11
+- [x] **15.11.4** `registrarEntrada(dados)` → F2: E-13 (vencido; lote repetido com outra validade); somar ao lote com a mesma validade; conversão de embalagens; movimentação `entrada`; atividade `lote_recebido` · 🔗 F2, R-F2, M27
+- [x] **15.11.5** `previaFefo(medicamentoId, quantidade)` e `verificarAlergia(pacienteId, medicamentoId)` · 🔗 A9, A10
+- [x] **15.11.6** ⭐ `dispensar(entrada)` → F3: destino válido (R-F12, E-15); FEFO refeito na gravação; confirmações obrigatórias conferidas no serviço (alergia com justificativa, controlado, quantidade alta); baixa por lote e uma movimentação por lote; atividade `estoque_baixo` só quando cruza o mínimo · 🔗 F3, R-F3–R-F8, R-F12, R-F14
+- [x] **15.11.7** `devolver(dispensacaoId, item, quantidade, motivo, versao)` → F4: ordem inversa da saída; lote vencido vira `descarte_vencido`; lote bloqueado vira `perda`; nada é editado nem apagado, toda correção é um movimento contrário · 🔗 F4, R-F9, R-F10
+- [x] **15.11.8** `estornar(id, motivo, versao)` → F8: janela de 24 h, sem devolução anterior; devolve todos os itens; dispensação `estornada`; atividade `dispensacao_estornada` · 🔗 F8, R-F16, M16
+- [x] **15.11.9** `ajustar(loteId, dados, versao)` → F5 e `descartarVencidos(loteIds, motivo, termo?)` → F6 · 🔗 F5, F6, R-F7
+- [x] **15.11.10** `bloquearLote` e `desbloquearLote` → F9, com a atividade `lote_bloqueado` · 🔗 F9, R-F13, M26
+- [x] **15.11.11** `listarMovimentacoes(filtros)`, `obterDispensacao(id)` e `livroControlados(medicamentoId, periodo)` (saldo inicial, entradas, saídas, saldo final) · 🔗 M28
+- [x] **15.11.12** Testes `farmacia.service.test.ts` (1/3): F1, F2 (vencido, curto, repetido, somar, embalagens), F7 · ✔ `esperarConsistente()` depois de cada operação
+- [x] **15.11.13** Testes (2/3): F3 com FEFO em 2 lotes, lote bloqueado fora, alergia sem justificativa recusada, controlado sem confirmação recusado, quantidade alta, estoque cruzando o mínimo, E-12 por "outra aba", E-15 com a internação encerrada
+- [x] **15.11.14** Testes (3/3): F4 (lote vencido vira descarte), F5, F6, F8 dentro e fora da janela e com devolução anterior, F9, livro de controlados com saldo que fecha
 - [ ] **15.11.15** Commit `fase-15: 15.11 serviço de farmácia`
 
 ### 15.12 Regras entre módulos (R-X) · esp. 15.7
 
-- [ ] **15.12.1** `inativarPaciente`: bloqueia com internação ativa ou atendimento aberto, com E-17 listando as pendências · 🔗 R-X2
-- [ ] **15.12.2** `excluirPaciente`: considera também internações, atendimentos e dispensações · 🔗 R-X3
-- [ ] **15.12.3** `inativarMedico`: bloqueia como responsável por internação ativa ou com atendimento aberto · 🔗 R-X4
-- [ ] **15.12.4** ⭐ `registrarObito(pacienteId, em)` (função interna usada dentro das transações): inativa o paciente com o motivo "Óbito em {data}", cancela as consultas futuras com "Óbito do paciente" e grava `obito_registrado` · 🔗 R-X7, M17, INV-10
-- [ ] **15.12.5** Ligar o óbito em `darAlta` e `encerrar`; ligar a reativação em `desfazerAlta` e `reabrir`, devolvendo o aviso "as consultas canceladas não voltam" · 🔗 L3, L8, E5, E9
-- [ ] **15.12.6** `situacaoHospitalar(pacienteId)` (internação ativa, atendimento aberto, solicitação) e `consultasDuranteInternacao(internacaoId)` (até a previsão de alta ou 7 dias) · 🔗 R-X8, M18
-- [ ] **15.12.7** Atualizar os diálogos de inativar e excluir paciente e o `DialogoInativarMedico` para mostrar as pendências novas com links (rotas que ainda não existem levam ao `Placeholder` até as Fases 17 e 18) · ✔ testes de página de pacientes e médicos verdes
-- [ ] **15.12.8** Testes `regras-modulos.test.ts`: cada combinação de R-X2 a R-X4; óbito por alta e por desfecho (paciente inativo, consulta futura cancelada, consulta passada intacta); desfazer o óbito reativa sem devolver consultas · 🔗 RS-11 · ✔ INV-10 sem violação
+- [x] **15.12.1** `inativarPaciente`: bloqueia com internação ativa ou atendimento aberto, com E-17 listando as pendências · 🔗 R-X2
+- [x] **15.12.2** `excluirPaciente`: considera também internações, atendimentos e dispensações · 🔗 R-X3
+- [x] **15.12.3** `inativarMedico`: bloqueia como responsável por internação ativa ou com atendimento aberto · 🔗 R-X4
+- [x] **15.12.4** ⭐ `registrarObito(pacienteId, em)` (função interna usada dentro das transações): inativa o paciente com o motivo "Óbito em {data}", cancela as consultas futuras com "Óbito do paciente" e grava `obito_registrado` · 🔗 R-X7, M17, INV-10
+- [x] **15.12.5** Ligar o óbito em `darAlta` e `encerrar`; ligar a reativação em `desfazerAlta` e `reabrir`, devolvendo o aviso "as consultas canceladas não voltam" · 🔗 L3, L8, E5, E9
+- [x] **15.12.6** `situacaoHospitalar(pacienteId)` (internação ativa, atendimento aberto, solicitação) e `consultasDuranteInternacao(internacaoId)` (até a previsão de alta ou 7 dias) · 🔗 R-X8, M18
+- [x] **15.12.7** Atualizar os diálogos de inativar e excluir paciente e o `DialogoInativarMedico` para mostrar as pendências novas com links (rotas que ainda não existem levam ao `Placeholder` até as Fases 17 e 18) · ✔ testes de página de pacientes e médicos verdes — os links das pendências levam à página "não encontrada" até as Fases 17 e 18
+- [x] **15.12.8** Testes `regras-modulos.test.ts`: cada combinação de R-X2 a R-X4; óbito por alta e por desfecho (paciente inativo, consulta futura cancelada, consulta passada intacta); desfazer o óbito reativa sem devolver consultas · 🔗 RS-11 · ✔ INV-10 sem violação
 - [ ] **15.12.9** Commit `fase-15: 15.12 regras entre módulos`
 
 ### 15.13 Indicadores operacionais (A12–A14) · esp. 15.6
 
-- [ ] **15.13.1** `services/indicadores-operacionais.ts` → ocupação por setor, operacionais, disponíveis, `previsaoUti`, altas previstas hoje, permanência média, `liberacoesPrevistas24h`, espera média por cor e giro de leito · 🔗 A13, D17, M24
-- [ ] **15.13.2** Alertas A12: as 9 condições, ordenadas por prioridade e antiguidade, cada uma com a referência para o atendimento ou o leito · 🔗 A12
-- [ ] **15.13.3** Série de internações: semana, mês e ano (resumos mensais + mês corrente) · 🔗 A14
-- [ ] **15.13.4** Resumo de estoque: baixo, zerado, vencendo e vencidos · 🔗 R-F6
-- [ ] **15.13.5** Testes `indicadores-operacionais.test.ts` com dados montados e relógio fixo: observação fora da ocupação (D17); leito bloqueado fora dos operacionais; cada alerta aparece e some no limite
+- [x] **15.13.1** `services/indicadores-operacionais.ts` → ocupação por setor, operacionais, disponíveis, `previsaoUti`, altas previstas hoje, permanência média, `liberacoesPrevistas24h`, espera média por cor e giro de leito · 🔗 A13, D17, M24
+- [x] **15.13.2** Alertas A12: as 9 condições, ordenadas por prioridade e antiguidade, cada uma com a referência para o atendimento ou o leito · 🔗 A12
+- [x] **15.13.3** Série de internações: semana, mês e ano (resumos mensais + mês corrente) · 🔗 A14
+- [x] **15.13.4** Resumo de estoque: baixo, zerado, vencendo e vencidos · 🔗 R-F6
+- [x] **15.13.5** Testes `indicadores-operacionais.test.ts` com dados montados e relógio fixo: observação fora da ocupação (D17); leito bloqueado fora dos operacionais; cada alerta aparece e some no limite
 - [ ] **15.13.6** Commit `fase-15: 15.13 indicadores operacionais`
 
 ### 15.14 Retenção e rotina diária (A15) · esp. 15.5
 
-- [ ] **15.14.1** `services/retencao.ts` → `executarRetencao()`: roda no máximo uma vez por dia (`meta.retencaoEm`), numa transação · 🔗 A15, D15
-- [ ] **15.14.2** Soma os itens antigos nos resumos mensais antes de remover; aplica os tetos por coleção
-- [ ] **15.14.3** ⭐ Troca itens ainda referenciados por **registro arquivado** e soma as movimentações removidas em `lote.saldoArquivado` · 🔗 M30, INV-6, INV-7
-- [ ] **15.14.4** Rotina do dia: atividade `lote_vencido` para cada lote que venceu desde a última execução e `estoque_baixo` quando o vencimento derruba o disponível
-- [ ] **15.14.5** Chamar a retenção na inicialização, depois das migrações
-- [ ] **15.14.6** Testes `retencao.test.ts`: soma antes de apagar; respeita os tetos; tudo ou nada; referência preservada; INV-7 vale depois da limpeza; não roda duas vezes no mesmo dia; roda de novo no dia seguinte
+- [x] **15.14.1** `services/retencao.ts` → `executarRetencao()`: roda no máximo uma vez por dia (`meta.retencaoEm`), numa transação · 🔗 A15, D15
+- [x] **15.14.2** Soma os itens antigos nos resumos mensais antes de remover; aplica os tetos por coleção
+- [x] **15.14.3** ⭐ Troca itens ainda referenciados por **registro arquivado** e soma as movimentações removidas em `lote.saldoArquivado` · 🔗 M30, INV-6, INV-7
+- [x] **15.14.4** Rotina do dia: atividade `lote_vencido` para cada lote que venceu desde a última execução e `estoque_baixo` quando o vencimento derruba o disponível
+- [x] **15.14.5** Chamar a retenção na inicialização, depois das migrações
+- [x] **15.14.6** Testes `retencao.test.ts`: soma antes de apagar; respeita os tetos; tudo ou nada; referência preservada; INV-7 vale depois da limpeza; não roda duas vezes no mesmo dia; roda de novo no dia seguinte
 - [ ] **15.14.7** Commit `fase-15: 15.14 retenção e rotina diária`
 
 ### 15.15 Dados de exemplo (D13, A16) · esp. 15.8
 
-- [ ] **15.15.1** `data/seeds/gerador.ts`: listas de nomes e sobrenomes brasileiros e funções para gerar paciente fictício com CPF válido (mesma semente fixa)
-- [ ] **15.15.2** `data/seeds/pacientes.ts`: completar até ~120 pacientes (90 gerados; ~10% menores; ~15% com alergias, incluindo "Penicilina", "Dipirona" e "AINEs"; alguns com o campo de alergias vazio) · 🔗 D13, R-F15
-- [ ] **15.15.3** `data/seeds/leitos.ts`: os 130 leitos com a distribuição da especificação (perfis, isolamento, quartos da enfermaria) · 🔗 Modelo de dados › Distribuição semeada
-- [ ] **15.15.4** `data/seeds/internacoes.ts`: 86 ativas (UTI 22, Enfermaria 50, Apartamento 14) com perfil e isolamento coerentes, 2 com alta prevista vencida, 3 com alta prevista hoje, e encerradas dos últimos 30 dias
-- [ ] **15.15.5** `data/seeds/atendimentos.ts`: ~12 abertos em todos os status e cores (1 vermelho aguardando, 2 acima do prazo, 1 aguardando leito há mais de 4 h, 2 em observação) + encerrados dos últimos 7 dias; 1 solicitação reservada e 1 pendente; leitos em higienização (2 a 4), 1 bloqueado
-- [ ] **15.15.6** `data/seeds/medicamentos.ts`: ~45 medicamentos, 4 controlados, incluindo um da classe "Penicilinas", a dipirona e um AINE (para demonstrar A10)
-- [ ] **15.15.7** `data/seeds/lotes.ts`, `movimentacoes.ts` e as dispensações: gerados **simulando as operações**, para que os saldos fechem (INV-7); 3 medicamentos com estoque baixo, 1 zerado, 5 vencendo em 60 dias e 2 lotes vencidos
-- [ ] **15.15.8** `data/seeds/resumos.ts`: resumos mensais dos últimos 12 meses com valores próximos aos do gráfico atual
-- [ ] **15.15.9** ⭐ A16: as sementes usam os pacientes e médicos ativos que já existem (instalação 1.1.0) e completam com os gerados; trocar as sementes vazias de 15.7.1 pelas reais · 🔗 A16, RS-15
-- [ ] **15.15.10** Atualizar os testes que contam pacientes (27 ativos), o Painel e os seeds (`seeds.test.ts`, `dashboard.test.tsx`, `pacientes.paginas.test.tsx`) · ✔ todos verdes
-- [ ] **15.15.11** Testes `seeds.operacoes.test.ts`: todos os itens passam nos esquemas; `verificarConsistencia()` vazio; ocupação 72% (86/120); 3 medicamentos com estoque baixo; semeadura sobre uma instalação 1.1.0 modificada (pacientes alterados, 1 excluído, 1 médico inativo) sem referência quebrada
-- [ ] **15.15.12** Medir o uso de armazenamento dos dados de exemplo (meta: ~0,9 MB) e o tempo da primeira semeadura (meta: < 300 ms, M31) · ✔ números no Diário
+- [x] **15.15.1** `data/seeds/gerador.ts`: listas de nomes e sobrenomes brasileiros e funções para gerar paciente fictício com CPF válido (mesma semente fixa) — reaproveitado o `data/seeds/gerador.ts` existente
+- [x] **15.15.2** `data/seeds/pacientes.ts`: completar até ~120 pacientes (90 gerados; ~10% menores; ~15% com alergias, incluindo "Penicilina", "Dipirona" e "AINEs"; alguns com o campo de alergias vazio) · 🔗 D13, R-F15
+- [x] **15.15.3** `data/seeds/leitos.ts`: os 130 leitos com a distribuição da especificação (perfis, isolamento, quartos da enfermaria) · 🔗 Modelo de dados › Distribuição semeada — leitos, internações, atendimentos, lotes, movimentações e resumos são gerados juntos em `data/seeds/operacoes.ts` (`gerarDadosOperacionais`)
+- [x] **15.15.4** `data/seeds/internacoes.ts`: 86 ativas (UTI 22, Enfermaria 50, Apartamento 14) com perfil e isolamento coerentes, 2 com alta prevista vencida, 3 com alta prevista hoje, e encerradas dos últimos 30 dias
+- [x] **15.15.5** `data/seeds/atendimentos.ts`: ~12 abertos em todos os status e cores (1 vermelho aguardando, 2 acima do prazo, 1 aguardando leito há mais de 4 h, 2 em observação) + encerrados dos últimos 7 dias; 1 solicitação reservada e 1 pendente; leitos em higienização (2 a 4), 1 bloqueado
+- [x] **15.15.6** `data/seeds/medicamentos.ts`: ~45 medicamentos, 4 controlados, incluindo um da classe "Penicilinas", a dipirona e um AINE (para demonstrar A10)
+- [x] **15.15.7** `data/seeds/lotes.ts`, `movimentacoes.ts` e as dispensações: gerados **simulando as operações**, para que os saldos fechem (INV-7); 3 medicamentos com estoque baixo, 1 zerado, 5 vencendo em 60 dias e 2 lotes vencidos
+- [x] **15.15.8** `data/seeds/resumos.ts`: resumos mensais dos últimos 12 meses com valores próximos aos do gráfico atual
+- [x] **15.15.9** ⭐ A16: as sementes usam os pacientes e médicos ativos que já existem (instalação 1.1.0) e completam com os gerados; trocar as sementes vazias de 15.7.1 pelas reais · 🔗 A16, RS-15
+- [x] **15.15.10** Atualizar os testes que contam pacientes (27 ativos), o Painel e os seeds (`seeds.test.ts`, `dashboard.test.tsx`, `pacientes.paginas.test.tsx`) · ✔ todos verdes
+- [x] **15.15.11** Testes `seeds.operacoes.test.ts`: todos os itens passam nos esquemas; `verificarConsistencia()` vazio; ocupação 72% (86/120); 3 medicamentos com estoque baixo; semeadura sobre uma instalação 1.1.0 modificada (pacientes alterados, 1 excluído, 1 médico inativo) sem referência quebrada
+- [x] **15.15.12** Medir o uso de armazenamento dos dados de exemplo (meta: ~0,9 MB) e o tempo da primeira semeadura (meta: < 300 ms, M31) · ✔ números no Diário — 73 ms e ~985 KB
 - [ ] **15.15.13** Commit `fase-15: 15.15 dados de exemplo dos módulos`
 
 ### 15.16 Hooks · esp. 15.9
 
-- [ ] **15.16.1** `hooks/useRelogio(intervalo = 30 s)`: devolve o instante atual; troca o "hoje" na virada do dia no fuso · 🔗 Tempos, RS-14
-- [ ] **15.16.2** `hooks/useDadosLeitos`, `useDadosEmergencia` e `useDadosFarmacia` sobre `useColecao`, cada um assinando as coleções de que depende
-- [ ] **15.16.3** Testes `useRelogio.test.ts` (relógio falso: tique de 30 s, virada da meia-noite) e dos hooks de dados (recarregam quando outra coleção relevante muda, inclusive por "outra aba")
+- [x] **15.16.1** `hooks/useRelogio(intervalo = 30 s)`: devolve o instante atual; troca o "hoje" na virada do dia no fuso · 🔗 Tempos, RS-14
+- [x] **15.16.2** `hooks/useDadosLeitos`, `useDadosEmergencia` e `useDadosFarmacia` sobre `useColecao`, cada um assinando as coleções de que depende — **desvio:** um arquivo só, `hooks/useDadosOperacoes.ts`, com um hook por leitura; cada um assina só as coleções do seu módulo
+- [x] **15.16.3** Testes `useRelogio.test.ts` (relógio falso: tique de 30 s, virada da meia-noite) e dos hooks de dados (recarregam quando outra coleção relevante muda, inclusive por "outra aba")
 - [ ] **15.16.4** Commit `fase-15: 15.16 hooks dos módulos`
 
 ### 15.17 Invariantes com operações aleatórias (M15) · esp. 15.10
 
-- [ ] **15.17.1** ⭐ `__tests__/invariantes.aleatorio.test.ts`: gerador de operações com semente fixa que sorteia ações válidas dos três serviços e das regras R-X (aceitando os erros esperados de regra) · 🔗 M15, M33
-- [ ] **15.17.2** 500 operações sobre os dados de exemplo, com o relógio avançando; `verificarConsistencia()` vazio depois de cada uma; a semente e a operação que falharem aparecem na mensagem · ✔ passando com 3 sementes diferentes
-- [ ] **15.17.3** Verificação ao abrir o sistema em `npm run dev`: violações aparecem no console (import dinâmico, fora do build de produção) · ✔ `pacote:medir` sem crescimento
+- [x] **15.17.1** ⭐ `__tests__/invariantes.aleatorio.test.ts`: gerador de operações com semente fixa que sorteia ações válidas dos três serviços e das regras R-X (aceitando os erros esperados de regra) · 🔗 M15, M33
+- [x] **15.17.2** 500 operações sobre os dados de exemplo, com o relógio avançando; `verificarConsistencia()` vazio depois de cada uma; a semente e a operação que falharem aparecem na mensagem · ✔ passando com 3 sementes diferentes
+- [x] **15.17.3** Verificação ao abrir o sistema em `npm run dev`: violações aparecem no console (import dinâmico, fora do build de produção) · ✔ `pacote:medir` sem crescimento — `services/inicializacao-operacoes.ts`, carregado com `requestIdleCallback` depois da primeira pintura
 - [ ] **15.17.4** Commit `fase-15: 15.17 invariantes com operações aleatórias`
 
 ### 15.18 Fechamento da Fase 15
 
-- [ ] **15.18.1** `npm run test:coverage`: `services/` ≥ 85% e `utils/` ≥ 90%
-- [ ] **15.18.2** Matriz de regras em `docs/PR_FASE_15.md`: cada R-L, R-E, R-F e R-X com pelo menos um teste positivo e um negativo; cada operação grava a atividade certa na mesma transação (R-X6); cada INV com teste
-- [ ] **15.18.3** Painel continua mostrando 72% de ocupação e 3 medicamentos com estoque baixo (ainda pela fonte simulada; ligar é a Fase 20)
-- [ ] **15.18.4** `npm run lint`, `npm run build`, `npm run i18n:verificar` e `npm run test:e2e` verdes
-- [ ] **15.18.5** `npm run pacote:medir`: sem crescimento em relação à linha de base · ✔ número no Diário
-- [ ] **15.18.6** Atualizar os checkboxes deste plano e da especificação; painel de execução: Fase 15 ✅
+- [x] **15.18.1** `npm run test:coverage`: `services/` ≥ 85% e `utils/` ≥ 90% — `services/` 97,5% e `utils/` 97,8% (linhas)
+- [x] **15.18.2** Matriz de regras em `docs/PR_FASE_15.md`: cada R-L, R-E, R-F e R-X com pelo menos um teste positivo e um negativo; cada operação grava a atividade certa na mesma transação (R-X6); cada INV com teste
+- [x] **15.18.3** Painel continua mostrando 72% de ocupação e 3 medicamentos com estoque baixo (ainda pela fonte simulada; ligar é a Fase 20)
+- [x] **15.18.4** `npm run lint`, `npm run build`, `npm run i18n:verificar` e `npm run test:e2e` verdes — o axe em 375px achou rolagem de 2 px na paginação (12 páginas com 120 pacientes); corrigido em `Paginacao.tsx`
+- [x] **15.18.5** `npm run pacote:medir`: sem crescimento em relação à linha de base · ✔ número no Diário — **desvio justificado:** 149,0 kB (+3,3 kB, abaixo do limite de 5 kB); nenhum código dos módulos no pacote inicial. Detalhe no Diário e no PR
+- [x] **15.18.6** Atualizar os checkboxes deste plano e da especificação; painel de execução: Fase 15 ✅
 - [ ] **15.18.7** 👤 Abrir o PR "Fase 15 — Fundação dos módulos operacionais", revisar e mesclar
 
 ---
@@ -1086,14 +1086,14 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | Lighthouse desktop (Perf · A11y · BP · SEO) | Painel 99 · 100 · 100 · 100; `/pacientes`, `/pacientes/novo` e `/consultas` 100 em tudo | |
 | Violações axe | 0 | |
 | Armazenamento dos dados de exemplo | 73,1 KB (74.904 bytes: consultas 33,1 · pacientes 26,7 · atividades 6,7 · médicos 6,6 KB) | |
-| Primeira semeadura | — | |
+| Primeira semeadura | — (medida a partir da Fase 15: 73 ms; ~985 KB) | |
 
 ### Pacote inicial por fase
 
 | Fase | Pacote inicial (gzip) | Marcadores dos módulos | Observação |
 |---|---|---|---|
 | Etapa 0 | 145,7 kB (JS 137,1 · CSS 8,6) | 0 | Linha de base, commit `cb5931d` (v1.1.0) |
-| 15 | | | |
+| 15 | 149,0 kB (JS 140,4 · CSS 8,6) | 0 | +3,3 kB: gerador dos 90 pacientes extras (~1,5), textos de atividades e pendências (~0,9), R-X2–R-X4, migração v2 e meta no repositório (~0,9). 0,6 kB recuperados movendo os textos só dos serviços para `i18n/pt-BR/operacoes.ts` |
 | 16 | | | |
 | 17 | | | |
 | 18 | | | |
@@ -1110,5 +1110,7 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | 28/10/2026 | Etapa 0 — 0.2 base | `main` = `cb5931d` (tag `v1.1.0`). 353 testes Vitest (36 arquivos) e 66 Playwright verdes; build sem erros. Produção (Vercel) serve o mesmo commit e os mesmos arquivos do build local. **Ambiente:** nesta máquina de trabalho, os testes ponta a ponta usam o Chromium já instalado (`PW_CHROMIUM_PATH`); no seu computador nada muda. |
 | 28/10/2026 | Etapa 0 — 0.3 linha de base | Criado `scripts/medir-pacote.ts` e o comando `npm run pacote:medir`. Mede com gzip nível 9 e soma o CSS, por isso dá 145,7 kB e não os ~141 kB anotados na Fase 14 (só JS). Os marcadores dos módulos só passam a valer quando existirem os arquivos de `src/i18n/pt-BR/` (Fase 15); o script avisa se um marcador não existir neles. Referência visual do Painel em `docs/capturas/referencia-fase14.png` (1600px, claro). |
 | 28/10/2026 | Etapa 0 — 0.3.4 leitura da especificação | Observações para as próximas fases: (1) **Paciente provisório e dispensação:** a matriz permite "Dispensar" em todo atendimento aberto, mas a dispensação exige paciente cadastrado; a tela de dispensar deve oferecer "Identificar paciente" (E7) antes, e o `ComboboxPaciente` não lista provisórios (19.5). (2) **Número do atendimento com chegada retroativa:** usar a data de `chegadaEm` tanto para o dia quanto para a contagem (A8), para que uma chegada das 23:30 registrada às 00:30 entre na sequência do dia anterior (15.6.6). (3) **"Concluir todas do setor":** uma transação que pula e informa os leitos que mudaram (já está em 15.9.8). (4) **KPI "Leitos disponíveis":** hoje é 34 (total − ocupados); na Fase 20 passa a ser só os leitos **livres** (~28–30 com os dados de exemplo), porque higienização, reserva e bloqueio deixam de contar. É uma mudança visível de número, não de layout; anotar no PR da Fase 20. (5) **Ocupação 72%:** com 1 leito bloqueado na enfermaria, a conta por operacionais dá 86/119 = 72,3%, então o Painel continua mostrando 72%. |
-| | | |
+| 28/10/2026 | Fase 15 — números | 557 testes Vitest (54 arquivos, +204) e 66 Playwright verdes. Cobertura: geral 95,2% das linhas (86,6% dos ramos); `services/` 97,5%; `utils/` 97,8%. Pacote inicial 149,0 kB (+3,3 kB), marcadores 0. Dados de exemplo: semeadura em 73 ms, ~985 KB, 0 violações; 22/30, 50/69 e 14/20 ocupados; 13 atendimentos abertos; 1 pedido reservado (UTI-12) e 2 pendentes (1 eletivo); estoque com 3 baixo, 1 zerado, 5 vencendo e 2 vencidos. |
+| 28/10/2026 | Fase 15 — desvios | (1) **Migração v2** acrescenta os 90 pacientes extras a quem já usa a 1.1.0 (`ESQUEMA_ATUAL = 2`). (2) Registro arquivado é a flag `arquivado: true` na mesma coleção. (3) **INV-1** conta atendimento **aberto** com `leitoObservacaoId` (o "Retomar" mantém o leito). (4) Hooks de dados num arquivo só (`useDadosOperacoes.ts`). (5) Resumos mensais em escala realista (~70 internações por mês, mesmo desenho do gráfico). (6) Responsáveis das internações de exemplo vêm de clínica geral, neurologia e ortopedia (pediatria para menores), para os cardiologistas continuarem inativáveis no cenário 3 do e2e. (7) Pacote inicial +3,3 kB, justificado no PR. |
+| 28/10/2026 | Fase 15 — fechamento | Achados do fechamento, corrigidos: (a) o axe e2e em 375px achou 2 px de rolagem na paginação, que agora tem 12 páginas; `gap-0.5` no celular. (b) R-E7 e L1 passo 6 não tinham leitura: criados `medicosParaChamar()` e `medicosResponsaveis(setorId)` (departamento preferido primeiro). (c) A busca do mapa só achava pelo nome exibido; agora acha pelo nome civil ou social, como a lista de pacientes, e mostra só o social (R-X5). (d) Faltavam testes de `paciente_transferido`, `atendimento_reaberto`, R-L14 positivo e dos hooks de dados (`dados-operacoes.test.tsx`). **Para a Fase 20:** o KPI "Leitos disponíveis" passa de 34 para 29 (só livres). |
 | | | |

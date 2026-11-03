@@ -2,6 +2,7 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 import { repoAtividades, repoConsultas, repoPacientes } from '../services/colecoes';
+import { REPOS_OPERACOES } from '../services/colecoes-operacoes';
 import { restaurarDadosExemplo } from '../services/demo';
 import { criarPaciente } from '../services/pacientes';
 import { assinar } from '../services/repositorio';
@@ -32,12 +33,26 @@ describe('Restaurar dados de exemplo (13.5)', () => {
 
     expect(ouvinte).toHaveBeenCalled();
     const alteradas = new Set(ouvinte.mock.calls.flatMap(([c]) => [...(c as Set<string>)]));
-    expect(alteradas).toEqual(new Set(['pacientes', 'medicos', 'consultas', 'atividades']));
+    expect(alteradas).toEqual(
+      new Set([
+        'pacientes',
+        'medicos',
+        'consultas',
+        'atividades',
+        ...REPOS_OPERACOES.map((r) => r.nome),
+      ]),
+    );
     expect(repoPacientes.obter(p.id)).toBeUndefined();
     expect(repoConsultas.obter('con-hoje-0900')).toBeDefined();
     expect(repoAtividades.todos().some((a) => a.referenciaId === p.id)).toBe(false);
     // Já gravado: outra aba lê os mesmos dados, em vez de semear por conta própria.
-    for (const nome of ['pacientes', 'medicos', 'consultas', 'atividades']) {
+    for (const nome of [
+      'pacientes',
+      'medicos',
+      'consultas',
+      'atividades',
+      ...REPOS_OPERACOES.map((r) => r.nome),
+    ]) {
       expect(localStorage.getItem(`medicore:${nome}:v1`)).not.toBeNull();
     }
     parar();

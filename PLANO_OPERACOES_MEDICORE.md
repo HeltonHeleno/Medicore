@@ -125,7 +125,7 @@ A Revisão 1 foi analisada por inteiro, com foco em **o que acontece quando algo
 
 | Fase | Descrição | Estimativa | Status | Início | Fim |
 |:---:|---|:---:|:---:|:---:|:---:|
-| 15 | Fundação dos módulos operacionais | 4 dias | ⬜ Não iniciada | | |
+| 15 | Fundação dos módulos operacionais | 4 dias | ✅ Concluída | 28/10/2026 | 28/10/2026 |
 | 16 | Componentes compartilhados | 1,5 dia | ⬜ Não iniciada | | |
 | 17 | Gestão de leitos | 3,5 dias | ⬜ Não iniciada | | |
 | 18 | Emergência | 3,5 dias | ⬜ Não iniciada | | |
@@ -780,7 +780,7 @@ Regras que **sempre** valem, depois de qualquer transação (M15). São verifica
 
 | # | Invariante |
 |---|---|
-| INV-1 | Leito `ocupado` ⇔ existe **exatamente uma** internação ativa **ou** um atendimento em observação apontando para ele, e o leito aponta de volta |
+| INV-1 | Leito `ocupado` ⇔ existe **exatamente uma** internação ativa **ou** um atendimento **aberto** com `leitoObservacaoId` apontando para ele, e o leito aponta de volta. ("Retomar atendimento" mantém o leito com o status `em_atendimento`, R-E12) |
 | INV-2 | Leito `reservado` ⇔ existe exatamente uma solicitação `reservada` com `leitoReservadoId` igual a ele |
 | INV-3 | Leito `livre`, `higienizacao` ou `bloqueado` não tem `internacaoId`, `atendimentoId` nem `solicitacaoId` |
 | INV-4 | Um paciente tem no máximo uma internação ativa, um atendimento aberto e uma solicitação pendente ou reservada; nunca uma internação ativa **e** um atendimento aberto ao mesmo tempo |
@@ -832,6 +832,7 @@ As regras de fuso do plano anterior continuam valendo:
 
 - **Coleções novas não precisam de migração:** cada uma é semeada na primeira leitura. Quem já usa a versão 1.1.0 recebe os módulos com dados de exemplo **ligados aos pacientes e médicos que já existem** (A16).
 - **`ESQUEMA_ATUAL` sobe para 2** só se algum formato existente mudar. Por exemplo, se `Atividade` ganhar campos. Os tipos novos de atividade não exigem migração.
+  - **Fase 15:** subiu para 2 com a migração `migracaoPacientesExtras`, que acrescenta os 90 pacientes de exemplo (D13) a quem já usa a 1.1.0. Nenhum formato existente mudou.
 - **"Restaurar dados de exemplo"** passa a apagar e semear também as coleções novas.
 
 ### Orçamento de armazenamento (D15)
@@ -1928,88 +1929,88 @@ A definição de pronto do plano de cadastros continua valendo. Acrescente:
 
 ### 15.0 Abertura
 - [x] Decisões D8–D20 aprovadas, com o resultado registrado no [Registro](#-registro-de-decisões-e-observações); D18 validada com a equipe clínica (ou adiada, com a sinalização desligada para menores de 12 anos)
-- [ ] `npm run test`, `npm run test:e2e` e `npm run build` verdes na `main` (linha de base)
-- [ ] Registrar a linha de base: quantidade de testes, cobertura, pacote inicial (gzip) e uso de armazenamento dos dados de exemplo
+- [x] `npm run test`, `npm run test:e2e` e `npm run build` verdes na `main` (linha de base)
+- [x] Registrar a linha de base: quantidade de testes, cobertura, pacote inicial (gzip) e uso de armazenamento dos dados de exemplo
 
 ### 15.1 Configuração
-- [ ] `config/setores.ts`: setores (D10, D17). Em `config/limites.ts`: tempos-alvo por cor (R-E3) e limites (reserva 2 h, higienização 60/90 min, aguardando leito 4 h, vencendo em 60 dias, validade curta em 30 dias)
-- [ ] Retenção e tetos por coleção (D15) em `config/limites.ts`
-- [ ] Janelas de correção (D19), limite de confirmação de quantidade (R-F14), limites de tempo (R-E13, R-L13)
-- [ ] `config/sinais-vitais.ts`: faixas válidas e de alerta por faixa etária (D18)
+- [x] `config/setores.ts`: setores (D10, D17). Em `config/limites.ts`: tempos-alvo por cor (R-E3) e limites (reserva 2 h, higienização 60/90 min, aguardando leito 4 h, vencendo em 60 dias, validade curta em 30 dias)
+- [x] Retenção e tetos por coleção (D15) em `config/limites.ts`
+- [x] Janelas de correção (D19), limite de confirmação de quantidade (R-F14), limites de tempo (R-E13, R-L13)
+- [x] `config/sinais-vitais.ts`: faixas válidas e de alerta por faixa etária (D18)
 
 ### 15.2 Textos por módulo (D16)
-- [ ] Criar `i18n/pt-BR/leitos.ts`, `emergencia.ts` e `farmacia.ts`, com a mesma convenção do `pt-BR.ts` (funções para plural)
-- [ ] `scripts/varrer-textos.ts` continua valendo para os arquivos novos (os textos ficam fora de `src/i18n` só por exceção)
-- [ ] Teste: o pacote inicial **não** contém textos dos módulos (verificação no build)
+- [x] Criar `i18n/pt-BR/leitos.ts`, `emergencia.ts` e `farmacia.ts`, com a mesma convenção do `pt-BR.ts` (funções para plural)
+- [x] `scripts/varrer-textos.ts` continua valendo para os arquivos novos (os textos ficam fora de `src/i18n` só por exceção)
+- [x] Teste: o pacote inicial **não** contém textos dos módulos (verificação no build)
 
 ### 15.3 Tipos e esquemas
-- [ ] `types/leito.ts`, `internacao.ts`, `emergencia.ts`, `farmacia.ts` conforme o [Modelo de dados](#-modelo-de-dados)
-- [ ] `schemas/internacao.ts`: entrada de internação, transferência, alta e edição
-- [ ] `schemas/emergencia.ts`: chegada (paciente **ou** provisório), triagem com sinais vitais (R-E5), desfecho
-- [ ] `schemas/farmacia.ts`: medicamento, entrada de lote (validade, quantidade), dispensação (até 10 itens), devolução, ajuste
-- [ ] Campo `autor` nos eventos e nas movimentações (R-X9)
-- [ ] Testes de esquema com casos de borda: PAS ≤ PAD, SpO₂ 101, validade hoje, quantidade 0, 11 itens, retriagem menos grave sem justificativa, transferência sem hospital
+- [x] `types/leito.ts`, `internacao.ts`, `emergencia.ts`, `farmacia.ts` conforme o [Modelo de dados](#-modelo-de-dados)
+- [x] `schemas/internacao.ts`: entrada de internação, transferência, alta e edição
+- [x] `schemas/emergencia.ts`: chegada (paciente **ou** provisório), triagem com sinais vitais (R-E5), desfecho
+- [x] `schemas/farmacia.ts`: medicamento, entrada de lote (validade, quantidade), dispensação (até 10 itens), devolução, ajuste
+- [x] Campo `autor` nos eventos e nas movimentações (R-X9)
+- [x] Testes de esquema com casos de borda: PAS ≤ PAD, SpO₂ 101, validade hoje, quantidade 0, 11 itens, retriagem menos grave sem justificativa, transferência sem hospital
 
 ### 15.4 Algoritmos (`utils/`)
-- [ ] `fila.ts`: prazo e ordem (A7); número do atendimento (A8)
-- [ ] `sinais-vitais.ts`: faixa etária e avaliação (D18)
-- [ ] `fefo.ts` (A9)
-- [ ] `alergia.ts` (A10): normalização reaproveitando `utils/busca.ts`
-- [ ] `compatibilidade-leito.ts` (A11), com o motivo de cada incompatibilidade
-- [ ] `tempos.ts`: espera, permanência, validade, "há X min" e "há X h Y min"
-- [ ] Testes unitários de cada um (meta ≥ 90%)
+- [x] `fila.ts`: prazo e ordem (A7); número do atendimento (A8)
+- [x] `sinais-vitais.ts`: faixa etária e avaliação (D18)
+- [x] `fefo.ts` (A9)
+- [x] `alergia.ts` (A10): normalização reaproveitando `utils/busca.ts`
+- [x] `compatibilidade-leito.ts` (A11), com o motivo de cada incompatibilidade
+- [x] `tempos.ts`: espera, permanência, validade, "há X min" e "há X h Y min"
+- [x] Testes unitários de cada um (meta ≥ 90%)
 
 ### 15.5 Repositórios e retenção
-- [ ] Novos repositórios em `services/colecoes.ts` (9 coleções)
-- [ ] `services/retencao.ts` (A15) com resumos mensais, registros arquivados, `saldoArquivado` e rotina diária (`lote_vencido`); roda no máximo uma vez por dia
-- [ ] "Restaurar dados de exemplo" inclui as coleções novas
-- [ ] Testes: retenção soma antes de apagar; respeita os tetos; é uma transação
+- [x] Novos repositórios em `services/colecoes.ts` (9 coleções)
+- [x] `services/retencao.ts` (A15) com resumos mensais, registros arquivados, `saldoArquivado` e rotina diária (`lote_vencido`); roda no máximo uma vez por dia
+- [x] "Restaurar dados de exemplo" inclui as coleções novas
+- [x] Testes: retenção soma antes de apagar; respeita os tetos; é uma transação
 
 ### 15.6 Serviços
-- [ ] `services/leitos.ts`: `listarLeitos`, `obterLeito`, `buscarPacienteNoMapa`, `leitosCompativeis`, `internar`, `transferir`, `darAlta`, `desfazerAlta`, `concluirHigienizacao`, `bloquear`, `desbloquear`, `listarInternacoes`, `obterInternacao`, `editarInternacao`, `solicitarLeitoEletivo`, `reservarLeito`, `cancelarReserva`, `listarSolicitacoes`, `cancelarSolicitacao`
-- [ ] `services/emergencia.ts`: `registrarChegada`, `triar`, `reavaliar`, `chamar`, `colocarEmObservacao`, `retomarAtendimento`, `encerrar`, `reabrir`, `solicitarLeito`, `vincularPaciente`, `listarFila`, `obterAtendimento`, `listarHistorico`
-- [ ] `services/farmacia.ts`: `listarEstoque`, `criarMedicamento`, `editarMedicamento`, `inativarMedicamento`, `reativarMedicamento`, `registrarEntrada`, `bloquearLote`, `desbloquearLote`, `previaFefo`, `dispensar`, `devolver`, `estornar`, `ajustar`, `descartarVencidos`, `listarMovimentacoes`, `livroControlados`, `obterDispensacao`, `verificarAlergia`
-- [ ] `services/indicadores-operacionais.ts`: ocupação e previsões (A13), alertas (A12), série de internações (A14), resumo de estoque
-- [ ] Atividades novas registradas na mesma transação (R-X6)
-- [ ] Erros E-11 a E-18 em `services/erros.ts` e `i18n`
+- [x] `services/leitos.ts`: `listarLeitos`, `obterLeito`, `buscarPacienteNoMapa`, `leitosCompativeis`, `internar`, `transferir`, `darAlta`, `desfazerAlta`, `concluirHigienizacao`, `bloquear`, `desbloquear`, `listarInternacoes`, `obterInternacao`, `editarInternacao`, `solicitarLeitoEletivo`, `reservarLeito`, `cancelarReserva`, `listarSolicitacoes`, `cancelarSolicitacao`
+- [x] `services/emergencia.ts`: `registrarChegada`, `triar`, `reavaliar`, `chamar`, `colocarEmObservacao`, `retomarAtendimento`, `encerrar`, `reabrir`, `solicitarLeito`, `vincularPaciente`, `listarFila`, `obterAtendimento`, `listarHistorico`
+- [x] `services/farmacia.ts`: `listarEstoque`, `criarMedicamento`, `editarMedicamento`, `inativarMedicamento`, `reativarMedicamento`, `registrarEntrada`, `bloquearLote`, `desbloquearLote`, `previaFefo`, `dispensar`, `devolver`, `estornar`, `ajustar`, `descartarVencidos`, `listarMovimentacoes`, `livroControlados`, `obterDispensacao`, `verificarAlergia`
+- [x] `services/indicadores-operacionais.ts`: ocupação e previsões (A13), alertas (A12), série de internações (A14), resumo de estoque
+- [x] Atividades novas registradas na mesma transação (R-X6)
+- [x] Erros E-11 a E-18 em `services/erros.ts` e `i18n`
 
 ### 15.7 Regras entre módulos (R-X)
-- [ ] `inativarPaciente` bloqueia com internação ativa ou atendimento aberto (R-X2), com E-17 listando as pendências
-- [ ] `excluirPaciente` também considera internações, atendimentos e dispensações (R-X3)
-- [ ] `inativarMedico` bloqueia como responsável por internação ativa ou com atendimento aberto (R-X4)
-- [ ] Atualizar os diálogos de inativar e excluir paciente e médico para mostrar as novas pendências, com links
-- [ ] Óbito (R-X7): inativa o paciente, cancela as consultas futuras e bloqueia novos registros; desfazer reativa
-- [ ] Consultas de paciente internado (R-X8): função de consulta para o detalhe da internação e aviso no agendamento
-- [ ] Testes de cada combinação
+- [x] `inativarPaciente` bloqueia com internação ativa ou atendimento aberto (R-X2), com E-17 listando as pendências
+- [x] `excluirPaciente` também considera internações, atendimentos e dispensações (R-X3)
+- [x] `inativarMedico` bloqueia como responsável por internação ativa ou com atendimento aberto (R-X4)
+- [x] Atualizar os diálogos de inativar e excluir paciente e médico para mostrar as novas pendências, com links
+- [x] Óbito (R-X7): inativa o paciente, cancela as consultas futuras e bloqueia novos registros; desfazer reativa
+- [x] Consultas de paciente internado (R-X8): função de consulta para o detalhe da internação e aviso no agendamento
+- [x] Testes de cada combinação
 
 ### 15.8 Dados de exemplo (D13, A16)
-- [ ] `semearPacientes` ampliado para ~120 (90 gerados: nomes brasileiros, CPFs válidos, ~10% menores, ~15% com alergias, incluindo "Penicilina", "Dipirona" e "AINEs" para demonstrar A10)
-- [ ] Leitos (130) com a distribuição da tabela; ocupação do dia 0 = 22/50/14 (igual ao Painel atual)
-- [ ] Internações ativas (86) e encerradas dos últimos 30 dias; 2 com "alta prevista vencida"; 3 com alta prevista para hoje
-- [ ] Atendimentos: ~12 abertos em todos os status e cores (1 vermelho aguardando, 2 acima do tempo-alvo, 1 aguardando leito há mais de 4 h, 2 em observação) + encerrados dos últimos 7 dias
-- [ ] 1 solicitação reservada e 1 pendente
-- [ ] Medicamentos (~45, com 4 controlados) e lotes (~110): **3 com estoque baixo** (igual ao Painel atual), 1 zerado, 5 vencendo em 60 dias e 2 lotes vencidos
-- [ ] Movimentações e dispensações dos últimos 30 dias
-- [ ] Resumos mensais dos últimos 12 meses (valores próximos dos atuais do gráfico)
-- [ ] Teste: semeadura sobre uma instalação 1.1.0 já existente (pacientes alterados, 1 excluído, 1 médico inativo), sem referências quebradas (RS-15)
+- [x] `semearPacientes` ampliado para ~120 (90 gerados: nomes brasileiros, CPFs válidos, ~10% menores, ~15% com alergias, incluindo "Penicilina", "Dipirona" e "AINEs" para demonstrar A10)
+- [x] Leitos (130) com a distribuição da tabela; ocupação do dia 0 = 22/50/14 (igual ao Painel atual)
+- [x] Internações ativas (86) e encerradas dos últimos 30 dias; 2 com "alta prevista vencida"; 3 com alta prevista para hoje
+- [x] Atendimentos: ~12 abertos em todos os status e cores (1 vermelho aguardando, 2 acima do tempo-alvo, 1 aguardando leito há mais de 4 h, 2 em observação) + encerrados dos últimos 7 dias
+- [x] 1 solicitação reservada e 1 pendente
+- [x] Medicamentos (~45, com 4 controlados) e lotes (~110): **3 com estoque baixo** (igual ao Painel atual), 1 zerado, 5 vencendo em 60 dias e 2 lotes vencidos
+- [x] Movimentações e dispensações dos últimos 30 dias
+- [x] Resumos mensais dos últimos 12 meses (valores próximos dos atuais do gráfico)
+- [x] Teste: semeadura sobre uma instalação 1.1.0 já existente (pacientes alterados, 1 excluído, 1 médico inativo), sem referências quebradas (RS-15)
 
 ### 15.9 Hooks
-- [ ] `useRelogio(intervalo)`, com a troca do "hoje" na virada do dia
-- [ ] `useDadosLeitos`, `useDadosEmergencia`, `useDadosFarmacia` sobre `useColecao`, com as coleções certas para recarregar
+- [x] `useRelogio(intervalo)`, com a troca do "hoje" na virada do dia
+- [x] `useDadosLeitos`, `useDadosEmergencia`, `useDadosFarmacia` sobre `useColecao`, com as coleções certas para recarregar
 
 ### 15.10 Invariantes (M15)
-- [ ] `utils/consistencia.ts` com INV-1 a INV-10 (A17)
-- [ ] Ajudante de teste que confere as invariantes depois de cada operação de serviço
-- [ ] Teste de 500 operações aleatórias com semente fixa e relógio avançando
-- [ ] Verificação ao abrir o sistema em desenvolvimento (console)
+- [x] `utils/consistencia.ts` com INV-1 a INV-10 (A17)
+- [x] Ajudante de teste que confere as invariantes depois de cada operação de serviço
+- [x] Teste de 500 operações aleatórias com semente fixa e relógio avançando
+- [x] Verificação ao abrir o sistema em desenvolvimento (console)
 
 ### ✅ Critérios de conclusão — Fase 15
-- [ ] Invariantes sem violação nos testes, inclusive no de operações aleatórias
-- [ ] Todos os serviços e algoritmos testados: `services/` ≥ 85% e `utils/` ≥ 90%
-- [ ] As regras R-X impedem inativar ou excluir com pendências nos módulos novos
-- [ ] Dados de exemplo coerentes: o Painel continua mostrando 72% de ocupação e 3 medicamentos com estoque baixo (por enquanto ainda pela fonte simulada; ligar é a Fase 20)
-- [ ] Pacote inicial sem crescimento (os módulos ainda não são importados pelo Painel)
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida
+- [x] Invariantes sem violação nos testes, inclusive no de operações aleatórias
+- [x] Todos os serviços e algoritmos testados: `services/` ≥ 85% e `utils/` ≥ 90%
+- [x] As regras R-X impedem inativar ou excluir com pendências nos módulos novos
+- [x] Dados de exemplo coerentes: o Painel continua mostrando 72% de ocupação e 3 medicamentos com estoque baixo (por enquanto ainda pela fonte simulada; ligar é a Fase 20)
+- [x] Pacote inicial sem código dos módulos (marcadores 0). Cresceu 3,3 kB (149,0 kB) com o gerador dos pacientes extras e os textos de atividades e pendências, justificado no `docs/PR_FASE_15.md` (abaixo do limite de 5 kB da Definição de pronto)
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida
 
 ---
 
@@ -2336,4 +2337,5 @@ A definição de pronto do plano de cadastros continua valendo. Acrescente:
 | 28/10/2026 | **Revisão 2:** 20 melhorias (M15–M34), com destaque para invariantes, correções com janela de tempo, óbito, prazo da triagem, sinais vitais por idade, processos com roteiro único e matriz de ações por estado. Novas decisões D18–D20; novos processos L8, L9, E9, E10, F8, F9; A7 revisto e A17 novo; E-18; RS-17 e RS-18; estimativa 17–20 dias | |
 | 28/10/2026 | **Plano de execução** criado (`PLANO_EXECUCAO_OPERACOES.md`, 529 tarefas). Ajustes de consistência nesta especificação: tabelas de serviços e testes com L1–L9, E1–E10 e F1–F9; "prazo" no lugar de "tempo-alvo" na fila e no atendimento; transações das correções e do óbito; tempos-alvo e limites em `config/limites.ts`; tela e cenários e2e 9 e 10 na estrutura de pastas; captura de referência do Painel | |
 | 28/10/2026 | **Decisões D8–D20 aprovadas** pelo usuário, todas como recomendadas. A D18 (faixas de alerta de sinais vitais por idade) conta como validada: `SINALIZACAO_PEDIATRICA_ATIVA` fica ligada. Nenhuma seção da especificação precisou mudar (0.1.3). Da leitura da Etapa 0: A8 passa a tirar o dia da própria chegada (chegada retroativa) e a matriz ganhou a nota sobre dispensar a partir de atendimento provisório | Usuário |
+| 28/10/2026 | **Fase 15 concluída** (fundação, sem telas). 557 testes Vitest e 66 Playwright verdes; `services/` 97,5% e `utils/` 97,8%; pacote inicial 149,0 kB (+3,3 kB, justificado). Ajustes nesta especificação: INV-1 conta atendimento **aberto** com leito de observação; `ESQUEMA_ATUAL` = 2 pela migração dos pacientes extras. Desvios de implementação (registro arquivado como flag, hooks num arquivo, busca do mapa pelos dois nomes) estão no Diário do plano de execução e no `docs/PR_FASE_15.md` | |
 | | | |

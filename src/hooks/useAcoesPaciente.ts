@@ -1,9 +1,12 @@
+import { createElement } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ListaPendencias } from '../components/ui/ListaPendencias';
 import { t } from '../i18n/pt-BR';
 import {
   consultasFuturasDoPaciente,
   excluirPaciente,
   inativarPaciente,
+  pendenciasDoPaciente,
   reativarPaciente,
 } from '../services/pacientes';
 import { useConfirmar, usePerguntar } from './useConfirmar';
@@ -30,6 +33,21 @@ export function useAcoesPaciente() {
   /** P3: mostra quantas consultas futuras serão canceladas e pede um motivo opcional. */
   async function inativar(alvo: PacienteAlvo): Promise<boolean> {
     try {
+      // R-X2: com internação ativa ou atendimento aberto, mostra as pendências e não inativa.
+      const pendencias = await pendenciasDoPaciente(alvo.id);
+      if (pendencias.length > 0) {
+        await confirmar({
+          titulo: p.inativarTitulo(alvo.nomeExibicao),
+          mensagem: createElement(
+            'div',
+            null,
+            t.operacoes.pendenciasInativarPaciente(pendencias.length),
+            createElement(ListaPendencias, { itens: pendencias }),
+          ),
+          rotuloConfirmar: t.operacoes.entendi,
+        });
+        return false;
+      }
       const futuras = await consultasFuturasDoPaciente(alvo.id);
       const { confirmado, texto } = await perguntar({
         titulo: p.inativarTitulo(alvo.nomeExibicao),

@@ -86,3 +86,34 @@ export const horaHHmm = z
 
 /** Identificador obrigatório de uma seleção (paciente, médico, departamento). */
 export const idSelecionado = z.string({ error: v.selecione }).min(1, v.selecione);
+
+// ───────────────────────── Módulos operacionais (Fase 15) ─────────────────────────
+
+/** Instante ISO 8601 (data e hora). */
+export const instanteIso = z
+  .string({ error: v.instanteInvalido })
+  .refine((s) => s.length > 0 && !Number.isNaN(new Date(s).getTime()), v.instanteInvalido);
+
+/** Número opcional: '' , null e NaN contam como "não informado". */
+export const numeroOpcional = (min: number, max: number, mensagem: string) =>
+  z.preprocess(
+    (x) => (x === '' || x === null || (typeof x === 'number' && Number.isNaN(x)) ? undefined : x),
+    z.coerce.number({ error: mensagem }).min(min, mensagem).max(max, mensagem).optional(),
+  );
+
+/** Inteiro > 0 (quantidades na farmácia, D11). */
+export const inteiroPositivo = z.coerce
+  .number({ error: v.inteiroPositivo })
+  .int(v.inteiroPositivo)
+  .min(1, v.inteiroPositivo);
+
+export const inteiroNaoNegativo = z.coerce
+  .number({ error: v.inteiroNaoNegativo })
+  .int(v.inteiroNaoNegativo)
+  .min(0, v.inteiroNaoNegativo);
+
+/** Motivo obrigatório (5–200 caracteres, padrão das ações de correção e bloqueio). */
+export const motivo = textoObrigatorio(5, 200);
+
+/** Justificativa de exceção (10–300 caracteres). */
+export const justificativa = textoObrigatorio(10, 300);

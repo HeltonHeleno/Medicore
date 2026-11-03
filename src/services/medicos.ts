@@ -216,9 +216,13 @@ export const atualizarMedico = async (
   );
 };
 
-/** P8 / R-M2: bloqueado enquanto houver consultas futuras agendadas. */
-export const inativarMedico = (id: string, motivo?: string): Promise<Medico> =>
-  executar(() =>
+/**
+ * P8 / R-M2 / R-X4: bloqueado enquanto houver consultas futuras agendadas, internações ativas
+ * sob responsabilidade do médico ou atendimentos abertos com ele.
+ */
+export const inativarMedico = async (id: string, motivo?: string): Promise<Medico> => {
+  const { pendenciasMedico } = await import('./pendencias-modulos');
+  return executar(() =>
     transacao(() => {
       const medico = obterOuFalhar(id);
       if (!medico.ativo) return medico;
@@ -228,6 +232,14 @@ export const inativarMedico = (id: string, motivo?: string): Promise<Medico> =>
           detalhes: { consultas: futuras.map((c) => c.id) },
         });
       }
+      const pendencias = pendenciasMedico(id);
+      if (pendencias.length > 0) {
+        throw new ErroConflito(
+          'pendencias_modulos',
+          t.operacoes.pendenciasInativarMedico(pendencias.length),
+          { detalhes: { itens: pendencias } },
+        );
+      }
       return repoMedicos.atualizar(id, {
         ativo: false,
         inativadoEm: agora().toISOString(),
@@ -235,6 +247,7 @@ export const inativarMedico = (id: string, motivo?: string): Promise<Medico> =>
       });
     }),
   );
+};
 
 export const reativarMedico = (id: string): Promise<Medico> =>
   executar(() =>
@@ -247,3 +260,9 @@ export const reativarMedico = (id: string): Promise<Medico> =>
       });
     }),
   );
+
+/** R-X4: pendências nos módulos (para o diálogo de inativação). */
+export const pendenciasDoMedico = async (id: string) => {
+  const { pendenciasMedico } = await import('./pendencias-modulos');
+  return executar(() => pendenciasMedico(id));
+};

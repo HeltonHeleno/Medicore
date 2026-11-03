@@ -34,3 +34,80 @@ export const LIMITE_ARMAZENAMENTO_BYTES = 5 * 1024 * 1024;
 
 /** Fração do limite a partir da qual o usuário é avisado. */
 export const ALERTA_ARMAZENAMENTO = 0.8;
+
+// ───────────────────────── Módulos operacionais (Fase 15) ─────────────────────────
+
+/** R-E3: tempo-alvo até o atendimento médico, por cor (minutos). */
+export const TEMPO_ALVO_MIN = {
+  vermelho: 0,
+  laranja: 10,
+  amarelo: 60,
+  verde: 120,
+  azul: 240,
+} as const;
+
+/** R-L9: reserva de leito em destaque depois deste tempo (horas). */
+export const RESERVA_DESTAQUE_H = 2;
+/** R-L13 / L4: tempo de referência da higienização (minutos). Passou do dobro: alerta. */
+export const HIGIENIZACAO_REF_MIN = { terminal: 60, isolamento: 90 } as const;
+/** A12: aguardando leito há mais deste tempo gera alerta (horas). */
+export const AGUARDANDO_LEITO_ALERTA_H = 4;
+/** R-E13: aguardando triagem há mais deste tempo gera alerta (minutos). */
+export const SEM_TRIAGEM_ALERTA_MIN = 15;
+/** R-E13: em observação há mais deste tempo gera alerta (horas). */
+export const OBSERVACAO_ALERTA_H = 24;
+/** R-E11: evasão só depois deste tempo sem resposta (minutos). */
+export const EVASAO_MIN = 30;
+/** R-F6: lote "vencendo" quando a validade está a até N dias. */
+export const VENCENDO_DIAS = 60;
+/** R-F2: validade curta na entrada (aviso, não erro). */
+export const VALIDADE_CURTA_DIAS = 30;
+/** A12: ocupação da UTI a partir da qual há alerta (%). */
+export const UTI_ALERTA_OCUPACAO = 90;
+/** L1: início da internação pode ser retroativo até N horas. */
+export const INTERNACAO_RETROATIVA_H = 24;
+/** E1: chegada pode ser registrada até N horas depois. */
+export const CHEGADA_RETROATIVA_H = 2;
+/** L9: data prevista da internação eletiva até N dias à frente. */
+export const ELETIVA_MAX_DIAS = 30;
+/** F3: itens por dispensação. */
+export const MAX_ITENS_DISPENSACAO = 10;
+/** R-F14: quantidade por item acima da qual há confirmação. */
+export const LIMITE_CONFIRMACAO_QUANTIDADE = 60;
+/** E8 / A13: janela da espera média por cor (horas). */
+export const JANELA_ESPERA_MEDIA_H = 24;
+
+/** D19: janelas de correção (horas). */
+export const JANELAS_CORRECAO_H = {
+  alta: 6,
+  atendimento: 2,
+  dispensacao: 24,
+} as const;
+
+/**
+ * D15: retenção (dias) e teto por coleção. Itens mais antigos são somados nos resumos
+ * mensais e removidos (A15); os ainda referenciados viram registros arquivados.
+ */
+export const RETENCAO_DIAS = {
+  internacoes: 30,
+  solicitacoes_leito: 7,
+  atendimentos: 7,
+  /** Lotes zerados há mais de N dias saem. */
+  lotes: 90,
+  movimentacoes: 60,
+  dispensacoes: 30,
+  /** Meses. */
+  resumos_mensais: 24,
+} as const;
+
+export const TETO_COLECAO = {
+  leitos: 130,
+  internacoes: 600,
+  solicitacoes_leito: 200,
+  atendimentos: 400,
+  medicamentos: 500,
+  lotes: 1000,
+  movimentacoes: 3000,
+  dispensacoes: 1000,
+  resumos_mensais: 24,
+} as const;

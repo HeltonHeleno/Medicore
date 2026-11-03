@@ -7,9 +7,11 @@
  *    transforme e grave as novas.
  * As migrações rodam em ordem, uma única vez, antes de qualquer coleção ser carregada.
  */
+import { gerarPacientesExtras } from '../data/seeds/pacientes-extras';
+import type { Paciente } from '../types';
 import { agora } from '../utils/relogio';
 
-export const ESQUEMA_ATUAL = 1;
+export const ESQUEMA_ATUAL = 2;
 
 export interface AcessoStorage {
   ler: (chave: string) => string | null;
@@ -23,12 +25,43 @@ export interface Migracao {
   executar: (acesso: AcessoStorage) => void;
 }
 
-/** Nenhuma migração ainda: a v1 é o formato inicial. */
-export const MIGRACOES: Migracao[] = [];
+/**
+ * v2 (Fase 15, D13 / A16): acrescenta à instalação 1.1.0 os 90 pacientes de exemplo extras,
+ * para que os módulos de leitos e emergência tenham pacientes suficientes. Não muda nenhum
+ * formato; só soma os que faltam (pelo id), sem repetir CPF. Fica numa migração para rodar
+ * antes de qualquer coleção ser carregada (e não no meio da semeadura de outra coleção).
+ */
+export const migracaoPacientesExtras: Migracao = {
+  para: 2,
+  executar(acesso) {
+    const chave = 'medicore:pacientes:v1';
+    const bruto = acesso.ler(chave);
+    if (bruto === null) return; // ainda não semeado: a semente já inclui os extras
+    let lista: Paciente[];
+    try {
+      lista = JSON.parse(bruto) as Paciente[];
+      if (!Array.isArray(lista)) return;
+    } catch {
+      return; // ilegível: o repositório trata (E-07)
+    }
+    const ids = new Set(lista.map((p) => p.id));
+    const usados = new Set(
+      lista.flatMap((p) => [p.cpf, ...(p.responsavel ? [p.responsavel.cpf] : [])]),
+    );
+    const extras = gerarPacientesExtras(usados, agora().toISOString()).filter(
+      (p) => !ids.has(p.id),
+    );
+    if (extras.length > 0) acesso.gravar(chave, JSON.stringify([...lista, ...extras]));
+  },
+};
+
+export const MIGRACOES: Migracao[] = [migracaoPacientesExtras];
 
 interface Meta {
   esquema: number;
   semeadoEm: string;
+  /** Outros campos (ex.: `retencaoEm`) são mantidos. */
+  [campo: string]: unknown;
 }
 
 function lerMeta(acesso: AcessoStorage): Meta | null {
@@ -57,7 +90,11 @@ export function executarMigracoes(
   try {
     acesso.gravar(
       acesso.chaveMeta,
-      JSON.stringify({ esquema: versao, semeadoEm: meta?.semeadoEm ?? agora().toISOString() }),
+      JSON.stringify({
+        ...meta,
+        esquema: versao,
+        semeadoEm: meta?.semeadoEm ?? agora().toISOString(),
+      }),
     );
   } catch {
     /* sem storage: segue em memória */
