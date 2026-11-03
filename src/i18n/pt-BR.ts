@@ -1020,6 +1020,14 @@ export const t = {
     textoExclusao: 'EXCLUIR',
   },
 
+  /** Títulos e breadcrumbs das rotas da emergência (o roteador fica no pacote inicial). */
+  rotasEmergencia: {
+    chegada: 'Registrar chegada',
+    historico: 'Histórico',
+    atendimento: 'Atendimento',
+    triagem: 'Triagem',
+  },
+
   /** Títulos e breadcrumbs das rotas de leitos (o roteador fica no pacote inicial). */
   rotasLeitos: {
     internar: 'Internar paciente',

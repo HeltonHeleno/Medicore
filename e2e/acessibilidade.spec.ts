@@ -30,6 +30,13 @@ const ROTAS = [
   '/leitos/internacoes/int-1/editar',
   '/leitos/lei-uti-01',
   '/leitos/internacoes/nao-existe',
+  '/emergencia?aba=alertas',
+  '/emergencia?mostrar=laranja',
+  '/emergencia/chegada',
+  '/emergencia/historico',
+  '/emergencia/ate-1',
+  '/emergencia/ate-1/triagem',
+  '/emergencia/nao-existe',
   '/emergencia',
   '/farmacia',
   '/analises',
@@ -100,9 +107,37 @@ for (const tema of ['claro', 'escuro'] as const) {
       await semViolacoes(page);
     });
 
+    test('axe: diálogo de desfecho e triagem com alerta (18.9.3)', async ({ page }) => {
+      await page.goto('/');
+      await expect(page.locator('main h1').first()).toBeVisible();
+      const id = await page.evaluate(
+        () =>
+          JSON.parse(localStorage.getItem('medicore:atendimentos:v1') ?? '[]').find(
+            (a: { status: string }) => a.status === 'em_atendimento',
+          ).id as string,
+      );
+      await page.goto(`/emergencia/${id}`);
+      await page.getByRole('button', { name: 'Encerrar atendimento' }).click();
+      await expect(page.getByRole('dialog', { name: /^Encerrar E-/ })).toBeVisible();
+      await semViolacoes(page);
+      await page.keyboard.press('Escape');
+      await page.goto('/emergencia/ate-1/triagem');
+      await page.getByRole('textbox', { name: /Saturação de O₂/ }).fill('85');
+      await expect(page.getByText(/Atenção: abaixo de/)).toBeVisible();
+      await page.getByRole('radio', { name: /^Laranja/ }).check();
+      await semViolacoes(page);
+    });
+
     test('axe: celular (375px) no Painel, na lista e na agenda', async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 800 });
-      for (const rota of ['/', '/pacientes', '/consultas', '/leitos']) {
+      for (const rota of [
+        '/',
+        '/pacientes',
+        '/consultas',
+        '/leitos',
+        '/emergencia',
+        '/emergencia/ate-1',
+      ]) {
         await page.goto(rota);
         await semViolacoes(page);
         const largura = await page.evaluate(() => document.documentElement.scrollWidth);

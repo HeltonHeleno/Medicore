@@ -14,6 +14,7 @@ import {
   ResumoPaciente,
   type OpcaoPaciente,
 } from '../../components/pacientes/ComboboxPaciente';
+import { opcaoDoPaciente } from '../../components/pacientes/opcao-paciente';
 import { Button } from '../../components/ui/Button';
 import { BarraAcoesFormulario } from '../../components/ui/form/BarraAcoesFormulario';
 import { Campo } from '../../components/ui/form/Campo';
@@ -48,11 +49,7 @@ import {
   obterSolicitacao,
 } from '../../services/leitos';
 import { nomeExibicaoMedico } from '../../services/medicos';
-import {
-  consultasFuturasDoPaciente,
-  nomeExibicaoPaciente,
-  obterPaciente,
-} from '../../services/pacientes';
+import { consultasFuturasDoPaciente, obterPaciente } from '../../services/pacientes';
 import type { Precaucao, SetorId, SetorInternacaoId, SolicitacaoDetalhada } from '../../types';
 import {
   dataDoInstante,
@@ -61,7 +58,6 @@ import {
   paraCampoDataHora,
   somarDias,
 } from '../../utils/datas';
-import { ocultarCpf } from '../../utils/mascaras';
 import { agora } from '../../utils/relogio';
 
 const i = tl.internar;
@@ -99,15 +95,6 @@ const vazio = (): EntradaInternacao => ({
   previsaoAlta: '',
   justificativa: '',
 });
-
-async function opcaoDoPaciente(id: string): Promise<OpcaoPaciente | null> {
-  try {
-    const p = await obterPaciente(id);
-    return { id: p.id, nomeExibicao: nomeExibicaoPaciente(p), cpfMascarado: ocultarCpf(p.cpf) };
-  } catch {
-    return null;
-  }
-}
 
 /** Monta os valores iniciais a partir de `?pacienteId=`, `?leitoId=`, `?solicitacaoId=` ou `?deInternacao=`. */
 async function carregarInicial(params: URLSearchParams): Promise<Inicial> {

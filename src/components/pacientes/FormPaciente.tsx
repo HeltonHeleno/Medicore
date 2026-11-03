@@ -79,6 +79,8 @@ interface FormPacienteProps {
   topo?: ReactNode;
   /** Acesso ao `reset` do formulário (recarregar após conflito de versão). */
   aoPronto?: (api: { reset: (valores: ValoresPaciente) => void }) => void;
+  /** Sexo já conhecido no cadastro novo (ex.: vindo da identificação provisória, E7). */
+  sexoInicial?: ValoresPaciente['sexo'];
 }
 
 /** Formulário de paciente (P1 e P2), com todas as regras de tela da especificação. */
@@ -88,6 +90,7 @@ export function FormPaciente({
   aoCancelar,
   topo,
   aoPronto,
+  sexoInicial,
 }: FormPacienteProps) {
   const editando = Boolean(paciente);
   const [cpfExistente, setCpfExistente] = useState<{ id: string; nomeExibicao: string } | null>(
@@ -98,7 +101,10 @@ export function FormPaciente({
 
   const { form, enviar, enviando, resumo, tentativa } = useFormularioEntidade({
     esquema: esquemaPaciente as unknown as z.ZodType<DadosPaciente, ValoresPaciente>,
-    valoresIniciais: valoresDoPaciente(paciente),
+    valoresIniciais: {
+      ...valoresDoPaciente(paciente),
+      ...(!paciente && sexoInicial ? { sexo: sexoInicial } : {}),
+    },
     aoEnviar,
     rotulos: ROTULOS,
     aoErroServico: (erro) => {

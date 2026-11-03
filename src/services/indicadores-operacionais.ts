@@ -509,6 +509,10 @@ export const obterIndicadoresLeitos = (): Promise<IndicadoresLeitos> =>
     ),
   );
 
+/** Só os indicadores da emergência (resumo da fila, 18.2). */
+export const obterIndicadoresEmergencia = (): Promise<IndicadoresEmergencia> =>
+  executar(() => calcularIndicadoresEmergencia(repoAtendimentos.todos(), agora()));
+
 export const listarAlertas = (): Promise<AlertaOperacional[]> =>
   executar(() =>
     calcularAlertas(
