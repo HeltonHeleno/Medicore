@@ -18,6 +18,7 @@ import type {
   AtendimentoDetalhado,
   FilaEmergencia,
   FiltrosHistoricoEmergencia,
+  LeitoAvaliado,
   Medico,
   Paginado,
   StatusAtendimento,
@@ -25,7 +26,7 @@ import type {
 } from '../types';
 import { autorAtual } from '../utils/autor';
 import { paginar } from '../utils/busca';
-import { perfilDoPaciente } from '../utils/compatibilidade-leito';
+import { avaliarLeitos, perfilDoPaciente } from '../utils/compatibilidade-leito';
 import { dataDoInstante, idade } from '../utils/datas';
 import { acimaDoPrazo, calcularPrazo, numeroAtendimento, ordenarFila } from '../utils/fila';
 import { gerarId } from '../utils/id';
@@ -601,6 +602,27 @@ export const vincularPaciente = (
       });
     }),
   );
+
+/**
+ * E4: leitos do setor Observação avaliados para o atendimento (perfil pela idade do
+ * cadastro ou pela aproximada; sem idade, adulto). Serve também para escolher outro leito
+ * ao reabrir (E9), quando o original foi ocupado.
+ */
+export const leitosParaObservacao = (id: string): Promise<LeitoAvaliado[]> =>
+  executar(() => {
+    const a = obterOu(repoAtendimentos.obter(id), t.erros.atendimentoNaoEncontrado);
+    const p = a.pacienteId ? repoPacientes.obter(a.pacienteId) : undefined;
+    const anos = p ? idade(p.dataNascimento) : a.provisorio?.idadeAproximada;
+    const obs = repoLeitos.todos().filter((l) => l.setorId === 'observacao');
+    // O leito que já é dele (retomado) conta como livre.
+    const comoLivre = obs.map((l) =>
+      l.status === 'ocupado' && l.atendimentoId === a.id ? { ...l, status: 'livre' as const } : l,
+    );
+    return avaliarLeitos(comoLivre, {
+      perfil: anos === undefined ? 'adulto' : perfilDoPaciente(anos),
+      precaucao: 'padrao',
+    }).map((x) => ({ ...x, leito: obs.find((l) => l.id === x.leito.id)! }));
+  });
 
 /** R-E7: médicos ativos para chamar, os da Emergência primeiro. */
 export const medicosParaChamar = (): Promise<Medico[]> =>

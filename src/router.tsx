@@ -175,8 +175,48 @@ const rotasLeitos: RouteObject = {
   ],
 };
 
+/** Emergência (Fase 18): fila, chegada, histórico, atendimento e triagem. */
+const re = t.rotasEmergencia;
+const rotasEmergencia: RouteObject = {
+  path: 'emergencia',
+  handle: handle(t.menu.emergencia),
+  children: [
+    {
+      index: true,
+      lazy: pagina(() => import('./pages/emergencia/Fila')),
+      handle: { titulo: t.menu.emergencia },
+    },
+    {
+      path: 'chegada',
+      lazy: pagina(() => import('./pages/emergencia/RegistrarChegada')),
+      handle: handle(re.chegada),
+    },
+    {
+      path: 'historico',
+      lazy: pagina(() => import('./pages/emergencia/Historico')),
+      handle: handle(re.historico),
+    },
+    {
+      path: ':id',
+      handle: handle(re.atendimento),
+      children: [
+        {
+          index: true,
+          lazy: pagina(() => import('./pages/emergencia/DetalheAtendimento')),
+          handle: { titulo: re.atendimento },
+        },
+        {
+          path: 'triagem',
+          lazy: pagina(() => import('./pages/emergencia/Triagem')),
+          handle: handle(re.triagem),
+        },
+      ],
+    },
+  ],
+};
+
 /** Itens do menu que já têm telas próprias (os demais usam o Placeholder). */
-const COM_TELA = new Set(['/', '/pacientes', '/medicos', '/consultas', '/leitos']);
+const COM_TELA = new Set(['/', '/pacientes', '/medicos', '/consultas', '/leitos', '/emergencia']);
 
 /**
  * Árvore de rotas da aplicação.
@@ -202,6 +242,7 @@ export function criarRotas(rotasExtras: RouteObject[] = []): RouteObject[] {
             rotasMedicos,
             rotasConsultas,
             rotasLeitos,
+            rotasEmergencia,
             ...itensNavegacao
               .filter((item) => !COM_TELA.has(item.caminho))
               .map<RouteObject>((item) => ({

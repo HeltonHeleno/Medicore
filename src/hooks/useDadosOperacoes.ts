@@ -3,7 +3,11 @@
  * dependem mudam (nesta aba ou em outra, M6). Importados só pelas páginas dos módulos.
  */
 import { COLECOES } from '../services/colecoes-operacoes';
-import { obterIndicadoresLeitos } from '../services/indicadores-operacionais';
+import {
+  listarAlertas,
+  obterIndicadoresEmergencia,
+  obterIndicadoresLeitos,
+} from '../services/indicadores-operacionais';
 import { listarFila, obterAtendimento, listarHistorico } from '../services/emergencia';
 import {
   listarEstoque,
@@ -59,6 +63,11 @@ export const useAtendimento = (id: string) =>
   useColecao(() => obterAtendimento(id), [id], EMERGENCIA);
 export const useHistoricoEmergencia = (filtros: FiltrosHistoricoEmergencia) =>
   useColecao(() => listarHistorico(filtros), [JSON.stringify(filtros)], EMERGENCIA);
+export const useIndicadoresEmergencia = () =>
+  useColecao(() => obterIndicadoresEmergencia(), [], EMERGENCIA);
+/** Alertas dependem de leitos, pedidos e atendimentos. */
+export const useAlertas = () =>
+  useColecao(() => listarAlertas(), [], [...new Set([...LEITOS, ...EMERGENCIA])]);
 
 // Farmácia
 export const useEstoque = (filtros: FiltrosEstoque) =>

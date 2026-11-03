@@ -186,3 +186,43 @@ test('grade de leitos: Tab segue a ordem visual (link do leito, menu, ação rá
     visitados.join(' | '),
   ).toBe(true);
 });
+
+test('fila da emergência: Tab percorre nome, ações e o próximo atendimento (18.9.4)', async ({
+  page,
+}) => {
+  await page.goto('/emergencia?mostrar=aguardandoAtendimento');
+  const grupo = page.getByRole('region', { name: /^Aguardando atendimento/ });
+  const primeiro = grupo.getByRole('listitem').first();
+  const numero = (await primeiro.locator('.font-mono').textContent())!.trim();
+  await primeiro.getByRole('link').first().focus();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('button', { name: `Chamar ${numero}` })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: `Ver ${numero}` })).toBeFocused();
+  // Enter no "Chamar" abre o diálogo; Esc fecha e devolve o foco.
+  await page.keyboard.press('Shift+Tab');
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('dialog', { name: `Chamar ${numero}` })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: `Chamar ${numero}` })).toBeFocused();
+});
+
+test('triagem só com teclado: sinais vitais e cor por setas (18.9.4)', async ({ page }) => {
+  await page.goto('/emergencia/ate-1/triagem');
+  const pas = page.getByRole('textbox', { name: /Pressão sistólica/ });
+  await pas.focus();
+  await page.keyboard.type('120');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('textbox', { name: /Pressão diastólica/ })).toBeFocused();
+  await page.keyboard.type('80');
+  await page.keyboard.press('Tab');
+  await page.keyboard.type('150');
+  await expect(page.getByText(/Atenção: acima de/)).toBeVisible();
+  const vermelho = page.getByRole('radio', { name: /^Vermelho/ });
+  await vermelho.focus();
+  await page.keyboard.press('Space');
+  await expect(vermelho).toBeChecked();
+  await page.keyboard.press('ArrowDown');
+  await expect(page.getByRole('radio', { name: /^Laranja/ })).toBeChecked();
+  await expect(page.getByText(/^Prazo para o atendimento médico: até/)).toBeVisible();
+});
