@@ -146,4 +146,49 @@ export const tl = {
       ),
     registroArquivado: 'Registro arquivado',
   },
+
+  /** Cartão do leito no mapa (16.7). */
+  cartao: {
+    /** Nome acessível do link: "UTI-03, em higienização há 40 min". */
+    nome: (codigo: string, situacao: string, detalhe?: string) =>
+      [codigo, situacao, detalhe].filter(Boolean).join(', '),
+    ha: (tempo: string) => `há ${tempo}`,
+    alergia: 'Alergia',
+    alergiaLeitor: 'com alergia registrada',
+    precaucao: (p: string) => `Precaução: ${p}`,
+    reservadoPara: (nome: string) => `Reservado para ${nome}`,
+    pacienteLeitor: (nome: string, idade?: number) =>
+      idade === undefined ? nome : `${nome}, ${idade} anos`,
+    concluir: 'Concluir',
+    concluirLeitor: (codigo: string) => `Concluir higienização do leito ${codigo}`,
+    internar: 'Internar',
+    internarLeitor: (codigo: string) => `Internar no leito ${codigo}`,
+    verDetalhe: 'Ver detalhe do leito',
+    bloquear: 'Bloquear',
+    desbloquear: 'Desbloquear',
+    transferir: 'Transferir',
+    darAlta: 'Dar alta',
+    cancelarReserva: 'Cancelar reserva',
+  },
+
+  /** Destaques de tempo (R-L9, R-L13, R-L14). */
+  destaques: {
+    higienizacaoDestaque: 'Acima do tempo de referência',
+    higienizacaoAlerta: 'Higienização atrasada',
+    reservaLonga: 'Reserva há mais de 2 h',
+  },
+
+  /** Seletor de leito (16.8, A11). */
+  seletor: {
+    rotulo: 'Leito',
+    sugerido: 'Sugerido',
+    livres: (n: number) => plural(n, '1 leito compatível', `${n} leitos compatíveis`),
+    usarMesmoAssim: 'Usar mesmo assim (leito de perfil ou isolamento diferente)',
+    usarMesmoAssimDica: 'Mostra os leitos livres que só não combinam por perfil ou isolamento.',
+    justificativa: 'Justificativa da exceção',
+    justificativaDica: 'De 10 a 300 caracteres. Fica registrada no histórico da internação.',
+    nenhumCompativel: 'Nenhum leito livre compatível com o paciente.',
+    excecao: 'Exceção',
+    opcaoLeitor: (codigo: string, extras: string[]) => [codigo, ...extras].join(', '),
+  },
 };

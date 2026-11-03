@@ -13,6 +13,7 @@ import { VitrineDados } from './vitrine/VitrineDados';
 import { VitrineFeedback } from './vitrine/VitrineFeedback';
 import { VitrineFormularios } from './vitrine/VitrineFormularios';
 import { VitrineListagem } from './vitrine/VitrineListagem';
+import { VitrineOperacoes } from './vitrine/VitrineOperacoes';
 
 function Grupo({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
@@ -113,6 +114,7 @@ export default function UiShowcase() {
       <VitrineFormularios />
       <VitrineListagem />
       <VitrineFeedback />
+      <VitrineOperacoes />
     </div>
   );
 }

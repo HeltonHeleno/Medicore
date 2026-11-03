@@ -13,7 +13,7 @@ import { proximoDiaDisponivel } from '../../services/consultas';
 import { ErroConflito } from '../../services/erros';
 import { listarMedicos, nomeExibicaoMedico, obterMedico } from '../../services/medicos';
 import { listarPacientes, obterPaciente, nomeExibicaoPaciente } from '../../services/pacientes';
-import type { ConsultaDetalhada, PacienteResumo } from '../../types';
+import type { ConsultaDetalhada } from '../../types';
 import { atendeNoDia } from '../../utils/agenda';
 import {
   dataValida,
@@ -21,18 +21,20 @@ import {
   formatarDataCurta,
   hojeNoFuso,
   horaDoInstante,
-  idade,
   dataDoInstante,
   somarDias,
 } from '../../utils/datas';
 import { ocultarCpf } from '../../utils/mascaras';
 import { agora } from '../../utils/relogio';
-import { AlertaAlergias } from '../pacientes/AlertaAlergias';
+import {
+  ComboboxPaciente,
+  ResumoPaciente,
+  type OpcaoPaciente,
+} from '../pacientes/ComboboxPaciente';
 import { Button } from '../ui/Button';
 import { EmptyState } from '../ui/EmptyState';
 import { BarraAcoesFormulario } from '../ui/form/BarraAcoesFormulario';
 import { Campo } from '../ui/form/Campo';
-import { Combobox } from '../ui/form/Combobox';
 import { Input } from '../ui/form/Input';
 import { ResumoErros } from '../ui/form/ResumoErros';
 import { SecaoFormulario } from '../ui/form/SecaoFormulario';
@@ -45,8 +47,6 @@ const a = t.agenda;
 const c = a.campos;
 const TRINTA_DIAS = 30 * 86_400_000;
 
-type OpcaoPaciente = Pick<PacienteResumo, 'id' | 'nomeExibicao' | 'cpfMascarado'>;
-
 const ROTULOS: Record<string, string> = {
   pacienteId: c.paciente,
   medicoId: c.medico,
@@ -56,9 +56,6 @@ const ROTULOS: Record<string, string> = {
   tipo: c.tipo,
   motivo: c.motivo,
 };
-
-const buscarPacientes = (termo: string): Promise<OpcaoPaciente[]> =>
-  listarPacientes({ busca: termo, status: 'ativos', porPagina: 10 }).then((r) => r.itens);
 
 interface FormConsultaProps {
   /** Consulta em reagendamento (P10). Ausente = agendamento novo (P9). */
@@ -288,44 +285,21 @@ export function FormConsulta({ consulta, inicial = {}, aoSalvar, aoCancelar }: F
               control={control}
               name="pacienteId"
               render={({ field }) => (
-                <Combobox
+                <ComboboxPaciente
                   ref={field.ref}
                   name={field.name}
-                  buscar={buscarPacientes}
                   valor={paciente}
                   aoMudar={(p) => {
                     setPaciente(p);
                     field.onChange(p?.id ?? '');
                   }}
                   aoSair={field.onBlur}
-                  paraTexto={(p) => p.nomeExibicao}
-                  chave={(p) => p.id}
-                  renderizarOpcao={(p) => (
-                    <span className="flex justify-between gap-3">
-                      <span>{p.nomeExibicao}</span>
-                      <span className="text-[12.5px] text-text-muted tabular-nums">
-                        {p.cpfMascarado}
-                      </span>
-                    </span>
-                  )}
                 />
               )}
             />
           </Campo>
         )}
-        {dadosPaciente.data && (
-          <div className="space-y-3">
-            <p className="text-[13.5px] text-text-muted">
-              {a.resumoPaciente(
-                t.pacientes.anos(idade(dadosPaciente.data.dataNascimento)),
-                dadosPaciente.data.convenio.tipo === 'convenio'
-                  ? dadosPaciente.data.convenio.nome
-                  : t.convenio.particular,
-              )}
-            </p>
-            <AlertaAlergias alergias={dadosPaciente.data.alergias} />
-          </div>
-        )}
+        {dadosPaciente.data && <ResumoPaciente paciente={dadosPaciente.data} />}
         {!reagendando && (
           <Link
             to={`/pacientes/novo?voltarPara=${encodeURIComponent(`/consultas/nova${medicoId ? `?medicoId=${medicoId}` : ''}`)}`}

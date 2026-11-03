@@ -46,6 +46,9 @@ export const to = {
   consultaCanceladaObito: 'Óbito do paciente',
   consultasNaoVoltam: 'O cadastro foi reativado. As consultas canceladas pelo óbito não voltam.',
   /** R-X8 */
+  /** Etiqueta de contexto no `ComboboxPaciente` (16.5). */
+  etiquetaInternado: (leito: string) => `Internado em ${leito}`,
+  etiquetaEmergencia: (numero: string) => `Emergência ${numero}`,
   pacienteInternadoAviso: (leito: string) => `Paciente internado em ${leito}`,
   /** R-F15 */
   alergiasNaoInformadas: 'Alergias não informadas',

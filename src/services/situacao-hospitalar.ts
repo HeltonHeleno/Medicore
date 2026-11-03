@@ -3,6 +3,7 @@
  * no agendamento) e para a etiqueta do `ComboboxPaciente` ("Internado em UTI-07").
  */
 import { repoAtendimentos, repoInternacoes, repoLeitos } from './colecoes-operacoes';
+import { to } from '../i18n/pt-BR/operacoes';
 import { executar } from './infra';
 import { situacaoDoPaciente } from './operacoes-comum';
 
@@ -44,3 +45,21 @@ export const situacoesHospitalares = (): Promise<Record<string, SituacaoResumida
       if (a.status !== 'encerrado' && a.pacienteId) ids.add(a.pacienteId);
     return Object.fromEntries([...ids].map((id) => [id, resumir(id)]));
   });
+
+/** Texto curto da situação: "Internado em UTI-07" ou "Emergência E-0039". */
+export function etiquetaSituacao(s: SituacaoResumida): string | undefined {
+  if (s.internacao) return to.etiquetaInternado(s.internacao.leitoCodigo);
+  if (s.atendimento) return to.etiquetaEmergencia(s.atendimento.numero);
+  return undefined;
+}
+
+/** Etiquetas de todos os pacientes internados ou em atendimento (id → texto), para o `ComboboxPaciente`. */
+export const etiquetasHospitalares = (): Promise<Record<string, string>> =>
+  situacoesHospitalares().then((mapa) =>
+    Object.fromEntries(
+      Object.entries(mapa).flatMap(([id, s]) => {
+        const e = etiquetaSituacao(s);
+        return e ? [[id, e]] : [];
+      }),
+    ),
+  );
