@@ -3,11 +3,24 @@ import { ButtonLink } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { ConteudoAsync } from '../ui/ConteudoAsync';
 import { SkeletonLinhas } from '../ui/Skeleton';
-import { useInsights } from '../../hooks/useDashboardData';
+import { useIndicadoresOperacionais } from '../../hooks/useIndicadoresOperacionais';
 import { t } from '../../i18n/pt-BR';
 
+/** Os 3 insights do dia, calculados dos módulos (20.5.2): UTI, estoque baixo e altas de hoje. */
 export function AIInsights({ className }: { className?: string }) {
-  const insights = useInsights();
+  const operacoes = useIndicadoresOperacionais();
+  const d = operacoes.data;
+  const tx = t.ia.textos;
+  const insights = {
+    ...operacoes,
+    data: d
+      ? [
+          { id: 'uti', texto: tx.previsaoUti(d.leitos.previsaoUti) },
+          { id: 'estoque', texto: tx.estoqueBaixo(d.estoque.baixo) },
+          { id: 'altas', texto: tx.altasHoje(d.leitos.altasPrevistasHoje) },
+        ]
+      : null,
+  };
 
   return (
     <Card titulo={t.ia.titulo} className={className}>

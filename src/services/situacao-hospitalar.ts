@@ -2,10 +2,17 @@
  * R-X8: situação hospitalar de um paciente, para os cadastros (detalhe do paciente, aviso
  * no agendamento) e para a etiqueta do `ComboboxPaciente` ("Internado em UTI-07").
  */
-import { repoAtendimentos, repoInternacoes, repoLeitos } from './colecoes-operacoes';
+import {
+  repoAtendimentos,
+  repoDispensacoes,
+  repoInternacoes,
+  repoLeitos,
+} from './colecoes-operacoes';
+import type { StatusAtendimento, TipoAlta, TipoDesfecho } from '../types';
+import { agora } from '../utils/relogio';
 import { to } from '../i18n/pt-BR/operacoes';
 import { executar } from './infra';
-import { situacaoDoPaciente } from './operacoes-comum';
+import { atendimentoAberto, nomePaciente, situacaoDoPaciente } from './operacoes-comum';
 
 export interface SituacaoResumida {
   internacao?: { id: string; leitoCodigo: string };
@@ -63,3 +70,128 @@ export const etiquetasHospitalares = (): Promise<Record<string, string>> =>
       }),
     ),
   );
+
+/** 20.10: janelas do histórico no detalhe do paciente. */
+export const DIAS_HISTORICO_ATENDIMENTOS = 7;
+export const DIAS_HISTORICO_DISPENSACOES = 30;
+
+export interface HistoricoHospitalar {
+  internacoes: {
+    id: string;
+    leitoCodigo: string;
+    inicio: string;
+    fim?: string;
+    tipoAlta?: TipoAlta;
+    arquivado: boolean;
+  }[];
+  atendimentos: {
+    id: string;
+    numero: string;
+    chegadaEm: string;
+    aberto: boolean;
+    desfecho?: TipoDesfecho;
+    arquivado: boolean;
+  }[];
+  dispensacoes: {
+    id: string;
+    em: string;
+    itens: number;
+    estornada: boolean;
+    arquivado: boolean;
+  }[];
+}
+
+const recentes = <T>(lista: T[], data: (x: T) => string) =>
+  [...lista].sort((a, b) => data(b).localeCompare(data(a)));
+
+/**
+ * 20.10: internações (todas as que ficaram), atendimentos dos últimos 7 dias (e o aberto) e
+ * dispensações dos últimos 30 dias, do mais recente para o mais antigo. Registros arquivados
+ * (A15) vêm marcados, para a tela mostrar "registro arquivado" no lugar do link.
+ */
+export const historicoHospitalar = (pacienteId: string): Promise<HistoricoHospitalar> =>
+  executar(() => {
+    const agoraMs = agora().getTime();
+    const desde = (dias: number) => new Date(agoraMs - dias * 86_400_000).toISOString();
+    const limiteAtendimentos = desde(DIAS_HISTORICO_ATENDIMENTOS);
+    const limiteDispensacoes = desde(DIAS_HISTORICO_DISPENSACOES);
+    const iso = (x: string) => new Date(x).toISOString();
+    return {
+      internacoes: recentes(
+        repoInternacoes.todos().filter((i) => i.pacienteId === pacienteId),
+        (i) => iso(i.inicio),
+      ).map((i) => ({
+        id: i.id,
+        leitoCodigo: repoLeitos.obter(i.leitoId)?.codigo ?? '—',
+        inicio: i.inicio,
+        ...(i.alta ? { fim: i.alta.em, tipoAlta: i.alta.tipo } : {}),
+        arquivado: !!i.arquivado,
+      })),
+      atendimentos: recentes(
+        repoAtendimentos
+          .todos()
+          .filter(
+            (a) =>
+              a.pacienteId === pacienteId &&
+              (a.status !== 'encerrado' || iso(a.chegadaEm) >= limiteAtendimentos),
+          ),
+        (a) => iso(a.chegadaEm),
+      ).map((a) => ({
+        id: a.id,
+        numero: a.numero,
+        chegadaEm: a.chegadaEm,
+        aberto: a.status !== 'encerrado',
+        ...(a.desfecho ? { desfecho: a.desfecho.tipo } : {}),
+        arquivado: !!a.arquivado,
+      })),
+      dispensacoes: recentes(
+        repoDispensacoes
+          .todos()
+          .filter((d) => d.pacienteId === pacienteId && iso(d.em) >= limiteDispensacoes),
+        (d) => iso(d.em),
+      ).map((d) => ({
+        id: d.id,
+        em: d.em,
+        itens: d.itens.length,
+        estornada: d.status === 'estornada',
+        arquivado: !!d.arquivado,
+      })),
+    };
+  });
+
+export interface VinculosMedico {
+  internacoes: { id: string; pacienteNome: string; leitoCodigo: string; inicio: string }[];
+  atendimentos: {
+    id: string;
+    numero: string;
+    pacienteNome: string;
+    status: StatusAtendimento;
+    chegadaEm: string;
+  }[];
+}
+
+/** 20.11: internações ativas sob responsabilidade do médico e atendimentos em curso com ele. */
+export const vinculosDoMedico = (medicoId: string): Promise<VinculosMedico> =>
+  executar(() => ({
+    internacoes: repoInternacoes
+      .todos()
+      .filter((i) => i.medicoResponsavelId === medicoId && i.status === 'ativa')
+      .map((i) => ({
+        id: i.id,
+        pacienteNome: nomePaciente(i.pacienteId),
+        leitoCodigo: repoLeitos.obter(i.leitoId)?.codigo ?? '—',
+        inicio: i.inicio,
+      }))
+      .sort((a, b) => a.leitoCodigo.localeCompare(b.leitoCodigo, 'pt-BR', { numeric: true })),
+    atendimentos: repoAtendimentos
+      .todos()
+      .filter((a) => a.medicoId === medicoId && atendimentoAberto(a))
+      .map((a) => ({
+        id: a.id,
+        numero: a.numero,
+        pacienteNome: a.pacienteId ? nomePaciente(a.pacienteId) : (a.provisorio?.descricao ?? '—'),
+        status: a.status,
+        chegadaEm: a.chegadaEm,
+      }))
+      .sort((a, b) => a.numero.localeCompare(b.numero)),
+  }));

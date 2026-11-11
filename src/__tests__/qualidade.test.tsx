@@ -5,6 +5,7 @@ import { vi } from 'vitest';
 import { KpiCards } from '../components/dashboard/KpiCards';
 import { StatCard } from '../components/dashboard/StatCard';
 import * as api from '../services/api';
+import * as indicadores from '../services/indicadores-operacionais';
 import { renderizarComRotas } from './utils/renderizarComRotas';
 
 afterEach(() => vi.restoreAllMocks());
@@ -37,8 +38,8 @@ describe('KpiCards (erro)', () => {
     const kpis = vi
       .spyOn(api, 'getKpis')
       .mockRejectedValueOnce(new Error('falhou'))
-      .mockResolvedValueOnce({ variacaoPacientes: -3, casosEmergencia: 1 });
-    const leitos = vi.spyOn(api, 'getLeitos');
+      .mockResolvedValueOnce({ variacaoPacientes: -3 });
+    const leitos = vi.spyOn(indicadores, 'obterIndicadoresOperacionais');
     render(
       <MemoryRouter>
         <KpiCards />

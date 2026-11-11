@@ -1,7 +1,8 @@
 import { CalendarDays } from 'lucide-react';
 import { ButtonLink } from '../ui/Button';
 import { Skeleton } from '../ui/Skeleton';
-import { useConsultasHoje, useResumoDia, useUsuario } from '../../hooks/useDashboardData';
+import { useConsultasHoje, useUsuario } from '../../hooks/useDashboardData';
+import { useIndicadoresOperacionais } from '../../hooks/useIndicadoresOperacionais';
 import { useGreeting } from '../../hooks/useGreeting';
 import { t } from '../../i18n/pt-BR';
 import { cn } from '../../utils/cn';
@@ -10,7 +11,7 @@ import { IlustracaoMedico } from './IlustracaoMedico';
 export function WelcomeCard({ className }: { className?: string }) {
   const saudacao = useGreeting();
   const usuario = useUsuario();
-  const resumo = useResumoDia();
+  const resumo = useIndicadoresOperacionais();
   const consultas = useConsultasHoje();
 
   // Canceladas não contam como "consultas hoje".
@@ -48,8 +49,8 @@ export function WelcomeCard({ className }: { className?: string }) {
             <p>
               {t.boasVindas.resumo(
                 consultasHoje!,
-                resumo.data!.previsaoOcupacaoUti,
-                resumo.data!.medicamentosEstoqueBaixo,
+                resumo.data!.leitos.previsaoUti,
+                resumo.data!.estoque.baixo,
               )}
             </p>
           ) : resumoCarregando ? (

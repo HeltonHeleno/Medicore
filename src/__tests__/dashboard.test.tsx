@@ -24,13 +24,27 @@ import { WelcomeCard } from '../components/dashboard/WelcomeCard';
 import { ActivityTimeline } from '../components/dashboard/ActivityTimeline';
 import { AIInsights } from '../components/dashboard/AIInsights';
 
-import { ajustarRelogio, prepararServicos } from './utils/servicos';
+import * as indicadores from '../services/indicadores-operacionais';
+import {
+  repoAtendimentos,
+  repoInternacoes,
+  repoLeitos,
+  repoLotes,
+} from '../services/colecoes-operacoes';
+import { registrarChegada } from '../services/emergencia';
+import { dispensar } from '../services/farmacia';
+import { darAlta } from '../services/leitos';
+import type { Leito } from '../types';
+import { gravarComoOutraAba, prepararOperacoes } from './utils/operacoes';
+import { ajustarRelogio } from './utils/servicos';
 
 // Segunda-feira, 11:30 no fuso do hospital: a das 09:00 já foi concluída e a das
 // 10:30 terminou sem registro (aguardando registro).
 const AGORA = '2026-11-09T11:30:00-03:00';
 const HOJE = '2026-11-09';
-prepararServicos(AGORA);
+prepararOperacoes(AGORA);
+
+const operacoes = () => indicadores.obterIndicadoresOperacionais();
 
 const comRouter = (ui: React.ReactNode) => render(<MemoryRouter>{ui}</MemoryRouter>);
 
@@ -48,7 +62,8 @@ const novoPaciente = () =>
 afterEach(() => vi.restoreAllMocks());
 
 describe('KpiCards', () => {
-  it('pacientes ativos e médicos de plantão vêm dos cadastros; leitos continuam simulados', async () => {
+  it('pacientes e médicos vêm dos cadastros; leitos e emergência, dos módulos (Fase 20)', async () => {
+    const op = await operacoes();
     comRouter(<KpiCards />);
     const regiao = screen.getByRole('region', { name: 'Indicadores do dia' });
     const plantao = repoMedicos
@@ -63,13 +78,21 @@ describe('KpiCards', () => {
       name: 'Médicos de plantão',
     }).parentElement!;
     expect(medicos).toHaveTextContent(String(plantao));
-    expect(plantao).toBeGreaterThan(0);
-    expect(plantao).toBeLessThan(repoMedicos.todos().length);
-    expect(within(regiao).getByText('34')).toBeInTheDocument();
-    expect(within(regiao).getByText('de 120 leitos no total')).toBeInTheDocument();
-    expect(within(regiao).getByText('18')).toHaveClass('text-danger');
+    // Leitos disponíveis = só os livres dos setores de internação (A13), sobre os operacionais.
+    const leitos = within(regiao).getByRole('heading', {
+      name: 'Leitos disponíveis',
+    }).parentElement!;
+    await waitFor(() => expect(leitos).toHaveTextContent(String(op.leitos.disponiveis)));
+    expect(op.leitos.disponiveis).toBe(
+      repoLeitos.todos().filter((l) => l.setorId !== 'observacao' && l.status === 'livre').length,
+    );
+    expect(within(regiao).getByText('de 119 leitos no total')).toBeInTheDocument();
+    const abertos = repoAtendimentos.todos().filter((a) => a.status !== 'encerrado').length;
+    expect(within(regiao).getByText(String(abertos))).toHaveClass('text-danger');
     expect(
-      within(regiao).getByRole('link', { name: 'Alta prioridade — ver alertas' }),
+      within(regiao).getByRole('link', {
+        name: `${op.emergencia.altaPrioridade} em alta prioridade`,
+      }),
     ).toHaveAttribute('href', '#alertas-emergencia');
   });
 
@@ -115,7 +138,7 @@ describe('WelcomeCard', () => {
     const validas = hoje.filter((c) => c.status !== 'cancelada').length;
     expect(
       await screen.findByText(
-        `${validas} consultas hoje · UTI tendendo a 90% até a noite · 3 medicamentos com estoque baixo.`,
+        `${validas} consultas hoje · UTI tendendo a ${(await operacoes()).leitos.previsaoUti}% até a noite · 3 medicamentos com estoque baixo.`,
       ),
     ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Ver agenda' })).toHaveAttribute('href', '/consultas');
@@ -139,20 +162,33 @@ describe('DepartmentPerformance', () => {
 });
 
 describe('AlertList', () => {
-  it('lista alta prioridade primeiro e tem âncora para o KPI', async () => {
+  it('mostra os 3 primeiros alertas de A12, cada um com link, e "Ver todos" na aba de alertas', async () => {
+    const { alertas } = await operacoes();
+    expect(alertas.length).toBeGreaterThan(3);
     comRouter(<AlertList />);
     const regiao = screen.getByRole('region', { name: 'Alertas de emergência' });
     expect(regiao).toHaveAttribute('id', 'alertas-emergencia');
     const itens = await within(regiao).findAllByRole('listitem');
-    expect(itens.map((i) => within(i).getByText(/^(Alta|Média)$/).textContent)).toEqual([
-      'Alta',
-      'Alta',
-      'Média',
-    ]);
+    expect(itens).toHaveLength(3);
+    expect(itens[0]).toHaveTextContent(alertas[0].titulo);
+    expect(within(itens[0]).getByText('Alta')).toBeInTheDocument();
+    const destino =
+      alertas[0].referencia.tipo === 'atendimento'
+        ? `/emergencia/${alertas[0].referencia.id}`
+        : `/leitos/${alertas[0].referencia.id}`;
+    expect(within(itens[0]).getByRole('link')).toHaveAttribute('href', destino);
+    expect(within(regiao).getByRole('link', { name: 'Ver todos' })).toHaveAttribute(
+      'href',
+      '/emergencia?aba=alertas',
+    );
   });
 
   it('mostra o estado vazio', async () => {
-    vi.spyOn(api, 'getAlertas').mockResolvedValue([]);
+    const real = await operacoes();
+    vi.spyOn(indicadores, 'obterIndicadoresOperacionais').mockResolvedValue({
+      ...real,
+      alertas: [],
+    });
     comRouter(<AlertList />);
     expect(await screen.findByText('Nenhum alerta ativo.')).toBeInTheDocument();
   });
@@ -253,31 +289,33 @@ describe('AppointmentsTable', () => {
 });
 
 describe('OccupancyDonut', () => {
-  it('mostra 72%, a legenda e os setores', async () => {
+  it('mostra 72% sobre os leitos operacionais, a legenda e os setores (A13, D17)', async () => {
     comRouter(<OccupancyDonut />);
     expect(
-      await screen.findByRole('img', { name: '72% dos leitos ocupados: 86 de 120' }),
+      await screen.findByRole('img', { name: '72% dos leitos ocupados: 86 de 119' }),
     ).toBeInTheDocument();
     expect(screen.getByText('86 leitos')).toBeInTheDocument();
-    expect(screen.getByText('34 leitos')).toBeInTheDocument();
+    expect(screen.getByText('33 leitos')).toBeInTheDocument();
     expect(screen.getByLabelText('UTI: 22 de 30 leitos ocupados')).toBeInTheDocument();
+    expect(screen.getByLabelText('Enfermaria: 50 de 69 leitos ocupados')).toBeInTheDocument();
   });
 });
 
 describe('AdmissionChart', () => {
-  it('descreve o gráfico em texto e troca de período', async () => {
-    const espiao = vi.spyOn(api, 'getInternacoes');
+  it('descreve a série real em texto e troca de período (A14)', async () => {
+    const espiao = vi.spyOn(indicadores, 'obterSerieInternacoes');
     comRouter(<AdmissionChart />);
     expect(
-      await screen.findByRole('img', {
-        name: 'Internações no período: mínimo de 30 em Ter e máximo de 70 em Sáb',
-      }),
+      await screen.findByRole('img', { name: /^Internações no período: mínimo de/ }),
     ).toBeInTheDocument();
     expect(screen.getByRole('table', { name: 'Internações por período' })).toBeInTheDocument();
+    expect(espiao).toHaveBeenLastCalledWith('semana');
+    const semana = await indicadores.obterSerieInternacoes('semana');
+    expect(within(screen.getByRole('table')).getAllByRole('row')).toHaveLength(semana.length + 1);
 
     await userEvent.selectOptions(screen.getByLabelText('Período'), 'ano');
     expect(espiao).toHaveBeenLastCalledWith('ano');
-    expect(await screen.findByRole('rowheader', { name: 'Dez' })).toBeInTheDocument();
+    expect(await screen.findAllByRole('rowheader')).toHaveLength(12);
   });
 });
 
@@ -318,10 +356,18 @@ describe('ActivityTimeline e AIInsights', () => {
     );
   });
 
-  it('mostra os insights e o estado vazio', async () => {
-    vi.spyOn(api, 'getInsights').mockResolvedValue([]);
+  it('mostra os 3 insights calculados dos módulos', async () => {
+    const op = await operacoes();
     comRouter(<AIInsights />);
-    expect(await screen.findByText('Nenhum insight disponível no momento.')).toBeInTheDocument();
+    expect(
+      await screen.findByText(
+        `A ocupação da UTI pode chegar a ${op.leitos.previsaoUti}% até a noite.`,
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByText('3 medicamentos estão com estoque baixo.')).toBeInTheDocument();
+    expect(
+      screen.getByText(`${op.leitos.altasPrevistasHoje} altas previstas para hoje.`),
+    ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Ver todos os insights' })).toBeInTheDocument();
   });
 });
@@ -333,5 +379,86 @@ describe('WelcomeCard (erro)', () => {
     expect(
       await screen.findByRole('heading', { level: 1, name: 'Veja como está o hospital hoje.' }),
     ).toBeInTheDocument();
+  });
+});
+
+describe('Painel em tempo real (20.9.2)', { timeout: 30_000 }, () => {
+  it('muda sem recarregar ao dar alta, registrar chegada vermelha e dispensar até o mínimo', async () => {
+    comRouter(
+      <>
+        <KpiCards />
+        <AIInsights />
+        <ActivityTimeline />
+      </>,
+    );
+    const linhaDoTempo = screen.getByRole('region', { name: 'Linha do tempo de atividades' });
+    const regiao = screen.getByRole('region', { name: 'Indicadores do dia' });
+    const leitos = within(regiao).getByRole('heading', {
+      name: 'Leitos disponíveis',
+    }).parentElement!;
+    const casos = within(regiao).getByRole('heading', {
+      name: 'Casos de emergência',
+    }).parentElement!;
+    const op = await operacoes();
+    await waitFor(() => expect(leitos).toHaveTextContent(String(op.leitos.disponiveis)));
+
+    // Chegada vermelha: +1 caso aberto e +1 de alta prioridade.
+    await registrarChegada({
+      provisorio: { descricao: 'Homem, camisa verde', sexo: 'masculino' },
+      modoChegada: 'samu',
+      queixa: 'Dor torácica',
+      chegadaEm: new Date().toISOString(),
+      emergenciaImediata: true,
+    });
+    await waitFor(() =>
+      expect(casos).toHaveTextContent(`${op.emergencia.altaPrioridade + 1} em alta prioridade`),
+    );
+    // 20.7: a atividade aparece na linha do tempo, com o marcador da cor do tipo.
+    const vermelho = await within(linhaDoTempo).findByText(
+      /Emergência: paciente classificado como vermelho/,
+    );
+    expect(vermelho.parentElement!.querySelector('[data-tipo]')).toHaveClass('bg-danger');
+
+    // Dispensar até cruzar o mínimo: "estoque baixo" sobe para 4 no insight.
+    const internado = repoInternacoes.todos().find((i) => i.status === 'ativa')!.pacienteId;
+    const paracetamol = repoLotes
+      .todos()
+      .filter((l) => l.medicamentoId === 'med-paracetamol-750')
+      .reduce((s2, l) => s2 + l.quantidadeAtual, 0);
+    await dispensar({
+      pacienteId: internado,
+      medicoSolicitanteId: 'med-helena-duarte',
+      itens: [{ medicamentoId: 'med-paracetamol-750', quantidade: paracetamol - 100 }],
+      alertasConfirmados: [{ tipo: 'quantidade_alta', medicamentoId: 'med-paracetamol-750' }],
+    });
+    expect(await screen.findByText('4 medicamentos estão com estoque baixo.')).toBeInTheDocument();
+
+    // Alta: o leito vai para higienização (não volta a "disponível" sozinho).
+    const ativa = repoInternacoes
+      .todos()
+      .find((i) => i.status === 'ativa' && i.pacienteId !== internado)!;
+    await darAlta(ativa.id, { tipo: 'melhorada', em: new Date().toISOString() }, ativa.versao);
+    expect(repoLeitos.obter(ativa.leitoId)!.status).toBe('higienizacao');
+    const alta = await within(linhaDoTempo).findByText(/^Alta de .*\(melhorada\)/);
+    expect(alta.parentElement!.querySelector('[data-tipo]')).toHaveClass('bg-primary');
+  });
+
+  it('muda quando outra aba libera um leito (evento de armazenamento)', async () => {
+    comRouter(<KpiCards />);
+    const leitos = screen.getByRole('heading', { name: 'Leitos disponíveis' }).parentElement!;
+    const op = await operacoes();
+    await waitFor(() => expect(leitos).toHaveTextContent(String(op.leitos.disponiveis)));
+    const alvo = repoLeitos
+      .todos()
+      .find((l) => l.status === 'higienizacao' && l.setorId !== 'observacao')!;
+    gravarComoOutraAba<Leito>('leitos', (itens) =>
+      itens.map((l) =>
+        l.id === alvo.id
+          ? { ...l, status: 'livre', higienizacao: undefined, versao: l.versao + 1 }
+          : l,
+      ),
+    );
+    window.dispatchEvent(new StorageEvent('storage', { key: 'medicore:leitos:v1' }));
+    await waitFor(() => expect(leitos).toHaveTextContent(String(op.leitos.disponiveis + 1)));
   });
 });

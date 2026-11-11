@@ -1,4 +1,4 @@
-import { CalendarCheck, UserPlus } from 'lucide-react';
+import { BedDouble, CalendarCheck, UserPlus } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, useWatch } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,7 +7,9 @@ import { departamentos } from '../../data/mock';
 import { useColecao } from '../../hooks/useColecao';
 import { useAgenda, useHorariosLivres, useListaMedicos } from '../../hooks/useDados';
 import { useFormularioEntidade } from '../../hooks/useFormularioEntidade';
+import { useSituacaoResumida } from '../../hooks/useHistoricoHospitalar';
 import { t } from '../../i18n/pt-BR';
+import { th } from '../../i18n/pt-BR/hospitalar';
 import { esquemaAgendamento, TIPOS_CONSULTA, type DadosAgendamento } from '../../schemas/consulta';
 import { proximoDiaDisponivel } from '../../services/consultas';
 import { ErroConflito } from '../../services/erros';
@@ -164,6 +166,7 @@ export function FormConsulta({ consulta, inicial = {}, aoSalvar, aoCancelar }: F
     () => (medicoId ? obterMedico(medicoId).catch(() => null) : Promise.resolve(null)),
     [medicoId],
   );
+  const situacao = useSituacaoResumida(pacienteId);
   const historicoPaciente = useAgenda({ pacienteId: pacienteId || '__nenhum__' });
 
   const parametrosOk = Boolean(medicoId && dataValida(data) && duracaoMin);
@@ -300,6 +303,15 @@ export function FormConsulta({ consulta, inicial = {}, aoSalvar, aoCancelar }: F
           </Campo>
         )}
         {dadosPaciente.data && <ResumoPaciente paciente={dadosPaciente.data} />}
+        {!reagendando && situacao.data?.internacao && (
+          <p
+            role="status"
+            className="flex items-start gap-2 rounded-lg border border-warning/40 px-3 py-2 text-[13.5px] font-medium text-warning"
+          >
+            <BedDouble size={16} aria-hidden className="mt-0.5 shrink-0" />
+            {th.pacienteInternadoAviso(situacao.data.internacao.leitoCodigo)}
+          </p>
+        )}
         {!reagendando && (
           <Link
             to={`/pacientes/novo?voltarPara=${encodeURIComponent(`/consultas/nova${medicoId ? `?medicoId=${medicoId}` : ''}`)}`}

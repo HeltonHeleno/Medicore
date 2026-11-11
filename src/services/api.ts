@@ -4,28 +4,9 @@
  * Para integrar o backend, troque o corpo das funções por chamadas HTTP
  * mantendo as mesmas assinaturas.
  */
-import {
-  alertas,
-  departamentos,
-  insights,
-  internacoes,
-  kpis,
-  resumoDia,
-  setoresLeitos,
-  usuario,
-} from '../data/mock';
+import { departamentos, kpis, usuario } from '../data/mock';
 import { t } from '../i18n/pt-BR';
-import type {
-  AlertaEmergencia,
-  Departamento,
-  Insight,
-  Kpis,
-  PeriodoInternacao,
-  PontoInternacao,
-  ResumoDia,
-  SetorLeitos,
-  Usuario,
-} from '../types';
+import type { Departamento, Kpis, Usuario } from '../types';
 
 /** Latência simulada em ms. Zero nos testes para não atrasar a suíte. */
 const LATENCIA_PADRAO = import.meta.env.MODE === 'test' ? 0 : 400;
@@ -43,25 +24,8 @@ async function responder<T>(dados: T): Promise<T> {
   return structuredClone(dados);
 }
 
-const ORDEM_PRIORIDADE = { alta: 0, media: 1, baixa: 2 } as const;
-
 export const getUsuario = (): Promise<Usuario> => responder(usuario);
 
 export const getKpis = (): Promise<Kpis> => responder(kpis);
 
-export const getResumoDia = (): Promise<ResumoDia> => responder(resumoDia);
-
-export const getLeitos = (): Promise<SetorLeitos[]> => responder(setoresLeitos);
-
 export const getDepartamentos = (): Promise<Departamento[]> => responder(departamentos);
-
-export const getInternacoes = (periodo: PeriodoInternacao): Promise<PontoInternacao[]> =>
-  responder(internacoes[periodo]);
-
-export const getInsights = (): Promise<Insight[]> => responder(insights);
-
-/** Alertas ordenados por prioridade (alta primeiro). */
-export const getAlertas = (): Promise<AlertaEmergencia[]> =>
-  responder(
-    [...alertas].sort((a, b) => ORDEM_PRIORIDADE[a.prioridade] - ORDEM_PRIORIDADE[b.prioridade]),
-  );

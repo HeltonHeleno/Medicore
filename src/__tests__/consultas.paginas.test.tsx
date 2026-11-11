@@ -165,8 +165,9 @@ describe('Agendar (P9)', () => {
     renderizarComRotas(
       '/consultas/nova?pacienteId=pac-ana-silva&medicoId=med-paulo-mendes&data=2026-11-23',
     );
-    expect(await screen.findByRole('combobox', { name: /^Paciente/ })).toHaveValue(
-      'Ana Paula Silva',
+    // O nome chega depois do carregamento do paciente (sob carga, depois do combobox).
+    await waitFor(() =>
+      expect(screen.getByRole('combobox', { name: /^Paciente/ })).toHaveValue('Ana Paula Silva'),
     );
     expect(await screen.findByRole('region', { name: 'Alergias' })).toHaveTextContent(
       'Penicilina; látex',
