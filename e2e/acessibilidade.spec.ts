@@ -37,6 +37,17 @@ const ROTAS = [
   '/emergencia/ate-1',
   '/emergencia/ate-1/triagem',
   '/emergencia/nao-existe',
+  '/farmacia?situacao=baixo',
+  '/farmacia/medicamentos/novo',
+  '/farmacia/medicamentos/med-dipirona-500',
+  '/farmacia/medicamentos/med-dipirona-500/editar',
+  '/farmacia/entrada?medicamentoId=med-dipirona-500',
+  '/farmacia/dispensar',
+  '/farmacia/dispensacoes/dis-1',
+  '/farmacia/movimentacoes',
+  '/farmacia/vencimentos',
+  '/farmacia/controlados',
+  '/farmacia/medicamentos/nao-existe',
   '/emergencia',
   '/farmacia',
   '/analises',
@@ -125,6 +136,24 @@ for (const tema of ['claro', 'escuro'] as const) {
       await page.getByRole('textbox', { name: /Saturação de O₂/ }).fill('85');
       await expect(page.getByText(/Atenção: abaixo de/)).toBeVisible();
       await page.getByRole('radio', { name: /^Laranja/ }).check();
+      await semViolacoes(page);
+    });
+
+    test('axe: alerta de alergia e resumo da dispensação abertos (19.11.2)', async ({ page }) => {
+      await page.goto('/farmacia/dispensar?pacienteId=pac-ana-silva');
+      await expect(page.getByText(/Alergias: Penicilina/)).toBeVisible();
+      await page
+        .getByRole('combobox', { name: /^Medicamento/ })
+        .selectOption('med-amoxicilina-500');
+      await page.getByRole('spinbutton').fill('7');
+      await expect(page.getByText(/Possível alergia/).first()).toBeVisible();
+      await semViolacoes(page);
+      await page.getByRole('checkbox', { name: /Ciente/ }).check();
+      await page
+        .getByRole('textbox', { name: /Justificativa/ })
+        .fill('Confirmado com o médico assistente');
+      await page.getByRole('button', { name: 'Revisar dispensação' }).click();
+      await expect(page.getByRole('dialog', { name: 'Confirmar dispensação' })).toBeVisible();
       await semViolacoes(page);
     });
 

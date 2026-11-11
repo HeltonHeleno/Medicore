@@ -48,6 +48,7 @@ import { registrarAtividade } from './atividades';
 import { repoPacientes } from './colecoes';
 import {
   repoDispensacoes,
+  repoLeitos,
   repoLotes,
   repoMedicamentos,
   repoMovimentacoes,
@@ -74,7 +75,7 @@ const esquemas = () => import('../schemas/farmacia');
 
 /** "60 comprimidos" */
 export const quantidadeComUnidade = (m: Pick<Medicamento, 'unidade'>, n: number) =>
-  `${n} ${tf.unidades[m.unidade](n)}`;
+  `${n.toLocaleString('pt-BR')} ${tf.unidades[m.unidade](n)}`;
 /** "Dipirona sódica 500 mg" */
 export const nomeMedicamento = (m: Pick<Medicamento, 'nome' | 'concentracao'>) =>
   `${m.nome} ${m.concentracao}`;
@@ -142,17 +143,26 @@ export const listarEstoque = (
             return e.situacao === filtros.situacao;
         }
       });
+    const porNome = (a: EstoqueMedicamento, b: EstoqueMedicamento) =>
+      a.medicamento.nome.localeCompare(b.medicamento.nome, 'pt-BR') ||
+      a.medicamento.concentracao.localeCompare(b.medicamento.concentracao, 'pt-BR') ||
+      a.medicamento.id.localeCompare(b.medicamento.id);
+    const criterio: Record<string, (a: EstoqueMedicamento, b: EstoqueMedicamento) => number> = {
+      nome: porNome,
+      disponivel: (a, b) => a.disponivel - b.disponivel,
+      // Sem vencimento (sem saldo válido) vai para o fim.
+      vencimento: (a, b) =>
+        (a.proximoVencimento ?? '9999').localeCompare(b.proximoVencimento ?? '9999'),
+    };
+    const ordenar = criterio[filtros.ordenarPor ?? 'nome'] ?? porNome;
+    const sentido = filtros.ordem === 'desc' ? -1 : 1;
     lista = filtrarPorTermo(lista, filtros.busca, {
       textos: (e) => [
         e.medicamento.nome,
         e.medicamento.principioAtivo,
         e.medicamento.nomeComercial,
       ],
-    }).sort(
-      (a, b) =>
-        a.medicamento.nome.localeCompare(b.medicamento.nome, 'pt-BR') ||
-        a.medicamento.id.localeCompare(b.medicamento.id),
-    );
+    }).sort((a, b) => sentido * ordenar(a, b) || porNome(a, b));
     return paginar(lista, filtros.pagina, filtros.porPagina ?? POR_PAGINA);
   });
 
@@ -678,6 +688,66 @@ export function destinoDoPaciente(pacienteId: string): Dispensacao['destino'] | 
 
 export const destinoDaDispensacao = (pacienteId: string) =>
   executar(() => destinoDoPaciente(pacienteId));
+
+export interface DestinoDetalhado {
+  tipo: 'internacao' | 'emergencia';
+  id: string;
+  /** Código do leito (internação) ou número do atendimento. */
+  referencia: string;
+  /** Médico sugerido: responsável pela internação ou médico do atendimento (F3 passo 2). */
+  medicoId?: string;
+}
+
+/** Destino com o que a tela mostra ("Internado em UTI-07") e o médico sugerido. */
+export const destinoDetalhado = (pacienteId: string): Promise<DestinoDetalhado | null> =>
+  executar(() => {
+    const s = situacaoDoPaciente(pacienteId);
+    if (s.internacao)
+      return {
+        tipo: 'internacao',
+        id: s.internacao.id,
+        referencia: repoLeitos.obter(s.internacao.leitoId)?.codigo ?? '—',
+        medicoId: s.internacao.medicoResponsavelId,
+      };
+    if (s.atendimento)
+      return {
+        tipo: 'emergencia',
+        id: s.atendimento.id,
+        referencia: s.atendimento.numero,
+        ...(s.atendimento.medicoId ? { medicoId: s.atendimento.medicoId } : {}),
+      };
+    return null;
+  });
+
+export interface DispensacaoResumida {
+  id: string;
+  em: string;
+  status: Dispensacao['status'];
+  arquivado?: boolean;
+  /** "Dipirona sódica 500 mg (6 comprimidos)" por item. */
+  itens: string[];
+}
+
+/** Dispensações de uma internação ou de um atendimento (19.10.2), mais recentes primeiro. */
+export const listarDispensacoesDoDestino = (destinoId: string): Promise<DispensacaoResumida[]> =>
+  executar(() =>
+    repoDispensacoes
+      .todos()
+      .filter((d) => d.destino.id === destinoId)
+      .sort((a, b) => b.em.localeCompare(a.em))
+      .map((d) => ({
+        id: d.id,
+        em: d.em,
+        status: d.status,
+        ...(d.arquivado ? { arquivado: true } : {}),
+        itens: d.itens.map((i) => {
+          const m = repoMedicamentos.obter(i.medicamentoId);
+          return m
+            ? `${nomeMedicamento(m)} (${quantidadeComUnidade(m, i.quantidade)})`
+            : String(i.quantidade);
+        }),
+      })),
+  );
 
 /** F3 / R-F3–R-F8, R-F12–R-F14 */
 export const dispensar = async (entrada: EntradaDispensacao): Promise<Dispensacao> => {

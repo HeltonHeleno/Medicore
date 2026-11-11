@@ -133,6 +133,7 @@ describe('menu mobile', () => {
     const drawer = screen.getByRole('dialog');
     await user.click(within(drawer).getByRole('link', { name: 'Farmácia' }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 1, name: 'Farmácia' })).toBeInTheDocument();
+    // A Farmácia é carregada sob demanda (Fase 19): o título chega depois.
+    expect(await screen.findByRole('heading', { level: 1, name: 'Farmácia' })).toBeInTheDocument();
   });
 });

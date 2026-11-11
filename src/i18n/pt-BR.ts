@@ -1020,6 +1020,22 @@ export const t = {
     textoExclusao: 'EXCLUIR',
   },
 
+  /**
+   * Títulos e breadcrumbs das rotas da farmácia (o roteador fica no pacote inicial).
+   * "Controlados" e não o nome completo do livro: o nome completo é marcador do D16.
+   */
+  rotasFarmacia: {
+    novoMedicamento: 'Novo medicamento',
+    medicamento: 'Medicamento',
+    editar: 'Editar',
+    entrada: 'Entrada de lote',
+    dispensar: 'Dispensar',
+    dispensacao: 'Dispensação',
+    movimentacoes: 'Movimentações',
+    vencimentos: 'Vencimentos',
+    controlados: 'Controlados',
+  },
+
   /** Títulos e breadcrumbs das rotas da emergência (o roteador fica no pacote inicial). */
   rotasEmergencia: {
     chegada: 'Registrar chegada',

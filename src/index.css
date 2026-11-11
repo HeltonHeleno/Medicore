@@ -143,3 +143,13 @@
     }
   }
 }
+
+/* Impressão (comprovante de dispensação, livro de controlados): fundo branco, sem sombras. */
+@media print {
+  body {
+    background: #fff;
+  }
+  main {
+    padding: 0;
+  }
+}

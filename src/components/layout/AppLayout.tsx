@@ -33,7 +33,7 @@ export function AppLayout() {
   return (
     <ToastProvider>
       <ConfirmacaoProvider>
-        <div className="min-h-screen lg:grid lg:grid-cols-[205px_minmax(0,1fr)]">
+        <div className="min-h-screen lg:grid lg:grid-cols-[205px_minmax(0,1fr)] print:block">
           <a
             href="#conteudo"
             className="sr-only z-50 rounded-md bg-primary px-4 py-2 text-on-primary focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:px-4 focus:py-2"
@@ -41,7 +41,7 @@ export function AppLayout() {
             {t.app.pularParaConteudo}
           </a>
 
-          <aside className="hidden bg-sidebar lg:block">
+          <aside className="hidden bg-sidebar lg:block print:hidden">
             <div className="sticky top-0 h-screen">
               <Sidebar className="overflow-y-auto" />
             </div>
@@ -50,17 +50,21 @@ export function AppLayout() {
           <MobileDrawer aberto={menuAberto} aoFechar={fecharMenu} />
 
           <div className="flex min-w-0 flex-col">
-            <Header
-              ref={botaoMenuRef}
-              menuAberto={menuAberto}
-              aoAbrirMenu={() => setMenuAberto(true)}
-            />
+            <div className="print:hidden">
+              <Header
+                ref={botaoMenuRef}
+                menuAberto={menuAberto}
+                aoAbrirMenu={() => setMenuAberto(true)}
+              />
+            </div>
             <main
               id="conteudo"
               tabIndex={-1}
               className="flex-1 px-4 py-5 outline-none sm:px-6 lg:py-6"
             >
-              <BannerDemonstracao />
+              <div className="print:hidden">
+                <BannerDemonstracao />
+              </div>
               <Outlet />
             </main>
           </div>

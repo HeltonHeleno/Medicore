@@ -226,3 +226,29 @@ test('triagem só com teclado: sinais vitais e cor por setas (18.9.4)', async ({
   await expect(page.getByRole('radio', { name: /^Laranja/ })).toBeChecked();
   await expect(page.getByText(/^Prazo para o atendimento médico: até/)).toBeVisible();
 });
+
+test('itens da dispensação só com teclado: medicamento, quantidade e novo item (19.11.3)', async ({
+  page,
+}) => {
+  await page.goto('/farmacia/dispensar?pacienteId=pac-ana-silva');
+  const medicamento = page.getByRole('combobox', { name: /^Medicamento/ });
+  await medicamento.focus();
+  await medicamento.selectOption('med-paracetamol-750');
+  // O "−" fica desabilitado sem quantidade: o Tab vai direto ao campo numérico.
+  await page.keyboard.press('Tab');
+  const quantidade = page.getByRole('spinbutton');
+  await expect(quantidade).toBeFocused();
+  await page.keyboard.type('2');
+  await page.keyboard.press('ArrowUp');
+  await expect(quantidade).toHaveValue('3');
+  await expect(page.getByText(/^Sairá de:/)).toBeVisible();
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Enter');
+  await expect(quantidade).toHaveValue('4');
+  await page.getByRole('button', { name: 'Adicionar item' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('group', { name: 'Item 2' })).toBeVisible();
+  await page.getByRole('button', { name: 'Remover item 2' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('group', { name: 'Item 2' })).toHaveCount(0);
+});

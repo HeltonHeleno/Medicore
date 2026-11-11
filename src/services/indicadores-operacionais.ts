@@ -513,6 +513,10 @@ export const obterIndicadoresLeitos = (): Promise<IndicadoresLeitos> =>
 export const obterIndicadoresEmergencia = (): Promise<IndicadoresEmergencia> =>
   executar(() => calcularIndicadoresEmergencia(repoAtendimentos.todos(), agora()));
 
+/** Só o resumo do estoque (resumo da farmácia, 19.2). */
+export const obterResumoEstoque = (): Promise<ResumoEstoque> =>
+  executar(() => calcularResumoEstoque(repoMedicamentos.todos(), repoLotes.todos(), hojeNoFuso()));
+
 export const listarAlertas = (): Promise<AlertaOperacional[]> =>
   executar(() =>
     calcularAlertas(
