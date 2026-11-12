@@ -12,7 +12,7 @@
 > **Stack atual:** React 19 + TypeScript · Vite 8 · Tailwind CSS 4 · Recharts 3 · lucide-react · React Router 7 (data router) · react-hook-form + zod · Vitest 5 · Playwright
 > **Estimativa total:** 17 a 20 dias úteis (1 desenvolvedor)
 > **Decisões:** D8–D20 **aprovadas** em 28/10/2026, todas como recomendadas (ver [Decisões propostas](#-decisões-propostas)).
-> **Versão do documento:** Revisão 2 — 28/10/2026 (ver [o que mudou](#-revisão-2--o-que-mudou))
+> **Versão do documento:** Revisão 2 — 28/10/2026 (ver [o que mudou](#-revisão-2--o-que-mudou)) · **Concluído em 12/11/2026** (Fases 15–21 e Encerramento; falta publicar a 1.2.0) · arquivado em `docs/planos/`
 > **Plano de execução:** [`PLANO_EXECUCAO_OPERACOES.md`](PLANO_EXECUCAO_OPERACOES.md), com a lista de tarefas em ordem e os checkboxes de acompanhamento
 
 > ⚠️ **Escopo administrativo, não clínico.** Classificação de risco, sinais vitais e alerta de alergia servem para **organizar o trabalho e chamar atenção**. O sistema não sugere diagnóstico, cor de risco, dose nem conduta. Todos os dados continuam fictícios (RS-01).
@@ -128,10 +128,10 @@ A Revisão 1 foi analisada por inteiro, com foco em **o que acontece quando algo
 | 15 | Fundação dos módulos operacionais | 4 dias | ✅ Concluída | 28/10/2026 | 28/10/2026 |
 | 16 | Componentes compartilhados | 1,5 dia | ✅ Concluída | 03/11/2026 | 03/11/2026 |
 | 17 | Gestão de leitos | 3,5 dias | ✅ Concluída | 03/11/2026 | 03/11/2026 |
-| 18 | Emergência | 3,5 dias | ⬜ Não iniciada | | |
-| 19 | Farmácia | 3,5 dias | ⬜ Não iniciada | | |
-| 20 | Integração com o Painel e os cadastros | 1,5 dia | ⬜ Não iniciada | | |
-| 21 | Qualidade, testes e entrega | 1,5 dia | ⬜ Não iniciada | | |
+| 18 | Emergência | 3,5 dias | ✅ Concluída | 03/11/2026 | 03/11/2026 |
+| 19 | Farmácia | 3,5 dias | ✅ Concluída | 11/11/2026 | 11/11/2026 |
+| 20 | Integração com o Painel e os cadastros | 1,5 dia | ✅ Concluída | 11/11/2026 | 11/11/2026 |
+| 21 | Qualidade, testes e entrega | 1,5 dia | ✅ Concluída | 12/11/2026 | 12/11/2026 |
 
 Legenda: ⬜ Não iniciada · 🟨 Em andamento · ✅ Concluída · 🟥 Bloqueada
 
@@ -842,19 +842,21 @@ Medição atual: cerca de 900 bytes por paciente ou consulta (UTF-16). Os dados 
 | Coleção | Tamanho por item (estimado) | Dados de exemplo | Retenção | Teto |
 |---|---:|---:|---|---:|
 | Leitos | ~400 B | 130 → ~52 KB | Fixo | 130 |
-| Internações | ~1,2 KB | ~120 (86 ativas + 30 dias de altas) → ~145 KB | Ativas + encerradas dos últimos **30 dias** | 600 |
-| Solicitações de leito | ~300 B | ~5 → 2 KB | Pendentes + últimos 7 dias | 200 |
-| Atendimentos | ~1,5 KB | ~90 (abertos + 7 dias) → ~135 KB | Abertos + encerrados dos últimos **7 dias** | 400 |
-| Medicamentos | ~500 B | ~45 → 23 KB | Sem limite (catálogo) | 500 |
-| Lotes | ~300 B | ~110 → 33 KB | Lotes zerados há mais de 90 dias saem | 1.000 |
-| Movimentações | ~400 B | ~400 → 160 KB | Últimos **60 dias** | 3.000 |
-| Dispensações | ~600 B | ~150 → 90 KB | Últimos **30 dias** | 1.000 |
+| Internações | ~1,2 KB (medido: 1,3) | ~120 (86 ativas + 30 dias de altas) → ~145 KB | Ativas + encerradas dos últimos **30 dias** | ~~600~~ 200 |
+| Solicitações de leito | ~300 B (medido: 0,7 KB) | ~5 → 2 KB | Pendentes + últimos 7 dias | ~~200~~ 50 |
+| Atendimentos | ~1,5 KB (medido: 2,3) | ~90 (abertos + 7 dias) → ~135 KB | Abertos + encerrados dos últimos **7 dias** | ~~400~~ 120 |
+| Medicamentos | ~500 B (medido: 0,65 KB) | ~45 → 23 KB | Sem limite (catálogo) | ~~500~~ 150 (referência) |
+| Lotes | ~300 B (medido: 0,6 KB) | ~110 → 33 KB | Lotes zerados há mais de 90 dias saem | ~~1.000~~ 350 (referência) |
+| Movimentações | ~400 B (medido: 0,43 KB) | ~400 → 160 KB | Últimos **60 dias** | ~~3.000~~ 800 |
+| Dispensações | ~600 B (medido: 1,2 KB) | ~150 → 90 KB | Últimos **30 dias** | ~~1.000~~ 200 |
 | Resumos mensais | ~200 B | 12 meses → 3 KB | 24 meses | 24 |
-| **Total dos módulos novos** | | **~640 KB** | | **pior caso ~3,3 MB** |
+| **Total dos módulos novos** | | **~640 KB** | | **pior caso: ~~3,3 MB estimados (5,2 MB medidos)~~ 1,5 MB com os tetos revistos** |
 
 - **Somando com os cadastros:**
   - dados de exemplo ampliados (D13: ~120 pacientes): ~0,9 MB, folgado;
   - uso intenso dentro dos tetos, mais 1.000 pacientes e 3.000 consultas: passa do limite.
+> **Revisto na Fase 21 (21.4.2):** os tamanhos medidos são maiores que os estimados e, com os tetos originais, o cenário abaixo ocupou 148% do limite. Os tetos foram reduzidos (coluna "Teto") e as retenções em dias foram mantidas. Com isso, o cenário ocupa 3,67 MB (73%). Medicamentos e lotes não são cortados pela retenção; os tetos deles são o volume de referência do cenário.
+
 - **O "limite prático" muda**, porque o limite de 5 MB do navegador é compartilhado:
   - a meta é ficar abaixo de 80% num cenário de **600 pacientes + 2.000 consultas + módulos com uso intenso dentro dos tetos**;
   - o cenário é medido de novo na Fase 21 (21.4) e registrado no README.
@@ -2105,50 +2107,50 @@ A definição de pronto do plano de cadastros continua valendo. Acrescente:
 **Estimativa:** 3,5 dias · **Objetivo:** E1–E10 funcionando e o pedido de leito integrado à Fase 17.
 
 ### 18.1 Rotas e navegação
-- [ ] Rotas `/emergencia/*` (lazy); `AbasModulo`: Fila · Alertas · Histórico
+- [x] Rotas `/emergencia/*` (lazy); `AbasModulo`: Fila · Alertas · Histórico
 
 ### 18.2 Fila (`/emergencia`) — E8
-- [ ] Resumo por cor, espera média por cor (últimas 24 h) e quantos estão acima do prazo
-- [ ] Grupos por status; "Aguardando atendimento" na ordem de A7, com `TempoDecorrido`, prazo e destaque "Acima do prazo"
-- [ ] Ações rápidas: Triar, Chamar (E3, escolha do médico), Ver
-- [ ] Anúncio de vermelho ou laranja novo vindo de outra aba
-- [ ] Celular: cada atendimento vira um cartão, mantendo a cor e o texto
+- [x] Resumo por cor, espera média por cor (últimas 24 h) e quantos estão acima do prazo
+- [x] Grupos por status; "Aguardando atendimento" na ordem de A7, com `TempoDecorrido`, prazo e destaque "Acima do prazo"
+- [x] Ações rápidas: Triar, Chamar (E3, escolha do médico), Ver
+- [x] Anúncio de vermelho ou laranja novo vindo de outra aba
+- [x] Celular: cada atendimento vira um cartão, mantendo a cor e o texto
 
 ### 18.3 Registrar chegada (`/emergencia/chegada`) — E1
-- [ ] Paciente cadastrado ou "Sem identificação" (D9); modo de chegada; queixa
-- [ ] "Emergência imediata (vermelho)" com confirmação (R-E2)
-- [ ] E-14 para paciente internado ou com atendimento aberto
+- [x] Paciente cadastrado ou "Sem identificação" (D9); modo de chegada; queixa
+- [x] "Emergência imediata (vermelho)" com confirmação (R-E2)
+- [x] E-14 para paciente internado ou com atendimento aberto
 
 ### 18.4 Triagem (`/emergencia/:id/triagem`) — E2
-- [ ] `CamposSinaisVitais` (faixa etária, peso opcional) + escolha da cor (`RadioGroup` com `BadgeRisco` e tempo-alvo)
-- [ ] Prazo mostrado e recalculado (A7); justificativa obrigatória na retriagem menos grave
-- [ ] Confirmação "sem sinais vitais"; retriagem mostra a triagem anterior para comparar
+- [x] `CamposSinaisVitais` (faixa etária, peso opcional) + escolha da cor (`RadioGroup` com `BadgeRisco` e tempo-alvo)
+- [x] Prazo mostrado e recalculado (A7); justificativa obrigatória na retriagem menos grave
+- [x] Confirmação "sem sinais vitais"; retriagem mostra a triagem anterior para comparar
 
 ### 18.5 Atendimento (`/emergencia/:id`) — E3 a E7
-- [ ] Cabeçalho com número, nome ou descrição, idade, alergias e risco; espera × prazo; médico
-- [ ] Triagens (atual + histórico) com os sinais sinalizados; linha do tempo
-- [ ] Ações conforme a [matriz](#matriz-de-ações-por-estado): Chamar, Observação (E4), Retomar, Pedir leito (E6), Encerrar (E5, inclusive a partir de "aguardando leito", R-E15), Identificar paciente (E7), Reabrir (E9), Registrar sinais vitais (E10, com a evolução em tabela)
-- [ ] Pedir leito exige cadastro (R-E9): oferece "Identificar paciente" antes
-- [ ] Mostrar "Leito X reservado" ou "Aguardando leito há…" quando houver solicitação
+- [x] Cabeçalho com número, nome ou descrição, idade, alergias e risco; espera × prazo; médico
+- [x] Triagens (atual + histórico) com os sinais sinalizados; linha do tempo
+- [x] Ações conforme a [matriz](#matriz-de-ações-por-estado): Chamar, Observação (E4), Retomar, Pedir leito (E6), Encerrar (E5, inclusive a partir de "aguardando leito", R-E15), Identificar paciente (E7), Reabrir (E9), Registrar sinais vitais (E10, com a evolução em tabela) — dispensações no atendimento entram na Fase 19
+- [x] Pedir leito exige cadastro (R-E9): oferece "Identificar paciente" antes
+- [x] Mostrar "Leito X reservado" ou "Aguardando leito há…" quando houver solicitação
 
 ### 18.6 Alertas e histórico
-- [ ] Aba Alertas: lista completa de A12, com link para o atendimento ou leito
-- [ ] Histórico: encerrados dos últimos 7 dias, com filtros (data, cor, desfecho) na URL
+- [x] Aba Alertas: lista completa de A12, com link para o atendimento ou leito
+- [x] Histórico: encerrados dos últimos 7 dias, com filtros (data, cor, desfecho) na URL
 
 ### 18.7 Integração com Leitos
-- [ ] Solicitação criada em E6 aparece no painel do mapa (Fase 17) na hora
-- [ ] Internar pela solicitação encerra o atendimento com o desfecho internação e libera o leito de observação (transação única)
+- [x] Solicitação criada em E6 aparece no painel do mapa (Fase 17) na hora
+- [x] Internar pela solicitação encerra o atendimento com o desfecho internação e libera o leito de observação (transação única)
 
 ### 18.8 Testes da fase
-- [ ] Páginas: chegada identificada e sem identificação, triagem e retriagem (mais e menos grave), reavaliação, chamar, observação, cada desfecho (inclusive a partir de "aguardando leito"), óbito, reabrir (dentro e fora da janela), evasão bloqueada antes de 30 min, pedir leito → internar
-- [ ] Ordem da fila com relógio falso; prazo estourando enquanto a tela está aberta
-- [ ] Número E-0001 virando o dia; duas abas registrando chegada ao mesmo tempo (números diferentes)
-- [ ] axe nas telas novas
+- [x] Páginas: chegada identificada e sem identificação, triagem e retriagem (mais e menos grave), reavaliação, chamar, observação, cada desfecho (inclusive a partir de "aguardando leito"), óbito, reabrir (dentro e fora da janela), evasão bloqueada antes de 30 min, pedir leito → internar
+- [x] Ordem da fila com relógio falso; prazo estourando enquanto a tela está aberta
+- [x] Número E-0001 virando o dia; duas abas registrando chegada ao mesmo tempo (números diferentes)
+- [x] axe nas telas novas
 
 ### ✅ Critérios de conclusão — Fase 18
-- [ ] E1–E10 funcionando; fila atualiza sozinha (outra aba e relógio)
-- [ ] Fluxo emergência → leito → internação completo
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; pacote inicial medido
+- [x] E1–E10 funcionando; fila atualiza sozinha (outra aba e relógio)
+- [x] Fluxo emergência → leito → internação completo
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; pacote inicial medido
 
 ---
 
@@ -2157,45 +2159,45 @@ A definição de pronto do plano de cadastros continua valendo. Acrescente:
 **Estimativa:** 3,5 dias · **Objetivo:** F1–F9 funcionando.
 
 ### 19.1 Rotas e navegação
-- [ ] Rotas `/farmacia/*` (lazy); `AbasModulo`: Estoque · Movimentações · Vencimentos
+- [x] Rotas `/farmacia/*` (lazy); `AbasModulo`: Estoque · Movimentações · Vencimentos
 
 ### 19.2 Estoque (`/farmacia`)
-- [ ] Resumo (baixo, zerado, vencendo, vencidos); `DataTable` com disponível + unidade, mínimo, `BadgeEstoque` e próximo vencimento
-- [ ] Busca (nome, princípio ativo, nome comercial), filtros (situação, forma, só controlados, status) e ordenação na URL
+- [x] Resumo (baixo, zerado, vencendo, vencidos); `DataTable` com disponível + unidade, mínimo, `BadgeEstoque` e próximo vencimento
+- [x] Busca (nome, princípio ativo, nome comercial), filtros (situação, forma, só controlados, status) e ordenação na URL
 
 ### 19.3 Catálogo — F1 e F7
-- [ ] Novo e editar medicamento (R-G1, unicidade, unidade travada com movimentação)
-- [ ] Detalhe: dados, lotes (validade, saldo, situação, bloqueio), movimentações do medicamento, ajuste e perda por lote (F5), bloquear e desbloquear lote (F9)
-- [ ] Inativar (R-F11) e reativar
+- [x] Novo e editar medicamento (R-G1, unicidade, unidade travada com movimentação)
+- [x] Detalhe: dados, lotes (validade, saldo, situação, bloqueio), movimentações do medicamento, ajuste e perda por lote (F5), bloquear e desbloquear lote (F9)
+- [x] Inativar (R-F11) e reativar
 
 ### 19.4 Entrada de lote (`/farmacia/entrada`) — F2
-- [ ] Formulário com validações R-F2; entrada em unidades ou embalagens (conversão visível); "Somar ao lote existente" quando cabe
-- [ ] Atalho "Entrada" no detalhe do medicamento (`?medicamentoId=`)
+- [x] Formulário com validações R-F2; entrada em unidades ou embalagens (conversão visível); "Somar ao lote existente" quando cabe
+- [x] Atalho "Entrada" no detalhe do medicamento (`?medicamentoId=`)
 
 ### 19.5 Dispensar (`/farmacia/dispensar`) — F3
-- [ ] `ComboboxPaciente` filtrado (internados ou em atendimento) com o destino; alergias fixas no topo
-- [ ] Itens com `CampoQuantidade`, disponível e prévia FEFO (A9); até 10 itens
-- [ ] `AlertaAlergia` (A10), "Alergias não informadas" (R-F15), confirmação de controlado (R-F7) e de quantidade alta (R-F14); resumo antes de confirmar
-- [ ] E-12 e E-15 tratados; comprovante para impressão (CSS de impressão)
+- [x] `ComboboxPaciente` filtrado (internados ou em atendimento) com o destino; alergias fixas no topo
+- [x] Itens com `CampoQuantidade`, disponível e prévia FEFO (A9); até 10 itens
+- [x] `AlertaAlergia` (A10), "Alergias não informadas" (R-F15), confirmação de controlado (R-F7) e de quantidade alta (R-F14); resumo antes de confirmar
+- [x] E-12 e E-15 tratados; comprovante para impressão (CSS de impressão)
 
 ### 19.6 Destino da dispensação (R-F12)
-- [ ] Se a Fase 19 for feita antes da 18, a regra R-F12 aceita só internação ativa; atendimento aberto é ligado na Fase 20
+- [x] Se a Fase 19 for feita antes da 18, a regra R-F12 aceita só internação ativa; atendimento aberto é ligado na Fase 20 — não se aplicou: a 18 veio antes e a R-F12 já está completa
 
 ### 19.7 Dispensação, movimentações e vencimentos — F4 e F6
-- [ ] Detalhe da dispensação com devolução por item (R-F10) e estorno (F8, janela de 24 h)
-- [ ] Livro de controlados (`/farmacia/controlados`) com saldos por período e versão para impressão
-- [ ] Movimentações com filtros e paginação na URL
-- [ ] Vencimentos: vencendo em até 60 dias e vencidos; descarte em lote
+- [x] Detalhe da dispensação com devolução por item (R-F10) e estorno (F8, janela de 24 h)
+- [x] Livro de controlados (`/farmacia/controlados`) com saldos por período e versão para impressão
+- [x] Movimentações com filtros e paginação na URL
+- [x] Vencimentos: vencendo em até 60 dias e vencidos; descarte em lote
 
 ### 19.8 Testes da fase
-- [ ] Páginas: cadastrar, entrada (vencida, curta, lote repetido, por embalagem), dispensar com FEFO em 2 lotes, lote bloqueado fora do FEFO, alergia, alergias não informadas, controlado, quantidade alta, devolução (lote vencido vira descarte), estorno, ajuste, descarte, inativar, livro de controlados
-- [ ] Concorrência: duas abas dispensando o último estoque (E-12)
-- [ ] axe nas telas novas
+- [x] Páginas: cadastrar, entrada (vencida, curta, lote repetido, por embalagem), dispensar com FEFO em 2 lotes, lote bloqueado fora do FEFO, alergia, alergias não informadas, controlado, quantidade alta, devolução (lote vencido vira descarte), estorno, ajuste, descarte, inativar, livro de controlados
+- [x] Concorrência: duas abas dispensando o último estoque (E-12)
+- [x] axe nas telas novas
 
 ### ✅ Critérios de conclusão — Fase 19
-- [ ] F1–F9 funcionando; estoque nunca negativo, inclusive com duas abas
-- [ ] Toda saída rastreável até o lote, o paciente e o médico solicitante
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; pacote inicial medido
+- [x] F1–F9 funcionando; estoque nunca negativo, inclusive com duas abas
+- [x] Toda saída rastreável até o lote, o paciente e o médico solicitante
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida; pacote inicial medido
 
 ---
 
@@ -2204,31 +2206,31 @@ A definição de pronto do plano de cadastros continua valendo. Acrescente:
 **Estimativa:** 1,5 dia · **Objetivo:** o Painel e os cadastros refletem os módulos em tempo real, sem mudar o visual do Painel.
 
 ### 20.1 Painel
-- [ ] `OccupancyDonut` e o KPI "Leitos disponíveis" leem os leitos reais (setores de internação, A13)
-- [ ] KPI "Casos de emergência" = atendimentos abertos; detalhe "{n} de alta prioridade" (vermelho e laranja)
-- [ ] `AlertList` mostra os 3 primeiros alertas de A12; "Ver todos" abre `/emergencia?aba=alertas`
-- [ ] `WelcomeCard`: "UTI tendendo a X%" (A13) e "N medicamentos com estoque baixo" reais
-- [ ] `AIInsights`: os 3 textos calculados (previsão da UTI, estoque baixo, altas previstas para hoje)
-- [ ] `AdmissionChart`: série real (A14)
-- [ ] Linha do tempo com as atividades novas
-- [ ] Remover os dados simulados que ficarem sem uso (`setoresLeitos`, `alertas`, `kpis.casosEmergencia`, `resumoDia`, `insights`, `internacoes`) e os tipos órfãos; "Desempenho por departamento" continua simulado
-- [ ] Atualizar `dashboard.test.tsx` com dados de exemplo e relógio fixo
-- [ ] Indicadores carregados sob demanda (D20): o Painel abre com os esqueletos e preenche os cards em seguida; o pacote inicial não cresce
+- [x] `OccupancyDonut` e o KPI "Leitos disponíveis" leem os leitos reais (setores de internação, A13)
+- [x] KPI "Casos de emergência" = atendimentos abertos; detalhe "{n} de alta prioridade" (vermelho e laranja) — o texto ficou "{n} em alta prioridade", para caber numa linha
+- [x] `AlertList` mostra os 3 primeiros alertas de A12; "Ver todos" abre `/emergencia?aba=alertas`
+- [x] `WelcomeCard`: "UTI tendendo a X%" (A13) e "N medicamentos com estoque baixo" reais
+- [x] `AIInsights`: os 3 textos calculados (previsão da UTI, estoque baixo, altas previstas para hoje)
+- [x] `AdmissionChart`: série real (A14)
+- [x] Linha do tempo com as atividades novas — os textos vêm dos serviços; o marcador tem a cor do tipo
+- [x] Remover os dados simulados que ficarem sem uso (`setoresLeitos`, `alertas`, `kpis.casosEmergencia`, `resumoDia`, `insights`, `internacoes`) e os tipos órfãos; "Desempenho por departamento" continua simulado
+- [x] Atualizar `dashboard.test.tsx` com dados de exemplo e relógio fixo
+- [x] Indicadores carregados sob demanda (D20): o Painel abre com os esqueletos e preenche os cards em seguida; o pacote inicial não cresce
 
 ### 20.2 Cadastros
-- [ ] Detalhe do paciente: seção "Situação hospitalar" (internação ativa ou atendimento aberto, com links) e "Histórico" (internações, atendimentos dos últimos 7 dias, dispensações dos últimos 30 dias)
-- [ ] Detalhe do médico: internações sob responsabilidade e atendimentos em curso
-- [ ] Ação "Internar" e "Registrar chegada na emergência" no detalhe do paciente
-- [ ] R-F12 completa (internação **ou** atendimento aberto), caso a Fase 19 tenha vindo antes da 18
+- [x] Detalhe do paciente: seção "Situação hospitalar" (internação ativa ou atendimento aberto, com links) e "Histórico" (internações, atendimentos dos últimos 7 dias, dispensações dos últimos 30 dias)
+- [x] Detalhe do médico: internações sob responsabilidade e atendimentos em curso
+- [x] Ação "Internar" e "Registrar chegada na emergência" no detalhe do paciente
+- [x] R-F12 completa (internação **ou** atendimento aberto), caso a Fase 19 tenha vindo antes da 18 — não se aplicou: já estava completa
 
 ### 20.3 Testes da fase
-- [ ] Painel muda sem recarregar ao internar, dar alta, registrar chegada vermelha e dispensar até o estoque mínimo (inclusive vindo de outra aba)
-- [ ] Comparar o Painel em 1600px com `docs/capturas/referencia-fase14.png` (capturada na Etapa 0 do plano de execução): igual, exceto números e nomes
+- [x] Painel muda sem recarregar ao internar, dar alta, registrar chegada vermelha e dispensar até o estoque mínimo (inclusive vindo de outra aba)
+- [x] Comparar o Painel em 1600px com `docs/capturas/referencia-fase14.png` (capturada na Etapa 0 do plano de execução): igual, exceto números e nomes — igual em layout; também mudaram os rótulos "Não ocupados" e "{n} em alta prioridade" (ver `docs/PR_FASE_20.md`)
 
 ### ✅ Critérios de conclusão — Fase 20
-- [ ] Nenhum número do Painel ligado a leitos, emergência ou farmácia continua simulado
-- [ ] Cadastros mostram a situação hospitalar
-- [ ] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida
+- [x] Nenhum número do Painel ligado a leitos, emergência ou farmácia continua simulado
+- [x] Cadastros mostram a situação hospitalar
+- [x] [Definição de pronto](#-definição-de-pronto-por-pr) cumprida
 
 ---
 
@@ -2237,72 +2239,72 @@ A definição de pronto do plano de cadastros continua valendo. Acrescente:
 **Estimativa:** 1,5 dia · **Objetivo:** confiança para publicar a versão **1.2.0**.
 
 ### 21.1 Ponta a ponta
-- [ ] Cenários 5–10 (ver [Estratégia de testes](#-estratégia-de-testes)) com `page.clock`
-- [ ] Rotas novas no `acessibilidade.spec.ts` (claro e escuro), incluindo diálogos abertos e o mapa em 375px
-- [ ] `npm run test:e2e` verde 3 vezes seguidas
+- [x] Cenários 5–10 (ver [Estratégia de testes](#-estratégia-de-testes)) com `page.clock`
+- [x] Rotas novas no `acessibilidade.spec.ts` (claro e escuro), incluindo diálogos abertos e o mapa em 375px
+- [x] `npm run test:e2e` verde 3 vezes seguidas
 
 ### 21.2 Acessibilidade
-- [ ] Teclado em: `SeletorLeito`, grade de leitos, fila, `CamposSinaisVitais`, itens da dispensação
-- [ ] Escala de cinza: risco e situação de leito compreensíveis sem cor
-- [ ] Roteiro NVDA ampliado em `docs/VERIFICACAO_MANUAL.md` (L1, E2, F3) — execução manual
+- [x] Teclado em: `SeletorLeito`, grade de leitos, fila, `CamposSinaisVitais`, itens da dispensação
+- [x] Escala de cinza: risco e situação de leito compreensíveis sem cor
+- [x] Roteiro NVDA ampliado em `docs/VERIFICACAO_MANUAL.md` (L1, E2, F3) — roteiro pronto; a execução manual fica pendente
 
 ### 21.3 Idioma e textos
-- [ ] `npm run i18n:verificar` sem achados
+- [x] `npm run i18n:verificar` sem achados
 - [ ] Revisar com alguém da área (enfermagem, farmácia) os termos: situações de leito, cores de risco, tipos de movimentação, desfechos — manual
-- [ ] Avisos de escopo administrativo nas telas de triagem e dispensação (RS-10)
+- [x] Avisos de escopo administrativo nas telas de triagem e dispensação (RS-10)
 
 ### 21.4 Desempenho e armazenamento
-- [ ] Teste de carga D15: 600 pacientes + 2.000 consultas + módulos no teto → uso < 80%; fila, mapa e estoque em < 100 ms; se não couber, aplicar a redução de retenção prevista e registrar
-- [ ] Atualizar o "limite prático" no README
-- [ ] Pacote inicial (gzip) comparado com a linha de base da Fase 15
-- [ ] Tempo da primeira semeadura (instalação nova e instalação 1.1.0) < 300 ms (M31)
-- [ ] Lighthouse desktop ≥ 90 em mapa, fila, atendimento, estoque e dispensar
+- [x] Teste de carga D15: 600 pacientes + 2.000 consultas + módulos no teto → uso < 80%; fila, mapa e estoque em < 100 ms; se não couber, aplicar a redução de retenção prevista e registrar — não coube com os tetos originais (148%); os tetos foram revistos (ver D15 no Registro) e o pior caso ficou em 73%
+- [x] Atualizar o "limite prático" no README
+- [x] Pacote inicial (gzip) comparado com a linha de base da Fase 15 — 153,6 kB (+4,6 kB sobre a Fase 15; +7,9 kB sobre a Etapa 0)
+- [x] Tempo da primeira semeadura (instalação nova e instalação 1.1.0) < 300 ms (M31)
+- [x] Lighthouse desktop ≥ 90 em mapa, fila, atendimento, estoque e dispensar
 
 ### 21.5 Documentação e entrega
-- [ ] README: seções Gestão de leitos, Emergência e Farmácia (rotas, processos, regras, limites, avisos)
-- [ ] Capturas novas em `docs/capturas/` (mapa, fila, atendimento, estoque, dispensar; claro, escuro e celular)
-- [ ] `docs/PR_FASE_15.md` … `PR_FASE_21.md` (um por fase)
-- [ ] Versão 1.2.0 no `package.json`; commit e push na `main` (publica na Vercel); tag `v1.2.0`
-- [ ] Testar a URL publicada: fluxo emergência → internação → dispensação → alta (desktop e celular)
-- [ ] Atualizar este plano: checkboxes, painel de progresso e registro; arquivar em `docs/planos/` ao encerrar
+- [x] README: seções Gestão de leitos, Emergência e Farmácia (rotas, processos, regras, limites, avisos)
+- [x] Capturas novas em `docs/capturas/` (mapa, fila, atendimento, estoque, dispensar; claro, escuro e celular)
+- [x] `docs/PR_FASE_15.md` … `PR_FASE_21.md` (um por fase)
+- [ ] Versão 1.2.0 no `package.json`; commit e push na `main` (publica na Vercel); tag `v1.2.0` — a versão está na branch `release/1.2.0`; o push, a publicação e a tag são seus (o push daqui é recusado)
+- [ ] Testar a URL publicada: fluxo emergência → internação → dispensação → alta (desktop e celular) — testado no build de produção local (390 e 1280 px, sem erros); falta a URL publicada
+- [x] Atualizar este plano: checkboxes, painel de progresso e registro; arquivar em `docs/planos/` ao encerrar — atualizado; o arquivamento fica para o Encerramento
 
 ### ✅ Critérios de conclusão — Fase 21
-- [ ] Testes unitários, de componentes e ponta a ponta verdes; cobertura nas metas
-- [ ] axe sem violações; Lighthouse ≥ 90
-- [ ] Armazenamento dentro do orçamento medido
-- [ ] Versão 1.2.0 publicada e testada
+- [x] Testes unitários, de componentes e ponta a ponta verdes; cobertura nas metas
+- [x] axe sem violações; Lighthouse ≥ 90
+- [x] Armazenamento dentro do orçamento medido
+- [ ] Versão 1.2.0 publicada e testada — pronta; a publicação depende de mesclar os PRs
 
 ---
 
 ## 🏁 Checklist final de aceite
 
 ### Funcional
-- [ ] Leitos: mapa com 130 leitos e busca de paciente; internar, transferir, dar alta (e desfazer), higienizar, bloquear, reservar e pedir leito eletivo (L1–L9)
-- [ ] Emergência: registrar chegada (com e sem identificação), triar, retriar e reavaliar, fila por risco e prazo, chamar, observação, desfechos (e reabrir), pedir leito (E1–E10)
-- [ ] Farmácia: catálogo, entrada de lote (unidades ou embalagens), dispensação FEFO com alertas, devolução, estorno, ajuste, descarte, bloqueio de lote, inativação e livro de controlados (F1–F9)
-- [ ] Emergência → leito → internação → dispensação → alta funcionando de ponta a ponta
-- [ ] Painel sem números simulados de leitos, emergência e farmácia
-- [ ] Busca, filtros, ordenação e paginação na URL; "Voltar" preserva a lista
+- [x] Leitos: mapa com 130 leitos e busca de paciente; internar, transferir, dar alta (e desfazer), higienizar, bloquear, reservar e pedir leito eletivo (L1–L9)
+- [x] Emergência: registrar chegada (com e sem identificação), triar, retriar e reavaliar, fila por risco e prazo, chamar, observação, desfechos (e reabrir), pedir leito (E1–E10)
+- [x] Farmácia: catálogo, entrada de lote (unidades ou embalagens), dispensação FEFO com alertas, devolução, estorno, ajuste, descarte, bloqueio de lote, inativação e livro de controlados (F1–F9)
+- [x] Emergência → leito → internação → dispensação → alta funcionando de ponta a ponta
+- [x] Painel sem números simulados de leitos, emergência e farmácia
+- [x] Busca, filtros, ordenação e paginação na URL; "Voltar" preserva a lista
 
 ### Dados e regras
-- [ ] Nenhum leito com duas ocupações; nenhum paciente com duas internações ativas ou dois atendimentos abertos, inclusive com duas abas
-- [ ] Estoque nunca negativo; vencidos nunca dispensados; toda saída rastreável até o lote
-- [ ] Inativar ou excluir paciente e médico respeitam as pendências dos módulos (R-X2–R-X4)
-- [ ] Históricos imutáveis (eventos e movimentações, com autor); correções só dentro das janelas e sempre registradas
-- [ ] Óbito inativa o cadastro e cancela as consultas futuras
-- [ ] Invariantes INV-1 a INV-10 sem violação
-- [ ] Retenção mantém o armazenamento dentro do orçamento, sem perder os totais dos gráficos
+- [x] Nenhum leito com duas ocupações; nenhum paciente com duas internações ativas ou dois atendimentos abertos, inclusive com duas abas
+- [x] Estoque nunca negativo; vencidos nunca dispensados; toda saída rastreável até o lote
+- [x] Inativar ou excluir paciente e médico respeitam as pendências dos módulos (R-X2–R-X4)
+- [x] Históricos imutáveis (eventos e movimentações, com autor); correções só dentro das janelas e sempre registradas
+- [x] Óbito inativa o cadastro e cancela as consultas futuras
+- [x] Invariantes INV-1 a INV-10 sem violação
+- [x] Retenção mantém o armazenamento dentro do orçamento, sem perder os totais dos gráficos
 
 ### Experiência
-- [ ] Risco e situação de leito compreensíveis sem cor
-- [ ] Tempos atualizam sozinhos; fila e mapa refletem outras abas
-- [ ] Avisos de escopo administrativo (triagem, alergia, controlado)
-- [ ] Responsivo de 375 a 1920px, temas claro e escuro
+- [x] Risco e situação de leito compreensíveis sem cor
+- [x] Tempos atualizam sozinhos; fila e mapa refletem outras abas
+- [x] Avisos de escopo administrativo (triagem, alergia, controlado)
+- [x] Responsivo de 375 a 1920px, temas claro e escuro
 
 ### Qualidade
-- [ ] 100% em PT-BR; formatos brasileiros
-- [ ] Acessível por teclado; NVDA testado (manual)
-- [ ] Testes, lint e build limpos
+- [x] 100% em PT-BR; formatos brasileiros
+- [ ] Acessível por teclado; NVDA testado (manual) — teclado ✅; NVDA pendente (roteiro em `docs/VERIFICACAO_MANUAL.md`)
+- [x] Testes, lint e build limpos
 
 ---
 
@@ -2340,4 +2342,10 @@ A definição de pronto do plano de cadastros continua valendo. Acrescente:
 | 28/10/2026 | **Fase 15 concluída** (fundação, sem telas). 557 testes Vitest e 66 Playwright verdes; `services/` 97,5% e `utils/` 97,8%; pacote inicial 149,0 kB (+3,3 kB, justificado). Ajustes nesta especificação: INV-1 conta atendimento **aberto** com leito de observação; `ESQUEMA_ATUAL` = 2 pela migração dos pacientes extras. Desvios de implementação (registro arquivado como flag, hooks num arquivo, busca do mapa pelos dois nomes) estão no Diário do plano de execução e no `docs/PR_FASE_15.md` | |
 | 03/11/2026 | **Fase 16 concluída** (componentes compartilhados). 589 testes Vitest e 66 Playwright verdes; `components/ui/` 95,4%; pacote inicial 150,1 kB (+1,1 kB, quase todo de CSS; +4,4 kB desde a Etapa 0). Tokens `--color-risco-*` (com `--color-on-risco-*` e `--color-borda-risco-*`) e `--color-leito-*` (com `--color-on-leito-*`); todos os pares AA. Vitrine "Módulos operacionais" sem violações axe. Detalhes no `docs/PR_FASE_16.md` | |
 | 03/11/2026 | **Fase 17 concluída** (Gestão de leitos): mapa, internar (L1/L6), internações, detalhe, transferir, alta (com óbito), desfazer alta, editar, bloqueio e pedidos de leito (L9). 610 testes Vitest e 86 Playwright verdes; Lighthouse no mapa 99 · 100 · 100 · 100; pacote 151,3 kB (+1,2 kB; +5,6 kB desde a Etapa 0, justificado no `docs/PR_FASE_17.md`). Falta o teste manual com duas abas (17.13.3) | |
+| 03/11/2026 | **Fase 18 concluída** (Emergência): fila com resumo, filtro e anúncio; chegada (com e sem identificação, emergência imediata); triagem e retriagem; atendimento com todas as ações da matriz (E3–E7, E9, E10); alertas e histórico. 638 testes Vitest e 104 Playwright verdes; pacote 152,2 kB (+0,9 kB; +6,5 kB desde a Etapa 0). Desvio: a evolução dos sinais ficou só em tabela. Falta o teste manual com duas abas (18.10.3). Detalhes no `docs/PR_FASE_18.md` | |
+| 11/11/2026 | **Fase 19 concluída** (Farmácia): estoque com resumo, filtros e ordenação; catálogo (F1, F5, F7, F9); entrada de lote (F2); dispensar com FEFO, alergia, controlado e quantidade alta (F3); devolução e estorno (F4, F8); movimentações; vencimentos (F6); livro de controlados (M28); ligações com a internação e o atendimento. 663 testes Vitest e 129 Playwright verdes; pacote 153,3 kB (+1,1 kB; +7,6 kB desde a Etapa 0). Falta o teste manual com duas abas (19.12.3). Detalhes no `docs/PR_FASE_19.md` | |
+| 11/11/2026 | **Fase 20 concluída** (Painel e cadastros): KPIs, ocupação, tendência, alertas, boas-vindas, insights e linha do tempo vindos dos módulos, sob demanda (D20) e em tempo real; dados simulados removidos ("Desempenho por departamento" continua simulado). Situação e histórico hospitalar no detalhe do paciente, com Internar e Registrar chegada; internações e atendimentos no detalhe do médico; aviso R-X8 no agendamento. Mudanças visíveis de número: "Leitos disponíveis" 34 → 29 (só livres, A13) e a fatia "Não ocupados" da rosca. 667 testes Vitest e 129 Playwright verdes; pacote 153,7 kB (+0,4 kB; +8,0 kB desde a Etapa 0, no teto, com os pacotes agrupados por módulo). Falta o teste manual com duas abas (20.12.2). Detalhes no `docs/PR_FASE_20.md` | |
+| 12/11/2026 | **D15 revista (Fase 21):** o cenário de carga (600 pacientes + 2.000 consultas + módulos no teto) deu 148% do limite com os tetos originais, porque os itens reais são maiores que o estimado no orçamento (atendimento 2,3 KB, dispensação 1,2 KB). Decisão do usuário: baixar os tetos e manter as retenções em dias. Internações 200, pedidos de leito 50, atendimentos 120, movimentações 800, dispensações 200; medicamentos 150 e lotes 350 como volume de referência. Pior caso: 3,67 MB (73%) | Usuário |
+| 12/11/2026 | **Fase 21 concluída** (qualidade e entrega): cenários e2e 5 a 10, verdes em 3 execuções seguidas do `test:e2e`; axe com os diálogos dos módulos; foco no 1º campo inválido na ordem da tela em todos os formulários; teste de carga da D15; README, capturas e roteiros manuais. 672 testes Vitest e 139 Playwright verdes; pacote 153,6 kB (+7,9 kB desde a Etapa 0); Lighthouse ≥ 94 nas telas dos módulos e 99 no Painel. Pendentes manuais: NVDA, revisão de termos e mensagens e os testes com duas abas. Falta o Encerramento (versão 1.2.0). Detalhes no `docs/PR_FASE_21.md` | |
+| 12/11/2026 | **Encerramento.** Versão 1.2.0 pronta (branch `release/1.2.0`). Todas as fases ✅. O checklist final de aceite está marcado, menos o NVDA (manual). A publicação depende de mesclar os PRs das Fases 19 a 21 e o `release/1.2.0`, porque o push daqui é recusado; o fluxo foi testado no build de produção. Backlog revisto: próximo passo BL-60 (integração contínua) e BL-01 (backend). Lições aprendidas no Diário do plano de execução | |
 | | | |
