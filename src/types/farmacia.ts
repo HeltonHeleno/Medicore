@@ -143,6 +143,8 @@ export interface FiltrosEstoque {
   forma?: FormaFarmaceutica;
   soControlados?: boolean;
   status?: 'ativos' | 'inativos' | 'todos';
+  ordenarPor?: 'nome' | 'disponivel' | 'vencimento';
+  ordem?: 'asc' | 'desc';
   pagina?: number;
   porPagina?: number;
 }

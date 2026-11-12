@@ -10,12 +10,11 @@ import { Card } from '../ui/Card';
 import { ConteudoAsync } from '../ui/ConteudoAsync';
 import { Skeleton } from '../ui/Skeleton';
 import { useCoresTema } from '../../hooks/useCoresTema';
-import { useLeitos } from '../../hooks/useDashboardData';
+import { useIndicadoresOperacionais } from '../../hooks/useIndicadoresOperacionais';
 import { t } from '../../i18n/pt-BR';
-import type { SetorLeitos } from '../../types';
+import type { IndicadoresLeitos } from '../../services/indicadores-operacionais';
 import { cn } from '../../utils/cn';
 import { formatPercentual } from '../../utils/format';
-import { resumoLeitos } from '../../utils/leitos';
 
 const TAMANHO = 132;
 
@@ -30,12 +29,22 @@ function DicaFatia({ active, payload }: TooltipContentProps<TooltipValueType, st
   );
 }
 
-function Rosca({ setores }: { setores: SetorLeitos[] }) {
+/** Ocupação dos setores de internação, sobre os leitos operacionais (A13, D17). */
+function Rosca({ leitos }: { leitos: IndicadoresLeitos }) {
   const cores = useCoresTema();
-  const r = resumoLeitos(setores);
+  const setores = leitos.setores;
+  const r = {
+    percentual: leitos.percentual,
+    ocupados: leitos.ocupados,
+    total: leitos.operacionais,
+  };
   const dados = [
     { nome: t.leitos.ocupados, valor: r.ocupados, cor: cores.primary },
-    { nome: t.leitos.disponiveis, valor: r.disponiveis, cor: cores['primary-light'] },
+    {
+      nome: t.leitos.disponiveis,
+      valor: leitos.operacionais - leitos.ocupados,
+      cor: cores['primary-light'],
+    },
   ];
 
   return (
@@ -77,10 +86,10 @@ function Rosca({ setores }: { setores: SetorLeitos[] }) {
           </div>
         </div>
 
-        <dl className="grid min-w-[10rem] flex-1 grid-cols-[auto_1fr] items-center gap-x-6 gap-y-3 text-[14px]">
+        <dl className="grid min-w-[10rem] flex-1 grid-cols-[auto_1fr] items-center gap-x-4 gap-y-3 text-[14px]">
           {dados.map((d, i) => (
             <div key={d.nome} className="contents">
-              <dt className="flex items-center gap-2">
+              <dt className="flex items-center gap-2 whitespace-nowrap">
                 <span
                   aria-hidden
                   className={cn(
@@ -90,7 +99,9 @@ function Rosca({ setores }: { setores: SetorLeitos[] }) {
                 />
                 {d.nome}
               </dt>
-              <dd className="text-right font-medium tabular-nums">{t.leitos.leitos(d.valor)}</dd>
+              <dd className="text-right font-medium whitespace-nowrap tabular-nums">
+                {t.leitos.leitos(d.valor)}
+              </dd>
             </div>
           ))}
         </dl>
@@ -99,12 +110,12 @@ function Rosca({ setores }: { setores: SetorLeitos[] }) {
       <ul aria-label={t.leitos.setores} className="mt-5 grid grid-cols-3 gap-2.5">
         {setores.map((s) => (
           <li
-            key={s.id}
-            aria-label={t.leitos.setorResumo(s.nome, s.ocupados, s.total)}
+            key={s.setorId}
+            aria-label={t.leitos.setorResumo(s.nome, s.ocupados, s.operacionais)}
             className="rounded-lg bg-bg px-2 py-2.5 text-center"
           >
             <p aria-hidden className="text-[15px] font-semibold tabular-nums">
-              {s.ocupados}/{s.total}
+              {s.ocupados}/{s.operacionais}
             </p>
             <p aria-hidden className="mt-0.5 text-[11px] text-text-muted">
               {s.nome}
@@ -132,11 +143,12 @@ function Esqueleto() {
 }
 
 export function OccupancyDonut({ className }: { className?: string }) {
-  const leitos = useLeitos();
+  const operacoes = useIndicadoresOperacionais();
+  const estado = { ...operacoes, data: operacoes.data?.leitos ?? null };
   return (
     <Card titulo={t.leitos.titulo} className={className}>
-      <ConteudoAsync estado={leitos} vazio={t.vazio.leitos} carregando={<Esqueleto />}>
-        {(setores) => <Rosca setores={setores} />}
+      <ConteudoAsync estado={estado} vazio={t.vazio.leitos} carregando={<Esqueleto />}>
+        {(leitos) => <Rosca leitos={leitos} />}
       </ConteudoAsync>
     </Card>
   );

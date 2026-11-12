@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AlertaAlergias } from '../../components/pacientes/AlertaAlergias';
 import { CardConsultasPaciente } from '../../components/pacientes/CardConsultasPaciente';
+import { SituacaoHospitalarPaciente } from '../../components/pacientes/SituacaoHospitalar';
 import { Avatar } from '../../components/ui/Avatar';
 import { BadgeSituacao } from '../../components/ui/BadgeSituacao';
 import { ButtonLink } from '../../components/ui/Button';
@@ -34,7 +35,10 @@ import { agora } from '../../utils/relogio';
 
 const p = t.pacientes;
 
-/** /pacientes/:id — cadastro completo, alergias em destaque, consultas e ações (P3–P5). */
+/**
+ * /pacientes/:id — cadastro completo, alergias em destaque, situação e histórico hospitalar
+ * (20.10), consultas e ações (P3–P5).
+ */
 export default function DetalhePaciente() {
   const { id = '' } = useParams();
   const { data: paciente, erro, recarregar } = usePaciente(id);
@@ -156,6 +160,7 @@ export default function DetalhePaciente() {
           </p>
         )}
         <AlertaAlergias alergias={paciente.alergias} />
+        <SituacaoHospitalarPaciente pacienteId={paciente.id} ativo={paciente.ativo} />
 
         <div className="grid gap-5 lg:grid-cols-2">
           <Card titulo={p.cards.dadosPessoais}>

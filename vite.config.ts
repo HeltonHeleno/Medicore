@@ -11,11 +11,31 @@ export default defineConfig({
       output: {
         // Separa as bibliotecas em pacotes com nomes claros e cache independente.
         codeSplitting: {
+          // Cada grupo leva só os arquivos que casam com o teste; as dependências
+          // compartilhadas ficam onde já estavam.
+          includeDependenciesRecursively: false,
           groups: [
             {
               name: 'react',
               priority: 20,
               test: /node_modules[\\/](react|react-dom|scheduler|react-router|react-router-dom|clsx)[\\/]/,
+            },
+            // Fase 20: um pacote por módulo operacional (páginas, componentes, serviço e
+            // textos). Menos arquivos na lista de pré-carga do pacote inicial (RS-12).
+            {
+              name: 'modulo-leitos',
+              priority: 5,
+              test: /src[\\/]((pages|components)[\\/]leitos[\\/]|hooks[\\/]useAcoesLeito)/,
+            },
+            {
+              name: 'modulo-emergencia',
+              priority: 5,
+              test: /src[\\/]((pages|components)[\\/]emergencia[\\/]|hooks[\\/]useAcoesAtendimento)/,
+            },
+            {
+              name: 'modulo-farmacia',
+              priority: 5,
+              test: /src[\\/]((pages|components)[\\/]farmacia[\\/])/,
             },
             {
               name: 'graficos',

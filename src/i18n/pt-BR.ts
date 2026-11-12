@@ -72,6 +72,16 @@ export const t = {
     titulo: 'Assistente hospitalar com IA',
     insightsHoje: 'Insights de hoje',
     verTodos: 'Ver todos os insights',
+    /** Os 3 textos calculados a partir dos módulos (20.5.2). */
+    textos: {
+      previsaoUti: (p: number) => `A ocupação da UTI pode chegar a ${p}% até a noite.`,
+      estoqueBaixo: (n: number) =>
+        n === 1
+          ? '1 medicamento está com estoque baixo.'
+          : `${n} medicamentos estão com estoque baixo.`,
+      altasHoje: (n: number) =>
+        n === 1 ? '1 alta prevista para hoje.' : `${n} altas previstas para hoje.`,
+    },
   },
 
   kpis: {
@@ -82,7 +92,7 @@ export const t = {
     medicosPlantao: 'Médicos de plantão',
     escaladosHoje: 'Escalados para hoje',
     casosEmergencia: 'Casos de emergência',
-    altaPrioridade: 'Alta prioridade — ver alertas',
+    altaPrioridade: (n: number) => `${n} em alta prioridade`,
   },
 
   departamentos: {
@@ -109,7 +119,7 @@ export const t = {
     titulo: 'Ocupação de leitos',
     ocupadosCentro: 'ocupados',
     ocupados: 'Ocupados',
-    disponiveis: 'Disponíveis',
+    disponiveis: 'Não ocupados',
     leitos: (n: number) => `${n} ${n === 1 ? 'leito' : 'leitos'}`,
     resumoGrafico: (percentual: number, ocupados: number, total: number) =>
       `${percentual}% dos leitos ocupados: ${ocupados} de ${total}`,
@@ -1018,6 +1028,22 @@ export const t = {
     verConsultas: 'Ver consultas',
     excluir: 'Excluir',
     textoExclusao: 'EXCLUIR',
+  },
+
+  /**
+   * Títulos e breadcrumbs das rotas da farmácia (o roteador fica no pacote inicial).
+   * "Controlados" e não o nome completo do livro: o nome completo é marcador do D16.
+   */
+  rotasFarmacia: {
+    novoMedicamento: 'Novo medicamento',
+    medicamento: 'Medicamento',
+    editar: 'Editar',
+    entrada: 'Entrada de lote',
+    dispensar: 'Dispensar',
+    dispensacao: 'Dispensação',
+    movimentacoes: 'Movimentações',
+    vencimentos: 'Vencimentos',
+    controlados: 'Controlados',
   },
 
   /** Títulos e breadcrumbs das rotas da emergência (o roteador fica no pacote inicial). */

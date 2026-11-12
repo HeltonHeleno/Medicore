@@ -13,7 +13,7 @@ import { Card } from '../ui/Card';
 import { ConteudoAsync } from '../ui/ConteudoAsync';
 import { Skeleton } from '../ui/Skeleton';
 import { useCoresTema } from '../../hooks/useCoresTema';
-import { useInternacoes } from '../../hooks/useDashboardData';
+import { useSerieInternacoes } from '../../hooks/useIndicadoresOperacionais';
 import { t } from '../../i18n/pt-BR';
 import type { PeriodoInternacao, PontoInternacao } from '../../types';
 import { formatNumero } from '../../utils/format';
@@ -112,7 +112,7 @@ function Grafico({ pontos }: { pontos: PontoInternacao[] }) {
 
 export function AdmissionChart({ className }: { className?: string }) {
   const [periodo, setPeriodo] = useState<PeriodoInternacao>('semana');
-  const internacoes = useInternacoes(periodo);
+  const internacoes = useSerieInternacoes(periodo);
   const idSelect = useId();
 
   const seletor = (

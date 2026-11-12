@@ -215,8 +215,86 @@ const rotasEmergencia: RouteObject = {
   ],
 };
 
+/** Farmácia (Fase 19): estoque, catálogo, entrada, dispensação, movimentações e controlados. */
+const rf = t.rotasFarmacia;
+const rotasFarmacia: RouteObject = {
+  path: 'farmacia',
+  handle: handle(t.menu.farmacia),
+  children: [
+    {
+      index: true,
+      lazy: pagina(() => import('./pages/farmacia/Estoque')),
+      handle: { titulo: t.menu.farmacia },
+    },
+    {
+      path: 'medicamentos',
+      children: [
+        {
+          path: 'novo',
+          lazy: pagina(() => import('./pages/farmacia/NovoMedicamento')),
+          handle: handle(rf.novoMedicamento),
+        },
+        {
+          path: ':id',
+          handle: handle(rf.medicamento),
+          children: [
+            {
+              index: true,
+              lazy: pagina(() => import('./pages/farmacia/DetalheMedicamento')),
+              handle: { titulo: rf.medicamento },
+            },
+            {
+              path: 'editar',
+              lazy: pagina(() => import('./pages/farmacia/EditarMedicamento')),
+              handle: handle(rf.editar),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      path: 'entrada',
+      lazy: pagina(() => import('./pages/farmacia/Entrada')),
+      handle: handle(rf.entrada),
+    },
+    {
+      path: 'dispensar',
+      lazy: pagina(() => import('./pages/farmacia/Dispensar')),
+      handle: handle(rf.dispensar),
+    },
+    {
+      path: 'dispensacoes/:id',
+      lazy: pagina(() => import('./pages/farmacia/DetalheDispensacao')),
+      handle: handle(rf.dispensacao),
+    },
+    {
+      path: 'movimentacoes',
+      lazy: pagina(() => import('./pages/farmacia/Movimentacoes')),
+      handle: handle(rf.movimentacoes),
+    },
+    {
+      path: 'vencimentos',
+      lazy: pagina(() => import('./pages/farmacia/Vencimentos')),
+      handle: handle(rf.vencimentos),
+    },
+    {
+      path: 'controlados',
+      lazy: pagina(() => import('./pages/farmacia/Controlados')),
+      handle: handle(rf.controlados),
+    },
+  ],
+};
+
 /** Itens do menu que já têm telas próprias (os demais usam o Placeholder). */
-const COM_TELA = new Set(['/', '/pacientes', '/medicos', '/consultas', '/leitos', '/emergencia']);
+const COM_TELA = new Set([
+  '/',
+  '/pacientes',
+  '/medicos',
+  '/consultas',
+  '/leitos',
+  '/emergencia',
+  '/farmacia',
+]);
 
 /**
  * Árvore de rotas da aplicação.
@@ -243,6 +321,7 @@ export function criarRotas(rotasExtras: RouteObject[] = []): RouteObject[] {
             rotasConsultas,
             rotasLeitos,
             rotasEmergencia,
+            rotasFarmacia,
             ...itensNavegacao
               .filter((item) => !COM_TELA.has(item.caminho))
               .map<RouteObject>((item) => ({

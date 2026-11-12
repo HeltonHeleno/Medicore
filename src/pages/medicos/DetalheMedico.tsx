@@ -4,6 +4,7 @@ import { AgendaMedico } from '../../components/medicos/AgendaMedico';
 import { GradeDisponibilidade } from '../../components/medicos/GradeDisponibilidade';
 import { IndicadoresMedico } from '../../components/medicos/IndicadoresMedico';
 import { textoPrevia } from '../../components/medicos/previa';
+import { VinculosMedico } from '../../components/medicos/VinculosMedico';
 import { Avatar } from '../../components/ui/Avatar';
 import { BadgeSituacao } from '../../components/ui/BadgeSituacao';
 import { ButtonLink } from '../../components/ui/Button';
@@ -153,6 +154,7 @@ export default function DetalheMedico() {
           </Card>
         </div>
 
+        <VinculosMedico medicoId={medico.id} />
         <IndicadoresMedico medicoId={medico.id} />
         <AgendaMedico medico={medico} />
       </div>

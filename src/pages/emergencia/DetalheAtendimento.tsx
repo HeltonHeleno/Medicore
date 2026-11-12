@@ -8,7 +8,9 @@ import {
 import { BadgeRisco } from '../../components/emergencia/BadgeRisco';
 import { ResumoSinais } from '../../components/emergencia/ResumoSinais';
 import { CAMPOS_SINAIS } from '../../components/emergencia/sinais';
+import { SecaoDispensacoes } from '../../components/farmacia/SecaoDispensacoes';
 import { AlertaAlergias } from '../../components/pacientes/AlertaAlergias';
+import { tf } from '../../i18n/pt-BR/farmacia';
 import { opcaoDoPaciente } from '../../components/pacientes/opcao-paciente';
 import { Button, ButtonLink } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
@@ -377,6 +379,29 @@ export default function DetalheAtendimento() {
                   </Button>
                 ),
               )}
+              {/* Dispensar (matriz: todo atendimento aberto); provisório identifica antes (D9). */}
+              {a.status !== 'encerrado' &&
+                (a.pacienteId ? (
+                  <ButtonLink
+                    variante="contorno"
+                    to={`/farmacia/dispensar?pacienteId=${a.pacienteId}`}
+                  >
+                    {tf.ligacoes.dispensarMedicamento}
+                  </ButtonLink>
+                ) : (
+                  <>
+                    <Button
+                      variante="contorno"
+                      aria-describedby="dispensar-provisorio"
+                      onClick={() => acoes.executar('identificar', a)}
+                    >
+                      {tf.ligacoes.dispensarMedicamento}
+                    </Button>
+                    <p id="dispensar-provisorio" className="text-[12.5px] text-text-muted">
+                      {tf.dispensarTela.provisorio}
+                    </p>
+                  </>
+                ))}
               {a.desfecho?.internacaoId && (
                 <ButtonLink
                   variante="contorno"
@@ -433,7 +458,7 @@ export default function DetalheAtendimento() {
               role="region"
               aria-label={dt.tabela.legenda}
               tabIndex={0}
-              className="-mx-1 overflow-x-auto rounded px-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+              className="relative -mx-1 overflow-x-auto rounded px-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
             >
               <table className="w-full min-w-[40rem] text-left text-[13.5px] tabular-nums">
                 <caption className="sr-only">{dt.tabela.legenda}</caption>
@@ -476,6 +501,8 @@ export default function DetalheAtendimento() {
             </div>
           )}
         </Card>
+
+        <SecaoDispensacoes destinoId={a.id} />
 
         <Card titulo={dt.cards.historico}>
           <LinhaDoTempo itens={a.eventos.map((ev) => itemDoEvento(ev, a))} />

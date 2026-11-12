@@ -20,6 +20,7 @@ import type {
 import type { RetratoOperacoes } from '../utils/consistencia';
 import { agora } from '../utils/relogio';
 import { repoConsultas, repoMedicos, repoPacientes } from './colecoes';
+import { NOMES_OPERACOES } from './nomes-colecoes-operacoes';
 import { aoResetar, criarRepositorio } from './repositorio';
 
 let cache: DadosOperacionais | null = null;
@@ -41,27 +42,30 @@ function dados(): DadosOperacionais {
 /** Cópia profunda: a semente não pode compartilhar objetos com o que foi gravado. */
 const copia = <T>(lista: T[]): T[] => structuredClone(lista);
 
-export const repoLeitos = criarRepositorio<Leito>('leitos', () => copia(dados().leitos));
-export const repoInternacoes = criarRepositorio<Internacao>('internacoes', () =>
+export const repoLeitos = criarRepositorio<Leito>(NOMES_OPERACOES.leitos, () =>
+  copia(dados().leitos),
+);
+export const repoInternacoes = criarRepositorio<Internacao>(NOMES_OPERACOES.internacoes, () =>
   copia(dados().internacoes),
 );
-export const repoSolicitacoes = criarRepositorio<SolicitacaoLeito>('solicitacoes_leito', () =>
-  copia(dados().solicitacoes),
+export const repoSolicitacoes = criarRepositorio<SolicitacaoLeito>(
+  NOMES_OPERACOES.solicitacoes,
+  () => copia(dados().solicitacoes),
 );
-export const repoAtendimentos = criarRepositorio<Atendimento>('atendimentos', () =>
+export const repoAtendimentos = criarRepositorio<Atendimento>(NOMES_OPERACOES.atendimentos, () =>
   copia(dados().atendimentos),
 );
-export const repoMedicamentos = criarRepositorio<Medicamento>('medicamentos', () =>
+export const repoMedicamentos = criarRepositorio<Medicamento>(NOMES_OPERACOES.medicamentos, () =>
   copia(dados().medicamentos),
 );
-export const repoLotes = criarRepositorio<Lote>('lotes', () => copia(dados().lotes));
-export const repoMovimentacoes = criarRepositorio<Movimentacao>('movimentacoes', () =>
+export const repoLotes = criarRepositorio<Lote>(NOMES_OPERACOES.lotes, () => copia(dados().lotes));
+export const repoMovimentacoes = criarRepositorio<Movimentacao>(NOMES_OPERACOES.movimentacoes, () =>
   copia(dados().movimentacoes),
 );
-export const repoDispensacoes = criarRepositorio<Dispensacao>('dispensacoes', () =>
+export const repoDispensacoes = criarRepositorio<Dispensacao>(NOMES_OPERACOES.dispensacoes, () =>
   copia(dados().dispensacoes),
 );
-export const repoResumos = criarRepositorio<ResumoMensal>('resumos_mensais', () =>
+export const repoResumos = criarRepositorio<ResumoMensal>(NOMES_OPERACOES.resumos, () =>
   copia(dados().resumos),
 );
 

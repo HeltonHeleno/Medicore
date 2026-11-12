@@ -7,11 +7,16 @@ import {
   listarAlertas,
   obterIndicadoresEmergencia,
   obterIndicadoresLeitos,
+  obterResumoEstoque,
 } from '../services/indicadores-operacionais';
 import { listarFila, obterAtendimento, listarHistorico } from '../services/emergencia';
 import {
+  destinoDetalhado,
+  listarDispensacoesDoDestino,
   listarEstoque,
+  listarLotesVencimento,
   listarMovimentacoes,
+  livroControlados,
   obterDispensacao,
   obterMedicamento,
 } from '../services/farmacia';
@@ -78,3 +83,23 @@ export const useMovimentacoes = (filtros: FiltrosMovimentacoes) =>
   useColecao(() => listarMovimentacoes(filtros), [JSON.stringify(filtros)], FARMACIA);
 export const useDispensacao = (id: string) =>
   useColecao(() => obterDispensacao(id), [id], FARMACIA);
+export const useResumoEstoque = () => useColecao(() => obterResumoEstoque(), [], FARMACIA);
+export const useLotesVencimento = () => useColecao(() => listarLotesVencimento(), [], FARMACIA);
+export const useLivroControlados = (medicamentoId: string, de: string, ate: string) =>
+  useColecao(
+    () =>
+      medicamentoId && de && ate && de <= ate
+        ? livroControlados(medicamentoId, de, ate)
+        : Promise.resolve(null),
+    [medicamentoId, de, ate],
+    FARMACIA,
+  );
+/** Destino da dispensação depende da internação ou do atendimento do paciente. */
+export const useDestinoDispensacao = (pacienteId: string) =>
+  useColecao(
+    () => (pacienteId ? destinoDetalhado(pacienteId) : Promise.resolve(null)),
+    [pacienteId],
+    [...new Set([...LEITOS, ...EMERGENCIA])],
+  );
+export const useDispensacoesDoDestino = (destinoId: string) =>
+  useColecao(() => listarDispensacoesDoDestino(destinoId), [destinoId], FARMACIA);

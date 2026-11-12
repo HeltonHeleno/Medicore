@@ -1,21 +1,22 @@
 import { ErrorState } from '../ui/EmptyState';
-import { useIndicadoresPainel, useKpis, useLeitos } from '../../hooks/useDashboardData';
+import { useIndicadoresPainel, useKpis } from '../../hooks/useDashboardData';
+import { useIndicadoresOperacionais } from '../../hooks/useIndicadoresOperacionais';
 import { t } from '../../i18n/pt-BR';
 import { cn } from '../../utils/cn';
 import { formatNumero, formatPercentual } from '../../utils/format';
-import { resumoLeitos } from '../../utils/leitos';
 import { StatCard } from './StatCard';
 
 /**
- * Linha com os 4 indicadores do dia. "Leitos disponíveis" é calculado a partir dos setores;
- * "Total de pacientes" e "Médicos de plantão" vêm dos cadastros e se atualizam sozinhos.
+ * Linha com os 4 indicadores do dia. "Total de pacientes" e "Médicos de plantão" vêm dos
+ * cadastros; "Leitos disponíveis" (só livres, A13) e "Casos de emergência" (abertos, com
+ * os de vermelho e laranja) vêm dos módulos, carregados sob demanda (D20).
  */
 export function KpiCards({ className }: { className?: string }) {
   const kpis = useKpis();
-  const leitos = useLeitos();
+  const operacoes = useIndicadoresOperacionais();
   const cadastros = useIndicadoresPainel();
 
-  if (kpis.erro || leitos.erro || cadastros.erro) {
+  if (kpis.erro || operacoes.erro || cadastros.erro) {
     return (
       <div
         className={cn(
@@ -26,7 +27,7 @@ export function KpiCards({ className }: { className?: string }) {
         <ErrorState
           aoTentarNovamente={() => {
             if (kpis.erro) kpis.recarregar();
-            if (leitos.erro) leitos.recarregar();
+            if (operacoes.erro) operacoes.recarregar();
             if (cadastros.erro) cadastros.recarregar();
           }}
         />
@@ -36,7 +37,8 @@ export function KpiCards({ className }: { className?: string }) {
 
   const k = kpis.data;
   const c = cadastros.data;
-  const l = leitos.data ? resumoLeitos(leitos.data) : null;
+  const l = operacoes.data?.leitos;
+  const e = operacoes.data?.emergencia;
   const variacao = k?.variacaoPacientes ?? 0;
 
   return (
@@ -53,7 +55,7 @@ export function KpiCards({ className }: { className?: string }) {
       <StatCard
         titulo={t.kpis.leitosDisponiveis}
         valor={l?.disponiveis}
-        detalhe={l ? t.kpis.deTotalLeitos(formatNumero(l.total)) : undefined}
+        detalhe={l ? t.kpis.deTotalLeitos(formatNumero(l.operacionais)) : undefined}
       />
       <StatCard
         titulo={t.kpis.medicosPlantao}
@@ -62,15 +64,17 @@ export function KpiCards({ className }: { className?: string }) {
       />
       <StatCard
         titulo={t.kpis.casosEmergencia}
-        valor={k?.casosEmergencia}
+        valor={e?.abertos}
         destaque="perigo"
         detalhe={
-          <a
-            href="#alertas-emergencia"
-            className="rounded hover:underline focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
-          >
-            {t.kpis.altaPrioridade}
-          </a>
+          e ? (
+            <a
+              href="#alertas-emergencia"
+              className="rounded hover:underline focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+            >
+              {t.kpis.altaPrioridade(e.altaPrioridade)}
+            </a>
+          ) : undefined
         }
       />
     </section>

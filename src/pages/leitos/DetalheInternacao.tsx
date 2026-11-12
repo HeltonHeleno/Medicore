@@ -1,6 +1,8 @@
 import { ArrowLeft, Info } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
+import { SecaoDispensacoes } from '../../components/farmacia/SecaoDispensacoes';
 import { AlertaAlergias } from '../../components/pacientes/AlertaAlergias';
+import { tf } from '../../i18n/pt-BR/farmacia';
 import { Button, ButtonLink } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { ErrorState } from '../../components/ui/EmptyState';
@@ -242,6 +244,12 @@ export default function DetalheInternacao() {
                   <ButtonLink variante="contorno" to={`/leitos/internacoes/${i.id}/editar`}>
                     {dt.editar}
                   </ButtonLink>
+                  <ButtonLink
+                    variante="contorno"
+                    to={`/farmacia/dispensar?pacienteId=${i.pacienteId}`}
+                  >
+                    {tf.ligacoes.dispensarMedicamento}
+                  </ButtonLink>
                 </>
               ) : (
                 <>
@@ -303,6 +311,8 @@ export default function DetalheInternacao() {
             )}
           </Card>
         )}
+
+        <SecaoDispensacoes destinoId={i.id} />
 
         <Card titulo={dt.cards.historico}>
           <LinhaDoTempo itens={i.eventos.map(itemDoEvento)} />
