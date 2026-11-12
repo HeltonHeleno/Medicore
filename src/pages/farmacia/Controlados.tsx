@@ -15,6 +15,7 @@ import { tf } from '../../i18n/pt-BR/farmacia';
 import { nomeMedicamento } from '../../services/farmacia';
 import type { TipoMovimentacao } from '../../types';
 import { formatarData, formatarDataHora, somarDias } from '../../utils/datas';
+import { formatNumero } from '../../utils/format';
 import { abasFarmacia } from './abas';
 
 const ct = tf.controladosTela;
@@ -159,9 +160,9 @@ export default function Controlados() {
                         <td className="py-2 pr-3">{tf.movimentacoes[x.tipo]}</td>
                         <td className="py-2 pr-3 tabular-nums">
                           {POSITIVOS.includes(x.tipo) ? '+' : '−'}
-                          {x.quantidade}
+                          {formatNumero(x.quantidade)}
                         </td>
-                        <td className="py-2 pr-3 tabular-nums">{x.saldoLoteApos}</td>
+                        <td className="py-2 pr-3 tabular-nums">{formatNumero(x.saldoLoteApos)}</td>
                         <td className="py-2 pr-3">
                           {[x.motivo, x.termo ? tf.dispensacaoTela.termo(x.termo) : '']
                             .filter(Boolean)

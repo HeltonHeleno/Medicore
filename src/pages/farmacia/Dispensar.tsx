@@ -9,6 +9,7 @@ import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/feedback/Modal';
 import { BarraAcoesFormulario } from '../../components/ui/form/BarraAcoesFormulario';
 import { Campo } from '../../components/ui/form/Campo';
+import { focarCampo, naOrdemDaTela } from '../../components/ui/form/foco';
 import { ResumoErros, type ItemErro } from '../../components/ui/form/ResumoErros';
 import { SecaoFormulario } from '../../components/ui/form/SecaoFormulario';
 import { Select } from '../../components/ui/form/Select';
@@ -100,6 +101,13 @@ function FormDispensar({
   const [erros, setErros] = useState<Record<string, string>>({});
   const [erroTopo, setErroTopo] = useState<string | undefined>();
   const [tentativa, setTentativa] = useState(0);
+  // 21.2.3: depois de cada tentativa com erros, foco no 1º campo inválido na ordem da tela.
+  useEffect(() => {
+    if (!tentativa) return;
+    const [primeiro] = naOrdemDaTela(Object.keys(erros).map((campo) => ({ campo })));
+    if (primeiro) focarCampo(primeiro.campo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tentativa]);
   const [revisando, setRevisando] = useState(false);
   const [enviando, setEnviando] = useState(false);
 
@@ -180,10 +188,12 @@ function FormDispensar({
     pacienteId: d.paciente,
     medicoSolicitanteId: d.medico,
   };
-  const resumo: ItemErro[] = Object.entries(erros).map(([campo, mensagem]) => {
-    const m = /^itens\.(\d+)\./.exec(campo);
-    return { campo, mensagem, rotulo: m ? d.item(Number(m[1]) + 1) : rotulos[campo] };
-  });
+  const resumo: ItemErro[] = naOrdemDaTela(
+    Object.entries(erros).map(([campo, mensagem]) => {
+      const m = /^itens\.(\d+)\./.exec(campo);
+      return { campo, mensagem, rotulo: m ? d.item(Number(m[1]) + 1) : rotulos[campo] };
+    }),
+  );
   const alergiasTexto = dadosPaciente.data?.alergias?.trim();
   const medicoNome = medicos.data?.itens.find((m) => m.id === medicoId)?.nomeExibicao ?? '';
 

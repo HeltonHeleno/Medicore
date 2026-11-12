@@ -11,12 +11,3 @@ export const classesSomenteLeitura = 'read-only:bg-bg read-only:focus:ring-0';
 
 /** Id previsível de um campo a partir do nome no formulário ("endereco.cep" → "campo-endereco-cep"). */
 export const idDoCampo = (nome: string) => `campo-${nome.replace(/[^\w-]/g, '-')}`;
-
-/** Leva o foco ao campo pelo id do `Campo` ou, em último caso, pelo atributo `name`. */
-export function focarCampo(campo: string) {
-  const el =
-    document.getElementById(idDoCampo(campo)) ??
-    document.querySelector<HTMLElement>(`[name="${CSS.escape(campo)}"]`);
-  el?.focus();
-  el?.scrollIntoView?.({ block: 'center' });
-}

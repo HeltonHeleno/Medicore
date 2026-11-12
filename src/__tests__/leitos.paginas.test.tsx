@@ -78,18 +78,24 @@ describe('Mapa de leitos (17.2–17.4)', { timeout: 30_000 }, () => {
       .findByRole('searchbox', { name: 'Buscar paciente no mapa' })
       .catch(() => screen.getByLabelText('Buscar paciente no mapa'));
     await user.type(busca, nomeDe(i.pacienteId));
+    // O mapa tem 130 cartões: sob carga (test:coverage), a busca leva mais de 1 s.
     expect(
-      await screen.findByText(/leito encontrado e destacado|leitos encontrados/),
+      await screen.findByText(/leito encontrado e destacado|leitos encontrados/, undefined, {
+        timeout: 5000,
+      }),
     ).toBeInTheDocument();
-    await waitFor(() =>
-      expect(document.activeElement).toHaveAccessibleName(new RegExp(`^${codigo}, Ocupado`)),
+    await waitFor(
+      () => expect(document.activeElement).toHaveAccessibleName(new RegExp(`^${codigo}, Ocupado`)),
+      { timeout: 5000 },
     );
 
     const livre = pacienteLivre();
     await user.clear(busca);
     await user.type(busca, livre.nome);
     expect(
-      await screen.findByText(`"${livre.nome}" não está internado em nenhum leito.`),
+      await screen.findByText(`"${livre.nome}" não está internado em nenhum leito.`, undefined, {
+        timeout: 5000,
+      }),
     ).toBeInTheDocument();
   });
 

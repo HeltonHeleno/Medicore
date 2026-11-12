@@ -252,3 +252,26 @@ test('itens da dispensação só com teclado: medicamento, quantidade e novo ite
   await page.keyboard.press('Enter');
   await expect(page.getByRole('group', { name: 'Item 2' })).toHaveCount(0);
 });
+
+test('telas dos módulos: resumo de erros e foco no 1º campo inválido da tela (21.2.3)', async ({
+  page,
+}) => {
+  for (const [url, botao, primeiro] of [
+    ['/leitos/internar', 'Internar', /^Paciente/],
+    ['/emergencia/chegada', 'Registrar chegada', /^Paciente/],
+    ['/farmacia/dispensar', 'Revisar dispensação', /^Paciente/],
+    ['/farmacia/entrada', 'Registrar entrada', /^Medicamento/],
+  ] as const) {
+    await page.goto(url);
+    await expect(page.locator('main h1').first()).toBeVisible();
+    await page.getByRole('button', { name: botao, exact: true }).focus();
+    await page.keyboard.press('Enter');
+    const resumo = page.getByRole('alert').filter({ hasText: /precisa(m)? de correção/ });
+    await expect(resumo).toBeVisible();
+    await expect(page.getByRole('combobox', { name: primeiro })).toBeFocused();
+    // O 1º link do resumo é o mesmo campo que recebeu o foco.
+    await expect(resumo.getByRole('link').first()).toHaveText(
+      new RegExp(primeiro.source.replace('^', '')),
+    );
+  }
+});

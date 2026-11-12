@@ -9,6 +9,7 @@ import {
 } from 'react-hook-form';
 import { useBlocker } from 'react-router-dom';
 import type { z } from 'zod';
+import { focarCampo, naOrdemDaTela } from '../components/ui/form/foco';
 import type { ItemErro } from '../components/ui/form/ResumoErros';
 import { t } from '../i18n/pt-BR';
 import { aplicarErrosNoFormulario, ErroConflito, ErroValidacao } from '../services/erros';
@@ -70,7 +71,8 @@ export function useFormularioEntidade<Entrada extends FieldValues, Saida>({
     resolver: zodResolver(esquema),
     defaultValues: valoresIniciais,
     mode: 'onTouched',
-    shouldFocusError: true,
+    // O foco vai para o 1º campo inválido na ordem da tela (não na ordem do esquema).
+    shouldFocusError: false,
   });
   const toast = useToast();
   const confirmar = useConfirmar();
@@ -116,29 +118,37 @@ export function useFormularioEntidade<Entrada extends FieldValues, Saida>({
 
   const enviar = useCallback(
     (evento?: { preventDefault?: () => void }) =>
-      form.handleSubmit(async (dados) => {
-        setEnviando(true);
-        salvo.current = true;
-        try {
-          if ((await aoEnviar(dados)) === false) salvo.current = false;
-        } catch (erro) {
-          salvo.current = false;
-          aoErroServico?.(erro);
-          const aplicado = aplicarErrosNoFormulario(erro, (campo, e) =>
-            form.setError(campo as Path<Entrada>, e),
-          );
-          const campo = campoDoErro(erro);
-          if (aplicado && campo) form.setFocus(campo as Path<Entrada>);
-          else toast.erro(erro instanceof Error ? erro.message : t.erros.inesperadoTitulo);
-        } finally {
-          setEnviando(false);
-        }
-      })(evento as never),
+      form.handleSubmit(
+        async (dados) => {
+          setEnviando(true);
+          salvo.current = true;
+          try {
+            if ((await aoEnviar(dados)) === false) salvo.current = false;
+          } catch (erro) {
+            salvo.current = false;
+            aoErroServico?.(erro);
+            const aplicado = aplicarErrosNoFormulario(erro, (campo, e) =>
+              form.setError(campo as Path<Entrada>, e),
+            );
+            const campo = campoDoErro(erro);
+            if (aplicado && campo) form.setFocus(campo as Path<Entrada>);
+            else toast.erro(erro instanceof Error ? erro.message : t.erros.inesperadoTitulo);
+          } finally {
+            setEnviando(false);
+          }
+        },
+        (erros) => {
+          const [primeiro] = naOrdemDaTela(listarErros(erros));
+          if (primeiro) focarCampo(primeiro.campo);
+        },
+      )(evento as never),
     [aoEnviar, aoErroServico, form, toast],
   );
 
   const resumo: ItemErro[] =
-    submitCount > 0 ? listarErros(errors).map((e) => ({ ...e, rotulo: rotulos[e.campo] })) : [];
+    submitCount > 0
+      ? naOrdemDaTela(listarErros(errors)).map((e) => ({ ...e, rotulo: rotulos[e.campo] }))
+      : [];
 
   return { form, enviar, enviando, resumo, tentativa: submitCount };
 }

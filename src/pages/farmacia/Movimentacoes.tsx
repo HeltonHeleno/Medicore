@@ -20,6 +20,7 @@ import { nomeExibicaoPaciente, obterPaciente } from '../../services/pacientes';
 import type { TipoMovimentacao } from '../../types';
 import { formatarDataHora } from '../../utils/datas';
 import { cn } from '../../utils/cn';
+import { formatNumero } from '../../utils/format';
 import { abasFarmacia } from './abas';
 
 const mt = tf.movimentacoesTela;
@@ -111,7 +112,7 @@ export default function Movimentacoes() {
             )}
           >
             {positivo ? '+' : '−'}
-            {x.quantidade}
+            {formatNumero(x.quantidade)}
           </span>
         );
       },
@@ -119,7 +120,7 @@ export default function Movimentacoes() {
     {
       id: 'saldo',
       titulo: col.saldo,
-      celula: (x) => <span className="tabular-nums">{x.saldoLoteApos}</span>,
+      celula: (x) => <span className="tabular-nums">{formatNumero(x.saldoLoteApos)}</span>,
     },
     {
       id: 'dispensacao',

@@ -1,7 +1,8 @@
 import { AlertCircle } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { t } from '../../../i18n/pt-BR';
-import { focarCampo, idDoCampo } from './estilos';
+import { idDoCampo } from './estilos';
+import { focarCampo } from './foco';
 
 export interface ItemErro {
   /** Nome do campo no formulário (ex.: "endereco.cep"). */

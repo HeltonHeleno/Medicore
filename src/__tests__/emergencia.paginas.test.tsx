@@ -177,6 +177,9 @@ describe('Fila (18.2)', { timeout: 30_000 }, () => {
     renderizarComRotas('/emergencia');
     const linha = (await screen.findByText(new RegExp(p.nomeSocial ?? p.nome))).closest('li')!;
     expect(within(linha).queryByText(/Acima do prazo/)).toBeNull();
+    // Garante que os efeitos (o `setInterval` do relógio) já rodaram antes de avançar o tempo;
+    // sob carga, o texto pode aparecer antes dos efeitos.
+    await act(async () => {});
     act(() => {
       vi.advanceTimersByTime(12 * 60_000);
     });
