@@ -503,6 +503,13 @@ Os planos concluídos, com checklists por fase, estão arquivados em `docs/plano
 O resumo de cada fase está em `docs/PR_FASE_<N>.md`. O backlog, ainda em uso, fica em
 `BACKLOG_MEDICORE.md`, na raiz.
 
+Planos ativos, na raiz:
+
+- `PLANO_MELHORIAS_MEDICORE.md` — especificação das 40 melhorias do backlog (decisões, processos,
+  regras, riscos e critérios de aceite);
+- `PLANO_EXECUCAO_MELHORIAS.md` — tarefas por processo das Fases 22–64, em 4 ondas (versões 2.0.0
+  a 3.x).
+
 - [x] Fases 1–7 — Painel (configuração, layout, componentes, cards, grade, qualidade)
 - [x] Fases 8–14 — Cadastros, agenda e qualidade (versão 1.1.0)
 - [x] Fase 15 — Fundação dos módulos operacionais (regras, serviços, dados de exemplo, invariantes)
@@ -518,6 +525,11 @@ O resumo de cada fase está em `docs/PR_FASE_<N>.md`. O backlog, ainda em uso, f
 termos dos módulos por quem não é desenvolvedor, e os testes com duas abas (roteiros em
 `docs/VERIFICACAO_MANUAL.md`).
 
-**Próximo passo:** publicar a versão 1.2.0. Depois, pelo `BACKLOG_MEDICORE.md`: integração
-contínua no GitHub (BL-60) e o backend real com autenticação, perfis de acesso e auditoria
-(BL-01 a BL-03), que também tira o limite de armazenamento do navegador.
+- [ ] Etapa 0 — Publicar a 1.2.0, acessos e decisões da Onda 1
+- [ ] Fases 22–30 — Onda 1: CI, monitoramento, backend, login, auditoria, backup (versão 2.0.0)
+- [ ] Fases 31–40 — Onda 2 (versões 2.1–2.3)
+- [ ] Fases 41–56 — Onda 3 (versões 2.4–2.9)
+- [ ] Fases 57–64 — Onda 4, só os itens aprovados (versão 3.x)
+
+**Próximo passo:** a Etapa 0 do `PLANO_EXECUCAO_MELHORIAS.md` (publicar a versão 1.2.0) e, em
+seguida, a Fase 22 (integração contínua, BL-60).

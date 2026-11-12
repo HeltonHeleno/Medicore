@@ -3,6 +3,7 @@
 > **Projeto:** MediCore · Operações Hospitalares
 > **Versão publicada:** 1.1.0 (Painel + cadastros). **Versão 1.2.0 pronta** (Gestão de leitos, Emergência e Farmácia); entra em produção quando os PRs das Fases 19 a 21 e o `release/1.2.0` forem mesclados na `main`
 > **Concluído:** `docs/planos/PLANO_OPERACOES_MEDICORE.md` (Fases 15–21 e Encerramento, 12/11/2026)
+> **Em plano:** todos os 40 itens estão em `PLANO_MELHORIAS_MEDICORE.md` (especificação, processos `BL-xx.n`) e `PLANO_EXECUCAO_MELHORIAS.md` (tarefas, Fases 22–64). Status 🟨 = em plano; vira ✅ quando a fase fechar
 > **Fontes consolidadas:**
 > - `docs/planos/PLANO_IMPLEMENTACAO_MEDICORE.md` (Painel, Fases 1–7)
 > - `docs/planos/PLANO_CADASTROS_MEDICORE.md` (cadastros, Fases 8–14, com a revisão do Encerramento)
@@ -66,27 +67,27 @@
 
 | Ordem | Código | Item | Horizonte | Esforço | Depende de | Status |
 |:---:|---|---|:---:|:---:|---|:---:|
-| 1 | BL-60 | Integração contínua no GitHub (lint, testes, e2e a cada push) | Agora | P | — | ⬜ |
-| 2 | BL-01 | Backend real (API + banco de dados) | Agora | G | — | ⬜ |
-| 3 | BL-02 | Autenticação e perfis de acesso | Agora | G | BL-01 | ⬜ |
-| 4 | BL-03 | Auditoria de acesso (LGPD) | Agora | M | BL-01, BL-02 | ⬜ |
-| 5 | BL-04 | Criptografia, backup e guarda dos dados | Agora | M | BL-01 | ⬜ |
-| 6 | BL-05 | Monitoramento de erros (ex.: Sentry) | Agora | P | — | ⬜ |
-| 7 | BL-10 | Horários por dia da semana e bloqueios de agenda | Próximo | M | — | ⬜ |
-| 8 | BL-13 | Pacientes sem CPF (recém-nascido, estrangeiro, CNS) | Próximo | M | — | ⬜ |
-| 9 | BL-18 | Cadastro estruturado de alergias | Próximo | M | — | ⬜ |
-| 10 | BL-30 | Cadastro da estrutura hospitalar (setores, quartos, leitos) | Próximo | M | Plano de operações | ⬜ |
-| 11 | BL-23 | CID-10 na internação e no desfecho da emergência | Próximo | M | Plano de operações | ⬜ |
-| 12 | BL-40 | Relatórios gerenciais com exportação | Próximo | M | Plano de operações | ⬜ |
-| 13 | BL-44 | Notificações no sino do cabeçalho | Próximo | M | Plano de operações | ⬜ |
-| 14 | BL-50 | Tela de Configurações | Próximo | M | — | ⬜ |
-| 15 | BL-51 | Tela "Meu perfil" | Próximo | P | BL-02 | ⬜ |
-| 16 | BL-17 | Campo de data próprio (sempre `dd/mm/aaaa`) | Próximo | P | — | ⬜ |
-| — | BL-11, BL-12, BL-14, BL-15, BL-16, BL-21, BL-24, BL-31, BL-32, BL-34, BL-35, BL-36, BL-41, BL-45, BL-06 | Ver as áreas | Depois | — | — | ⬜ |
+| 1 | BL-60 | Integração contínua no GitHub (lint, testes, e2e a cada push) | Agora | P | — |🟨 |
+| 2 | BL-01 | Backend real (API + banco de dados) | Agora | G | — |🟨 |
+| 3 | BL-02 | Autenticação e perfis de acesso | Agora | G | BL-01 |🟨 |
+| 4 | BL-03 | Auditoria de acesso (LGPD) | Agora | M | BL-01, BL-02 |🟨 |
+| 5 | BL-04 | Criptografia, backup e guarda dos dados | Agora | M | BL-01 |🟨 |
+| 6 | BL-05 | Monitoramento de erros (ex.: Sentry) | Agora | P | — |🟨 |
+| 7 | BL-10 | Horários por dia da semana e bloqueios de agenda | Próximo | M | — |🟨 |
+| 8 | BL-13 | Pacientes sem CPF (recém-nascido, estrangeiro, CNS) | Próximo | M | — |🟨 |
+| 9 | BL-18 | Cadastro estruturado de alergias | Próximo | M | — |🟨 |
+| 10 | BL-30 | Cadastro da estrutura hospitalar (setores, quartos, leitos) | Próximo | M | Plano de operações |🟨 |
+| 11 | BL-23 | CID-10 na internação e no desfecho da emergência | Próximo | M | Plano de operações |🟨 |
+| 12 | BL-40 | Relatórios gerenciais com exportação | Próximo | M | Plano de operações |🟨 |
+| 13 | BL-44 | Notificações no sino do cabeçalho | Próximo | M | Plano de operações |🟨 |
+| 14 | BL-50 | Tela de Configurações | Próximo | M | — |🟨 |
+| 15 | BL-51 | Tela "Meu perfil" | Próximo | P | BL-02 |🟨 |
+| 16 | BL-17 | Campo de data próprio (sempre `dd/mm/aaaa`) | Próximo | P | — |🟨 |
+| — | BL-11, BL-12, BL-14, BL-15, BL-16, BL-21, BL-24, BL-31, BL-32, BL-34, BL-35, BL-36, BL-41, BL-45, BL-06 | Ver as áreas | Depois | — | — |🟨 |
 | — | BL-61 | Revisão por pull request | Depois | P | — | 🟨 |
-| — | BL-20, BL-22, BL-33, BL-42, BL-43, BL-46, BL-52, BL-07 | Ver as áreas | Ideia | — | — | ⬜ |
+| — | BL-20, BL-22, BL-33, BL-42, BL-43, BL-46, BL-52, BL-07 | Ver as áreas | Ideia | — | — |🟨 |
 
-**Sequência combinada (revista no Encerramento da 1.2.0):**
+**Sequência combinada (revista no Encerramento da 1.2.0; detalhada nas Fases 22–64 do `PLANO_EXECUCAO_MELHORIAS.md`):**
 1. ✅ Plano de operações (Fases 15–21, versão 1.2.0). Falta só mesclar os PRs e publicar.
 2. **BL-60** primeiro: é pequeno (P) e protege a `main`, que agora recebe um PR por fase e publica na Vercel a cada push.
 3. **BL-01** em seguida. O limite do navegador já é o gargalo: com os módulos, o limite prático caiu para 600 pacientes + 2.000 consultas (73% de ~5 MB, com os tetos revistos). Depois, BL-02 a BL-05.
@@ -492,4 +493,5 @@ Verificações de entregas já feitas, que precisam de uma pessoa. Os roteiros e
 | 28/10/2026 | Backlog consolidado a partir dos planos do Painel, dos cadastros e das operações, mais as lições aprendidas do Encerramento. Itens repetidos foram unificados (ex.: busca global, alertas, relatórios) | |
 | 28/10/2026 | Ordem: concluir o plano de operações (versão 1.2.0) e depois o bloco "Agora", começando pelo backend real (BL-01) | |
 | 12/11/2026 | **Encerramento da 1.2.0:** plano de operações concluído. Leitos, Emergência, Farmácia e os alertas e indicadores do Painel marcados como resolvidos. Novos itens: BL-35 (gráfico dos sinais vitais) e BL-36 (ícones na linha do tempo), que ficaram fora das Fases 18 e 20. BL-61 em andamento (PR por fase adotado). Ordem revista: BL-60 antes do BL-01, porque é pequeno e protege a `main`; o BL-01 ganhou urgência com o limite de armazenamento medido na Fase 21 | |
+| 12/11/2026 | **Plano das melhorias:** o backlog inteiro foi detalhado em `PLANO_MELHORIAS_MEDICORE.md` (decisões D21–D66, processos por item, regras, riscos RS-19 a RS-27) e `PLANO_EXECUCAO_MELHORIAS.md` (Etapa 0, Fases 22–64 em 4 ondas, ~231 dias). Itens marcados 🟨. Os da Onda 4 começam por "seguir ou não" | Usuário |
 | | | |
