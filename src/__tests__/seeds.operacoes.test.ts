@@ -120,7 +120,11 @@ describe('dados de exemplo dos módulos (D13, A16)', () => {
     localStorage.setItem('medicore:medicos:v1', JSON.stringify(medicos));
     descarregarMemoria();
 
+    // 21.4.3 (M31): migração v2 + semeadura dos módulos sobre a 1.1.0 em menos de 300 ms.
+    const inicio = performance.now();
     const pacientes = repoPacientes.todos();
+    garantirSemeadura();
+    expect(performance.now() - inicio).toBeLessThan(300);
     expect(pacientes).toHaveLength(29 + QUANTIDADE_EXTRAS);
     expect(pacientes.find((p) => p.id === 'pac-lucas-ferreira')?.nome).toBe(
       'Lucas Ferreira Alterado',
@@ -128,7 +132,6 @@ describe('dados de exemplo dos módulos (D13, A16)', () => {
     expect(new Set(pacientes.map((p) => p.cpf)).size).toBe(pacientes.length);
     expect(JSON.parse(localStorage.getItem('medicore:meta')!).esquema).toBe(2);
 
-    garantirSemeadura();
     const r = retratoAtual();
     expect(verificarConsistencia(r, Date.now())).toEqual([]);
     const ids = new Set(pacientes.map((p) => p.id));

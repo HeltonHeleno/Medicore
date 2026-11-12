@@ -100,14 +100,23 @@ export const RETENCAO_DIAS = {
   resumos_mensais: 24,
 } as const;
 
+/**
+ * Tetos revistos na Fase 21 (21.4.2): com os tamanhos medidos (atendimento ~2,3 KB,
+ * dispensação ~1,2 KB, internação ~1,3 KB em UTF-16), os tetos originais somavam 5,2 MB e o
+ * cenário da D15 (600 pacientes + 2.000 consultas + módulos no teto) passava de 148% do limite.
+ * Com estes, o pior caso fica em ~74%. As retenções em dias não mudaram: o teto só age no uso
+ * intenso, removendo primeiro os itens fechados mais antigos (já somados nos resumos).
+ * Medicamentos e lotes não são cortados pela retenção (catálogo e lotes com saldo); os tetos
+ * deles são o volume de referência do cenário de carga.
+ */
 export const TETO_COLECAO = {
   leitos: 130,
-  internacoes: 600,
-  solicitacoes_leito: 200,
-  atendimentos: 400,
-  medicamentos: 500,
-  lotes: 1000,
-  movimentacoes: 3000,
-  dispensacoes: 1000,
+  internacoes: 200,
+  solicitacoes_leito: 50,
+  atendimentos: 120,
+  medicamentos: 150,
+  lotes: 350,
+  movimentacoes: 800,
+  dispensacoes: 200,
   resumos_mensais: 24,
 } as const;

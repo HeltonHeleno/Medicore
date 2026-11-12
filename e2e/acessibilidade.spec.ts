@@ -157,6 +157,78 @@ for (const tema of ['claro', 'escuro'] as const) {
       await semViolacoes(page);
     });
 
+    test('axe: diálogos dos módulos abertos (21.2.1)', async ({ page }) => {
+      await page.goto('/');
+      await expect(page.locator('main h1').first()).toBeVisible();
+      await page.waitForFunction(() =>
+        ['atendimentos', 'leitos', 'dispensacoes'].every(
+          (c) => localStorage.getItem(`medicore:${c}:v1`) !== null,
+        ),
+      );
+      const ids = await page.evaluate(() => {
+        const ler = (c: string) =>
+          JSON.parse(localStorage.getItem(`medicore:${c}:v1`) ?? '[]') as {
+            id: string;
+            status: string;
+            pacienteId?: string;
+            provisorio?: unknown;
+          }[];
+        const at = ler('atendimentos');
+        return {
+          aguardando: at.find((a) => a.status === 'aguardando_atendimento')!.id,
+          emAtendimento: at.find((a) => a.status === 'em_atendimento' && a.pacienteId)!.id,
+          provisorio: at.find((a) => a.status !== 'encerrado' && a.provisorio)?.id,
+          dispensacao: ler('dispensacoes').find((d) => d.status === 'realizada')!.id,
+          leitoLivre: ler('leitos').find((l) => l.status === 'livre')!.id,
+        };
+      });
+      const abrirDialogo = async (url: string, botao: string | RegExp, nome: RegExp) => {
+        await page.goto(url);
+        await page.getByRole('button', { name: botao }).first().click();
+        await expect(
+          page
+            .getByRole('dialog', { name: nome })
+            .or(page.getByRole('alertdialog', { name: nome })),
+        ).toBeVisible();
+        await semViolacoes(page);
+        await page.keyboard.press('Escape');
+      };
+      await abrirDialogo(`/emergencia/${ids.aguardando}`, 'Chamar para atendimento', /^Chamar E-/);
+      await abrirDialogo(
+        `/emergencia/${ids.emAtendimento}`,
+        'Pedir leito (internação)',
+        /^Pedir leito — E-/,
+      );
+      await abrirDialogo(
+        `/emergencia/${ids.emAtendimento}`,
+        'Registrar sinais vitais',
+        /sinais vitais/i,
+      );
+      if (ids.provisorio) {
+        await abrirDialogo(
+          `/emergencia/${ids.provisorio}`,
+          'Identificar paciente',
+          /^Identificar paciente — E-/,
+        );
+      }
+      await abrirDialogo('/leitos', 'Nova solicitação', /Pedir leito \(internação eletiva\)/);
+      await abrirDialogo('/leitos', 'Reservar', /Reservar leito para/);
+      await abrirDialogo(`/leitos/${ids.leitoLivre}`, /^Bloquear/, /Bloquear/);
+      await abrirDialogo(`/farmacia/dispensacoes/${ids.dispensacao}`, /^Devolver /, /^Devolver /);
+      // Estorno só aparece nas primeiras 24 h: uma dispensação nova pela tela.
+      await page.goto('/farmacia/dispensar?pacienteId=pac-g-043');
+      await expect(page.getByRole('combobox', { name: /Médico solicitante/ })).not.toHaveValue('');
+      await page.getByRole('combobox', { name: /^Medicamento/ }).selectOption('med-captopril-25');
+      await page.getByRole('spinbutton').fill('2');
+      await page.getByRole('button', { name: 'Revisar dispensação' }).click();
+      await page
+        .getByRole('dialog', { name: 'Confirmar dispensação' })
+        .getByRole('button', { name: 'Dispensar' })
+        .click();
+      await expect(page).toHaveURL(/\/farmacia\/dispensacoes\/[^/]+$/);
+      await abrirDialogo(page.url(), 'Estornar dispensação', /Estornar a dispensação/);
+    });
+
     test('axe: celular (375px) no Painel, na lista e na agenda', async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 800 });
       for (const rota of [
@@ -166,6 +238,9 @@ for (const tema of ['claro', 'escuro'] as const) {
         '/leitos',
         '/emergencia',
         '/emergencia/ate-1',
+        '/farmacia',
+        '/farmacia/dispensar?pacienteId=pac-ana-silva',
+        '/pacientes/pac-ana-silva',
       ]) {
         await page.goto(rota);
         await semViolacoes(page);

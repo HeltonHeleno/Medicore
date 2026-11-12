@@ -7,8 +7,14 @@ Sistema administrativo hospitalar com interface 100% em português do Brasil:
   - desempenho por departamento e alertas de emergência;
   - consultas de hoje e linha do tempo de atividades.
 - **Cadastros:**
-  - pacientes e médicos;
+  - pacientes e médicos, com a situação hospitalar de cada um;
   - agenda de consultas, com controle de conflitos de horário.
+- **Gestão de leitos:** mapa dos 130 leitos, internação, transferência, alta, higienização,
+  bloqueio e pedidos de leito.
+- **Emergência:** chegada (com ou sem identificação), classificação de risco, fila por cor e
+  prazo, atendimento, observação, desfecho e pedido de leito.
+- **Farmácia:** catálogo, lotes com validade, entrada, dispensação por FEFO com alertas,
+  devolução, estorno, ajustes, vencimentos e livro de controlados.
 
 Funciona em desktop, tablet e celular, nos temas claro e escuro.
 
@@ -17,11 +23,15 @@ Funciona em desktop, tablet e celular, nos temas claro e escuro.
 > criptografia e sem backup. Não cadastre dados reais de pacientes (LGPD). Para uso real é
 > preciso um backend com autenticação e controle de acesso (veja
 > [Como trocar pela API real](#como-trocar-o-armazenamento-local-pela-api-real)).
+>
+> ⚠️ **Escopo administrativo, não clínico.** A classificação de risco, os sinais vitais e o alerta
+> de alergia servem para organizar o trabalho e chamar atenção. O sistema não sugere
+> diagnóstico, cor de risco, dose nem conduta.
 
 ![Painel no tema claro](docs/capturas/painel-claro.png)
 
 <details>
-<summary>Tema escuro, celular e telas de cadastro</summary>
+<summary>Tema escuro, celular, cadastros e módulos operacionais</summary>
 
 ![Painel no tema escuro](docs/capturas/painel-escuro.png)
 
@@ -32,6 +42,14 @@ Funciona em desktop, tablet e celular, nos temas claro e escuro.
 ![Agendar consulta](docs/capturas/fase14-agendar-claro-1440.png)
 ![Detalhe do médico](docs/capturas/fase14-medico-claro-1440.png)
 <img src="docs/capturas/fase14-erros-celular.png" alt="Resumo de erros do formulário no celular" width="320" />
+
+![Mapa de leitos](docs/capturas/fase21-mapa-claro-1440.png)
+![Fila da emergência no tema escuro](docs/capturas/fase21-fila-escuro-1440.png)
+![Atendimento na emergência](docs/capturas/fase21-atendimento-claro-1440.png)
+![Estoque da farmácia](docs/capturas/fase21-estoque-claro-1440.png)
+![Dispensar, com o alerta de alergia](docs/capturas/fase21-dispensar-claro-1440.png)
+<img src="docs/capturas/fase21-mapa-celular.png" alt="Mapa de leitos no celular" width="320" />
+<img src="docs/capturas/fase21-fila-celular.png" alt="Fila da emergência no celular" width="320" />
 
 </details>
 
@@ -92,8 +110,16 @@ Os cenários são:
 - horário ocupado durante o preenchimento → erro → escolher outro;
 - inativar médico com consultas futuras → bloqueio → cancelar as consultas → inativar;
 - duas abas agendando o mesmo horário;
+- emergência → leito → internação (chegada sem identificação, triagem, vincular, chamar, pedir
+  leito, reservar no mapa, internar);
+- alta → higienização → leito livre, com o Painel subindo;
+- farmácia: entrada de lote → dispensação por FEFO com alerta de alergia → estoque baixo no
+  Painel → devolução;
+- duas abas internando no mesmo leito e dispensando o último estoque;
+- correções (desfazer alta, reabrir atendimento, estornar) dentro e depois do prazo;
+- óbito: cadastro inativado e consultas futuras canceladas;
 - fluxos só com teclado;
-- axe em todas as rotas, nos temas claro e escuro.
+- axe em todas as rotas e nos diálogos, nos temas claro e escuro.
 
 O relatório fica em `playwright-report/`.
 
@@ -156,8 +182,19 @@ a lista como estava.
 - Cada coleção fica em `localStorage`, na chave `medicore:<colecao>:v1`.
 - Há uma versão de esquema com migrações (`services/migracoes.ts`).
 - Mudanças feitas em uma aba aparecem nas outras sem recarregar.
-- O limite prático é de cerca de **1.000 pacientes + 3.000 consultas**: esse volume ocupa cerca
-  de 68% dos ~5 MB do navegador (teste em `src/__tests__/carga.test.ts`).
+- **Retenção (módulos):** os históricos fechados ficam por um tempo e depois são somados nos
+  resumos mensais (os gráficos não perdem os totais): internações 30 dias, atendimentos e pedidos
+  de leito 7 dias, movimentações 60 dias, dispensações 30 dias. Um registro ainda citado por outro
+  vira "registro arquivado". A rotina roda uma vez por dia, ao abrir o sistema.
+- **Tetos por coleção** (só agem no uso intenso, removendo primeiro os fechados mais antigos):
+  internações 200, atendimentos 120, pedidos de leito 50, movimentações 800, dispensações 200; o
+  volume de referência do catálogo é de 150 medicamentos e 350 lotes. Valores em
+  `src/config/limites.ts`.
+- **Limite prático:** cerca de **600 pacientes + 2.000 consultas, com os módulos no teto**. Esse
+  volume ocupa 3,7 MB, 73% dos ~5 MB do navegador, e a fila, o mapa e o estoque respondem em menos
+  de 15 ms (teste em `src/__tests__/carga.operacoes.test.ts`). Só os cadastros, sem os módulos,
+  vão até 1.000 pacientes + 3.000 consultas (`carga.test.ts`). Para volumes maiores, é preciso o
+  backend.
 - Ao passar de 80% do limite, o sistema mostra um aviso.
 - Se o armazenamento encher, nada é gravado pela metade: a operação inteira é desfeita.
 
@@ -178,27 +215,125 @@ navegador.
 - Se o ViaCEP estiver fora do ar ou bloqueado pela rede, o endereço pode ser preenchido à mão.
 - A busca desiste depois de 5 segundos.
 
+## Módulos operacionais
+
+Gestão de leitos, Emergência e Farmácia funcionam integrados entre si, com os cadastros e com o
+Painel. As regras ficam nos serviços (`services/leitos.ts`, `emergencia.ts`, `farmacia.ts`), e cada
+operação que envolve mais de uma coleção é uma transação: grava tudo ou nada. Os textos de cada
+módulo ficam em `src/i18n/pt-BR/<modulo>.ts` e são carregados com as telas dele.
+
+### Gestão de leitos
+
+| Rota                             | Tela                                                                                                     |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `/leitos`                        | Mapa: resumo por setor, previsão de liberação em 24 h, busca de paciente, filtros e pedidos de leito     |
+| `/leitos/internar`               | Internar. Aceita `?pacienteId=`, `?leitoId=` e `?solicitacaoId=`                                         |
+| `/leitos/internacoes`            | Internações ativas e encerradas (30 dias), com filtros                                                   |
+| `/leitos/internacoes/:id`        | Detalhe: consultas no período, linha do tempo, dispensações; transferir, dar alta, desfazer alta, editar |
+| `/leitos/internacoes/:id/editar` | Editar internação                                                                                        |
+| `/leitos/:leitoId`               | Detalhe do leito: ocupante, histórico de 30 dias, bloquear e desbloquear                                 |
+
+- **Processos:** internar (L1), transferir (L2), dar alta (L3), higienização (L4), bloquear (L5),
+  atender pedido de leito (L6), editar (L7), desfazer alta (L8) e pedido eletivo (L9).
+- **Regras principais:**
+  - um leito tem no máximo um ocupante, e um paciente no máximo uma internação ativa;
+  - alta e transferência levam o leito para higienização, nunca direto para livre;
+  - perfil (adulto ou pediátrico) e isolamento são conferidos; exceção só com justificativa;
+  - a escolha do leito é conferida de novo ao gravar. Com duas abas, a segunda recebe "Este
+    leito acabou de ser ocupado" (E-11).
+- **Painel:** "Leitos disponíveis" conta só os leitos livres; a ocupação usa os leitos
+  operacionais (sem bloqueados) dos setores de internação. A Observação da emergência fica de fora.
+
+### Emergência
+
+| Rota                      | Tela                                                                                      |
+| ------------------------- | ----------------------------------------------------------------------------------------- |
+| `/emergencia`             | Fila por cor e prazo, com resumo; aba Alertas (`?aba=alertas`)                            |
+| `/emergencia/chegada`     | Registrar chegada, com ou sem identificação. Aceita `?pacienteId=`                        |
+| `/emergencia/:id`         | Atendimento: triagens, sinais vitais, linha do tempo, dispensações e as ações da situação |
+| `/emergencia/:id/triagem` | Triagem e retriagem                                                                       |
+| `/emergencia/historico`   | Encerrados dos últimos 7 dias, com filtros                                                |
+
+- **Processos:** chegada (E1), triagem (E2), chamar (E3), observação (E4), desfecho (E5), pedir
+  leito (E6), identificar paciente (E7), fila (E8), reabrir (E9) e sinais vitais (E10).
+- **Regras principais:**
+  - a cor é escolhida pelo profissional; o sistema não sugere;
+  - **prazo** = momento da classificação + tempo-alvo da cor (vermelho 0, laranja 10, amarelo 60,
+    verde 120, azul 240 min). Retriagem mais grave adianta o prazo; menos grave exige
+    justificativa e não adia;
+  - os sinais vitais são sinalizados por faixa etária, como apoio visual, nunca como diagnóstico
+    (faixas em `src/config/sinais-vitais.ts`, a validar com a equipe clínica);
+  - um paciente não abre dois atendimentos, nem abre atendimento estando internado.
+
+### Farmácia
+
+| Rota                                                 | Tela                                                                             |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `/farmacia`                                          | Estoque: resumo (baixo, zerado, vencendo, vencidos), busca, filtros e ordenação  |
+| `/farmacia/medicamentos/novo`, `/:id`, `/:id/editar` | Catálogo; o detalhe mostra os lotes (ajuste, perda, bloqueio) e as movimentações |
+| `/farmacia/entrada`                                  | Entrada de lote, em unidades ou embalagens. Aceita `?medicamentoId=`             |
+| `/farmacia/dispensar`                                | Dispensar. Aceita `?pacienteId=`                                                 |
+| `/farmacia/dispensacoes/:id`                         | Detalhe, devolução por item, estorno e comprovante para impressão                |
+| `/farmacia/movimentacoes`                            | Movimentações com filtros                                                        |
+| `/farmacia/vencimentos`                              | Lotes vencendo em 60 dias e vencidos; descarte em lote                           |
+| `/farmacia/controlados`                              | Livro de controlados por período, com versão para impressão                      |
+
+- **Processos:** catálogo (F1), entrada (F2), dispensar (F3), devolução (F4), ajuste e perda
+  (F5), descarte de vencidos (F6), inativar (F7), estorno (F8) e bloqueio de lote (F9).
+- **Regras principais:**
+  - a saída usa **FEFO** (vence primeiro, sai primeiro), dividindo entre lotes; lotes vencidos e
+    bloqueados ficam de fora;
+  - o estoque nunca fica negativo; com duas abas, a segunda recebe "Estoque insuficiente" (E-12);
+  - só dispensa para paciente internado ou em atendimento na emergência;
+  - alergia (comparação por texto), controlado e quantidade alta pedem confirmação, que fica
+    registrada. "Alergias não informadas" não é o mesmo que "sem alergias";
+  - movimentações são imutáveis: toda correção é um movimento contrário.
+
+### Correções com prazo
+
+Enganos podem ser desfeitos dentro de uma janela, sempre com motivo e sem apagar o histórico:
+
+| Correção                  | Prazo | Depois do prazo                             |
+| ------------------------- | ----- | ------------------------------------------- |
+| Desfazer alta (L8)        | 6 h   | "Internar novamente", com os dados copiados |
+| Reabrir atendimento (E9)  | 2 h   | Novo atendimento                            |
+| Estornar dispensação (F8) | 24 h  | Devolução por item (F4)                     |
+
+O **óbito** (na alta ou no desfecho) inativa o cadastro e cancela as consultas futuras. Desfazer
+reativa o cadastro, mas as consultas canceladas não voltam.
+
+### Integração com os cadastros
+
+- O detalhe do paciente mostra a situação hospitalar (internação ou atendimento em curso) e o
+  histórico, com os atalhos Internar e Registrar chegada quando valem.
+- O detalhe do médico mostra as internações sob a responsabilidade dele e os atendimentos em curso.
+- Agendar consulta para um paciente internado mostra o aviso "Paciente internado em {leito}".
+- Inativar ou excluir paciente e inativar médico respeitam as pendências nos módulos.
+
 ## Estrutura de pastas
 
 ```
 src/
 ├── main.tsx, App.tsx, router.tsx   # entrada e roteador (rotas carregadas sob demanda)
 ├── index.css                       # Tailwind + tokens de cor (claro/escuro)
-├── i18n/pt-BR.ts                   # TODOS os textos da interface
-├── types/                          # tipos do domínio (paciente, médico, consulta, atividade)
+├── i18n/pt-BR.ts                   # textos gerais, do Painel e dos cadastros
+├── i18n/pt-BR/                     # textos de cada módulo (leitos, emergencia, farmacia…), sob demanda
+├── types/                          # tipos do domínio (cadastros, leito, internação, emergência, farmácia)
 ├── schemas/                        # esquemas zod — um por entidade, usado no formulário e no serviço
-├── data/                           # mocks do Painel e dados de exemplo (seeds) dos cadastros
-├── services/                       # regras de negócio (pacientes, médicos, consultas…)
+├── data/                           # dados de exemplo (seeds) dos cadastros e dos módulos
+├── services/                       # regras de negócio (cadastros, leitos, emergência, farmácia,
+│   │                               #   indicadores, retenção)
 │   └── repositorio.ts              # memória + localStorage: transação, versão, abas, migrações
-├── config/                         # menu, rotas e limites
+├── config/                         # menu, limites, setores e faixas de sinais vitais
 ├── hooks/                          # useColecao/useDados (recarregam sozinhos), formulários, ações
-├── utils/                          # datas no fuso do hospital, agenda (horários livres), máscaras
+├── utils/                          # datas, agenda, fila (A7), FEFO, alergia, compatibilidade de
+│                                   #   leito, sinais vitais, consistência (INV-1 a INV-10)
 ├── components/
 │   ├── layout/                     # AppLayout, Sidebar, Header, UserMenu, MobileDrawer
 │   ├── ui/                         # base, formulário, listagem e feedback (Modal, Toast…)
 │   ├── dashboard/                  # os 9 cards do Painel
-│   └── pacientes/ medicos/ consultas/
-├── pages/                          # telas (Painel, cadastros, agenda, /ui)
+│   └── pacientes/ medicos/ consultas/ leitos/ emergencia/ farmacia/
+├── pages/                          # telas (Painel, cadastros, agenda, módulos, /ui)
 └── __tests__/                      # Vitest + Testing Library
 e2e/                                # Playwright (cenários, teclado, axe)
 scripts/varrer-textos.ts            # varredura de textos fora do pt-BR.ts
@@ -301,27 +436,35 @@ A página também tem o botão de restaurar os dados de exemplo.
 
 ## Qualidade
 
-- **Testes:** 353 testes unitários e de componentes (Vitest), com 94% de cobertura de linhas.
+- **Testes:** 672 testes unitários e de componentes (Vitest), com 92% de cobertura de linhas.
   - Metas mínimas por pasta em `vite.config.ts`: `utils/` ≥ 90%, `services/` ≥ 85%,
     `components/ui/` ≥ 70%.
-  - Além deles, 66 testes de ponta a ponta (Playwright).
+  - As regras dos módulos são testadas nos serviços, com as invariantes INV-1 a INV-10
+    conferidas depois de cada operação e num teste de 500 operações aleatórias.
+  - Além deles, 139 testes de ponta a ponta (Playwright), com os 10 cenários.
 - **Acessibilidade:**
   - **axe:** 0 violações WCAG 2.2 AA e boas práticas em todas as rotas, nos temas claro e
-    escuro. Também foi verificado com diálogos, busca e resumo de erros abertos.
-  - **Teclado:** navegação completa. O resumo de erros leva o foco ao 1º campo com erro, e
-    cada mudança de rota é anunciada.
+    escuro. Também foi verificado com diálogos, busca e resumo de erros abertos, e em 375 px.
+  - **Teclado:** navegação completa, inclusive no seletor de leito, na grade de leitos, na fila,
+    nos sinais vitais e nos itens da dispensação. Ao salvar com erros, o foco vai para o 1º campo
+    inválido na ordem da tela, e cada mudança de rota é anunciada.
+  - **Cor nunca sozinha:** risco e situação do leito têm sempre texto e ícone (conferido em escala
+    de cinza).
   - **Gráficos:** têm descrição em texto e tabela para leitores de tela.
-  - **Leitor de tela (NVDA):** ainda não testado. O roteiro está em
-    [`docs/VERIFICACAO_MANUAL.md`](docs/VERIFICACAO_MANUAL.md), assim como a revisão das
-    mensagens de erro por quem não é desenvolvedor.
+  - **Leitor de tela (NVDA):** ainda não testado. Os roteiros (cadastros, Painel, internar,
+    triagem e dispensar) estão em [`docs/VERIFICACAO_MANUAL.md`](docs/VERIFICACAO_MANUAL.md),
+    assim como a revisão das mensagens de erro e dos termos dos módulos.
   - **Campos de data:** usam o calendário nativo do navegador, que mostra `dd/mm/aaaa` quando o
     navegador está em português.
-- **Lighthouse (desktop):** 100 em Acessibilidade, Boas práticas e SEO nas telas de lista,
-  formulário e agenda, e Desempenho de 98 a 100.
+- **Lighthouse (desktop):** Painel e listas 99 · 100 · 100 · 100. Nas telas dos módulos (mapa,
+  fila, atendimento, estoque, dispensar), Desempenho de 94 a 97 e 100 nas outras categorias.
 - **Desempenho:**
-  - cada módulo (pacientes, médicos, consultas) e os gráficos são carregados sob demanda, em
-    pacotes próprios;
-  - com 1.000 pacientes e 3.000 consultas, toda busca responde em menos de 100 ms.
+  - cada módulo e os gráficos são carregados sob demanda, em pacotes próprios; os indicadores do
+    Painel também (153,6 kB gzip no carregamento inicial);
+  - com 1.000 pacientes e 3.000 consultas, toda busca responde em menos de 100 ms;
+  - com 600 pacientes, 2.000 consultas e os módulos no teto, fila, mapa e estoque respondem em
+    menos de 15 ms;
+  - a primeira semeadura dos dados de exemplo (cerca de 950 KB) leva por volta de 100 ms.
 
 ## Deploy
 
@@ -350,18 +493,24 @@ Os planos concluídos, com checklists por fase, estão arquivados em `docs/plano
 - `PLANO_CADASTROS_MEDICORE.md` — especificação dos cadastros, backlog revisado e próximo passo;
 - `PLANO_EXECUCAO_CADASTROS.md` — tarefas das Fases 8–14, diário e lições aprendidas.
 
+Os módulos operacionais seguem `PLANO_OPERACOES_MEDICORE.md` (especificação) e
+`PLANO_EXECUCAO_OPERACOES.md` (tarefas e diário), arquivados no Encerramento. O resumo de cada fase
+está em `docs/PR_FASE_<N>.md`.
+
 - [x] Fases 1–7 — Painel (configuração, layout, componentes, cards, grade, qualidade)
-- [x] Fase 8 — Fundação de dados e roteamento
-- [x] Fase 9 — Componentes de formulário e listagem
-- [x] Fase 10 — Cadastro de pacientes
-- [x] Fase 11 — Cadastro de médicos
-- [x] Fase 12 — Agenda de consultas
-- [x] Fase 13 — Integração com o Painel
-- [x] Fase 14 — Qualidade, testes e entrega
-- [x] Encerramento — versão 1.1.0 publicada
+- [x] Fases 8–14 — Cadastros, agenda e qualidade (versão 1.1.0)
+- [x] Fase 15 — Fundação dos módulos operacionais (regras, serviços, dados de exemplo, invariantes)
+- [x] Fase 16 — Componentes compartilhados
+- [x] Fase 17 — Gestão de leitos
+- [x] Fase 18 — Emergência
+- [x] Fase 19 — Farmácia
+- [x] Fase 20 — Integração com o Painel e os cadastros
+- [x] Fase 21 — Qualidade, testes e entrega
+- [ ] Encerramento — versão 1.2.0
 
-**Pendências manuais:** o teste com o leitor de tela NVDA e a revisão das mensagens de erro por
-quem não é desenvolvedor (roteiros em `docs/VERIFICACAO_MANUAL.md`).
+**Pendências manuais:** o teste com o leitor de tela NVDA, a revisão das mensagens de erro e dos
+termos dos módulos por quem não é desenvolvedor, e os testes com duas abas (roteiros em
+`docs/VERIFICACAO_MANUAL.md`).
 
-**Próximo passo:** backend real com autenticação, perfis de acesso e auditoria. Veja a "Revisão
-do backlog" na especificação.
+**Próximo passo:** publicar a versão 1.2.0. Depois, o backend real com autenticação, perfis de
+acesso e auditoria, que também tira o limite de armazenamento do navegador.

@@ -390,6 +390,20 @@ describe('L2, L3, L4, L5, L8', () => {
     ).toBeInstanceOf(ErroValidacao);
   });
 
+  it('L3: alta no mesmo minuto da internação é aceita (os campos têm precisão de minuto)', async () => {
+    ajustarRelogio('2026-11-10T10:30:40-03:00');
+    const int = await internar(entradaInternacao());
+    // O campo "Data e hora" manda 10:30:00, antes do início (10:30:40), mas no mesmo minuto.
+    const r = await darAlta(
+      int.id,
+      { tipo: 'melhorada', em: '2026-11-10T13:30:00.000Z' },
+      int.versao,
+    );
+    expect(r.internacao.status).toBe('encerrada');
+    ajustarRelogio('2026-11-10T10:30:00-03:00');
+    esperarConsistente();
+  });
+
   it('L4: conclui em lote e pula o leito que mudou (E-16); "Desfazer" volta com o início original', async () => {
     const emHig = repoLeitos.todos().filter((l) => l.status === 'higienizacao');
     expect(emHig.length).toBeGreaterThanOrEqual(2);

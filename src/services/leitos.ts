@@ -595,7 +595,10 @@ export const darAlta = async (
   return executar(() =>
     transacao(() => {
       const int = internacaoAtiva(id, versao);
-      if (new Date(dados.em).getTime() < new Date(int.inicio).getTime()) {
+      // Os campos de data e hora têm precisão de minuto: compara no mesmo nível, para que uma
+      // alta registrada no mesmo minuto da internação (início com segundos) seja aceita.
+      const minuto = (iso: string) => Math.floor(new Date(iso).getTime() / 60_000);
+      if (minuto(dados.em) < minuto(int.inicio)) {
         throw erroCampo('em', tl.regras.altaAntesInicio);
       }
       const momento = momentoAtual();
