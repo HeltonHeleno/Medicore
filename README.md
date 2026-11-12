@@ -468,7 +468,9 @@ A página também tem o botão de restaurar os dados de exemplo.
 
 ## Deploy
 
-**Versão publicada (1.1.0):** https://medicore-heltonhelenos-projects.vercel.app
+**Versão publicada:** https://medicore-heltonhelenos-projects.vercel.app (1.1.0; a 1.2.0, com os
+módulos operacionais, entra no ar quando os PRs das Fases 19 a 21 e o `release/1.2.0` forem
+mesclados na `main`).
 
 - O projeto `medicore` na Vercel está ligado a este repositório no GitHub.
 - Cada push na `main` gera uma nova versão de produção. Pushes em outras branches geram prévias,
@@ -493,9 +495,13 @@ Os planos concluídos, com checklists por fase, estão arquivados em `docs/plano
 - `PLANO_CADASTROS_MEDICORE.md` — especificação dos cadastros, backlog revisado e próximo passo;
 - `PLANO_EXECUCAO_CADASTROS.md` — tarefas das Fases 8–14, diário e lições aprendidas.
 
-Os módulos operacionais seguem `PLANO_OPERACOES_MEDICORE.md` (especificação) e
-`PLANO_EXECUCAO_OPERACOES.md` (tarefas e diário), arquivados no Encerramento. O resumo de cada fase
-está em `docs/PR_FASE_<N>.md`.
+- `PLANO_OPERACOES_MEDICORE.md` — especificação dos módulos operacionais (leitos, emergência e
+  farmácia);
+- `PLANO_EXECUCAO_OPERACOES.md` — tarefas das Fases 15–21, diário, números finais e lições
+  aprendidas.
+
+O resumo de cada fase está em `docs/PR_FASE_<N>.md`. O backlog, ainda em uso, fica em
+`BACKLOG_MEDICORE.md`, na raiz.
 
 - [x] Fases 1–7 — Painel (configuração, layout, componentes, cards, grade, qualidade)
 - [x] Fases 8–14 — Cadastros, agenda e qualidade (versão 1.1.0)
@@ -506,11 +512,12 @@ está em `docs/PR_FASE_<N>.md`.
 - [x] Fase 19 — Farmácia
 - [x] Fase 20 — Integração com o Painel e os cadastros
 - [x] Fase 21 — Qualidade, testes e entrega
-- [ ] Encerramento — versão 1.2.0
+- [x] Encerramento — versão 1.2.0 (falta publicar: mesclar os PRs na `main`)
 
 **Pendências manuais:** o teste com o leitor de tela NVDA, a revisão das mensagens de erro e dos
 termos dos módulos por quem não é desenvolvedor, e os testes com duas abas (roteiros em
 `docs/VERIFICACAO_MANUAL.md`).
 
-**Próximo passo:** publicar a versão 1.2.0. Depois, o backend real com autenticação, perfis de
-acesso e auditoria, que também tira o limite de armazenamento do navegador.
+**Próximo passo:** publicar a versão 1.2.0. Depois, pelo `BACKLOG_MEDICORE.md`: integração
+contínua no GitHub (BL-60) e o backend real com autenticação, perfis de acesso e auditoria
+(BL-01 a BL-03), que também tira o limite de armazenamento do navegador.

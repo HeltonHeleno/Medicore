@@ -1,15 +1,15 @@
 # 🗂️ MediCore — Backlog Futuro
 
 > **Projeto:** MediCore · Operações Hospitalares
-> **Versão publicada:** 1.1.0 (Painel + cadastros de pacientes, médicos e consultas)
-> **Em andamento:** `PLANO_OPERACOES_MEDICORE.md` (Gestão de leitos, Emergência e Farmácia, Fases 15–21)
+> **Versão publicada:** 1.1.0 (Painel + cadastros). **Versão 1.2.0 pronta** (Gestão de leitos, Emergência e Farmácia); entra em produção quando os PRs das Fases 19 a 21 e o `release/1.2.0` forem mesclados na `main`
+> **Concluído:** `docs/planos/PLANO_OPERACOES_MEDICORE.md` (Fases 15–21 e Encerramento, 12/11/2026)
 > **Fontes consolidadas:**
 > - `docs/planos/PLANO_IMPLEMENTACAO_MEDICORE.md` (Painel, Fases 1–7)
 > - `docs/planos/PLANO_CADASTROS_MEDICORE.md` (cadastros, Fases 8–14, com a revisão do Encerramento)
-> - `PLANO_OPERACOES_MEDICORE.md` (módulos operacionais)
+> - `docs/planos/PLANO_OPERACOES_MEDICORE.md` (módulos operacionais, com a revisão do Encerramento)
 > - lições aprendidas registradas no Diário
 >
-> **Versão do documento:** 28/10/2026
+> **Versão do documento:** 12/11/2026 (revisão do Encerramento da 1.2.0)
 
 ---
 
@@ -66,12 +66,12 @@
 
 | Ordem | Código | Item | Horizonte | Esforço | Depende de | Status |
 |:---:|---|---|:---:|:---:|---|:---:|
-| 1 | BL-01 | Backend real (API + banco de dados) | Agora | G | — | ⬜ |
-| 2 | BL-02 | Autenticação e perfis de acesso | Agora | G | BL-01 | ⬜ |
-| 3 | BL-03 | Auditoria de acesso (LGPD) | Agora | M | BL-01, BL-02 | ⬜ |
-| 4 | BL-04 | Criptografia, backup e guarda dos dados | Agora | M | BL-01 | ⬜ |
-| 5 | BL-05 | Monitoramento de erros (ex.: Sentry) | Agora | P | — | ⬜ |
-| 6 | BL-60 | Integração contínua no GitHub (lint, testes, e2e a cada push) | Agora | P | — | ⬜ |
+| 1 | BL-60 | Integração contínua no GitHub (lint, testes, e2e a cada push) | Agora | P | — | ⬜ |
+| 2 | BL-01 | Backend real (API + banco de dados) | Agora | G | — | ⬜ |
+| 3 | BL-02 | Autenticação e perfis de acesso | Agora | G | BL-01 | ⬜ |
+| 4 | BL-03 | Auditoria de acesso (LGPD) | Agora | M | BL-01, BL-02 | ⬜ |
+| 5 | BL-04 | Criptografia, backup e guarda dos dados | Agora | M | BL-01 | ⬜ |
+| 6 | BL-05 | Monitoramento de erros (ex.: Sentry) | Agora | P | — | ⬜ |
 | 7 | BL-10 | Horários por dia da semana e bloqueios de agenda | Próximo | M | — | ⬜ |
 | 8 | BL-13 | Pacientes sem CPF (recém-nascido, estrangeiro, CNS) | Próximo | M | — | ⬜ |
 | 9 | BL-18 | Cadastro estruturado de alergias | Próximo | M | — | ⬜ |
@@ -82,13 +82,15 @@
 | 14 | BL-50 | Tela de Configurações | Próximo | M | — | ⬜ |
 | 15 | BL-51 | Tela "Meu perfil" | Próximo | P | BL-02 | ⬜ |
 | 16 | BL-17 | Campo de data próprio (sempre `dd/mm/aaaa`) | Próximo | P | — | ⬜ |
-| — | BL-11, BL-12, BL-14, BL-15, BL-16, BL-21, BL-24, BL-31, BL-32, BL-34, BL-41, BL-45, BL-06, BL-61 | Ver as áreas | Depois | — | — | ⬜ |
+| — | BL-11, BL-12, BL-14, BL-15, BL-16, BL-21, BL-24, BL-31, BL-32, BL-34, BL-35, BL-36, BL-41, BL-45, BL-06 | Ver as áreas | Depois | — | — | ⬜ |
+| — | BL-61 | Revisão por pull request | Depois | P | — | 🟨 |
 | — | BL-20, BL-22, BL-33, BL-42, BL-43, BL-46, BL-52, BL-07 | Ver as áreas | Ideia | — | — | ⬜ |
 
-**Sequência combinada:**
-1. Concluir o plano em andamento: **`PLANO_OPERACOES_MEDICORE.md`** (Fases 15–21, versão 1.2.0).
-2. Fazer o bloco **"Agora"** (BL-01 a BL-05 e BL-60), começando por **BL-01**.
-3. Seguir para o bloco **"Próximo"**.
+**Sequência combinada (revista no Encerramento da 1.2.0):**
+1. ✅ Plano de operações (Fases 15–21, versão 1.2.0). Falta só mesclar os PRs e publicar.
+2. **BL-60** primeiro: é pequeno (P) e protege a `main`, que agora recebe um PR por fase e publica na Vercel a cada push.
+3. **BL-01** em seguida. O limite do navegador já é o gargalo: com os módulos, o limite prático caiu para 600 pacientes + 2.000 consultas (73% de ~5 MB, com os tetos revistos). Depois, BL-02 a BL-05.
+4. Seguir para o bloco **"Próximo"**.
 
 ---
 
@@ -120,7 +122,7 @@ flowchart LR
 | | |
 |---|---|
 | **O que é** | Servidor com API (REST) e banco de dados, substituindo o armazenamento no navegador. As telas passam a usar cache de requisições (ex.: React Query) |
-| **Por quê** | Hoje cada navegador tem seus próprios dados, sem compartilhamento entre pessoas, sem backup e com o limite de ~5 MB (RS-01, RS-09) |
+| **Por quê** | Hoje cada navegador tem seus próprios dados, sem compartilhamento entre pessoas, sem backup e com o limite de ~5 MB (RS-01, RS-09). Na 1.2.0, o cenário de 600 pacientes + 2.000 consultas com os módulos no teto já ocupa 73%, e os tetos das coleções tiveram de ser reduzidos (D15 revista na Fase 21) |
 | **Como encaixa** | A troca mexe só em `src/services/` (as assinaturas continuam). Erros HTTP viram as classes de `services/erros.ts`. Regras de agenda e estoque também no banco (ex.: restrição de intervalos sobrepostos). O passo a passo está no README |
 | **Esforço / horizonte** | G · Agora |
 | **Origem** | Painel (backlog), Cadastros (Encerramento, prioridade 1), Operações (RS-09) |
@@ -330,6 +332,22 @@ flowchart LR
 | **Esforço / horizonte** | G · Ideia |
 | **Origem** | Operações |
 
+### BL-35 — Gráfico da evolução dos sinais vitais
+| | |
+|---|---|
+| **O que é** | Gráfico simples dos últimos sinais vitais no detalhe do atendimento (desktop), além da tabela que já existe e que atende o leitor de tela e o celular |
+| **Por quê** | Previsto no E10; ficou fora da Fase 18 ("se couber") e não entrou na 21 |
+| **Esforço / horizonte** | P · Depois |
+| **Origem** | Operações (Fase 18) |
+
+### BL-36 — Ícones por tipo na linha do tempo do Painel
+| | |
+|---|---|
+| **O que é** | Ícone por tipo de atividade na "Linha do tempo de atividades", como previa a tarefa 20.7 |
+| **Por quê** | Na Fase 20, o marcador ganhou só a cor do tipo, para não mudar o visual do Painel em relação à referência da Fase 14. Exige uma decisão de design |
+| **Esforço / horizonte** | P · Depois |
+| **Origem** | Operações (Fase 20) |
+
 ### BL-34 — Inventário com código de barras
 | | |
 |---|---|
@@ -437,6 +455,7 @@ flowchart LR
 |---|---|
 | **O que é** | Uma branch por fase e PR com revisão antes da `main` (proteção da branch). A Vercel publica uma prévia de cada PR |
 | **Por quê** | As Fases 8–14 foram um commit por fase direto na `main`, sem revisão |
+| **Situação** | 🟨 Uma branch e um PR por fase desde a Fase 15 (PRs #1 a #4 mesclados). Falta ativar a proteção da `main` (exigir PR e a integração contínua, BL-60) |
 | **Esforço / horizonte** | P · Depois |
 | **Origem** | Lições aprendidas (Encerramento) |
 
@@ -447,8 +466,9 @@ flowchart LR
 | Item original | Origem | Situação |
 |---|---|---|
 | Páginas de Pacientes, Médicos e Consultas | Painel | ✅ Fases 8–14 (`PLANO_CADASTROS_MEDICORE.md`), versão 1.1.0 |
-| Páginas de Gestão de leitos, Emergência e Farmácia | Painel, Cadastros | 🟨 `PLANO_OPERACOES_MEDICORE.md`, Fases 17–19 |
-| Alertas de emergência com dados reais | Cadastros | 🟨 `PLANO_OPERACOES_MEDICORE.md`, Fase 20 (A12) |
+| Páginas de Gestão de leitos, Emergência e Farmácia | Painel, Cadastros | ✅ Fases 15–21 (`PLANO_OPERACOES_MEDICORE.md`), versão 1.2.0 |
+| Alertas de emergência com dados reais | Cadastros | ✅ Fase 20 (A12), versão 1.2.0 |
+| Ocupação, tendência de internações, estoque baixo e insights do Painel com dados reais | Painel | ✅ Fase 20 (A13, A14), versão 1.2.0 |
 | Mascaramento de CPF e consentimento LGPD | Painel | ✅ Fase 10 (falta o registro de acessos: BL-03) |
 
 ---
@@ -457,8 +477,11 @@ flowchart LR
 
 Verificações de entregas já feitas, que precisam de uma pessoa. Os roteiros estão em `docs/VERIFICACAO_MANUAL.md`.
 
-- [ ] Teste com o leitor de tela NVDA: Painel e fluxos P1 (cadastrar paciente) e P9 (agendar)
-- [ ] Revisão das mensagens de erro E-01 a E-10 por alguém que não seja desenvolvedor
+- [ ] Teste com o leitor de tela NVDA: Painel e fluxos P1 (cadastrar paciente), P9 (agendar), L1 (internar), E2 (triagem) e F3 (dispensar)
+- [ ] Revisão das mensagens de erro E-01 a E-18 por alguém que não seja desenvolvedor
+- [ ] Revisão dos termos dos módulos (situações de leito, cores de risco, desfechos, movimentações) com alguém da enfermagem e da farmácia
+- [ ] Testes com duas abas das Fases 17 a 20 (17.13.3, 18.10.3, 19.12.3, 20.12.2)
+- [ ] Teste da URL publicada da 1.2.0 (desktop e celular), depois da publicação
 
 ---
 
@@ -468,4 +491,5 @@ Verificações de entregas já feitas, que precisam de uma pessoa. Os roteiros e
 |---|---|---|
 | 28/10/2026 | Backlog consolidado a partir dos planos do Painel, dos cadastros e das operações, mais as lições aprendidas do Encerramento. Itens repetidos foram unificados (ex.: busca global, alertas, relatórios) | |
 | 28/10/2026 | Ordem: concluir o plano de operações (versão 1.2.0) e depois o bloco "Agora", começando pelo backend real (BL-01) | |
+| 12/11/2026 | **Encerramento da 1.2.0:** plano de operações concluído. Leitos, Emergência, Farmácia e os alertas e indicadores do Painel marcados como resolvidos. Novos itens: BL-35 (gráfico dos sinais vitais) e BL-36 (ícones na linha do tempo), que ficaram fora das Fases 18 e 20. BL-61 em andamento (PR por fase adotado). Ordem revista: BL-60 antes do BL-01, porque é pequeno e protege a `main`; o BL-01 ganhou urgência com o limite de armazenamento medido na Fase 21 | |
 | | | |

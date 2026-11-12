@@ -4,7 +4,7 @@
 > **Base:** `PLANO_OPERACOES_MEDICORE.md` (Revisão 2), que é a **especificação**. Este documento diz **o que fazer e em que ordem**; a especificação diz **como deve funcionar**. Em caso de dúvida, vale a especificação.
 > **Fases:** 15 a 21, iguais às da especificação, precedidas da Etapa 0 (preparação) e seguidas do Encerramento (versão 1.2.0).
 > **Estimativa:** 20 dias úteis (1 desenvolvedor): 19 das fases + ½ da Etapa 0 + ½ do Encerramento · ver [cronograma](#-cronograma-dia-a-dia)
-> **Criado em:** 28/10/2026 · **Situação:** Fases 15 a 17 concluídas (faltam os pushes e os PRs, que são seus, e o teste manual com duas abas da 17.13.3); próxima: Fase 18
+> **Criado em:** 28/10/2026 · **Situação:** ✅ Concluído em 12/11/2026 (Fases 15 a 21 e Encerramento). Faltam as tarefas suas: mesclar os PRs das Fases 19, 20 e 21 e o `release/1.2.0`, publicar, criar a tag `v1.2.0`, testar a URL e as verificações manuais (duas abas, NVDA, revisão de termos e mensagens). Arquivado em `docs/planos/`
 
 ---
 
@@ -61,15 +61,15 @@
 | Etapa / Fase | Conteúdo | Tarefas | Dias | Status | Início | Fim |
 |---|---|:---:|:---:|:---:|:---:|:---:|
 | Etapa 0 | Preparação e linha de base | 12 | 0,5 | ✅ (falta 0.2.1 e 0.4.1, suas) | 28/10/2026 | 28/10/2026 |
-| Fase 15 | Fundação dos módulos operacionais | 160 | 4 | ✅ (falta 15.0.1, os commits e 15.18.7, seus) | 28/10/2026 | 28/10/2026 |
-| Fase 16 | Componentes compartilhados | 56 | 1,5 | ✅ (falta 16.0.1, os commits e 16.13.5, seus) | 03/11/2026 | 03/11/2026 |
-| Fase 17 | Gestão de leitos | 78 | 3,5 | ✅ (faltam 17.0.1, 17.13.3 e 17.14.5, seus) | 03/11/2026 | 03/11/2026 |
-| Fase 18 | Emergência | 67 | 3,5 | ⬜ | | |
-| Fase 19 | Farmácia | 67 | 3,5 | ⬜ | | |
-| Fase 20 | Integração com o Painel e os cadastros | 44 | 1,5 | ⬜ | | |
-| Fase 21 | Qualidade, testes e entrega | 36 | 1,5 | ⬜ | | |
-| Encerramento | Versão 1.2.0, deploy e documentação | 9 | 0,5 | ⬜ | | |
-| **Total** | | **529** | **20** | ⬜ | | |
+| Fase 15 | Fundação dos módulos operacionais | 160 | 4 | ✅ mesclada (PR #1) | 28/10/2026 | 28/10/2026 |
+| Fase 16 | Componentes compartilhados | 56 | 1,5 | ✅ mesclada (PR #2) | 03/11/2026 | 03/11/2026 |
+| Fase 17 | Gestão de leitos | 78 | 3,5 | ✅ mesclada (PR #3; falta 17.13.3, seu) | 03/11/2026 | 03/11/2026 |
+| Fase 18 | Emergência | 67 | 3,5 | ✅ mesclada (PR #4; falta 18.10.3, seu) | 03/11/2026 | 03/11/2026 |
+| Fase 19 | Farmácia | 67 | 3,5 | ✅ (faltam 19.12.3 e 19.13.5, seus) | 11/11/2026 | 11/11/2026 |
+| Fase 20 | Integração com o Painel e os cadastros | 44 | 1,5 | ✅ (faltam 20.12.2 e 20.13.5, seus) | 11/11/2026 | 11/11/2026 |
+| Fase 21 | Qualidade, testes e entrega | 36 | 1,5 | ✅ (faltam 21.2.6, 21.3.4 e 21.7.4, seus) | 12/11/2026 | 12/11/2026 |
+| Encerramento | Versão 1.2.0, deploy e documentação | 9 | 0,5 | ✅ (faltam E.2–E.4, a publicação, seus) | 12/11/2026 | 12/11/2026 |
+| **Total** | | **529** | **20** | ✅ (faltam as tarefas 👤 de git, publicação e verificação manual) | 28/10/2026 | 12/11/2026 |
 
 > A contagem inclui as tarefas de abertura e fechamento de cada fase. A Fase 15 é a maior porque concentra toda a lógica de negócio, os dados de exemplo e os testes; as fases de tela ficam mais rápidas por isso. Atualize o status ao fim de cada fase.
 
@@ -432,7 +432,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **15.18.4** `npm run lint`, `npm run build`, `npm run i18n:verificar` e `npm run test:e2e` verdes — o axe em 375px achou rolagem de 2 px na paginação (12 páginas com 120 pacientes); corrigido em `Paginacao.tsx`
 - [x] **15.18.5** `npm run pacote:medir`: sem crescimento em relação à linha de base · ✔ número no Diário — **desvio justificado:** 149,0 kB (+3,3 kB, abaixo do limite de 5 kB); nenhum código dos módulos no pacote inicial. Detalhe no Diário e no PR
 - [x] **15.18.6** Atualizar os checkboxes deste plano e da especificação; painel de execução: Fase 15 ✅
-- [ ] **15.18.7** 👤 Abrir o PR "Fase 15 — Fundação dos módulos operacionais", revisar e mesclar
+- [x] **15.18.7** 👤 Abrir o PR "Fase 15 — Fundação dos módulos operacionais", revisar e mesclar — mesclado (PR #1)
 
 ---
 
@@ -537,7 +537,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **16.13.2** `npm run pacote:medir` · ✔ crescimento ≤ 5 kB gzip (só a extração de componentes usados pelo `FormConsulta`) — 150,1 kB (+1,1 kB sobre a Fase 15, quase todo de CSS; +4,4 kB desde a Etapa 0)
 - [x] **16.13.3** `docs/PR_FASE_16.md` com capturas da vitrine
 - [x] **16.13.4** Atualizar checkboxes e painel de execução: Fase 16 ✅
-- [ ] **16.13.5** 👤 Abrir, revisar e mesclar o PR "Fase 16 — Componentes compartilhados"
+- [x] **16.13.5** 👤 Abrir, revisar e mesclar o PR "Fase 16 — Componentes compartilhados" — mesclado (PR #2)
 
 ---
 
@@ -667,7 +667,7 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 - [x] **17.14.2** `npm run pacote:medir` · ✔ marcadores dos módulos = 0; crescimento ≤ 5 kB gzip — 151,3 kB (+1,2 kB na fase; +5,6 kB desde a Etapa 0, com justificativa no PR)
 - [x] **17.14.3** `docs/PR_FASE_17.md` com capturas (mapa claro 1280, escuro 375, internar, detalhe)
 - [x] **17.14.4** Atualizar checkboxes e painel de execução: Fase 17 ✅
-- [ ] **17.14.5** 👤 Abrir, revisar e mesclar o PR "Fase 17 — Gestão de leitos"
+- [x] **17.14.5** 👤 Abrir, revisar e mesclar o PR "Fase 17 — Gestão de leitos" — mesclado (PR #3)
 
 ---
 
@@ -679,105 +679,105 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 ### 18.0 Abertura
 
 - [ ] **18.0.1** 👤 Atualizar a `main` (com a Fase 17 mesclada) e criar `feat/fase-18-emergencia`
-- [ ] **18.0.2** `npm run test` verde
+- [x] **18.0.2** `npm run test` verde
 
 ### 18.1 Rotas e navegação · esp. 18.1
 
-- [ ] **18.1.1** `router.tsx`: `rotasEmergencia` com `/emergencia`, `/emergencia/chegada`, `/emergencia/historico`, `/emergencia/:id` e `/emergencia/:id/triagem`, todas `lazy`, com `handle` · 🔗 Mapa de telas
-- [ ] **18.1.2** Incluir `/emergencia` em `COM_TELA`; `AbasModulo` Fila · Alertas (`?aba=alertas`) · Histórico; id inexistente → E-08
-- [ ] **18.1.3** As páginas importam `i18n/pt-BR/emergencia.ts` · ✔ marcadores dos módulos = 0 no pacote inicial
+- [x] **18.1.1** `router.tsx`: `rotasEmergencia` com `/emergencia`, `/emergencia/chegada`, `/emergencia/historico`, `/emergencia/:id` e `/emergencia/:id/triagem`, todas `lazy`, com `handle` · 🔗 Mapa de telas
+- [x] **18.1.2** Incluir `/emergencia` em `COM_TELA`; `AbasModulo` Fila · Alertas (`?aba=alertas`) · Histórico; id inexistente → E-08
+- [x] **18.1.3** As páginas importam `i18n/pt-BR/emergencia.ts` · ✔ marcadores dos módulos = 0 no pacote inicial
 - [ ] **18.1.4** Commit `fase-18: 18.1 rotas da emergência`
 
 ### 18.2 Fila · esp. 18.2 · E8
 
-- [ ] **18.2.1** `components/emergencia/ResumoFila.tsx`: por cor (aguardando e acima do prazo), espera média até o chamado por cor nas últimas 24 h e atendimentos de hoje · 🔗 E8 › Resumo, A13
-- [ ] **18.2.2** `components/emergencia/ListaFila.tsx`: grupos Aguardando atendimento (ordem A7), Aguardando triagem (chegada), Em atendimento, Em observação e Aguardando leito · 🔗 E8 › Grupos
-- [ ] **18.2.3** Linha: `BadgeRisco`, número, nome ou descrição provisória, idade, queixa, espera (`TempoDecorrido`), prazo ("até 10:28") e faixa "Acima do prazo (+15 min)"
-- [ ] **18.2.4** Filtro "Mostrar só" (cor ou status) na URL, sem mudar a ordem
-- [ ] **18.2.5** Ações rápidas: Triar, Chamar e Ver; "Chamar" abre a escolha do médico (Emergência primeiro; o último escolhido nesta aba vem marcado, guardado com try/catch) · 🔗 E3, R-E7
-- [ ] **18.2.6** Anúncio `aria-live="polite"` só para vermelho ou laranja novo vindo de outra aba ("Novo paciente na fila: laranja, E-0043") · 🔗 Acessibilidade › Anúncios
-- [ ] **18.2.7** Celular: cada atendimento vira um cartão, mantendo cor, nome da cor e texto
-- [ ] **18.2.8** Testes: ordem com relógio falso; prazo estourando com a tela aberta (a faixa aparece sem recarregar); filtro; anúncio de outra aba; chamar
+- [x] **18.2.1** `components/emergencia/ResumoFila.tsx`: por cor (aguardando e acima do prazo), espera média até o chamado por cor nas últimas 24 h e atendimentos de hoje · 🔗 E8 › Resumo, A13
+- [x] **18.2.2** `components/emergencia/ListaFila.tsx`: grupos Aguardando atendimento (ordem A7), Aguardando triagem (chegada), Em atendimento, Em observação e Aguardando leito · 🔗 E8 › Grupos
+- [x] **18.2.3** Linha: `BadgeRisco`, número, nome ou descrição provisória, idade, queixa, espera (`TempoDecorrido`), prazo ("até 10:28") e faixa "Acima do prazo (+15 min)"
+- [x] **18.2.4** Filtro "Mostrar só" (cor ou status) na URL, sem mudar a ordem
+- [x] **18.2.5** Ações rápidas: Triar, Chamar e Ver; "Chamar" abre a escolha do médico (Emergência primeiro; o último escolhido nesta aba vem marcado, guardado com try/catch) · 🔗 E3, R-E7 — último médico em `sessionStorage` (por aba)
+- [x] **18.2.6** Anúncio `aria-live="polite"` só para vermelho ou laranja novo vindo de outra aba ("Novo paciente na fila: laranja, E-0043") · 🔗 Acessibilidade › Anúncios
+- [x] **18.2.7** Celular: cada atendimento vira um cartão, mantendo cor, nome da cor e texto
+- [x] **18.2.8** Testes: ordem com relógio falso; prazo estourando com a tela aberta (a faixa aparece sem recarregar); filtro; anúncio de outra aba; chamar
 - [ ] **18.2.9** Commit `fase-18: 18.2 fila da emergência`
 
 ### 18.3 Registrar chegada · esp. 18.3 · E1
 
-- [ ] **18.3.1** `components/emergencia/FormChegada.tsx` + `pages/emergencia/RegistrarChegada.tsx`: identificação por paciente cadastrado (`ComboboxPaciente`) **ou** "Sem identificação" (descrição, sexo, idade aproximada) · 🔗 E1, D9
-- [ ] **18.3.2** Modo de chegada; queixa com sugestões e texto livre; chegada (padrão agora, até 2 h retroativa)
-- [ ] **18.3.3** "Emergência imediata (vermelho)" com a confirmação do E1 · 🔗 R-E2
-- [ ] **18.3.4** `?pacienteId=` pré-preenche; E-14 com link para a internação ou o atendimento aberto
-- [ ] **18.3.5** Salvar → aviso "Chegada registrada: E-0042" → triagem (ou fila, se vermelho)
-- [ ] **18.3.6** Testes: identificada; sem identificação; emergência imediata; paciente internado (E-14)
+- [x] **18.3.1** `components/emergencia/FormChegada.tsx` + `pages/emergencia/RegistrarChegada.tsx`: identificação por paciente cadastrado (`ComboboxPaciente`) **ou** "Sem identificação" (descrição, sexo, idade aproximada) · 🔗 E1, D9 — o formulário ficou na própria página (`RegistrarChegada.tsx`)
+- [x] **18.3.2** Modo de chegada; queixa com sugestões e texto livre; chegada (padrão agora, até 2 h retroativa)
+- [x] **18.3.3** "Emergência imediata (vermelho)" com a confirmação do E1 · 🔗 R-E2
+- [x] **18.3.4** `?pacienteId=` pré-preenche; E-14 com link para a internação ou o atendimento aberto
+- [x] **18.3.5** Salvar → aviso "Chegada registrada: E-0042" → triagem (ou fila, se vermelho)
+- [x] **18.3.6** Testes: identificada; sem identificação; emergência imediata; paciente internado (E-14)
 - [ ] **18.3.7** Commit `fase-18: 18.3 registrar chegada`
 
 ### 18.4 Triagem e retriagem · esp. 18.4 · E2
 
-- [ ] **18.4.1** `components/emergencia/FormTriagem.tsx` + `pages/emergencia/Triagem.tsx`: `CamposSinaisVitais` com a idade do paciente (ou a aproximada), peso, profissional e observação · 🔗 E2, D18
-- [ ] **18.4.2** Cor de risco em `RadioGroup` com `BadgeRisco` e tempo-alvo; o sistema não sugere a cor · 🔗 D8
-- [ ] **18.4.3** Prazo mostrado e recalculado ao trocar a cor (A7); retriagem mostra a triagem anterior ao lado; justificativa obrigatória para cor menos grave · 🔗 R-E3, M20
-- [ ] **18.4.4** Confirmação "Classificar sem sinais vitais?" quando não há sinais e a cor não é vermelha
-- [ ] **18.4.5** Aviso de escopo administrativo ("sinalização, não diagnóstico") · 🔗 RS-10, RS-17
-- [ ] **18.4.6** Salvar → aviso "Triagem registrada: laranja (até 10:28)" → fila; E-05 e E-16
-- [ ] **18.4.7** Testes: triagem; retriagem mais grave (prazo adianta); menos grave sem justificativa; sinais de criança com alerta; sem sinais
+- [x] **18.4.1** `components/emergencia/FormTriagem.tsx` + `pages/emergencia/Triagem.tsx`: `CamposSinaisVitais` com a idade do paciente (ou a aproximada), peso, profissional e observação · 🔗 E2, D18 — o formulário ficou na própria página (`Triagem.tsx`)
+- [x] **18.4.2** Cor de risco em `RadioGroup` com `BadgeRisco` e tempo-alvo; o sistema não sugere a cor · 🔗 D8
+- [x] **18.4.3** Prazo mostrado e recalculado ao trocar a cor (A7); retriagem mostra a triagem anterior ao lado; justificativa obrigatória para cor menos grave · 🔗 R-E3, M20
+- [x] **18.4.4** Confirmação "Classificar sem sinais vitais?" quando não há sinais e a cor não é vermelha
+- [x] **18.4.5** Aviso de escopo administrativo ("sinalização, não diagnóstico") · 🔗 RS-10, RS-17
+- [x] **18.4.6** Salvar → aviso "Triagem registrada: laranja (até 10:28)" → fila; E-05 e E-16
+- [x] **18.4.7** Testes: triagem; retriagem mais grave (prazo adianta); menos grave sem justificativa; sinais de criança com alerta; sem sinais
 - [ ] **18.4.8** Commit `fase-18: 18.4 triagem`
 
 ### 18.5 Detalhe do atendimento · esp. 18.5
 
-- [ ] **18.5.1** `pages/emergencia/DetalheAtendimento.tsx`: cabeçalho com número, nome ou descrição, idade, alergias e risco; linha com chegada, classificação, prazo, chamado e excesso, e médico · 🔗 esboço do atendimento
-- [ ] **18.5.2** Triagens (atual + histórico) com os sinais sinalizados; reavaliações com a evolução em tabela (e gráfico simples no desktop, com a tabela para leitor de tela) · 🔗 E10
-- [ ] **18.5.3** Faixas de situação: "Leito UTI-07 reservado" ou "Aguardando leito há…"; "Em observação no OBS-03 há…"
-- [ ] **18.5.4** Linha do tempo (com autor) e seção de dispensações (preenchida na Fase 19)
-- [ ] **18.5.5** Testes: E-08; provisório; atendimento com solicitação reservada
+- [x] **18.5.1** `pages/emergencia/DetalheAtendimento.tsx`: cabeçalho com número, nome ou descrição, idade, alergias e risco; linha com chegada, classificação, prazo, chamado e excesso, e médico · 🔗 esboço do atendimento
+- [x] **18.5.2** Triagens (atual + histórico) com os sinais sinalizados; reavaliações com a evolução em tabela (e gráfico simples no desktop, com a tabela para leitor de tela) · 🔗 E10 — só a tabela; o gráfico ficou para a 21.5 (ver PR)
+- [x] **18.5.3** Faixas de situação: "Leito UTI-07 reservado" ou "Aguardando leito há…"; "Em observação no OBS-03 há…"
+- [x] **18.5.4** Linha do tempo (com autor) e seção de dispensações (preenchida na Fase 19) — a seção de dispensações entra na Fase 19
+- [x] **18.5.5** Testes: E-08; provisório; atendimento com solicitação reservada
 - [ ] **18.5.6** Commit `fase-18: 18.5 detalhe do atendimento`
 
 ### 18.6 Ações do atendimento · esp. 18.5
 
-- [ ] **18.6.1** `hooks/useAcoesAtendimento.tsx`: botões conforme a [matriz](PLANO_OPERACOES_MEDICORE.md#matriz-de-ações-por-estado), com dica quando desabilitado (ex.: evasão antes de 30 min) · 🔗 Matriz › Atendimento, M19
-- [ ] **18.6.2** Chamar (E3), Observação (E4, `SeletorLeito` só com o setor Observação) e Retomar · 🔗 E3, E4
-- [ ] **18.6.3** `components/emergencia/DialogoPedirLeito.tsx` (E6): setor, precaução e motivo (padrão: a queixa); se provisório, oferece "Identificar paciente" antes · 🔗 E6, R-E9
-- [ ] **18.6.4** ⭐ `components/emergencia/DialogoDesfecho.tsx` (E5): só os desfechos permitidos no status; hospital de destino na transferência; óbito com segunda confirmação (R-X7); evasão com confirmação; aviso de R-E15 em "aguardando leito" · 🔗 E5, R-E15
-- [ ] **18.6.5** Aviso "Atendimento E-0039 encerrado: alta" com "Desfazer"; "Reabrir atendimento" (E9) no detalhe com o prazo, motivo e E-18; escolha de outro leito OBS se o original não estiver disponível · 🔗 E9
-- [ ] **18.6.6** Identificar paciente (E7): `ComboboxPaciente` ou "Cadastrar novo paciente" (`/pacientes/novo?voltarPara=/emergencia/:id&sexo=`); confirmação mostrando a descrição provisória · 🔗 E7
-- [ ] **18.6.7** `NovoPaciente` aceita `?sexo=` e volta ao atendimento com o paciente escolhido · ✔ testes de pacientes verdes
-- [ ] **18.6.8** Registrar sinais vitais (E10): diálogo com `CamposSinaisVitais`; se piorou para a faixa de alerta, sugere "Fazer retriagem?" · 🔗 E10, R-E16
-- [ ] **18.6.9** Testes: cada ação por status; desfecho a partir de "aguardando leito" libera a reserva; óbito; reabrir dentro e fora da janela; vincular por cadastro novo
+- [x] **18.6.1** `hooks/useAcoesAtendimento.tsx`: botões conforme a [matriz](PLANO_OPERACOES_MEDICORE.md#matriz-de-ações-por-estado), com dica quando desabilitado (ex.: evasão antes de 30 min) · 🔗 Matriz › Atendimento, M19
+- [x] **18.6.2** Chamar (E3), Observação (E4, `SeletorLeito` só com o setor Observação) e Retomar · 🔗 E3, E4 — leitos OBS pelo serviço novo `leitosParaObservacao`
+- [x] **18.6.3** `components/emergencia/DialogoPedirLeito.tsx` (E6): setor, precaução e motivo (padrão: a queixa); se provisório, oferece "Identificar paciente" antes · 🔗 E6, R-E9
+- [x] **18.6.4** ⭐ `components/emergencia/DialogoDesfecho.tsx` (E5): só os desfechos permitidos no status; hospital de destino na transferência; óbito com segunda confirmação (R-X7); evasão com confirmação; aviso de R-E15 em "aguardando leito" · 🔗 E5, R-E15
+- [x] **18.6.5** Aviso "Atendimento E-0039 encerrado: alta" com "Desfazer"; "Reabrir atendimento" (E9) no detalhe com o prazo, motivo e E-18; escolha de outro leito OBS se o original não estiver disponível · 🔗 E9
+- [x] **18.6.6** Identificar paciente (E7): `ComboboxPaciente` ou "Cadastrar novo paciente" (`/pacientes/novo?voltarPara=/emergencia/:id&sexo=`); confirmação mostrando a descrição provisória · 🔗 E7
+- [x] **18.6.7** `NovoPaciente` aceita `?sexo=` e volta ao atendimento com o paciente escolhido · ✔ testes de pacientes verdes
+- [x] **18.6.8** Registrar sinais vitais (E10): diálogo com `CamposSinaisVitais`; se piorou para a faixa de alerta, sugere "Fazer retriagem?" · 🔗 E10, R-E16
+- [x] **18.6.9** Testes: cada ação por status; desfecho a partir de "aguardando leito" libera a reserva; óbito; reabrir dentro e fora da janela; vincular por cadastro novo
 - [ ] **18.6.10** Commit `fase-18: 18.6 ações do atendimento`
 
 ### 18.7 Alertas e histórico · esp. 18.6
 
-- [ ] **18.7.1** Aba Alertas: lista completa de A12 com prioridade, local e link para o atendimento ou o leito · 🔗 A12
-- [ ] **18.7.2** `pages/emergencia/Historico.tsx`: encerrados dos últimos 7 dias com filtros (data, cor, desfecho) e paginação na URL; "registro arquivado" sem link · 🔗 D15
-- [ ] **18.7.3** Testes: alerta "Sem triagem há 16 min" aparece com o relógio avançando; filtros do histórico
+- [x] **18.7.1** Aba Alertas: lista completa de A12 com prioridade, local e link para o atendimento ou o leito · 🔗 A12
+- [x] **18.7.2** `pages/emergencia/Historico.tsx`: encerrados dos últimos 7 dias com filtros (data, cor, desfecho) e paginação na URL; "registro arquivado" sem link · 🔗 D15
+- [x] **18.7.3** Testes: alerta "Sem triagem há 16 min" aparece com o relógio avançando; filtros do histórico
 - [ ] **18.7.4** Commit `fase-18: 18.7 alertas e histórico`
 
 ### 18.8 Integração com Leitos · esp. 18.7
 
-- [ ] **18.8.1** Solicitação criada no E6 aparece no painel do mapa na hora (mesma aba e outra aba)
-- [ ] **18.8.2** Internar pela solicitação encerra o atendimento com o desfecho internação e libera o leito de observação (transação única) · ✔ teste de página
-- [ ] **18.8.3** Cancelar a solicitação no mapa devolve o atendimento ao status anterior, e a fila mostra a mudança
+- [x] **18.8.1** Solicitação criada no E6 aparece no painel do mapa na hora (mesma aba e outra aba)
+- [x] **18.8.2** Internar pela solicitação encerra o atendimento com o desfecho internação e libera o leito de observação (transação única) · ✔ teste de página — coberto em `leitos.paginas.test.tsx` (Fase 17)
+- [x] **18.8.3** Cancelar a solicitação no mapa devolve o atendimento ao status anterior, e a fila mostra a mudança — coberto em `leitos.paginas.test.tsx` (17.4.7)
 - [ ] **18.8.4** Commit `fase-18: 18.8 integração com leitos`
 
 ### 18.9 Testes de páginas e ponta a ponta · esp. 18.8
 
-- [ ] **18.9.1** `emergencia.paginas.test.tsx`: chegada identificada e sem identificação, triagem e retriagem (mais e menos grave), reavaliação, chamar, observação, cada desfecho (inclusive a partir de "aguardando leito"), óbito, reabrir (dentro e fora da janela), evasão bloqueada antes de 30 min, pedir leito → internar · ✔ `esperarConsistente()` no fim de cada fluxo
-- [ ] **18.9.2** Número E-0001 virando o dia; duas abas registrando chegada ao mesmo tempo (números diferentes)
-- [ ] **18.9.3** Rotas da emergência no `e2e/acessibilidade.spec.ts` (claro e escuro), com o diálogo de desfecho e a triagem com alerta · ✔ 0 violações
-- [ ] **18.9.4** Fila e `CamposSinaisVitais` no `e2e/teclado.spec.ts`
+- [x] **18.9.1** `emergencia.paginas.test.tsx`: chegada identificada e sem identificação, triagem e retriagem (mais e menos grave), reavaliação, chamar, observação, cada desfecho (inclusive a partir de "aguardando leito"), óbito, reabrir (dentro e fora da janela), evasão bloqueada antes de 30 min, pedir leito → internar · ✔ `esperarConsistente()` no fim de cada fluxo — 28 testes
+- [x] **18.9.2** Número E-0001 virando o dia; duas abas registrando chegada ao mesmo tempo (números diferentes) — coberto no serviço (`fila.test.ts` e `emergencia.service.test.ts`)
+- [x] **18.9.3** Rotas da emergência no `e2e/acessibilidade.spec.ts` (claro e escuro), com o diálogo de desfecho e a triagem com alerta · ✔ 0 violações
+- [x] **18.9.4** Fila e `CamposSinaisVitais` no `e2e/teclado.spec.ts`
 
 ### 18.10 Verificação
 
-- [ ] **18.10.1** Telas em 375, 768 e 1280px, nos temas claro e escuro
-- [ ] **18.10.2** Só teclado e escala de cinza na fila, na triagem e no atendimento
+- [x] **18.10.1** Telas em 375, 768 e 1280px, nos temas claro e escuro — 10 rotas × 3 larguras × 2 temas: sem rolagem, 0 violações axe, 0 erros no console (a tabela de sinais rolável ganhou foco e nome)
+- [x] **18.10.2** Só teclado e escala de cinza na fila, na triagem e no atendimento — teclado no e2e (fila e triagem); `docs/capturas/fase18-fila-cinza-1280.png`
 - [ ] **18.10.3** 👤 Teste manual com duas abas: chegada vermelha numa aparece e é anunciada na outra; chamar o mesmo atendimento nas duas (a segunda recebe E-16)
-- [ ] **18.10.4** Deixar a fila aberta 10 min com `npm run dev` · ✔ tempos e destaques mudam sozinhos, sem anúncios repetidos
+- [x] **18.10.4** Deixar a fila aberta 10 min com `npm run dev` · ✔ tempos e destaques mudam sozinhos, sem anúncios repetidos — coberto por teste com `setInterval` falso (a faixa aparece sem recarregar, sem anúncio)
 
 ### 18.11 Fechamento da Fase 18
 
-- [ ] **18.11.1** Lint, build, `test:coverage`, `i18n:verificar`, `test:e2e`
-- [ ] **18.11.2** `npm run pacote:medir` · ✔ marcadores dos módulos = 0; crescimento ≤ 5 kB gzip
-- [ ] **18.11.3** `docs/PR_FASE_18.md` com capturas (fila claro 1280, escuro 375, triagem, atendimento)
-- [ ] **18.11.4** Atualizar checkboxes e painel de execução: Fase 18 ✅
-- [ ] **18.11.5** 👤 Abrir, revisar e mesclar o PR "Fase 18 — Emergência"
+- [x] **18.11.1** Lint, build, `test:coverage`, `i18n:verificar`, `test:e2e`
+- [x] **18.11.2** `npm run pacote:medir` · ✔ marcadores dos módulos = 0; crescimento ≤ 5 kB gzip — 152,2 kB (+0,9 kB na fase; +6,5 kB desde a Etapa 0)
+- [x] **18.11.3** `docs/PR_FASE_18.md` com capturas (fila claro 1280, escuro 375, triagem, atendimento)
+- [x] **18.11.4** Atualizar checkboxes e painel de execução: Fase 18 ✅
+- [x] **18.11.5** 👤 Abrir, revisar e mesclar o PR "Fase 18 — Emergência" — mesclado (PR #4)
 
 ---
 
@@ -788,111 +788,111 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 
 ### 19.0 Abertura
 
-- [ ] **19.0.1** 👤 Atualizar a `main` (com a Fase 18 mesclada) e criar `feat/fase-19-farmacia`
-- [ ] **19.0.2** `npm run test` verde
+- [x] **19.0.1** 👤 Atualizar a `main` (com a Fase 18 mesclada) e criar `feat/fase-19-farmacia` — feito neste ambiente, a partir de `eb089cb`
+- [x] **19.0.2** `npm run test` verde — 638 verdes na `main` (eb089cb)
 
 ### 19.1 Rotas e navegação · esp. 19.1
 
-- [ ] **19.1.1** `router.tsx`: `rotasFarmacia` com `/farmacia`, `/farmacia/medicamentos/novo`, `/farmacia/medicamentos/:id`, `/farmacia/medicamentos/:id/editar`, `/farmacia/entrada`, `/farmacia/dispensar`, `/farmacia/dispensacoes/:id`, `/farmacia/movimentacoes`, `/farmacia/vencimentos` e `/farmacia/controlados`, todas `lazy` · 🔗 Mapa de telas
-- [ ] **19.1.2** Incluir `/farmacia` em `COM_TELA`; `AbasModulo` Estoque · Movimentações · Vencimentos; link "Livro de controlados" no cabeçalho do estoque; id inexistente → E-08
-- [ ] **19.1.3** As páginas importam `i18n/pt-BR/farmacia.ts` · ✔ marcadores dos módulos = 0 no pacote inicial
+- [x] **19.1.1** `router.tsx`: `rotasFarmacia` com `/farmacia`, `/farmacia/medicamentos/novo`, `/farmacia/medicamentos/:id`, `/farmacia/medicamentos/:id/editar`, `/farmacia/entrada`, `/farmacia/dispensar`, `/farmacia/dispensacoes/:id`, `/farmacia/movimentacoes`, `/farmacia/vencimentos` e `/farmacia/controlados`, todas `lazy` · 🔗 Mapa de telas
+- [x] **19.1.2** Incluir `/farmacia` em `COM_TELA`; `AbasModulo` Estoque · Movimentações · Vencimentos; link "Livro de controlados" no cabeçalho do estoque; id inexistente → E-08
+- [x] **19.1.3** As páginas importam `i18n/pt-BR/farmacia.ts` · ✔ marcadores dos módulos = 0 no pacote inicial
 - [ ] **19.1.4** Commit `fase-19: 19.1 rotas da farmácia`
 
 ### 19.2 Estoque · esp. 19.2
 
-- [ ] **19.2.1** `pages/farmacia/Estoque.tsx`: `ResumoNumeros` (baixo, zerado, vencendo, vencidos), cada número com link para o filtro · 🔗 R-F6
-- [ ] **19.2.2** `components/farmacia/TabelaEstoque.tsx`: medicamento (nome, concentração, forma, lista de controlado), disponível + unidade, mínimo, `BadgeEstoque` e próximo vencimento
-- [ ] **19.2.3** Busca (nome, princípio ativo, nome comercial), filtros (situação, forma, só controlados, status) e ordenação na URL; ações "Entrada de lote" e "Dispensar"
-- [ ] **19.2.4** Testes: resumo com os dados de exemplo (3 baixo, 1 zerado…); busca por princípio ativo; filtros
+- [x] **19.2.1** `pages/farmacia/Estoque.tsx`: `ResumoNumeros` (baixo, zerado, vencendo, vencidos), cada número com link para o filtro · 🔗 R-F6
+- [x] **19.2.2** `components/farmacia/TabelaEstoque.tsx`: medicamento (nome, concentração, forma, lista de controlado), disponível + unidade, mínimo, `BadgeEstoque` e próximo vencimento
+- [x] **19.2.3** Busca (nome, princípio ativo, nome comercial), filtros (situação, forma, só controlados, status) e ordenação na URL; ações "Entrada de lote" e "Dispensar" — ordenação por nome, disponível e vencimento no serviço (`ordenarPor`, `ordem`)
+- [x] **19.2.4** Testes: resumo com os dados de exemplo (3 baixo, 1 zerado…); busca por princípio ativo; filtros
 - [ ] **19.2.5** Commit `fase-19: 19.2 estoque`
 
 ### 19.3 Catálogo · esp. 19.3 · F1, F5, F7, F9
 
-- [ ] **19.3.1** `components/farmacia/FormMedicamento.tsx` + `NovoMedicamento` e `EditarMedicamento`: campos do F1; aviso das regras de controlado; unidade e unidades por embalagem travadas com explicação; E-02 com link; E-05 · 🔗 F1
-- [ ] **19.3.2** `pages/farmacia/DetalheMedicamento.tsx`: dados; lotes (validade, saldo, situação, bloqueio); movimentações do medicamento; atalhos "Registrar entrada" e "Dispensar"
-- [ ] **19.3.3** Menu do lote: "Ajuste de inventário" e "Registrar perda/avaria" (diálogo F5, motivo maior para controlado); E-12 · 🔗 F5
-- [ ] **19.3.4** Menu do lote: "Bloquear lote" (motivo e referência) e "Desbloquear" · 🔗 F9
-- [ ] **19.3.5** Inativar (E-17 com os lotes e links para descarte ou ajuste) e reativar · 🔗 F7
-- [ ] **19.3.6** Testes: cadastro; duplicado; trava da unidade; ajuste negativo maior que o saldo; bloquear tira do disponível; inativar com saldo
+- [x] **19.3.1** `components/farmacia/FormMedicamento.tsx` + `NovoMedicamento` e `EditarMedicamento`: campos do F1; aviso das regras de controlado; unidade e unidades por embalagem travadas com explicação; E-02 com link; E-05 · 🔗 F1 — unidade travada vira campo somente leitura
+- [x] **19.3.2** `pages/farmacia/DetalheMedicamento.tsx`: dados; lotes (validade, saldo, situação, bloqueio); movimentações do medicamento; atalhos "Registrar entrada" e "Dispensar"
+- [x] **19.3.3** Menu do lote: "Ajuste de inventário" e "Registrar perda/avaria" (diálogo F5, motivo maior para controlado); E-12 · 🔗 F5
+- [x] **19.3.4** Menu do lote: "Bloquear lote" (motivo e referência) e "Desbloquear" · 🔗 F9
+- [x] **19.3.5** Inativar (E-17 com os lotes e links para descarte ou ajuste) e reativar · 🔗 F7
+- [x] **19.3.6** Testes: cadastro; duplicado; trava da unidade; ajuste negativo maior que o saldo; bloquear tira do disponível; inativar com saldo
 - [ ] **19.3.7** Commit `fase-19: 19.3 catálogo de medicamentos`
 
 ### 19.4 Entrada de lote · esp. 19.4 · F2
 
-- [ ] **19.4.1** `components/farmacia/FormEntrada.tsx` + `pages/farmacia/Entrada.tsx`: medicamento com disponível, mínimo e lotes existentes; `?medicamentoId=`
-- [ ] **19.4.2** Quantidade em unidades ou em embalagens com a conversão ao lado ("3 caixas × 20 = 60 comprimidos") · 🔗 M27
-- [ ] **19.4.3** Validade vencida (E-13) e curta (confirmação); lote repetido: "Somar ao lote L123" ou E-13 · 🔗 R-F2
-- [ ] **19.4.4** Salvar → aviso "Entrada registrada: 60 comprimidos de…" → detalhe do medicamento
-- [ ] **19.4.5** Testes: vencida, curta, repetida com e sem a mesma validade, por embalagem
+- [x] **19.4.1** `components/farmacia/FormEntrada.tsx` + `pages/farmacia/Entrada.tsx`: medicamento com disponível, mínimo e lotes existentes; `?medicamentoId=` — o formulário ficou na própria página (`Entrada.tsx`)
+- [x] **19.4.2** Quantidade em unidades ou em embalagens com a conversão ao lado ("3 caixas × 20 = 60 comprimidos") · 🔗 M27
+- [x] **19.4.3** Validade vencida (E-13) e curta (confirmação); lote repetido: "Somar ao lote L123" ou E-13 · 🔗 R-F2
+- [x] **19.4.4** Salvar → aviso "Entrada registrada: 60 comprimidos de…" → detalhe do medicamento
+- [x] **19.4.5** Testes: vencida, curta, repetida com e sem a mesma validade, por embalagem
 - [ ] **19.4.6** Commit `fase-19: 19.4 entrada de lote`
 
 ### 19.5 Dispensar · esp. 19.5 · F3
 
-- [ ] **19.5.1** `components/farmacia/FormDispensacao.tsx` + `pages/farmacia/Dispensar.tsx`: `ComboboxPaciente` com o filtro "internados ou em atendimento" e o destino ao lado; `?pacienteId=`. Atendimento provisório não aparece: a tela de dispensar a partir dele oferece "Identificar paciente" (E7) antes · 🔗 F3 passo 1, R-F12, D9
-- [ ] **19.5.2** Alergias fixas no topo durante todo o formulário, ou "Alergias não informadas — confirme com a equipe" · 🔗 R-F15, M27
-- [ ] **19.5.3** Médico solicitante: só ativos, preenchido com o responsável da internação ou o médico do atendimento
-- [ ] **19.5.4** ⭐ `components/farmacia/ItemDispensacao.tsx`: medicamento (mostra disponível e unidade; esconde inativos e sem estoque), `CampoQuantidade`, prévia FEFO atualizada a cada mudança, erro acima do disponível; até 10 itens; mesmo medicamento duas vezes pede para unir · 🔗 A9, R-F3, R-F4
-- [ ] **19.5.5** Alertas por item: `AlertaAlergia` com "Ciente" e justificativa; controlado com "Conferi a receita/prescrição"; quantidade alta com confirmação · 🔗 R-F7, R-F8, R-F14
-- [ ] **19.5.6** "Dispensar" abre o resumo para confirmar (itens, quantidades, lotes e alertas confirmados); aviso de escopo administrativo · 🔗 RS-10
-- [ ] **19.5.7** Falhas: E-12 no item com o disponível atual; lote que venceu ou foi bloqueado (FEFO refeito); E-15 no topo; E-03 no item · 🔗 F3 › Falhas
-- [ ] **19.5.8** Salvar → aviso "Dispensação registrada (3 itens)" → detalhe da dispensação
-- [ ] **19.5.9** Testes: FEFO em 2 lotes; alergia sem justificativa bloqueia o envio; alergias não informadas; controlado; quantidade alta; E-12 por gravação direta no repositório
+- [x] **19.5.1** `components/farmacia/FormDispensacao.tsx` + `pages/farmacia/Dispensar.tsx`: `ComboboxPaciente` com o filtro "internados ou em atendimento" e o destino ao lado; `?pacienteId=`. Atendimento provisório não aparece: a tela de dispensar a partir dele oferece "Identificar paciente" (E7) antes · 🔗 F3 passo 1, R-F12, D9 — formulário na página; `ItemDispensacao` e `validar-dispensacao.ts` separados
+- [x] **19.5.2** Alergias fixas no topo durante todo o formulário, ou "Alergias não informadas — confirme com a equipe" · 🔗 R-F15, M27
+- [x] **19.5.3** Médico solicitante: só ativos, preenchido com o responsável da internação ou o médico do atendimento
+- [x] **19.5.4** ⭐ `components/farmacia/ItemDispensacao.tsx`: medicamento (mostra disponível e unidade; esconde inativos e sem estoque), `CampoQuantidade`, prévia FEFO atualizada a cada mudança, erro acima do disponível; até 10 itens; mesmo medicamento duas vezes pede para unir · 🔗 A9, R-F3, R-F4 — medicamento num `select` nativo com o disponível no texto da opção (ver PR)
+- [x] **19.5.5** Alertas por item: `AlertaAlergia` com "Ciente" e justificativa; controlado com "Conferi a receita/prescrição"; quantidade alta com confirmação · 🔗 R-F7, R-F8, R-F14
+- [x] **19.5.6** "Dispensar" abre o resumo para confirmar (itens, quantidades, lotes e alertas confirmados); aviso de escopo administrativo · 🔗 RS-10
+- [x] **19.5.7** Falhas: E-12 no item com o disponível atual; lote que venceu ou foi bloqueado (FEFO refeito); E-15 no topo; E-03 no item · 🔗 F3 › Falhas
+- [x] **19.5.8** Salvar → aviso "Dispensação registrada (3 itens)" → detalhe da dispensação
+- [x] **19.5.9** Testes: FEFO em 2 lotes; alergia sem justificativa bloqueia o envio; alergias não informadas; controlado; quantidade alta; E-12 por gravação direta no repositório — 6 testes de dispensar; E-12 simulado por "outra aba"
 - [ ] **19.5.10** Commit `fase-19: 19.5 dispensar`
 
 ### 19.6 Detalhe da dispensação · esp. 19.7 · F4, F8
 
-- [ ] **19.6.1** `pages/farmacia/DetalheDispensacao.tsx`: paciente, destino, médico, itens com os lotes usados, alertas confirmados (com justificativa e autor), situação
-- [ ] **19.6.2** Devolução por item (F4): quantidade até o saldo e motivo; mostra quanto já foi devolvido · 🔗 F4, R-F10
-- [ ] **19.6.3** Estorno (F8): "Pode ser estornada até…"; motivo; some depois da janela ou com devolução anterior (E-18); dispensação estornada aparece riscada com o motivo · 🔗 F8, R-F16
-- [ ] **19.6.4** "Imprimir comprovante" com CSS de impressão (sem menu, cabeçalho e banner)
-- [ ] **19.6.5** Testes: devolução parcial; devolução de lote vencido vira descarte; estorno dentro e fora da janela; estorno bloqueado após devolução
+- [x] **19.6.1** `pages/farmacia/DetalheDispensacao.tsx`: paciente, destino, médico, itens com os lotes usados, alertas confirmados (com justificativa e autor), situação
+- [x] **19.6.2** Devolução por item (F4): quantidade até o saldo e motivo; mostra quanto já foi devolvido · 🔗 F4, R-F10
+- [x] **19.6.3** Estorno (F8): "Pode ser estornada até…"; motivo; some depois da janela ou com devolução anterior (E-18); dispensação estornada aparece riscada com o motivo · 🔗 F8, R-F16
+- [x] **19.6.4** "Imprimir comprovante" com CSS de impressão (sem menu, cabeçalho e banner) — classes `print:` no layout e fundo branco na impressão
+- [x] **19.6.5** Testes: devolução parcial; devolução de lote vencido vira descarte; estorno dentro e fora da janela; estorno bloqueado após devolução — devolução de lote vencido coberta no serviço (`farmacia.service.test.ts`)
 - [ ] **19.6.6** Commit `fase-19: 19.6 detalhe, devolução e estorno`
 
 ### 19.7 Movimentações · esp. 19.7
 
-- [ ] **19.7.1** `pages/farmacia/Movimentacoes.tsx`: `DataTable` com tipo, medicamento, lote, quantidade com sinal, saldo após, motivo, autor e data; filtros (tipo, período, medicamento, paciente) e paginação na URL
-- [ ] **19.7.2** Testes: filtros; link para a dispensação
+- [x] **19.7.1** `pages/farmacia/Movimentacoes.tsx`: `DataTable` com tipo, medicamento, lote, quantidade com sinal, saldo após, motivo, autor e data; filtros (tipo, período, medicamento, paciente) e paginação na URL
+- [x] **19.7.2** Testes: filtros; link para a dispensação
 - [ ] **19.7.3** Commit `fase-19: 19.7 movimentações`
 
 ### 19.8 Vencimentos · esp. 19.7 · F6
 
-- [ ] **19.8.1** `pages/farmacia/Vencimentos.tsx`: lotes vencendo em até 60 dias e vencidos, com `textoValidade`
-- [ ] **19.8.2** Descarte em lote dos vencidos com motivo; termo de descarte para controlados; aviso "3 lotes descartados (45 unidades)" · 🔗 F6
-- [ ] **19.8.3** Testes: seleção e descarte; controlado sem termo
+- [x] **19.8.1** `pages/farmacia/Vencimentos.tsx`: lotes vencendo em até 60 dias e vencidos, com `textoValidade`
+- [x] **19.8.2** Descarte em lote dos vencidos com motivo; termo de descarte para controlados; aviso "3 lotes descartados (45 unidades)" · 🔗 F6
+- [x] **19.8.3** Testes: seleção e descarte; controlado sem termo
 - [ ] **19.8.4** Commit `fase-19: 19.8 vencimentos`
 
 ### 19.9 Livro de controlados · esp. 19.7 · M28
 
-- [ ] **19.9.1** `pages/farmacia/Controlados.tsx`: medicamento controlado e período; saldo inicial, entradas, saídas, saldo final e movimentações
-- [ ] **19.9.2** Versão para impressão
-- [ ] **19.9.3** Testes: saldo final = inicial + entradas − saídas
+- [x] **19.9.1** `pages/farmacia/Controlados.tsx`: medicamento controlado e período; saldo inicial, entradas, saídas, saldo final e movimentações
+- [x] **19.9.2** Versão para impressão
+- [x] **19.9.3** Testes: saldo final = inicial + entradas − saídas
 - [ ] **19.9.4** Commit `fase-19: 19.9 livro de controlados`
 
 ### 19.10 Ligações com leitos e emergência · esp. 19.6
 
-- [ ] **19.10.1** "Dispensar medicamento" no detalhe da internação e do atendimento (`?pacienteId=`) · 🔗 Matriz
-- [ ] **19.10.2** Seções de dispensações no detalhe da internação (17.7.3) e do atendimento (18.5.4), com links
-- [ ] **19.10.3** R-F12 completa: destino internação **ou** atendimento aberto · ⚠ se a Farmácia foi feita em paralelo, antes da Fase 18, deixe só "internação ativa" aqui e complete na Fase 20 (20.11.4)
+- [x] **19.10.1** "Dispensar medicamento" no detalhe da internação e do atendimento (`?pacienteId=`) · 🔗 Matriz
+- [x] **19.10.2** Seções de dispensações no detalhe da internação (17.7.3) e do atendimento (18.5.4), com links
+- [x] **19.10.3** R-F12 completa: destino internação **ou** atendimento aberto · ⚠ se a Farmácia foi feita em paralelo, antes da Fase 18, deixe só "internação ativa" aqui e complete na Fase 20 (20.11.4) — já completa no serviço (Fase 18 veio antes)
 - [ ] **19.10.4** Commit `fase-19: 19.10 ligações com leitos e emergência`
 
 ### 19.11 Testes de páginas e ponta a ponta · esp. 19.8
 
-- [ ] **19.11.1** `farmacia.paginas.test.tsx`: cadastrar, entrada (vencida, curta, lote repetido, por embalagem), dispensar com FEFO em 2 lotes, lote bloqueado fora do FEFO, alergia, alergias não informadas, controlado, quantidade alta, devolução, estorno, ajuste, descarte, inativar, livro de controlados · ✔ `esperarConsistente()` no fim de cada fluxo
-- [ ] **19.11.2** Rotas da farmácia no `e2e/acessibilidade.spec.ts` (claro e escuro), com o alerta de alergia e o resumo da dispensação abertos · ✔ 0 violações
-- [ ] **19.11.3** Itens da dispensação no `e2e/teclado.spec.ts`
+- [x] **19.11.1** `farmacia.paginas.test.tsx`: cadastrar, entrada (vencida, curta, lote repetido, por embalagem), dispensar com FEFO em 2 lotes, lote bloqueado fora do FEFO, alergia, alergias não informadas, controlado, quantidade alta, devolução, estorno, ajuste, descarte, inativar, livro de controlados · ✔ `esperarConsistente()` no fim de cada fluxo — 25 testes
+- [x] **19.11.2** Rotas da farmácia no `e2e/acessibilidade.spec.ts` (claro e escuro), com o alerta de alergia e o resumo da dispensação abertos · ✔ 0 violações
+- [x] **19.11.3** Itens da dispensação no `e2e/teclado.spec.ts`
 
 ### 19.12 Verificação
 
-- [ ] **19.12.1** Telas em 375, 768 e 1280px, nos temas claro e escuro; comprovante e livro na prévia de impressão
-- [ ] **19.12.2** Só teclado e escala de cinza no estoque e no dispensar
+- [x] **19.12.1** Telas em 375, 768 e 1280px, nos temas claro e escuro; comprovante e livro na prévia de impressão — 12 rotas × 3 larguras × 2 temas: sem rolagem, 0 violações axe, 0 erros no console; capturas de impressão do comprovante e do livro
+- [x] **19.12.2** Só teclado e escala de cinza no estoque e no dispensar — teclado no e2e (itens da dispensação); `docs/capturas/fase19-estoque-cinza-1280.png`
 - [ ] **19.12.3** 👤 Teste manual com duas abas: dispensar o último estoque nas duas (a segunda recebe E-12); estoque nunca negativo
-- [ ] **19.12.4** Conferir a rastreabilidade de uma saída: lote → dispensação → paciente → médico solicitante
+- [x] **19.12.4** Conferir a rastreabilidade de uma saída: lote → dispensação → paciente → médico solicitante — lote → movimentação (link da dispensação) → paciente e médico no detalhe
 
 ### 19.13 Fechamento da Fase 19
 
-- [ ] **19.13.1** Lint, build, `test:coverage`, `i18n:verificar`, `test:e2e`
-- [ ] **19.13.2** `npm run pacote:medir` · ✔ marcadores dos módulos = 0; crescimento ≤ 5 kB gzip
-- [ ] **19.13.3** `docs/PR_FASE_19.md` com capturas (estoque claro 1280, escuro 375, dispensar com alerta, detalhe)
-- [ ] **19.13.4** Atualizar checkboxes e painel de execução: Fase 19 ✅
+- [x] **19.13.1** Lint, build, `test:coverage`, `i18n:verificar`, `test:e2e`
+- [x] **19.13.2** `npm run pacote:medir` · ✔ marcadores dos módulos = 0; crescimento ≤ 5 kB gzip — 153,3 kB (+1,1 kB na fase; +7,6 kB desde a Etapa 0, perto do teto de 8 kB)
+- [x] **19.13.3** `docs/PR_FASE_19.md` com capturas (estoque claro 1280, escuro 375, dispensar com alerta, detalhe)
+- [x] **19.13.4** Atualizar checkboxes e painel de execução: Fase 19 ✅
 - [ ] **19.13.5** 👤 Abrir, revisar e mesclar o PR "Fase 19 — Farmácia"
 
 ---
@@ -904,88 +904,88 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 
 ### 20.0 Abertura
 
-- [ ] **20.0.1** 👤 Atualizar a `main` (com as Fases 17, 18 e 19 mescladas) e criar `feat/fase-20-integracao-operacoes`
-- [ ] **20.0.2** `npm run test` verde
+- [x] **20.0.1** 👤 Atualizar a `main` (com as Fases 17, 18 e 19 mescladas) e criar `feat/fase-20-integracao-operacoes` — feito neste ambiente, a partir da `feat/fase-19-farmacia` (a 19 ainda não está na `main`)
+- [x] **20.0.2** `npm run test` verde — 663 verdes
 
 ### 20.1 Indicadores sob demanda (D20)
 
-- [ ] **20.1.1** ⭐ `hooks/useIndicadoresOperacionais.ts`: `import()` dinâmico de `services/indicadores-operacionais`, recarga quando as coleções dos módulos mudam (inclusive de outra aba) · 🔗 D20, M31, RS-12
-- [ ] **20.1.2** Os cards abrem com o esqueleto (`Skeleton`) e se preenchem em seguida, sem mudar o tamanho do card
-- [ ] **20.1.3** `npm run build && npm run pacote:medir` · ✔ o serviço de indicadores fica fora do pacote inicial; crescimento ≤ 5 kB gzip
+- [x] **20.1.1** ⭐ `hooks/useIndicadoresOperacionais.ts`: `import()` dinâmico de `services/indicadores-operacionais`, recarga quando as coleções dos módulos mudam (inclusive de outra aba) · 🔗 D20, M31, RS-12 — também `useSerieInternacoes`; os nomes das coleções em `services/nomes-colecoes-operacoes.ts`
+- [x] **20.1.2** Os cards abrem com o esqueleto (`Skeleton`) e se preenchem em seguida, sem mudar o tamanho do card
+- [x] **20.1.3** `npm run build && npm run pacote:medir` · ✔ o serviço de indicadores fica fora do pacote inicial; crescimento ≤ 5 kB gzip — o serviço fica fora do pacote inicial; o acumulado passou de 8 kB por causa da lista de pré-carga e foi corrigido com os grupos `modulo-*` no `vite.config.ts` (ver Diário)
 - [ ] **20.1.4** Commit `fase-20: 20.1 indicadores sob demanda`
 
 ### 20.2 Ocupação e leitos disponíveis
 
-- [ ] **20.2.1** `OccupancyDonut`: ocupação por setor de internação a partir dos leitos reais (operacionais, sem Observação) · 🔗 A13, D17
-- [ ] **20.2.2** KPI "Leitos disponíveis" = leitos livres dos setores de internação
+- [x] **20.2.1** `OccupancyDonut`: ocupação por setor de internação a partir dos leitos reais (operacionais, sem Observação) · 🔗 A13, D17 — 72%, 86 de 119; Enfermaria 50/69; a outra fatia virou "Não ocupados"
+- [x] **20.2.2** KPI "Leitos disponíveis" = leitos livres dos setores de internação — 29 livres (antes 34)
 - [ ] **20.2.3** Commit `fase-20: 20.2 ocupação real no Painel`
 
 ### 20.3 Emergência no Painel
 
-- [ ] **20.3.1** KPI "Casos de emergência" = atendimentos abertos, com o detalhe "{n} de alta prioridade" (vermelho e laranja)
+- [x] **20.3.1** KPI "Casos de emergência" = atendimentos abertos, com o detalhe "{n} de alta prioridade" (vermelho e laranja) — 13 abertos; o detalhe ficou "{n} em alta prioridade" (cabe numa linha em 1600 px)
 - [ ] **20.3.2** Commit `fase-20: 20.3 casos de emergência reais`
 
 ### 20.4 Alertas
 
-- [ ] **20.4.1** `AlertList` mostra os 3 primeiros alertas de A12 (`AlertaOperacional`), cada um com link; "Ver todos" abre `/emergencia?aba=alertas` · 🔗 A12
+- [x] **20.4.1** `AlertList` mostra os 3 primeiros alertas de A12 (`AlertaOperacional`), cada um com link; "Ver todos" abre `/emergencia?aba=alertas` · 🔗 A12
 - [ ] **20.4.2** Commit `fase-20: 20.4 alertas reais`
 
 ### 20.5 Boas-vindas e insights
 
-- [ ] **20.5.1** `WelcomeCard`: "UTI tendendo a X%" (`previsaoUti`) e "N medicamentos com estoque baixo" reais · 🔗 A13, R-F6
-- [ ] **20.5.2** `AIInsights`: os 3 textos calculados (previsão da UTI, estoque baixo, altas previstas para hoje)
+- [x] **20.5.1** `WelcomeCard`: "UTI tendendo a X%" (`previsaoUti`) e "N medicamentos com estoque baixo" reais · 🔗 A13, R-F6
+- [x] **20.5.2** `AIInsights`: os 3 textos calculados (previsão da UTI, estoque baixo, altas previstas para hoje)
 - [ ] **20.5.3** Commit `fase-20: 20.5 boas-vindas e insights reais`
 
 ### 20.6 Tendência de internações
 
-- [ ] **20.6.1** `AdmissionChart`: série real de A14 (semana, mês e ano com os resumos mensais) · 🔗 A14
+- [x] **20.6.1** `AdmissionChart`: série real de A14 (semana, mês e ano com os resumos mensais) · 🔗 A14
 - [ ] **20.6.2** Commit `fase-20: 20.6 tendência de internações real`
 
 ### 20.7 Atividades
 
-- [ ] **20.7.1** `ActivityTimeline`: ícones e textos dos 14 tipos novos de atividade · 🔗 [Atividades novas](PLANO_OPERACOES_MEDICORE.md#atividades-novas)
+- [x] **20.7.1** `ActivityTimeline`: ícones e textos dos 14 tipos novos de atividade · 🔗 [Atividades novas](PLANO_OPERACOES_MEDICORE.md#atividades-novas) — os textos já vinham dos serviços; o marcador ganhou a cor do tipo em vez de ícone, para não mudar o visual do Painel (desvio no PR)
 - [ ] **20.7.2** Commit `fase-20: 20.7 atividades dos módulos no Painel`
 
 ### 20.8 Limpeza dos dados simulados
 
-- [ ] **20.8.1** Remover de `data/mock.ts`: `setoresLeitos`, `alertas`, `kpis.casosEmergencia`, `resumoDia`, `insights` e `internacoes`. "Desempenho por departamento" (`departamentos`) continua simulado
-- [ ] **20.8.2** Remover `utils/leitos.ts`, o teste antigo `leitos.test.ts` e os tipos órfãos (`SetorLeitos`, `AlertaEmergencia`, `ResumoDia`, `Insight`, `PontoInternacao`…) que não forem mais usados
-- [ ] **20.8.3** `npx tsc -b` e lint sem avisos de código não usado
+- [x] **20.8.1** Remover de `data/mock.ts`: `setoresLeitos`, `alertas`, `kpis.casosEmergencia`, `resumoDia`, `insights` e `internacoes`. "Desempenho por departamento" (`departamentos`) continua simulado
+- [x] **20.8.2** Remover `utils/leitos.ts`, o teste antigo `leitos.test.ts` e os tipos órfãos (`SetorLeitos`, `AlertaEmergencia`, `ResumoDia`, `Insight`, `PontoInternacao`…) que não forem mais usados — também as funções da API simulada e os hooks antigos
+- [x] **20.8.3** `npx tsc -b` e lint sem avisos de código não usado
 - [ ] **20.8.4** Commit `fase-20: 20.8 remoção dos dados simulados`
 
 ### 20.9 Testes do Painel
 
-- [ ] **20.9.1** Atualizar `dashboard.test.tsx` com os dados de exemplo e relógio fixo (72% de ocupação, leitos livres e alertas calculados a partir dos dados de exemplo)
-- [ ] **20.9.2** Painel muda sem recarregar ao internar, dar alta, registrar chegada vermelha e dispensar até o estoque mínimo, inclusive vindo de "outra aba"
+- [x] **20.9.1** Atualizar `dashboard.test.tsx` com os dados de exemplo e relógio fixo (72% de ocupação, leitos livres e alertas calculados a partir dos dados de exemplo)
+- [x] **20.9.2** Painel muda sem recarregar ao internar, dar alta, registrar chegada vermelha e dispensar até o estoque mínimo, inclusive vindo de "outra aba" — chegada vermelha, dispensação até o mínimo, alta e leito liberado por outra aba (evento `storage`), com a linha do tempo
 - [ ] **20.9.3** Commit `fase-20: 20.9 testes do Painel`
 
 ### 20.10 Detalhe do paciente
 
-- [ ] **20.10.1** Seção "Situação hospitalar": internação ativa ou atendimento aberto, com links · 🔗 R-X8
-- [ ] **20.10.2** "Histórico": internações, atendimentos dos últimos 7 dias e dispensações dos últimos 30 dias ("registro arquivado" sem link)
-- [ ] **20.10.3** Ações "Internar" (`/leitos/internar?pacienteId=`) e "Registrar chegada na emergência" (`/emergencia/chegada?pacienteId=`), escondidas quando não valem (R-X1) ou o paciente está inativo
-- [ ] **20.10.4** Testes: paciente internado, em atendimento e sem situação
+- [x] **20.10.1** Seção "Situação hospitalar": internação ativa ou atendimento aberto, com links · 🔗 R-X8 — `SituacaoHospitalarPaciente`, com o serviço carregado sob demanda
+- [x] **20.10.2** "Histórico": internações, atendimentos dos últimos 7 dias e dispensações dos últimos 30 dias ("registro arquivado" sem link) — serviço `historicoHospitalar`
+- [x] **20.10.3** Ações "Internar" (`/leitos/internar?pacienteId=`) e "Registrar chegada na emergência" (`/emergencia/chegada?pacienteId=`), escondidas quando não valem (R-X1) ou o paciente está inativo — Internar também some com pedido de leito em aberto (daria E-14)
+- [x] **20.10.4** Testes: paciente internado, em atendimento e sem situação — `integracao.cadastros.test.tsx`, inclusive inativo, alta com a tela aberta e registro arquivado
 - [ ] **20.10.5** Commit `fase-20: 20.10 situação hospitalar do paciente`
 
 ### 20.11 Detalhe do médico, agenda e R-F12
 
-- [ ] **20.11.1** Detalhe do médico: internações sob responsabilidade e atendimentos em curso, com links
-- [ ] **20.11.2** Agendamento de consulta: aviso "Paciente internado em {leito}" ao escolher um paciente internado · 🔗 R-X8
-- [ ] **20.11.3** Testes do detalhe do médico e do aviso no agendamento
-- [ ] **20.11.4** Se a Farmácia veio antes da Emergência: completar a R-F12 (internação **ou** atendimento aberto) e os testes dela · 🔗 19.10.3
+- [x] **20.11.1** Detalhe do médico: internações sob responsabilidade e atendimentos em curso, com links — `VinculosMedico` e serviço `vinculosDoMedico`
+- [x] **20.11.2** Agendamento de consulta: aviso "Paciente internado em {leito}" ao escolher um paciente internado · 🔗 R-X8 — `useSituacaoResumida` no `FormConsulta`
+- [x] **20.11.3** Testes do detalhe do médico e do aviso no agendamento
+- [x] **20.11.4** Se a Farmácia veio antes da Emergência: completar a R-F12 (internação **ou** atendimento aberto) e os testes dela · 🔗 19.10.3 — não se aplicou: a R-F12 já estava completa
 - [ ] **20.11.5** Commit `fase-20: 20.11 médico, agenda e destino da dispensação`
 
 ### 20.12 Verificação
 
-- [ ] **20.12.1** Comparar o Painel em 1600px com `docs/capturas/referencia-fase14.png` · ✔ igual, exceto números e nomes
+- [x] **20.12.1** Comparar o Painel em 1600px com `docs/capturas/referencia-fase14.png` · ✔ igual, exceto números e nomes — igual em layout; diferenças só de números, nomes e dos rótulos "Não ocupados" e "{n} em alta prioridade" (tabela no PR)
 - [ ] **20.12.2** 👤 Com duas abas: internar, dar alta, registrar chegada vermelha e dispensar numa e ver o Painel mudar na outra
 
 ### 20.13 Fechamento da Fase 20
 
-- [ ] **20.13.1** Lint, build, `test:coverage`, `i18n:verificar`, `test:e2e`
-- [ ] **20.13.2** `npm run pacote:medir` · ✔ crescimento ≤ 5 kB gzip em relação à linha de base da Etapa 0 (ou justificativa no Diário)
-- [ ] **20.13.3** `docs/PR_FASE_20.md` com a comparação do Painel
-- [ ] **20.13.4** Atualizar checkboxes e painel de execução: Fase 20 ✅
+- [x] **20.13.1** Lint, build, `test:coverage`, `i18n:verificar`, `test:e2e` — 667 Vitest e 129 Playwright verdes
+- [x] **20.13.2** `npm run pacote:medir` · ✔ crescimento ≤ 5 kB gzip em relação à linha de base da Etapa 0 (ou justificativa no Diário) — 153,7 kB (+0,4 kB na fase; +8,0 kB desde a Etapa 0, no teto, com justificativa no Diário)
+- [x] **20.13.3** `docs/PR_FASE_20.md` com a comparação do Painel
+- [x] **20.13.4** Atualizar checkboxes e painel de execução: Fase 20 ✅
 - [ ] **20.13.5** 👤 Abrir, revisar e mesclar o PR "Fase 20 — Integração"
 
 ---
@@ -997,77 +997,77 @@ Toda fase começa com a **abertura** (`N.0`) e termina com o **fechamento** (`N.
 
 ### 21.0 Abertura
 
-- [ ] **21.0.1** 👤 Atualizar a `main` e criar `feat/fase-21-qualidade-operacoes`
-- [ ] **21.0.2** `npm run test` e `npm run test:e2e` verdes
+- [x] **21.0.1** 👤 Atualizar a `main` e criar `feat/fase-21-qualidade-operacoes` — feito neste ambiente, a partir da `feat/fase-20-integracao-operacoes` (19 e 20 ainda não estão na `main`)
+- [x] **21.0.2** `npm run test` e `npm run test:e2e` verdes — 667 Vitest e 129 Playwright verdes
 
 ### 21.1 Cenários ponta a ponta · esp. 21.1
 
-- [ ] **21.1.1** `e2e/fixtures.ts`: ajudantes para registrar chegada, triar, internar e dispensar pela tela, com `page.clock` fixo
-- [ ] **21.1.2** `e2e/cenario5-emergencia-internacao.spec.ts`: chegada sem identificação → triar laranja → vincular a um cadastro → chamar → pedir leito UTI → reservar no mapa → internar → paciente no mapa e no Painel
-- [ ] **21.1.3** `e2e/cenario6-alta-higienizacao.spec.ts`: alta → higienização → concluir → livre → "Leitos disponíveis" sobe 1
-- [ ] **21.1.4** `e2e/cenario7-farmacia.spec.ts`: entrada de lote → dispensação com FEFO em 2 lotes → alerta de alergia com justificativa → estoque cruza o mínimo e o Painel sobe → devolução
-- [ ] **21.1.5** `e2e/cenario8-concorrencia-modulos.spec.ts`: duas abas internando no mesmo leito (E-11) e dispensando o último estoque (E-12); nada gravado em dobro
-- [ ] **21.1.6** `e2e/cenario9-correcoes.spec.ts`: desfazer alta, reabrir atendimento e estornar dispensação; depois do prazo (relógio adiantado) o botão some e o aviso explica
-- [ ] **21.1.7** `e2e/cenario10-obito.spec.ts`: paciente internado com consulta futura → alta por óbito → cadastro inativo, consulta cancelada, paciente não aparece na chegada
-- [ ] **21.1.8** `npm run test:e2e` verde 3 vezes seguidas · ✔ sem instabilidade
+- [x] **21.1.1** `e2e/fixtures.ts`: ajudantes para registrar chegada, triar, internar e dispensar pela tela, com `page.clock` fixo — `ler` (espera a semeadura), `abrir`, `pacienteLivre`, `valorKpi`, `escolherPaciente`, `registrarChegadaSemIdentificacao`, `triar`
+- [x] **21.1.2** `e2e/cenario5-emergencia-internacao.spec.ts`: chegada sem identificação → triar laranja → vincular a um cadastro → chamar → pedir leito UTI → reservar no mapa → internar → paciente no mapa e no Painel — também confere a busca do mapa e a UTI 23/30 no Painel
+- [x] **21.1.3** `e2e/cenario6-alta-higienizacao.spec.ts`: alta → higienização → concluir → livre → "Leitos disponíveis" sobe 1
+- [x] **21.1.4** `e2e/cenario7-farmacia.spec.ts`: entrada de lote → dispensação com FEFO em 2 lotes → alerta de alergia com justificativa → estoque cruza o mínimo e o Painel sobe → devolução — ampicilina para paciente alérgica à penicilina; a devolução tira o medicamento do "baixo"
+- [x] **21.1.5** `e2e/cenario8-concorrencia-modulos.spec.ts`: duas abas internando no mesmo leito (E-11) e dispensando o último estoque (E-12); nada gravado em dobro — a segunda aba sem o aviso entre abas, para cair no erro ao gravar
+- [x] **21.1.6** `e2e/cenario9-correcoes.spec.ts`: desfazer alta, reabrir atendimento e estornar dispensação; depois do prazo (relógio adiantado) o botão some e o aviso explica — o "depois do prazo" é uma segunda aba com o relógio 25 h à frente
+- [x] **21.1.7** `e2e/cenario10-obito.spec.ts`: paciente internado com consulta futura → alta por óbito → cadastro inativo, consulta cancelada, paciente não aparece na chegada — inclui o aviso R-X8 ao agendar para o internado
+- [x] **21.1.8** `npm run test:e2e` verde 3 vezes seguidas · ✔ sem instabilidade — 139 de 139 nas 3 execuções seguidas, sem instabilidade
 
 ### 21.2 Acessibilidade · esp. 21.2
 
-- [ ] **21.2.1** Conferir que todas as rotas novas estão no `acessibilidade.spec.ts` (claro e escuro), com diálogos abertos e o mapa em 375px · ✔ 0 violações
-- [ ] **21.2.2** Teclado de ponta a ponta: `SeletorLeito`, grade de leitos, fila, `CamposSinaisVitais`, itens da dispensação
-- [ ] **21.2.3** Revisar resumo de erros, foco no primeiro erro e anúncio de rota nas telas novas
-- [ ] **21.2.4** Escala de cinza: risco e situação de leito compreensíveis sem cor em todas as telas
-- [ ] **21.2.5** Ampliar o roteiro NVDA em `docs/VERIFICACAO_MANUAL.md` com L1, E2 e F3
+- [x] **21.2.1** Conferir que todas as rotas novas estão no `acessibilidade.spec.ts` (claro e escuro), com diálogos abertos e o mapa em 375px · ✔ 0 violações — rotas já estavam; entrou o teste com 9 diálogos dos módulos abertos e mais 3 telas em 375 px · 0 violações
+- [x] **21.2.2** Teclado de ponta a ponta: `SeletorLeito`, grade de leitos, fila, `CamposSinaisVitais`, itens da dispensação — já coberto pelo `teclado.spec.ts` das Fases 17 a 19
+- [x] **21.2.3** Revisar resumo de erros, foco no primeiro erro e anúncio de rota nas telas novas — **achado:** o foco ia para o 1º erro do esquema, não da tela (Internar, Chegada, Dispensar); corrigido no `useFormularioEntidade` e no Dispensar (`components/ui/form/foco.ts`), com teste e2e e unitário; o anúncio de rota já funcionava
+- [x] **21.2.4** Escala de cinza: risco e situação de leito compreensíveis sem cor em todas as telas — Painel, fila e atendimento (`fase21-*-cinza-1280.png`), além do mapa e do estoque das Fases 17 e 19
+- [x] **21.2.5** Ampliar o roteiro NVDA em `docs/VERIFICACAO_MANUAL.md` com L1, E2 e F3 — também Painel, mensagens E-11 a E-18, termos e testes com duas abas
 - [ ] **21.2.6** 👤 Executar o roteiro NVDA (P1, P9, Painel, L1, E2, F3) · ✔ anotações e correções no Diário
 
 ### 21.3 Idioma e textos · esp. 21.3
 
-- [ ] **21.3.1** `npm run i18n:verificar` sem achados
-- [ ] **21.3.2** Conferir formatos: datas, horas 24 h, "há X min", "até 10:28", quantidades com unidade, números do Painel
-- [ ] **21.3.3** Avisos de escopo administrativo presentes na triagem, no alerta de alergia e no controlado · 🔗 RS-10
+- [x] **21.3.1** `npm run i18n:verificar` sem achados
+- [x] **21.3.2** Conferir formatos: datas, horas 24 h, "há X min", "até 10:28", quantidades com unidade, números do Painel — varredura de 18 rotas sem achados; movimentações e livro de controlados passaram a usar separador de milhar
+- [x] **21.3.3** Avisos de escopo administrativo presentes na triagem, no alerta de alergia e no controlado · 🔗 RS-10 — triagem, alerta de alergia, controlado e dispensar
 - [ ] **21.3.4** 👤 Revisar com alguém da área (enfermagem, farmácia) os termos: situações de leito, cores de risco, tipos de movimentação e desfechos; e as mensagens E-01 a E-18 com alguém que não seja desenvolvedor · ✔ tabela em `docs/VERIFICACAO_MANUAL.md`
 
 ### 21.4 Desempenho e armazenamento · esp. 21.4
 
-- [ ] **21.4.1** Ampliar `carga.test.ts` com o cenário de D15: 600 pacientes + 2.000 consultas + módulos no teto · ✔ uso < 80%; fila, mapa e estoque em < 100 ms
-- [ ] **21.4.2** Se não couber: aplicar a redução de retenção prevista (atendimentos 7 → 3 dias, movimentações 60 → 30 dias) e registrar no Diário · 🔗 D15, RS-09
-- [ ] **21.4.3** Tempo da primeira semeadura (instalação nova e instalação 1.1.0) < 300 ms · 🔗 M31
-- [ ] **21.4.4** `npm run pacote:medir` comparado com a linha de base da Etapa 0
-- [ ] **21.4.5** Lighthouse desktop em mapa, fila, atendimento, estoque e dispensar · ✔ ≥ 90 em todas as categorias
+- [x] **21.4.1** Ampliar `carga.test.ts` com o cenário de D15: 600 pacientes + 2.000 consultas + módulos no teto · ✔ uso < 80%; fila, mapa e estoque em < 100 ms — `carga.operacoes.test.ts`: com os tetos originais deu 148% do limite; com os tetos revistos, 73%; fila 2 ms, mapa 5 ms, estoque 4 ms
+- [x] **21.4.2** Se não couber: aplicar a redução de retenção prevista (atendimentos 7 → 3 dias, movimentações 60 → 30 dias) e registrar no Diário · 🔗 D15, RS-09 — **não coube.** Os tetos estouravam, não a retenção. Decisão do usuário: baixar os tetos e manter as retenções em dias (ver Diário)
+- [x] **21.4.3** Tempo da primeira semeadura (instalação nova e instalação 1.1.0) < 300 ms · 🔗 M31 — 95 ms (nova) e 105 ms (sobre a 1.1.0)
+- [x] **21.4.4** `npm run pacote:medir` comparado com a linha de base da Etapa 0 — 153,6 kB (+7,9 kB desde a Etapa 0, dentro do teto de 8 kB)
+- [x] **21.4.5** Lighthouse desktop em mapa, fila, atendimento, estoque e dispensar · ✔ ≥ 90 em todas as categorias — mapa 95, fila 94, atendimento 97, estoque 96, dispensar 95; 100 nas outras categorias
 
 ### 21.5 Documentação · esp. 21.5
 
-- [ ] **21.5.1** README: seções Gestão de leitos, Emergência e Farmácia (rotas, processos resumidos, regras principais, limites e avisos)
-- [ ] **21.5.2** README: novo "limite prático" de armazenamento (21.4.1) e as janelas de correção
-- [ ] **21.5.3** Capturas novas em `docs/capturas/` (mapa, fila, atendimento, estoque, dispensar; claro, escuro e celular)
-- [ ] **21.5.4** Conferir `docs/PR_FASE_15.md` a `docs/PR_FASE_21.md` (um por fase)
+- [x] **21.5.1** README: seções Gestão de leitos, Emergência e Farmácia (rotas, processos resumidos, regras principais, limites e avisos)
+- [x] **21.5.2** README: novo "limite prático" de armazenamento (21.4.1) e as janelas de correção — 600 pacientes + 2.000 consultas com os módulos no teto (73%); tabela das janelas de correção
+- [x] **21.5.3** Capturas novas em `docs/capturas/` (mapa, fila, atendimento, estoque, dispensar; claro, escuro e celular) — `fase21-{mapa,fila,atendimento,estoque,dispensar}-*` e as capturas do Painel do README atualizadas
+- [x] **21.5.4** Conferir `docs/PR_FASE_15.md` a `docs/PR_FASE_21.md` (um por fase) — PR_FASE_15 a PR_FASE_21
 
 ### 21.6 Verificação final
 
-- [ ] **21.6.1** Percorrer o [Checklist final de aceite](PLANO_OPERACOES_MEDICORE.md#-checklist-final-de-aceite) da especificação e marcar cada item
-- [ ] **21.6.2** `verificarConsistencia()` sem violações depois de usar o sistema por 10 min no navegador
-- [ ] **21.6.3** Registrar no Diário os números finais (testes, cobertura, Lighthouse, pacote, armazenamento) contra a linha de base
+- [x] **21.6.1** Percorrer o [Checklist final de aceite](PLANO_OPERACOES_MEDICORE.md#-checklist-final-de-aceite) da especificação e marcar cada item — todos os itens marcados, menos o NVDA (manual) e a versão 1.2.0 (Encerramento)
+- [x] **21.6.2** `verificarConsistencia()` sem violações depois de usar o sistema por 10 min no navegador — 0 violações das invariantes e 0 erros no console em ~10 min de uso (21 ciclos, 209 operações dos três módulos), depois da correção da alta no mesmo minuto
+- [x] **21.6.3** Registrar no Diário os números finais (testes, cobertura, Lighthouse, pacote, armazenamento) contra a linha de base
 
 ### 21.7 Fechamento da Fase 21
 
-- [ ] **21.7.1** Lint, build, `test:coverage`, `i18n:verificar`, `test:e2e`
-- [ ] **21.7.2** `docs/PR_FASE_21.md` com os números finais
-- [ ] **21.7.3** Atualizar checkboxes e painel de execução: Fase 21 ✅
+- [x] **21.7.1** Lint, build, `test:coverage`, `i18n:verificar`, `test:e2e` — 672 Vitest e 139 Playwright verdes
+- [x] **21.7.2** `docs/PR_FASE_21.md` com os números finais
+- [x] **21.7.3** Atualizar checkboxes e painel de execução: Fase 21 ✅
 - [ ] **21.7.4** 👤 Abrir, revisar e mesclar o PR "Fase 21 — Qualidade e entrega"
 
 ---
 
 ## Encerramento (versão 1.2.0)
 
-- [ ] **E.1** Versão `1.2.0` no `package.json`
-- [ ] **E.2** 👤 Commit e push na `main` (a Vercel publica sozinha) · ✔ deploy de produção "Ready"
-- [ ] **E.3** Testar a URL publicada: emergência → internação → dispensação → alta, no desktop e no celular · ✔ sem erros no console; anotações no Diário
-- [ ] **E.4** 👤 Criar a tag: `git tag -a v1.2.0 -m "MediCore 1.2.0 — leitos, emergência e farmácia" && git push origin v1.2.0`
-- [ ] **E.5** Atualizar o `PLANO_OPERACOES_MEDICORE.md`: todas as fases ✅, painel de progresso e registro final
-- [ ] **E.6** Atualizar o painel de execução deste plano: todas ✅, datas de início e fim preenchidas
-- [ ] **E.7** Revisar o `BACKLOG_MEDICORE.md`: marcar o que foi resolvido e escolher o próximo passo (recomendado: backend real, BL-01/BL-02, por causa do RS-01 e do RS-09)
-- [ ] **E.8** Registrar no Diário as lições aprendidas (o que atrasou, o que ajudou)
-- [ ] **E.9** Arquivar este plano e a especificação em `docs/planos/`
+- [x] **E.1** Versão `1.2.0` no `package.json` — na branch `release/1.2.0` (sobre a `feat/fase-21-qualidade-operacoes`), junto com a correção da tabela "Consultas de hoje"
+- [ ] **E.2** 👤 Commit e push na `main` (a Vercel publica sozinha) · ✔ deploy de produção "Ready" — **pendente, é seu:** o push daqui é recusado (403). Mescle na `main` os PRs das Fases 19, 20 e 21 e o `release/1.2.0`, nessa ordem
+- [ ] **E.3** Testar a URL publicada: emergência → internação → dispensação → alta, no desktop e no celular · ✔ sem erros no console; anotações no Diário — **em parte.** A prévia na Vercel não pôde ser criada daqui (sem push nem acesso à API pelo terminal). O fluxo foi testado no build de produção local (`vite preview`), em 390 px e 1280 px: chegada → triagem → chamar → encerrar → alta → higienização → internar → dispensar → devolver/estornar, sem erros no console nem violações das invariantes. O cenário 5 do e2e cobre emergência → internação. Falta testar a URL publicada
+- [ ] **E.4** 👤 Criar a tag: `git tag -a v1.2.0 -m "MediCore 1.2.0 — leitos, emergência e farmácia" && git push origin v1.2.0` — **pendente, é seu:** depois da publicação, na `main` atualizada
+- [x] **E.5** Atualizar o `PLANO_OPERACOES_MEDICORE.md`: todas as fases ✅, painel de progresso e registro final
+- [x] **E.6** Atualizar o painel de execução deste plano: todas ✅, datas de início e fim preenchidas
+- [x] **E.7** Revisar o `BACKLOG_MEDICORE.md`: marcar o que foi resolvido e escolher o próximo passo (recomendado: backend real, BL-01/BL-02, por causa do RS-01 e do RS-09) — o resolvido foi marcado; entraram BL-35 e BL-36; próximo passo: BL-60 (integração contínua, pequeno) e logo depois BL-01
+- [x] **E.8** Registrar no Diário as lições aprendidas (o que atrasou, o que ajudou)
+- [x] **E.9** Arquivar este plano e a especificação em `docs/planos/` — `docs/planos/PLANO_OPERACOES_MEDICORE.md` e `docs/planos/PLANO_EXECUCAO_OPERACOES.md` (saíram da raiz do repositório). O `BACKLOG_MEDICORE.md` continua na raiz, porque segue em uso
 
 ---
 
@@ -1079,14 +1079,14 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 
 | Indicador | Linha de base | Final |
 |---|---|---|
-| Testes (quantidade) | 353 Vitest (36 arquivos) + 66 Playwright | |
-| Cobertura geral (linhas) | 94,15% (comandos 92,6% · ramos 85,8% · funções 90,7%) | |
-| Cobertura `services/` / `utils/` | 98,31% / 98,63% (linhas) | |
-| Pacote inicial (gzip) | 145,7 kB (JS 137,1 · CSS 8,6), medido com `pacote:medir` (gzip nível 9, inclui o CSS) | |
-| Lighthouse desktop (Perf · A11y · BP · SEO) | Painel 99 · 100 · 100 · 100; `/pacientes`, `/pacientes/novo` e `/consultas` 100 em tudo | |
-| Violações axe | 0 | |
-| Armazenamento dos dados de exemplo | 73,1 KB (74.904 bytes: consultas 33,1 · pacientes 26,7 · atividades 6,7 · médicos 6,6 KB) | |
-| Primeira semeadura | — (medida a partir da Fase 15: 73 ms; ~985 KB) | |
+| Testes (quantidade) | 353 Vitest (36 arquivos) + 66 Playwright | 672 Vitest (61 arquivos) + 139 Playwright |
+| Cobertura geral (linhas) | 94,15% (comandos 92,6% · ramos 85,8% · funções 90,7%) | 92,3% · 84,0% |
+| Cobertura `services/` / `utils/` | 98,31% / 98,63% (linhas) | 97,8% / 97,8% (linhas) |
+| Pacote inicial (gzip) | 145,7 kB (JS 137,1 · CSS 8,6), medido com `pacote:medir` (gzip nível 9, inclui o CSS) | 153,6 kB (JS 143,3 · CSS 10,3): +7,9 kB, marcadores 0 |
+| Lighthouse desktop (Perf · A11y · BP · SEO) | Painel 99 · 100 · 100 · 100; `/pacientes`, `/pacientes/novo` e `/consultas` 100 em tudo | Painel e `/pacientes` 99 · 100 · 100 · 100; mapa 95, fila 94, atendimento 97, estoque 96, dispensar 95 (100 nas outras) |
+| Violações axe | 0 | 0 (todas as rotas, diálogos dos módulos, 375 px, dois temas) |
+| Armazenamento dos dados de exemplo | 73,1 KB (74.904 bytes: consultas 33,1 · pacientes 26,7 · atividades 6,7 · médicos 6,6 KB) | 950 KB com os módulos; pior caso da D15 3,67 MB (73%) |
+| Primeira semeadura | — (medida a partir da Fase 15: 73 ms; ~985 KB) | 95 ms (nova) · 105 ms (sobre a 1.1.0) |
 
 ### Pacote inicial por fase
 
@@ -1096,10 +1096,34 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | 15 | 149,0 kB (JS 140,4 · CSS 8,6) | 0 | +3,3 kB: gerador dos 90 pacientes extras (~1,5), textos de atividades e pendências (~0,9), R-X2–R-X4, migração v2 e meta no repositório (~0,9). 0,6 kB recuperados movendo os textos só dos serviços para `i18n/pt-BR/operacoes.ts` |
 | 16 | 150,1 kB (JS 140,5 · CSS 9,6) | 0 | +1,1 kB, quase todo de CSS (tokens de risco e de leito e classes dos componentes novos). Textos dos módulos e da vitrine fora do pacote. Total desde a Etapa 0: +4,4 kB; na Fase 20, os indicadores precisam ficar sob demanda (D20) |
 | 17 | 151,3 kB (JS 141,4 · CSS 9,9) | 0 | +1,2 kB: 6 rotas de leitos e a lista de pré-carga das páginas sob demanda (79 nomes, ~2,7 kB sem compressão) + CSS das telas. **Acumulado desde a Etapa 0: +5,6 kB**, acima de 5 kB: justificado no PR; se passar de 8 kB, carregar cada módulo por um único `import()` |
-| 18 | | | |
-| 19 | | | |
-| 20 | | | |
-| 21 | | | |
+| 18 | 152,2 kB (JS 142 · CSS 10,2) | 0 | +0,9 kB: 5 rotas da emergência (títulos em `t.rotasEmergencia`) e mais nomes na lista de pré-carga. **Acumulado desde a Etapa 0: +6,5 kB** (teto de 8 kB definido na Fase 17) |
+| 19 | 153,3 kB (JS 143 · CSS 10,3) | 0 | +1,1 kB: 10 rotas da farmácia (título do livro como "Controlados", porque o nome completo é marcador), lista de pré-carga e classes `print:`. **Acumulado desde a Etapa 0: +7,6 kB**, perto do teto de 8 kB: a D20 da Fase 20 é obrigatória e, se passar de 8 kB, carregar cada módulo por um único `import()` |
+| 20 | 153,7 kB (JS 143,4 · CSS 10,3) | 0 | +0,4 kB. Com a D20 ligada, a medição deu 154,2 kB (+8,5 kB acumulado): a lista de pré-carga do `index.html` tinha 130 nomes. Os grupos `modulo-leitos`, `modulo-emergencia` e `modulo-farmacia` (páginas, componentes e hooks de ação, com `includeDependenciesRecursively: false`) baixaram a lista para 36 nomes. Os textos dos detalhes de paciente e médico foram para `i18n/pt-BR/hospitalar.ts`. **Acumulado desde a Etapa 0: +8,0 kB**, no teto: a Fase 21 não tem margem |
+| 21 | 153,6 kB (JS 143,3 · CSS 10,3) | 0 | −0,1 kB. O foco dos formulários entrou primeiro no `estilos.ts`, que vai no pacote inicial (+0,2 kB); foi para `form/foco.ts`, só dos formulários, e levou junto o `focarCampo` que já existia. **Acumulado desde a Etapa 0: +7,9 kB** |
+
+### Lições aprendidas (Encerramento)
+
+**O que atrasou ou deu retrabalho**
+
+| # | O quê | Efeito | Para o próximo plano |
+|---|---|---|---|
+| 1 | O orçamento de armazenamento (D15) usou tamanhos **estimados** por item | Só a Fase 21 mostrou que os tetos não cabiam (148% do limite) e os tetos tiveram de cair à metade ou menos | Medir o tamanho real dos itens assim que os dados de exemplo existirem (Fase 15) e rodar o cenário de carga ali, não no fim |
+| 2 | Sem acesso de escrita do Claude ao GitHub | Cada fase foi entregue por *bundle*; os PRs das Fases 19 a 21 se acumularam sem revisão e sem prévia na Vercel, e o teste da URL publicada ficou para depois | Instalar o app do Claude no repositório (ou fazer o push ao fim de cada fase) e ligar a integração contínua (BL-60) |
+| 3 | Pendências adiadas "para a Fase 21" sem uma lista | O gráfico dos sinais (Fase 18) e a tabela "Consultas de hoje" (Fase 20) quase se perderam; achados no Encerramento | Toda pendência adiada vira tarefa com número no plano (ou item do backlog) no mesmo dia |
+| 4 | Pacote inicial com teto de +8 kB acumulado | Cada fase de tela somou ~1 kB; a Fase 20 passou do teto pela lista de pré-carga (130 nomes) e exigiu agrupar os pacotes por módulo | Agrupar os pacotes por módulo desde a primeira fase de tela |
+| 5 | Precisão de minuto nos campos × instantes com segundos | Alta logo depois da internação era recusada; só apareceu no uso real (21.6.2), não nos testes | Testes de serviço com instantes "do mesmo minuto"; sessão de uso no navegador já no fechamento de cada fase de tela |
+| 6 | Testes de página sensíveis a tempo sob carga | Falhas intermitentes no `test:coverage` (efeitos ainda não aplicados, mapa de 130 cartões) | Esperar os efeitos antes de avançar relógios falsos; limites de espera maiores em telas grandes |
+
+**O que ajudou**
+
+- **Invariantes (INV-1 a INV-10) e o teste de 500 operações aleatórias** desde a Fase 15. Nenhuma violação apareceu nas telas, nem nas sessões de uso no navegador.
+- **Medir o pacote em toda fase** (`pacote:medir`, com os marcadores dos módulos): o crescimento ficou visível a cada passo, e não só no fim.
+- **e2e com o relógio fixo** e ajudantes que leem o `localStorage`: os cenários 5 a 10 passaram 3 vezes seguidas sem instabilidade.
+- **Roteiro de verificação por fase** (larguras × temas × axe × console × escala de cinza): achou rolagem horizontal, nomes acessíveis e alvos pequenos antes do PR.
+- **Textos por módulo (D16)** e títulos de rota no `pt-BR.ts`: os módulos ficaram fora do pacote inicial sem esforço extra.
+- **Um PR por fase** (Fases 15 a 18) com o `docs/PR_FASE_N.md` pronto: a revisão ficou rápida, e cada desvio, registrado.
+
+**Prazo:** a estimativa era de 20 dias úteis. O trabalho foi feito em sessões entre 28/10 e 12/11/2026. O que ainda falta (publicação e verificações manuais) depende de uma pessoa.
 
 ### Registro diário
 
@@ -1118,4 +1142,17 @@ Use para registrar o dia a dia: bloqueios, decisões pequenas, desvios de prazo 
 | 03/11/2026 | Fase 16 — números e achados | 589 testes Vitest (56 arquivos) e 66 Playwright verdes; `components/ui/` 95,4%; pacote 150,1 kB. Vitrine: 0 violações axe em 375/768/1280, claro e escuro, sem rolagem horizontal. Corrigido na revisão visual: ícone do vermelho (octógono parecia o círculo do amarelo em cinza → sirene); concordância do alerta de alergia ("à classe"); borda de "atenção" nos sinais vitais igual à de erro (removida, o aviso fica em texto). No teste do `ComboboxPaciente`, a Ana Paula Silva está internada nos dados de exemplo: os testes usam `pacienteLivre()`. |
 | 03/11/2026 | Fase 17 — números | 610 testes Vitest (57 arquivos) e 86 Playwright verdes; cobertura geral 93,8% (as telas novas baixaram a média); `services/` 97,9%, `utils/` 97,8%, `components/ui/` 95,4%; páginas de leitos 88,5%. Lighthouse no mapa 99 · 100 · 100 · 100. Pacote 151,3 kB. |
 | 03/11/2026 | Fase 17 — decisões | (1) Óbito na alta: segundo passo no mesmo diálogo, sem modal sobre modal. (2) O aviso da alta tem só "Desfazer". (3) `historicoLeito` passou a devolver as internações detalhadas. (4) Campo de data e hora com `paraCampoDataHora`/`deCampoDataHora` no fuso do hospital. (5) Os testes de página do mapa precisam de 30 s de limite (130 cartões). (6) Os commits das Fases 15 e 16 foram feitos neste ambiente a pedido do usuário, e o push foi recusado (sem acesso de escrita do app do Claude ao repositório); entregues por *bundle*. |
+| 03/11/2026 | Fase 18 — números | 638 testes Vitest (58 arquivos) e 104 Playwright verdes; cobertura geral 93,0% das linhas; `services/` 97,9%, `utils/` 97,8%, `components/ui/` 97,6%; páginas da emergência 89,9%, componentes 79,6%. Pacote 152,2 kB. |
+| 03/11/2026 | Fase 18 — decisões | (1) Evolução dos sinais só em tabela (o gráfico fica para a 21.5). (2) Formulários de chegada e triagem dentro das páginas. (3) Serviço novo `leitosParaObservacao` (serve ao provisório e à reabertura em outro leito). (4) `FormPaciente` ganhou `sexoInicial` para o `?sexo=` (E7). (5) `opcaoDoPaciente` extraída do `Internar`. (6) Achado da verificação: tabela rolável sem foco em 375 px, corrigido. |
+| 11/11/2026 | Fase 19 — base | As Fases 15 a 18 foram mescladas na `main` pelos PRs #1 a #4 (`eb089cb`); a branch `feat/fase-19-farmacia` saiu dela, com 638 testes verdes. |
+| 11/11/2026 | Fase 19 — números | 663 testes Vitest (59 arquivos) e 129 Playwright verdes; cobertura geral 92,3% das linhas; `services/` 97,8%, `utils/` 97,8%, `components/ui/` 97,6%; páginas da farmácia 78,7%, componentes 93,7%. Pacote 153,3 kB. |
+| 11/11/2026 | Fase 19 — achados e decisões | (1) `sr-only` dentro de tabela rolável escapava do contêiner e alargava a página em 375 px: os contêineres roláveis ganharam `relative` (também na emergência). (2) axe `label-content-name-mismatch` e `target-size` nas tabelas, corrigidos. (3) O título da rota do livro é "Controlados" (o nome completo é marcador do D16). (4) Medicamento do item num `select` nativo. (5) `layout.test.tsx` passou a esperar o título da Farmácia carregado sob demanda. |
+| 11/11/2026 | Fase 20 — base | A Fase 19 ainda não está na `main`; a branch `feat/fase-20-integracao-operacoes` saiu da `feat/fase-19-farmacia` (663 testes verdes). O PR da 20 depende do da 19. |
+| 11/11/2026 | Fase 20 — números | 667 testes Vitest (59 arquivos) e 129 Playwright verdes; cobertura geral 92,3% das linhas (84,0% dos ramos); `services/` 97,8%, `utils/` 97,8%, `components/ui/` 97,6%. Pacote 153,7 kB. Verificação: 6 rotas × 3 larguras × 2 temas sem rolagem, 0 violações axe e 0 erros no console. |
+| 11/11/2026 | Fase 20 — achados e decisões | (1) **Pacote:** a lista de pré-carga (130 nomes) empurrava o acumulado para +8,5 kB. Os grupos por módulo resolveram, mas a primeira versão, que incluía serviço e textos, puxou dependências compartilhadas e pôs os 4 marcadores no pacote inicial. Ficou só com páginas, componentes e hooks de ação e `includeDependenciesRecursively: false`. (2) **Comparação em 1600 px:** o detalhe do KPI de emergência e o "86 leitos" da rosca quebravam linha; texto encurtado e legenda sem quebra. (3) **Atividades:** cor do marcador por tipo em vez de ícone (o visual do Painel não muda). (4) **Rosca:** a segunda fatia virou "Não ocupados" (33), para não contradizer o KPI "Leitos disponíveis" (29 livres). (5) As seções dos cadastros mantêm a mesma estrutura enquanto carregam, para os cards não serem trocados quando os dados chegam. (6) O teste de pré-preenchimento do agendamento passou a esperar com `waitFor` (falhava só sob a carga do `test:coverage`). (7) Fora do escopo, para a 21.2: um nome longo na tabela "Consultas de hoje" empurra a coluna de situação para a borda do card em 1600 px. |
+| 12/11/2026 | Fase 21 — base | Branch `feat/fase-21-qualidade-operacoes` a partir da `feat/fase-20-integracao-operacoes` (667 Vitest e 129 Playwright verdes). |
+| 12/11/2026 | Fase 21 — armazenamento (21.4.2) | **O cenário da D15 não coube:** 7,4 MB, 148% do limite. Itens medidos (UTF-16): atendimento 2,3 KB (estimado 1,5), dispensação 1,2 KB (0,6), internação 1,3 KB (1,2), movimentação 0,4 KB. Os cadastros do cenário ocupam 2,2 MB, e os módulos no teto ocupavam 5,2 MB. Como o que estourava eram os tetos, a redução de retenção prevista não bastaria. **Decisão do usuário:** baixar os tetos e manter as retenções em dias: internações 600 → 200, pedidos 200 → 50, atendimentos 400 → 120, medicamentos 500 → 150, lotes 1.000 → 350, movimentações 3.000 → 800, dispensações 1.000 → 200. Resultado: 3,67 MB (73%). Tempos: fila 2 ms, mapa 5 ms, estoque 4 ms, movimentações 13 ms, indicadores 15 ms. Medicamentos e lotes não são cortados pela retenção; os tetos deles são o volume de referência. |
+| 12/11/2026 | Fase 21 — achados e decisões | (1) **Foco depois de enviar com erros:** seguia a ordem do esquema zod. No Internar, ia para "Motivo" em vez de "Paciente"; na Chegada, para "Queixa"; no Dispensar, ficava no botão. Corrigido para a ordem da tela em todos os formulários (`naOrdemDaTela`). Grupos de opções recebem o foco na opção marcada. (2) Movimentações e livro de controlados sem separador de milhar; corrigido. (3) Os cenários e2e precisam esperar a semeadura das coleções dos módulos (`ler` espera a chave), porque ela acontece depois da primeira pintura. (4) Para testar "depois do prazo" no e2e, uma segunda aba com o relógio adiantado. (5) Lighthouse das telas dos módulos entre 94 e 97 em desempenho: a primeira abertura semeia ~1 MB. (6) **21.6.2:** no uso pelo navegador, a alta de uma internação feita no mesmo minuto era recusada ("antes do início"), porque o campo manda o minuto e o início guarda os segundos. O `darAlta` passou a comparar no minuto. (7) Dois testes de página instáveis sob a carga do `test:coverage` (relógio falso avançado antes do efeito do `useRelogio`; busca no mapa de 130 cartões), corrigidos. |
+| 12/11/2026 | Fase 21 — números finais | 672 testes Vitest (61 arquivos) e 139 Playwright verdes (139 de 139 nas 3 execuções seguidas, sem instabilidade); cobertura 92,3% · 84,0% das linhas; pacote 153,6 kB (+7,9 kB desde a Etapa 0); Lighthouse do Painel 99 · 100 · 100 · 100; dados de exemplo 950 KB; primeira semeadura 95 ms (nova) e 105 ms (sobre a 1.1.0). Manuais pendentes: NVDA (21.2.6), revisão de termos e mensagens (21.3.4) e os testes com duas abas das Fases 17 a 20. |
+| 12/11/2026 | Encerramento | Versão 1.2.0 no `package.json`, na branch `release/1.2.0`. **Correção:** a tabela "Consultas de hoje" do Painel deixa o nome quebrar linha; nomes longos empurravam a situação para fora do card (anotado na Fase 20 para a 21.2, que não foi feito). **Publicação:** a prévia na Vercel não pôde ser criada daqui (push recusado e sem acesso à API pelo terminal). O fluxo dos três módulos foi testado no build de produção em 390 px e 1280 px, sem erros. O BL-35 (gráfico dos sinais vitais, adiado na Fase 18) foi para o backlog. Planos arquivados em `docs/planos/`. |
 | | | |

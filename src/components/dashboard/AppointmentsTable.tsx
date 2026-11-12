@@ -50,11 +50,12 @@ function Tabela({ consultas }: { consultas: ConsultaDetalhada[] }) {
             <td className="py-2.5 pr-3 whitespace-nowrap tabular-nums">
               <time dateTime={con.inicio}>{formatHora(con.inicio)}</time>
             </td>
-            <td className="py-2.5 pr-3 whitespace-nowrap">
+            {/* O nome pode quebrar: nomes longos empurravam a situação para fora do card. */}
+            <td className="py-2.5 pr-3">
               <LinkPaciente consulta={con} />
             </td>
             <td className="py-2.5 pr-3">{con.departamentoNome}</td>
-            <td className="py-2.5">
+            <td className="py-2.5 whitespace-nowrap">
               <StatusBadge status={con.status} />
             </td>
           </tr>
