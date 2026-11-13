@@ -4,7 +4,7 @@
 > **Base:** [`PLANO_MELHORIAS_MEDICORE.md`](PLANO_MELHORIAS_MEDICORE.md) (Revisão 1), que é a **especificação**: decisões, processos, regras e critérios. Em caso de dúvida, vale a especificação.
 > **Fases:** 22 a 64, em 4 ondas, precedidas da Etapa 0 (preparação) e com um encerramento por onda (versões 2.0.0, 2.3.0, 2.9.0 e 3.x).
 > **Estimativa:** ~231 dias úteis (1 desenvolvedor) se todos os itens da Onda 4 forem aprovados · ver [cronograma](#-cronograma-por-onda)
-> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 em andamento (5 de 12 tarefas; o resto depende de você). Versão 1.2.0 publicada em 13/11/2026
+> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 (5 de 12 tarefas; o resto depende de você) e Fase 22 (código pronto; falta a 1ª execução no GitHub). Versão 1.2.0 publicada em 13/11/2026
 
 ---
 
@@ -57,7 +57,7 @@
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|
 | Etapa 0 | Preparação (1.2.0 publicada, acessos, decisões, contratos) | — | 12 | 2 | 🟨 | 13/11 | |
 | **Onda 1** | **Agora — versão 2.0.0** | | | **49** | | | |
-| Fase 22 | BL-60 Integração contínua | 4 | 17 | 2 | ⬜ | | |
+| Fase 22 | BL-60 Integração contínua | 4 | 17 | 2 | 🟨 | 13/11 | |
 | Fase 23 | BL-05 Monitoramento de erros | 4 | 12 | 2 | ⬜ | | |
 | Fase 24 | BL-01 Backend (1/4): monorepo, API, banco e contrato | 3 | 23 | 8 | ⬜ | | |
 | Fase 25 | BL-01 Backend (2/4): cadastros e agenda | 1 | 12 | 7 | ⬜ | | |
@@ -237,32 +237,32 @@ flowchart LR
 **Objetivo:** nada entra na `main` sem as verificações. **Duração:** 2 dias. **Branch:** `feat/fase-22-integracao-continua`. **Especificação:** BL-60, D35.
 
 ### 22.0 Abertura
-- [ ] **22.0.1** 👤 Criar a branch a partir da `main` com a 1.2.0
-- [ ] **22.0.2** Rodar localmente a sequência completa (`lint`, `format:check`, `i18n:verificar`, `test:coverage`, `build`, `pacote:medir`, `test:e2e`) e anotar o tempo de cada uma
-- [ ] **22.0.3** Corrigir a formatação dos 10 `docs/PR_FASE_*.md` que hoje falham no `format:check` (8–13, 16, 18–20), senão o primeiro PR com CI já fica vermelho · ✔ `npm run format:check` verde
+- [x] **22.0.1** 👤 Criar a branch a partir da `main` com a 1.2.0 — *13/11: criada sobre a `docs/plano-melhorias` (planos + Etapa 0)*
+- [x] **22.0.2** Rodar localmente a sequência completa (`lint`, `format:check`, `i18n:verificar`, `test:coverage`, `build`, `pacote:medir`, `test:e2e`) e anotar o tempo de cada uma — *lint 2,7 s · format 13,5 s · i18n 1,8 s · cobertura 254 s · build 19 s · pacote 0,3 s · e2e 7,0 min (2 workers)*
+- [x] **22.0.3** Corrigir a formatação dos 10 `docs/PR_FASE_*.md` que hoje falham no `format:check` (8–13, 16, 18–20), senão o primeiro PR com CI já fica vermelho · ✔ `npm run format:check` verde
 
 ### 22.1 Verificar um PR · BL-60.1
-- [ ] **22.1.1** ⭐ `.github/workflows/verificacoes.yml`: gatilho em `pull_request` e `push` na `main`; Node 22; `npm ci` com cache · ✔ o workflow aparece no PR
-- [ ] **22.1.2** Passos `lint`, `format:check` e `i18n:verificar` em um job rápido (`estatica`)
-- [ ] **22.1.3** Job `testes`: `test:coverage` com as metas de `vite.config.ts`; anexar o relatório de cobertura
-- [ ] **22.1.4** Job `pacote`: `build` e `pacote:medir` (falha com marcador dos módulos)
-- [ ] **22.1.5** Job `e2e`: instalar o Chromium do Playwright com cache; `test:e2e`; anexar o relatório e os traces das falhas
-- [ ] **22.1.6** Check obrigatório agregado "verificacoes" que depende dos quatro jobs · ✔ um PR com um teste quebrado de propósito fica vermelho
+- [x] **22.1.1** ⭐ `.github/workflows/verificacoes.yml`: gatilho em `pull_request` e `push` na `main`; Node 22; `npm ci` com cache · ✔ o workflow aparece no PR — *escrito e validado com `actionlint`; aparecer no PR depende do push*
+- [x] **22.1.2** Passos `lint`, `format:check` e `i18n:verificar` em um job rápido (`estatica`)
+- [x] **22.1.3** Job `testes`: `test:coverage` com as metas de `vite.config.ts`; anexar o relatório de cobertura
+- [x] **22.1.4** Job `pacote`: `build` e `pacote:medir` (falha com marcador dos módulos)
+- [x] **22.1.5** Job `e2e`: instalar o Chromium do Playwright com cache; `test:e2e`; anexar o relatório e os traces das falhas — *em 2 partes (`--shard`); 3,2 min por parte localmente*
+- [ ] **22.1.6** Check obrigatório agregado "verificacoes" que depende dos quatro jobs · ✔ um PR com um teste quebrado de propósito fica vermelho — *job pronto e lógica simulada; 👤 falta o PR de teste no GitHub*
 
 ### 22.2 Verificar a `main` · BL-60.2
-- [ ] **22.2.1** Mesmo workflow no push da `main`; aviso por e-mail ao responsável quando falhar · ✔ commit verde mostra o check
+- [x] **22.2.1** Mesmo workflow no push da `main`; aviso por e-mail ao responsável quando falhar · ✔ commit verde mostra o check
 
 ### 22.3 Publicar só com tudo verde · BL-60.3
 - [ ] **22.3.1** 👤 Na Vercel, ligar "esperar os checks do GitHub" para a produção · ✔ com o check vermelho, a produção não muda
-- [ ] **22.3.2** Documentar no README (seção Deploy) como a publicação depende da CI
+- [x] **22.3.2** Documentar no README (seção Deploy) como a publicação depende da CI
 
 ### 22.4 Comparar o pacote · BL-60.4
-- [ ] **22.4.1** Passo que mede o pacote da `main` (em cache) e do PR e comenta a diferença no PR · ✔ comentário com "153,6 kB → X kB (±Y)"
-- [ ] **22.4.2** Aviso (não falha) quando o crescimento passar de 5 kB
+- [x] **22.4.1** Passo que mede o pacote da `main` (em cache) e do PR e comenta a diferença no PR · ✔ comentário com "153,6 kB → X kB (±Y)" — *simulado localmente; o comentário real depende da primeira execução no GitHub*
+- [x] **22.4.2** Aviso (não falha) quando o crescimento passar de 5 kB
 
 ### 22.F Fechamento
-- [ ] **22.F.1** Tempo total do workflow < 15 min (paralelismo dos jobs) · ✔ número no Diário
-- [ ] **22.F.2** `docs/PR_FASE_22.md`; painel e backlog (BL-60 ✅)
+- [ ] **22.F.1** Tempo total do workflow < 15 min (paralelismo dos jobs) · ✔ número no Diário — *estimativa ~7 min; anotar o tempo real da 1ª execução*
+- [x] **22.F.2** `docs/PR_FASE_22.md`; painel e backlog (BL-60 ✅)
 - [ ] **22.F.3** 👤 PR revisado e mesclado
 
 ## Fase 23 — BL-05 Monitoramento de erros
@@ -1354,4 +1354,5 @@ flowchart LR
 | 13/11/2026 | 0.3.1, 0.3.2 | D21–D35 aprovadas. D23: Google Cloud em São Paulo (Cloud Run, Cloud SQL, Cloud KMS). D33 ajustada: a cópia diária vai para outro projeto na mesma região, porque só há uma região do Google Cloud no Brasil |
 | 13/11/2026 | 0.4.1 | Linha de base medida de novo na `main`: lint e i18n ok; 61 arquivos e 672 testes; cobertura 92,31% de linhas (90,95% instruções, 83,98% ramos, 89,56% funções); pacote 153,6 kB (JS 143,3 + CSS 10,3) com 0 marcadores; 139 e2e verdes em 10,5 min |
 | 13/11/2026 | 0.2.1 | O envio ao GitHub pelo Claude continua com 403 (app não instalado); os pushes seguem com você, por bundle. Na Fase 22, o e2e precisa do Chromium do Playwright em cache na CI (aqui, sem `PW_CHROMIUM_PATH`, os 139 falharam por falta do navegador da versão 1.64.1) |
+| 13/11/2026 | Fase 22 | Workflow `verificacoes.yml` com 5 jobs (estática, testes, pacote, e2e em 2 partes, agregado), comparação do pacote no PR (`scripts/comparar-pacote.ts`, +9 testes → 681) e Prettier nos 10 PRs antigos. Validado localmente e com `actionlint`. Pendente: 1ª execução no GitHub (push com 403 daqui), PR de teste vermelho, Deployment Checks na Vercel |
 | | | |

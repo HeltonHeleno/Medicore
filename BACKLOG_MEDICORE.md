@@ -67,25 +67,25 @@
 
 | Ordem | Código | Item | Horizonte | Esforço | Depende de | Status |
 |:---:|---|---|:---:|:---:|---|:---:|
-| 1 | BL-60 | Integração contínua no GitHub (lint, testes, e2e a cada push) | Agora | P | — |🟨 |
-| 2 | BL-01 | Backend real (API + banco de dados) | Agora | G | — |🟨 |
-| 3 | BL-02 | Autenticação e perfis de acesso | Agora | G | BL-01 |🟨 |
-| 4 | BL-03 | Auditoria de acesso (LGPD) | Agora | M | BL-01, BL-02 |🟨 |
-| 5 | BL-04 | Criptografia, backup e guarda dos dados | Agora | M | BL-01 |🟨 |
-| 6 | BL-05 | Monitoramento de erros (ex.: Sentry) | Agora | P | — |🟨 |
-| 7 | BL-10 | Horários por dia da semana e bloqueios de agenda | Próximo | M | — |🟨 |
-| 8 | BL-13 | Pacientes sem CPF (recém-nascido, estrangeiro, CNS) | Próximo | M | — |🟨 |
-| 9 | BL-18 | Cadastro estruturado de alergias | Próximo | M | — |🟨 |
-| 10 | BL-30 | Cadastro da estrutura hospitalar (setores, quartos, leitos) | Próximo | M | Plano de operações |🟨 |
-| 11 | BL-23 | CID-10 na internação e no desfecho da emergência | Próximo | M | Plano de operações |🟨 |
-| 12 | BL-40 | Relatórios gerenciais com exportação | Próximo | M | Plano de operações |🟨 |
-| 13 | BL-44 | Notificações no sino do cabeçalho | Próximo | M | Plano de operações |🟨 |
-| 14 | BL-50 | Tela de Configurações | Próximo | M | — |🟨 |
-| 15 | BL-51 | Tela "Meu perfil" | Próximo | P | BL-02 |🟨 |
-| 16 | BL-17 | Campo de data próprio (sempre `dd/mm/aaaa`) | Próximo | P | — |🟨 |
-| — | BL-11, BL-12, BL-14, BL-15, BL-16, BL-21, BL-24, BL-31, BL-32, BL-34, BL-35, BL-36, BL-41, BL-45, BL-06 | Ver as áreas | Depois | — | — |🟨 |
+| 1 | BL-60 | Integração contínua no GitHub (lint, testes, e2e a cada push) — Fase 22: workflow pronto, falta a 1ª execução | Agora | P | — | 🟨 |
+| 2 | BL-01 | Backend real (API + banco de dados) | Agora | G | — | 🟨 |
+| 3 | BL-02 | Autenticação e perfis de acesso | Agora | G | BL-01 | 🟨 |
+| 4 | BL-03 | Auditoria de acesso (LGPD) | Agora | M | BL-01, BL-02 | 🟨 |
+| 5 | BL-04 | Criptografia, backup e guarda dos dados | Agora | M | BL-01 | 🟨 |
+| 6 | BL-05 | Monitoramento de erros (ex.: Sentry) | Agora | P | — | 🟨 |
+| 7 | BL-10 | Horários por dia da semana e bloqueios de agenda | Próximo | M | — | 🟨 |
+| 8 | BL-13 | Pacientes sem CPF (recém-nascido, estrangeiro, CNS) | Próximo | M | — | 🟨 |
+| 9 | BL-18 | Cadastro estruturado de alergias | Próximo | M | — | 🟨 |
+| 10 | BL-30 | Cadastro da estrutura hospitalar (setores, quartos, leitos) | Próximo | M | Plano de operações | 🟨 |
+| 11 | BL-23 | CID-10 na internação e no desfecho da emergência | Próximo | M | Plano de operações | 🟨 |
+| 12 | BL-40 | Relatórios gerenciais com exportação | Próximo | M | Plano de operações | 🟨 |
+| 13 | BL-44 | Notificações no sino do cabeçalho | Próximo | M | Plano de operações | 🟨 |
+| 14 | BL-50 | Tela de Configurações | Próximo | M | — | 🟨 |
+| 15 | BL-51 | Tela "Meu perfil" | Próximo | P | BL-02 | 🟨 |
+| 16 | BL-17 | Campo de data próprio (sempre `dd/mm/aaaa`) | Próximo | P | — | 🟨 |
+| — | BL-11, BL-12, BL-14, BL-15, BL-16, BL-21, BL-24, BL-31, BL-32, BL-34, BL-35, BL-36, BL-41, BL-45, BL-06 | Ver as áreas | Depois | — | — | 🟨 |
 | — | BL-61 | Revisão por pull request | Depois | P | — | 🟨 |
-| — | BL-20, BL-22, BL-33, BL-42, BL-43, BL-46, BL-52, BL-07 | Ver as áreas | Ideia | — | — |🟨 |
+| — | BL-20, BL-22, BL-33, BL-42, BL-43, BL-46, BL-52, BL-07 | Ver as áreas | Ideia | — | — | 🟨 |
 
 **Sequência combinada (revista no Encerramento da 1.2.0; detalhada nas Fases 22–64 do `PLANO_EXECUCAO_MELHORIAS.md`):**
 1. ✅ Plano de operações (Fases 15–21, versão 1.2.0). Falta só mesclar os PRs e publicar.
