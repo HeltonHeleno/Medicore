@@ -7,16 +7,16 @@
 
 Esta fase entrega os blocos de tela que as Fases 10 a 12 (pacientes, médicos e consultas) vão montar. Todos aparecem na vitrine `/ui`, que só existe em desenvolvimento.
 
-| Grupo | Componentes |
-|---|---|
-| Campos (`components/ui/form/`) | `Campo` (rótulo, dica, erro e ARIA ligados), `Input`, `Textarea` (com contador), `Select`, `Checkbox`, `RadioGroup` (fieldset + legend), `SecaoFormulario` |
-| Máscaras | `InputMascarado`: CPF, telefone e CEP. O formulário recebe só os dígitos, o cursor não pula, e colar funciona com ou sem máscara. Backspace logo depois de um separador apaga o dígito anterior. |
-| Busca | `Combobox` no padrão ARIA 1.2: espera 250 ms para buscar, ↑/↓/Home/End navegam, Enter seleciona, Esc fecha ou limpa, `aria-activedescendant` aponta a opção ativa e a contagem de resultados é anunciada |
-| Listagem (`components/ui/lista/`) | `CabecalhoPagina` + `Breadcrumb` (lê `handle.breadcrumb`), `BarraFiltros` (espera 300 ms; "Limpar filtros"), `DataTable` (ordenação com `aria-sort`, cartões abaixo de 640px via container query, estados de carregando/vazio/erro, seleção múltipla), `Paginacao`, `MenuAcoes` ("⋯"), `DescricaoLista` |
-| Feedback (`components/ui/feedback/`) | `Modal` (foco preso, Esc, devolve o foco), `ConfirmacaoProvider` + `useConfirmar()` (com `perigo` e `exigirTexto`), `ToastProvider` + `useToast()` |
-| Formulário de entidade | `useFormularioEntidade`: react-hook-form + zod, `onTouched`, foco no 1º erro, `ResumoErros` com links, erros do serviço no campo certo, bloqueio de saída (`useBlocker` + `beforeunload`) só quando há alterações |
-| URL | `useFiltrosUrl` (filtros na query string), `useOrigem` / `useVoltarPara` (o "Voltar" do detalhe volta à lista como estava, M14) |
-| Layout | `BannerDemonstracao` (RS-01; some com `VITE_AMBIENTE=producao`) e `useAnunciarRota` (M11: foco no `<h1>` e "Página: …" anunciado a cada troca de página) |
+| Grupo                                | Componentes                                                                                                                                                                                                                                                                                             |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Campos (`components/ui/form/`)       | `Campo` (rótulo, dica, erro e ARIA ligados), `Input`, `Textarea` (com contador), `Select`, `Checkbox`, `RadioGroup` (fieldset + legend), `SecaoFormulario`                                                                                                                                              |
+| Máscaras                             | `InputMascarado`: CPF, telefone e CEP. O formulário recebe só os dígitos, o cursor não pula, e colar funciona com ou sem máscara. Backspace logo depois de um separador apaga o dígito anterior.                                                                                                        |
+| Busca                                | `Combobox` no padrão ARIA 1.2: espera 250 ms para buscar, ↑/↓/Home/End navegam, Enter seleciona, Esc fecha ou limpa, `aria-activedescendant` aponta a opção ativa e a contagem de resultados é anunciada                                                                                                |
+| Listagem (`components/ui/lista/`)    | `CabecalhoPagina` + `Breadcrumb` (lê `handle.breadcrumb`), `BarraFiltros` (espera 300 ms; "Limpar filtros"), `DataTable` (ordenação com `aria-sort`, cartões abaixo de 640px via container query, estados de carregando/vazio/erro, seleção múltipla), `Paginacao`, `MenuAcoes` ("⋯"), `DescricaoLista` |
+| Feedback (`components/ui/feedback/`) | `Modal` (foco preso, Esc, devolve o foco), `ConfirmacaoProvider` + `useConfirmar()` (com `perigo` e `exigirTexto`), `ToastProvider` + `useToast()`                                                                                                                                                      |
+| Formulário de entidade               | `useFormularioEntidade`: react-hook-form + zod, `onTouched`, foco no 1º erro, `ResumoErros` com links, erros do serviço no campo certo, bloqueio de saída (`useBlocker` + `beforeunload`) só quando há alterações                                                                                       |
+| URL                                  | `useFiltrosUrl` (filtros na query string), `useOrigem` / `useVoltarPara` (o "Voltar" do detalhe volta à lista como estava, M14)                                                                                                                                                                         |
+| Layout                               | `BannerDemonstracao` (RS-01; some com `VITE_AMBIENTE=producao`) e `useAnunciarRota` (M11: foco no `<h1>` e "Página: …" anunciado a cada troca de página)                                                                                                                                                |
 
 ## Ajustes em código existente
 
@@ -29,12 +29,12 @@ Esta fase entrega os blocos de tela que as Fases 10 a 12 (pacientes, médicos e 
 
 ## Números
 
-| Indicador | Fase 8 | Fase 9 |
-|---|---|---|
-| Testes | 214 | 286 (29 arquivos) |
-| `components/ui/` (linhas) | — | 93,8% (meta: 70%) |
-| `services/` · `utils/` (linhas) | 97,9% · 98,4% | 97,9% · 98,5% |
-| Pacote inicial (`index.js`) | 60 kB | 72 kB (23 kB gzip) |
+| Indicador                       | Fase 8        | Fase 9             |
+| ------------------------------- | ------------- | ------------------ |
+| Testes                          | 214           | 286 (29 arquivos)  |
+| `components/ui/` (linhas)       | —             | 93,8% (meta: 70%)  |
+| `services/` · `utils/` (linhas) | 97,9% · 98,4% | 97,9% · 98,5%      |
+| Pacote inicial (`index.js`)     | 60 kB         | 72 kB (23 kB gzip) |
 
 `npm run lint` e `npm run build` terminam sem avisos.
 

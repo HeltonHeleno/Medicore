@@ -24,16 +24,17 @@
 
 ## Números
 
-| Indicador                           | Fase 15  | Fase 16                                    |
-| ----------------------------------- | -------- | ------------------------------------------ |
-| Testes Vitest                       | 557 (54) | **589 (56)**                               |
-| Testes Playwright                   | 66       | 66                                         |
-| Cobertura geral (linhas · ramos)    | 95,2% · 86,6% | **95,3% · 87,0%**                     |
-| Cobertura `components/ui/` (linhas) | —        | **95,4%** (meta 70%)                       |
-| Componentes dos módulos (linhas)    | —        | leitos 97,7% · emergência 100% · farmácia 100% |
-| Pacote inicial (gzip)               | 149,0 kB | **150,1 kB** (+1,1 kB) · marcadores: 0     |
+| Indicador                           | Fase 15       | Fase 16                                        |
+| ----------------------------------- | ------------- | ---------------------------------------------- |
+| Testes Vitest                       | 557 (54)      | **589 (56)**                                   |
+| Testes Playwright                   | 66            | 66                                             |
+| Cobertura geral (linhas · ramos)    | 95,2% · 86,6% | **95,3% · 87,0%**                              |
+| Cobertura `components/ui/` (linhas) | —             | **95,4%** (meta 70%)                           |
+| Componentes dos módulos (linhas)    | —             | leitos 97,7% · emergência 100% · farmácia 100% |
+| Pacote inicial (gzip)               | 149,0 kB      | **150,1 kB** (+1,1 kB) · marcadores: 0         |
 
 **Pacote inicial (+1,1 kB):**
+
 - **De onde vem:** quase tudo é CSS (+1,0 kB). O Tailwind gera um único arquivo de estilos
   para todas as páginas, e ele inclui os 50 tokens novos e as classes dos componentes.
 - **JS:** subiu 0,1 kB, com os textos gerais do `CampoQuantidade`, do `TempoDecorrido` e do
@@ -54,7 +55,7 @@ também serve de ícone e de borda, então é comparado com o fundo suave e com 
 | --------------------- | -----------------: | ---------------------------: | ------------------: | -------------: |
 | Risco vermelho        |               6,54 |                         6,54 |                6,78 |           5,87 |
 | Risco laranja         |               5,57 |                         5,57 |                8,57 |           7,57 |
-| Risco amarelo         |               9,96 |                1,68 → borda 5,07 |             11,85 |          10,73 |
+| Risco amarelo         |               9,96 |            1,68 → borda 5,07 |               11,85 |          10,73 |
 | Risco verde           |               5,38 |                         5,38 |                7,63 |           8,46 |
 | Risco azul            |               6,79 |                         6,79 |                7,25 |           6,90 |
 | Leito livre           |               6,50 |                         7,43 |                8,04 |          10,29 |
@@ -78,21 +79,21 @@ também serve de ícone e de borda, então é comparado com o fundo suave e com 
 
 ## Componentes
 
-| Componente | Onde | Destaques de acessibilidade | Testes |
-| ---------- | ---- | --------------------------- | ------ |
-| `AbasModulo` | `components/ui/` | Links com `aria-current="page"` (não é `tablist`). Vence a aba de caminho mais longo; a query desempata. Rola na horizontal sem alargar a página | URL atual, query, subpáginas |
-| `ResumoNumeros` | `components/ui/` | Lista com nome acessível; cada número pode ser link para o filtro | com e sem link, destaque |
-| `TempoDecorrido` | `components/ui/` | `<time dateTime>`; recalcula pelo `useRelogio`, sempre a partir do instante gravado (RS-14); **fora de `aria-live`**; prazo vencido destacado e lido como "até 10:28, passou 15 min" | relógio falso, prazo estourando |
-| `CampoQuantidade` | `components/ui/form/` | Só inteiros (D11). Botões − e + com nome próprio e `aria-controls`, desabilitados nos limites; setas do teclado no campo | botões, limites, digitação, decimal |
-| `LinhaDoTempo` | `components/ui/` | Lista ordenada com data, hora e autor (R-X9). `LinhaDoTempoConsulta` passou a usá-la, sem mudança visual | ordem, autor; testes da Fase 12 |
-| `ComboboxPaciente` | `components/pacientes/` | Só ativos. Filtro "internados ou em atendimento" e etiqueta ("Internado em UTI-07"), que fazem parte do nome da opção. A situação hospitalar é carregada sob demanda e relida quando os dados mudam | teclado, inativos, filtro, alta muda o filtro |
-| `ResumoPaciente` | `components/pacientes/` | Alergias em destaque; "Alergias não informadas" quando pedido (R-F15) | com e sem aviso |
-| `BadgeRisco` | `components/emergencia/` | Cor, ícone e nome por extenso ("Laranja — muito urgente"); variantes "até 10 min" e curta | as 5 cores e as 3 variantes |
-| `BadgeLeito`, `BadgeEstoque` | `leitos/`, `farmacia/` | Texto, ícone e cor | todas as situações |
-| `CartaoLeito` | `components/leitos/` | O código é um link com nome completo ("UTI-03, Em higienização, há 40 min"). A ação rápida é um botão separado ("Concluir higienização do leito UTI-03"), e as demais ficam no menu, conforme a matriz. Mostra os destaques de R-L9, R-L13 e R-L14. Memorizado (`memo`) | nome por situação, destaques, matriz |
-| `SeletorLeito` | `components/leitos/` | Grupo de rádio no padrão do `SeletorHorario` (setas, Home e End). Agrupado por setor, com o sugerido primeiro. Os incompatíveis ficam focáveis e com o motivo lido. "Usar mesmo assim" libera só as exceções de perfil e isolamento, com justificativa (R-L5, R-L6) | só teclado, exceção, vazio |
-| `CamposSinaisVitais` | `components/emergencia/` | Rótulo com unidade e faixa válida na dica. Fora da faixa é erro; na faixa de alerta da idade (D18), aparece o texto "Atenção…" ligado ao campo, sem ser erro. Sem idade, usa a faixa de adulto e avisa | faixa válida, alerta, idade, texto inválido |
-| `AlertaAlergia` | `components/farmacia/` | Só a faixa do alerta é `role="alert"`, com texto fixo, então é anunciada **uma vez**. "Ciente" e justificativa ficam fora da região | anúncio único, justificativa |
+| Componente                   | Onde                     | Destaques de acessibilidade                                                                                                                                                                                                                                             | Testes                                        |
+| ---------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| `AbasModulo`                 | `components/ui/`         | Links com `aria-current="page"` (não é `tablist`). Vence a aba de caminho mais longo; a query desempata. Rola na horizontal sem alargar a página                                                                                                                        | URL atual, query, subpáginas                  |
+| `ResumoNumeros`              | `components/ui/`         | Lista com nome acessível; cada número pode ser link para o filtro                                                                                                                                                                                                       | com e sem link, destaque                      |
+| `TempoDecorrido`             | `components/ui/`         | `<time dateTime>`; recalcula pelo `useRelogio`, sempre a partir do instante gravado (RS-14); **fora de `aria-live`**; prazo vencido destacado e lido como "até 10:28, passou 15 min"                                                                                    | relógio falso, prazo estourando               |
+| `CampoQuantidade`            | `components/ui/form/`    | Só inteiros (D11). Botões − e + com nome próprio e `aria-controls`, desabilitados nos limites; setas do teclado no campo                                                                                                                                                | botões, limites, digitação, decimal           |
+| `LinhaDoTempo`               | `components/ui/`         | Lista ordenada com data, hora e autor (R-X9). `LinhaDoTempoConsulta` passou a usá-la, sem mudança visual                                                                                                                                                                | ordem, autor; testes da Fase 12               |
+| `ComboboxPaciente`           | `components/pacientes/`  | Só ativos. Filtro "internados ou em atendimento" e etiqueta ("Internado em UTI-07"), que fazem parte do nome da opção. A situação hospitalar é carregada sob demanda e relida quando os dados mudam                                                                     | teclado, inativos, filtro, alta muda o filtro |
+| `ResumoPaciente`             | `components/pacientes/`  | Alergias em destaque; "Alergias não informadas" quando pedido (R-F15)                                                                                                                                                                                                   | com e sem aviso                               |
+| `BadgeRisco`                 | `components/emergencia/` | Cor, ícone e nome por extenso ("Laranja — muito urgente"); variantes "até 10 min" e curta                                                                                                                                                                               | as 5 cores e as 3 variantes                   |
+| `BadgeLeito`, `BadgeEstoque` | `leitos/`, `farmacia/`   | Texto, ícone e cor                                                                                                                                                                                                                                                      | todas as situações                            |
+| `CartaoLeito`                | `components/leitos/`     | O código é um link com nome completo ("UTI-03, Em higienização, há 40 min"). A ação rápida é um botão separado ("Concluir higienização do leito UTI-03"), e as demais ficam no menu, conforme a matriz. Mostra os destaques de R-L9, R-L13 e R-L14. Memorizado (`memo`) | nome por situação, destaques, matriz          |
+| `SeletorLeito`               | `components/leitos/`     | Grupo de rádio no padrão do `SeletorHorario` (setas, Home e End). Agrupado por setor, com o sugerido primeiro. Os incompatíveis ficam focáveis e com o motivo lido. "Usar mesmo assim" libera só as exceções de perfil e isolamento, com justificativa (R-L5, R-L6)     | só teclado, exceção, vazio                    |
+| `CamposSinaisVitais`         | `components/emergencia/` | Rótulo com unidade e faixa válida na dica. Fora da faixa é erro; na faixa de alerta da idade (D18), aparece o texto "Atenção…" ligado ao campo, sem ser erro. Sem idade, usa a faixa de adulto e avisa                                                                  | faixa válida, alerta, idade, texto inválido   |
+| `AlertaAlergia`              | `components/farmacia/`   | Só a faixa do alerta é `role="alert"`, com texto fixo, então é anunciada **uma vez**. "Ciente" e justificativa ficam fora da região                                                                                                                                     | anúncio único, justificativa                  |
 
 Os ajudantes sem interface ficaram em arquivos próprios (`ui/abas.ts`, `leitos/acoes-leito.ts`,
 `leitos/estilos-leito.ts`, `emergencia/sinais.ts`), porque o lint pede que arquivos de componente
@@ -100,19 +101,21 @@ exportem só componentes.
 
 ## Verificação (16.12)
 
-| Verificação | Como | Resultado |
-| ----------- | ---- | --------- |
-| 375, 768 e 1280px, claro e escuro | Script Playwright no servidor de desenvolvimento (`/ui` não existe no build) | `scrollWidth` igual à largura nos 6 casos |
-| axe nos dois temas | Mesmas regras do `e2e/acessibilidade.spec.ts` (WCAG 2.2 AA + boas práticas) | **0 violações** nos 6 casos; 0 erros no console |
-| Só teclado | Testes com `userEvent`: `SeletorLeito` (setas, Home, End, Espaço), `CampoQuantidade`, `ComboboxPaciente` (↓ e Enter) | verde |
-| Escala de cinza | Captura com `filter: grayscale(1)` | riscos, situações e selos distinguíveis pelo texto e pelo ícone |
+| Verificação                       | Como                                                                                                                 | Resultado                                                       |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| 375, 768 e 1280px, claro e escuro | Script Playwright no servidor de desenvolvimento (`/ui` não existe no build)                                         | `scrollWidth` igual à largura nos 6 casos                       |
+| axe nos dois temas                | Mesmas regras do `e2e/acessibilidade.spec.ts` (WCAG 2.2 AA + boas práticas)                                          | **0 violações** nos 6 casos; 0 erros no console                 |
+| Só teclado                        | Testes com `userEvent`: `SeletorLeito` (setas, Home, End, Espaço), `CampoQuantidade`, `ComboboxPaciente` (↓ e Enter) | verde                                                           |
+| Escala de cinza                   | Captura com `filter: grayscale(1)`                                                                                   | riscos, situações e selos distinguíveis pelo texto e pelo ícone |
 
 **Capturas** (`docs/capturas/`):
+
 - `fase16-vitrine-claro-1280.png`;
 - `fase16-vitrine-escuro-375.png`;
 - `fase16-vitrine-cinza-1280.png`.
 
 **Achados da revisão visual, corrigidos antes do fechamento:**
+
 - **Ícone do vermelho:** o octógono parecia o círculo do amarelo em escala de cinza, e foi
   trocado pela sirene.
 - **Concordância:** o alerta dizia "corresponde ao classe". Agora o texto concorda com cada
@@ -122,13 +125,13 @@ exportem só componentes.
 
 ## Desvios em relação ao plano
 
-| Tema | Plano | Feito | Por quê |
-| ---- | ----- | ----- | ------- |
-| Arquivo da vitrine | `pages/vitrine/VitrineOperacoes.tsx` | Igual, com os textos em `i18n/pt-BR/vitrine-operacoes.ts` | Os textos da vitrine não vão para o `pt-BR.ts` (pacote inicial) |
-| Resumo do paciente | Dentro do `ComboboxPaciente` | Componente separado, `ResumoPaciente`, no mesmo arquivo | O agendamento mostra o resumo fora do campo; os módulos ligam o aviso de "não informadas" |
-| Sinais vitais | — | Controlado por textos (aceita vírgula) e com conferência local da faixa válida | Mostra o erro na hora; a mensagem é a mesma do esquema |
-| axe da vitrine | Ponta a ponta | Script com o mesmo conjunto de regras | O e2e roda contra o build de produção, onde `/ui` não existe |
-| Pacote | ≤ 5 kB | +1,1 kB (+4,4 kB desde a Etapa 0) | Ver Números |
+| Tema               | Plano                                | Feito                                                                          | Por quê                                                                                   |
+| ------------------ | ------------------------------------ | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Arquivo da vitrine | `pages/vitrine/VitrineOperacoes.tsx` | Igual, com os textos em `i18n/pt-BR/vitrine-operacoes.ts`                      | Os textos da vitrine não vão para o `pt-BR.ts` (pacote inicial)                           |
+| Resumo do paciente | Dentro do `ComboboxPaciente`         | Componente separado, `ResumoPaciente`, no mesmo arquivo                        | O agendamento mostra o resumo fora do campo; os módulos ligam o aviso de "não informadas" |
+| Sinais vitais      | —                                    | Controlado por textos (aceita vírgula) e com conferência local da faixa válida | Mostra o erro na hora; a mensagem é a mesma do esquema                                    |
+| axe da vitrine     | Ponta a ponta                        | Script com o mesmo conjunto de regras                                          | O e2e roda contra o build de produção, onde `/ui` não existe                              |
+| Pacote             | ≤ 5 kB                               | +1,1 kB (+4,4 kB desde a Etapa 0)                                              | Ver Números                                                                               |
 
 ## Verificação de fechamento
 

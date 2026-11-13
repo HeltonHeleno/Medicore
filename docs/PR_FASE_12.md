@@ -77,12 +77,12 @@ Agora `transacao()` compara o conteúdo do `localStorage` com o último conteúd
 
 ## Números
 
-| Indicador | Fase 11 | Fase 12 |
-|---|---|---|
-| Testes | 328 | 346 (34 arquivos) |
-| Cobertura de linhas (geral) | 95,2% | 94,0% |
+| Indicador                                          | Fase 11               | Fase 12               |
+| -------------------------------------------------- | --------------------- | --------------------- |
+| Testes                                             | 328                   | 346 (34 arquivos)     |
+| Cobertura de linhas (geral)                        | 95,2%                 | 94,0%                 |
 | `services/` · `utils/` · `components/ui/` (linhas) | 98,3% · 98,5% · 94,9% | 98,3% · 98,5% · 94,9% |
-| Pacote inicial (`index.js`) | 56 kB | 57 kB |
+| Pacote inicial (`index.js`)                        | 56 kB                 | 57 kB                 |
 
 `npm run lint` e `npm run build` terminam sem avisos.
 
@@ -98,6 +98,7 @@ Agora `transacao()` compara o conteúdo do `localStorage` com o último conteúd
   - um agendamento completo foi feito só com o teclado: busca do paciente, setas e Espaço no seletor, e Enter em "Agendar".
 
 Capturas e vídeo do agendamento estão em `docs/capturas/`:
+
 - `fase12-agenda-claro-1280.png`
 - `fase12-agendar-claro-1280.png`
 - `fase12-detalhe-claro-1280.png`

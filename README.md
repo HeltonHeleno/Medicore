@@ -468,13 +468,32 @@ A página também tem o botão de restaurar os dados de exemplo.
 
 ## Deploy
 
-**Versão publicada:** https://medicore-heltonhelenos-projects.vercel.app (1.1.0; a 1.2.0, com os
-módulos operacionais, entra no ar quando os PRs das Fases 19 a 21 e o `release/1.2.0` forem
-mesclados na `main`).
+**Versão publicada:** https://medicore-heltonhelenos-projects.vercel.app (1.2.0, com os módulos
+operacionais).
 
 - O projeto `medicore` na Vercel está ligado a este repositório no GitHub.
 - Cada push na `main` gera uma nova versão de produção. Pushes em outras branches geram prévias,
   que só abrem para quem tem acesso ao time na Vercel.
+
+### Integração contínua (Fase 22)
+
+O workflow `.github/workflows/verificacoes.yml` roda em todo PR e em todo push na `main`:
+
+| Job                       | O que faz                                                                                                                                             |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lint, formato e textos    | `lint`, `format:check` e `i18n:verificar`                                                                                                             |
+| Testes e cobertura        | `test:coverage` com as metas de `vite.config.ts`; anexa o relatório `cobertura`                                                                       |
+| Build e pacote inicial    | `build` e `pacote:medir` (reprova com textos dos módulos no pacote inicial). No PR, comenta a diferença para a `main` e avisa se crescer mais de 5 kB |
+| Ponta a ponta (1/2 e 2/2) | `test:e2e` dividido em duas partes; anexa o relatório e os traces quando falha                                                                        |
+| `verificacoes`            | Só passa se os quatro acima passarem. É o check obrigatório                                                                                           |
+
+- **Publicar só com tudo verde:** em _Settings → Build and Deployment → Deployment Checks_ do
+  projeto na Vercel, adicione o check `verificacoes` do GitHub. A Vercel continua gerando a versão
+  a cada push na `main`, mas só a coloca no endereço de produção quando o check passar. Para
+  publicar mesmo assim (emergência), use _Force Promote_ na página da versão.
+- **Aviso de falha:** o GitHub manda e-mail a quem fez o push quando uma execução falha
+  (_Settings → Notifications → Actions_ da conta, ligado por padrão).
+- **Proteger a `main`** (exigir PR e o check `verificacoes`) é a Fase 41 (BL-61).
 - É um ambiente de demonstração: cada visitante tem os próprios dados, gravados só no
   navegador dele.
 
