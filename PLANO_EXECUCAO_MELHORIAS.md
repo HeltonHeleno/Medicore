@@ -4,7 +4,7 @@
 > **Base:** [`PLANO_MELHORIAS_MEDICORE.md`](PLANO_MELHORIAS_MEDICORE.md) (Revisão 1), que é a **especificação**: decisões, processos, regras e critérios. Em caso de dúvida, vale a especificação.
 > **Fases:** 22 a 64, em 4 ondas, precedidas da Etapa 0 (preparação) e com um encerramento por onda (versões 2.0.0, 2.3.0, 2.9.0 e 3.x).
 > **Estimativa:** ~231 dias úteis (1 desenvolvedor) se todos os itens da Onda 4 forem aprovados · ver [cronograma](#-cronograma-por-onda)
-> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 (6 de 12 tarefas; o resto depende de você) e Fase 22 (falta só ligar os Deployment Checks na Vercel). Versão 1.2.0 publicada em 13/11/2026
+> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 (6 de 12 tarefas; o resto depende de você) Fase 22 (falta ligar os Deployment Checks na Vercel) e Fase 23 (código pronto; falta o Sentry e o DSN). Versão 1.2.0 publicada em 13/11/2026
 
 ---
 
@@ -58,7 +58,7 @@
 | Etapa 0 | Preparação (1.2.0 publicada, acessos, decisões, contratos) | — | 12 | 2 | 🟨 | 13/11 | |
 | **Onda 1** | **Agora — versão 2.0.0** | | | **49** | | | |
 | Fase 22 | BL-60 Integração contínua | 4 | 18 | 2 | 🟨 | 13/11 | |
-| Fase 23 | BL-05 Monitoramento de erros | 4 | 12 | 2 | ⬜ | | |
+| Fase 23 | BL-05 Monitoramento de erros | 4 | 12 | 2 | 🟨 | 13/11 | |
 | Fase 24 | BL-01 Backend (1/4): monorepo, API, banco e contrato | 3 | 23 | 8 | ⬜ | | |
 | Fase 25 | BL-01 Backend (2/4): cadastros e agenda | 1 | 12 | 7 | ⬜ | | |
 | Fase 26 | BL-01 Backend (3/4): leitos, emergência, farmácia e rotinas | 2 | 15 | 9 | ⬜ | | |
@@ -271,28 +271,28 @@ flowchart LR
 **Objetivo:** erros de produção visíveis, sem dados pessoais. **Duração:** 2 dias. **Branch:** `feat/fase-23-monitoramento`. **Especificação:** BL-05, D34.
 
 ### 23.0 Abertura
-- [ ] **23.0.1** 👤 Criar a branch; conferir o projeto no Sentry (0.3.3) e a chave pública (DSN) nas variáveis da Vercel
+- [ ] **23.0.1** 👤 Criar a branch; conferir o projeto no Sentry (0.3.3) e a chave pública (DSN) nas variáveis da Vercel — *13/11: branch criada sobre a `fix/fase-22-pendencias`; 👤 falta o projeto no Sentry e o DSN na Vercel*
 
 ### 23.1 Capturar um erro da tela · BL-05.1
-- [ ] **23.1.1** Instalar o SDK do Sentry carregado **sob demanda** (depois da primeira pintura), para não pesar no pacote inicial · ✔ `pacote:medir` com crescimento < 1 kB
-- [ ] **23.1.2** Ligar no `errorElement` do roteador, no `ErrorState` e em erros não tratados; incluir rota sem parâmetros, versão e ambiente
-- [ ] **23.1.3** ⭐ Filtro `beforeSend` que remove nomes, CPF, e-mail, telefone, alergias, valores de campos, corpo e parâmetros de requisições · 🔗 D34
-- [ ] **23.1.4** Teste do filtro: evento com um paciente de exemplo inteiro não sai com nenhum dado pessoal · ✔ teste unitário
-- [ ] **23.1.5** Enviar os mapas de código no build da Vercel (e não publicá-los)
+- [x] **23.1.1** Instalar o SDK do Sentry carregado **sob demanda** (depois da primeira pintura), para não pesar no pacote inicial · ✔ `pacote:medir` com crescimento < 1 kB — *+0,4 kB (153,6 → 154,0); o SDK (53 kB) vem sob demanda*
+- [x] **23.1.2** Ligar no `errorElement` do roteador, no `ErrorState` e em erros não tratados; incluir rota sem parâmetros, versão e ambiente — *`ErroDeRota`; `useAsync`/`useColecao`, que alimentam o `ErrorState`; `error` e `unhandledrejection`*
+- [x] **23.1.3** ⭐ Filtro `beforeSend` que remove nomes, CPF, e-mail, telefone, alergias, valores de campos, corpo e parâmetros de requisições · 🔗 D34 — *`src/monitoramento/limpeza.ts` + `dataCollection` do SDK desligada*
+- [x] **23.1.4** Teste do filtro: evento com um paciente de exemplo inteiro não sai com nenhum dado pessoal · ✔ teste unitário — *23 testes da limpeza; também conferido com o SDK real contra um Sentry falso local*
+- [x] **23.1.5** Enviar os mapas de código no build da Vercel (e não publicá-los) — *ligado só com `SENTRY_AUTH_TOKEN`; com token falso, os mapas foram apagados e o build terminou*
 
 ### 23.2 Capturar um erro da API · BL-05.2
-- [ ] **23.2.1** Deixar pronto o módulo de captura da API (usado a partir da Fase 24), com o mesmo filtro e o `id` do evento na resposta 500
-- [ ] **23.2.2** A tela de erro mostra "código {id}" quando houver · 🔗 E-09
+- [ ] **23.2.1** Deixar pronto o módulo de captura da API (usado a partir da Fase 24), com o mesmo filtro e o `id` do evento na resposta 500 — *limpeza pronta e sem depender do SDK; o módulo da API passa para a 24.3.6*
+- [x] **23.2.2** A tela de erro mostra "código {id}" quando houver · 🔗 E-09 — *"Código do erro para o suporte: 01234567"*
 
 ### 23.3 Alertar a equipe · BL-05.3
 - [ ] **23.3.1** 👤 Regras de alerta: erro novo e pico (> 10 em 5 min) por e-mail
 
 ### 23.4 Monitorar as invariantes · BL-05.4
-- [ ] **23.4.1** Deixar anotado para a Fase 26 (rotina A17 no servidor → evento no Sentry) · ✔ tarefa 26.2.4 existe
+- [x] **23.4.1** Deixar anotado para a Fase 26 (rotina A17 no servidor → evento no Sentry) · ✔ tarefa 26.2.4 existe
 
 ### 23.F Fechamento
-- [ ] **23.F.1** Erro provocado em homologação aparece com a pilha legível e sem dados pessoais · ✔ captura no PR
-- [ ] **23.F.2** `docs/PR_FASE_23.md`; painel; backlog (BL-05 ✅); 👤 PR mesclado
+- [ ] **23.F.1** Erro provocado em homologação aparece com a pilha legível e sem dados pessoais · ✔ captura no PR — *conferido localmente com o SDK real (Sentry falso); 👤 falta em homologação, depois do DSN*
+- [ ] **23.F.2** `docs/PR_FASE_23.md`; painel; backlog (BL-05 ✅); 👤 PR mesclado — *PR_FASE_23 e plano atualizados; BL-05 🟨 até o DSN; 👤 PR*
 
 ## Fase 24 — BL-01 Backend (1/4): monorepo, API, banco e contrato
 
@@ -325,7 +325,7 @@ flowchart LR
 - [ ] **24.3.3** `ETag` nas leituras e `If-Match` obrigatório nas gravações (R-API1, 412, 428)
 - [ ] **24.3.4** Padrão de listas: paginação, busca, filtros e ordenação como hoje (R-API2)
 - [ ] **24.3.5** Testes de contrato: cada rota confere o formato da resposta e dos erros
-- [ ] **24.3.6** Captura de erros da API no Sentry (23.2.1) ligada
+- [ ] **24.3.6** Captura de erros da API no Sentry (vinda da 23.2.1): módulo com `limpeza.ts` (movida para `packages/dominio`) e o `id` do evento na resposta 500
 
 ### 24.F Fechamento
 - [ ] **24.F.1** CI verde com os três workspaces; `docs/PR_FASE_24.md` com o diagrama e o inventário
@@ -1358,4 +1358,5 @@ flowchart LR
 | 13/11/2026 | Fase 22 | Workflow `verificacoes.yml` com 5 jobs (estática, testes, pacote, e2e em 2 partes, agregado), comparação do pacote no PR (`scripts/comparar-pacote.ts`, +9 testes → 681) e Prettier nos 10 PRs antigos. Validado localmente e com `actionlint`. Pendente: 1ª execução no GitHub (push com 403 daqui), PR de teste vermelho, Deployment Checks na Vercel |
 | 13/11/2026 | Fase 22 | 1ª execução no GitHub (PR #8): "Testes e cobertura" falhou num teste instável (`leitos.paginas.test.tsx`, busca no mapa, 6,9 s contra a espera de 5 s) e o `verificacoes` ficou vermelho; a 2ª tentativa passou. O PR foi mesclado antes do fim da 1ª execução. Regra do plano: teste instável se corrige, não se repete até passar → 22.F.4 (colar em vez de digitar e espera de 10 s). Execução na `main`: verde em 3 min 00 s; comentário do pacote funcionando. Decisão sugerida: antecipar a Fase 41 (proteger a `main`) |
 | 13/11/2026 | 0.1.2 | Tag `v1.2.0` movida para `c487e33` |
+| 13/11/2026 | Fase 23 | Monitoramento com `@sentry/browser` 11.10 sob demanda (+0,4 kB no inicial), limpeza de dados pessoais em `src/monitoramento/limpeza.ts`, código do erro na tela E-09, mapas de código só com `SENTRY_AUTH_TOKEN`. 717 Vitest (+36), 139 e2e. Conferido com o SDK real contra um Sentry falso local: nada pessoal saiu. Desvio: `beforeSendTransaction` → `beforeSendSpan` (SDK 11). 23.2.1 passa para a 24.3.6. Pendente (👤): projeto no Sentry, variáveis na Vercel, alertas, teste em homologação |
 | | | |
