@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type DependencyList } from 'react';
+import { capturarErro } from '../monitoramento';
 import { assinar } from '../services/repositorio';
 import type { EstadoAsync } from './useAsync';
 
@@ -58,6 +59,7 @@ export function useColecao<T>(
       },
       (e: unknown) => {
         if (!ativo) return;
+        void capturarErro(e, 'dados');
         setErro(e instanceof Error ? e : new Error(String(e)));
         setCarregando(false);
         setAtualizando(false);

@@ -249,6 +249,8 @@ export const t = {
     inesperadoTitulo: 'Algo deu errado nesta tela.',
     inesperadoDescricao:
       'O restante do sistema continua funcionando. Tente novamente ou volte para o Painel.',
+    /** Fase 23: código do evento no monitoramento, para informar ao suporte. */
+    codigoDoErro: 'Código do erro para o suporte:',
     cepFalhou: 'Não foi possível buscar o CEP. Preencha o endereço manualmente.',
     cepNaoEncontrado: 'CEP não encontrado',
   },

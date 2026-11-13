@@ -475,6 +475,32 @@ operacionais).
 - Cada push na `main` gera uma nova versão de produção. Pushes em outras branches geram prévias,
   que só abrem para quem tem acesso ao time na Vercel.
 
+### Monitoramento de erros (Fase 23)
+
+Os erros de produção vão para o **Sentry**, sem dados pessoais (D34). O SDK só carrega quando há a
+chave e o navegador está livre (ou no primeiro erro), e não pesa no pacote inicial (+0,4 kB).
+
+| O que vai                                                                                                                                        | O que nunca vai                                                                                                                                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tipo do erro, pilha (arquivo e linha), rota sem parâmetros (`/pacientes/:id`), versão, ambiente, navegador, origem (`rota`, `dados` ou `global`) | Nomes (texto entre aspas), CPF, CNS, e-mail, telefone, CEP, qualquer sequência longa de números, busca e âncora da URL, cabeçalhos, cookies, corpo de requisições, variáveis da pilha, o que foi digitado e o texto dos botões clicados |
+
+- **Não vão:** erros esperados (validação, conflito, concorrência, não encontrado, 404).
+- **Tela de erro (E-09):** mostra o "código do erro para o suporte" (os 8 primeiros caracteres do
+  evento), para achar o caso no Sentry.
+- **Variáveis na Vercel** (_Settings → Environment Variables_):
+
+  | Variável                        | Ambientes           | Para quê                                                                     |
+  | ------------------------------- | ------------------- | ---------------------------------------------------------------------------- |
+  | `VITE_SENTRY_DSN`               | Production, Preview | Liga o monitoramento (chave pública do projeto)                              |
+  | `SENTRY_AUTH_TOKEN`             | Production, Preview | Envia os mapas de código no build e os apaga de `dist/` (não são publicados) |
+  | `SENTRY_ORG` e `SENTRY_PROJECT` | Production, Preview | Organização e projeto (`medicore-web`)                                       |
+
+  Sem elas, o app funciona igual, só que sem monitoramento. Uma falha no envio dos mapas aparece
+  no log do build, mas não o interrompe.
+
+- **Limpeza:** `src/monitoramento/limpeza.ts`, coberta por um teste que manda um paciente inteiro
+  e confere que nada dele sai.
+
 ### Integração contínua (Fase 22)
 
 O workflow `.github/workflows/verificacoes.yml` roda em todo PR e em todo push na `main`:

@@ -1,3 +1,4 @@
+import { capturarErro } from '../monitoramento';
 import { useCallback, useEffect, useState, type DependencyList } from 'react';
 
 export interface EstadoAsync<T> {
@@ -32,6 +33,7 @@ export function useAsync<T>(fn: () => Promise<T>, deps: DependencyList = []): Es
       },
       (e: unknown) => {
         if (!ativo) return;
+        void capturarErro(e, 'dados');
         setErro(e instanceof Error ? e : new Error(String(e)));
         setData(null);
         setCarregando(false);

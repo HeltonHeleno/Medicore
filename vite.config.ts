@@ -1,12 +1,43 @@
+import { readFileSync } from 'node:fs';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { configDefaults } from 'vitest/config';
 
+const { version } = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
+) as {
+  version: string;
+};
+
+/**
+ * Fase 23 (BL-05.1): com `SENTRY_AUTH_TOKEN` (só no build da Vercel), os mapas de código são
+ * gerados, enviados ao Sentry e apagados de `dist/` antes da publicação. Sem o token (local, CI),
+ * o build não gera mapas e não fala com o Sentry.
+ */
+const enviarMapas = Boolean(process.env.SENTRY_AUTH_TOKEN);
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  define: {
+    __VERSAO_APP__: JSON.stringify(version),
+  },
+  plugins: [
+    react(),
+    tailwindcss(),
+    enviarMapas &&
+      sentryVitePlugin({
+        org: process.env.SENTRY_ORG,
+        project: process.env.SENTRY_PROJECT ?? 'medicore-web',
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        release: { name: `medicore@${version}` },
+        sourcemaps: { filesToDeleteAfterUpload: ['dist/**/*.map'] },
+        telemetry: false,
+      }),
+  ],
   build: {
+    sourcemap: enviarMapas ? 'hidden' : false,
     rolldownOptions: {
       output: {
         // Separa as bibliotecas em pacotes com nomes claros e cache independente.
