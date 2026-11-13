@@ -468,13 +468,32 @@ A página também tem o botão de restaurar os dados de exemplo.
 
 ## Deploy
 
-**Versão publicada:** https://medicore-heltonhelenos-projects.vercel.app (1.1.0; a 1.2.0, com os
-módulos operacionais, entra no ar quando os PRs das Fases 19 a 21 e o `release/1.2.0` forem
-mesclados na `main`).
+**Versão publicada:** https://medicore-heltonhelenos-projects.vercel.app (1.2.0, com os módulos
+operacionais).
 
 - O projeto `medicore` na Vercel está ligado a este repositório no GitHub.
 - Cada push na `main` gera uma nova versão de produção. Pushes em outras branches geram prévias,
   que só abrem para quem tem acesso ao time na Vercel.
+
+### Integração contínua (Fase 22)
+
+O workflow `.github/workflows/verificacoes.yml` roda em todo PR e em todo push na `main`:
+
+| Job                       | O que faz                                                                                                                                             |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lint, formato e textos    | `lint`, `format:check` e `i18n:verificar`                                                                                                             |
+| Testes e cobertura        | `test:coverage` com as metas de `vite.config.ts`; anexa o relatório `cobertura`                                                                       |
+| Build e pacote inicial    | `build` e `pacote:medir` (reprova com textos dos módulos no pacote inicial). No PR, comenta a diferença para a `main` e avisa se crescer mais de 5 kB |
+| Ponta a ponta (1/2 e 2/2) | `test:e2e` dividido em duas partes; anexa o relatório e os traces quando falha                                                                        |
+| `verificacoes`            | Só passa se os quatro acima passarem. É o check obrigatório                                                                                           |
+
+- **Publicar só com tudo verde:** em _Settings → Build and Deployment → Deployment Checks_ do
+  projeto na Vercel, adicione o check `verificacoes` do GitHub. A Vercel continua gerando a versão
+  a cada push na `main`, mas só a coloca no endereço de produção quando o check passar. Para
+  publicar mesmo assim (emergência), use _Force Promote_ na página da versão.
+- **Aviso de falha:** o GitHub manda e-mail a quem fez o push quando uma execução falha
+  (_Settings → Notifications → Actions_ da conta, ligado por padrão).
+- **Proteger a `main`** (exigir PR e o check `verificacoes`) é a Fase 41 (BL-61).
 - É um ambiente de demonstração: cada visitante tem os próprios dados, gravados só no
   navegador dele.
 
@@ -503,6 +522,13 @@ Os planos concluídos, com checklists por fase, estão arquivados em `docs/plano
 O resumo de cada fase está em `docs/PR_FASE_<N>.md`. O backlog, ainda em uso, fica em
 `BACKLOG_MEDICORE.md`, na raiz.
 
+Planos ativos, na raiz:
+
+- `PLANO_MELHORIAS_MEDICORE.md` — especificação das 40 melhorias do backlog (decisões, processos,
+  regras, riscos e critérios de aceite);
+- `PLANO_EXECUCAO_MELHORIAS.md` — tarefas por processo das Fases 22–64, em 4 ondas (versões 2.0.0
+  a 3.x).
+
 - [x] Fases 1–7 — Painel (configuração, layout, componentes, cards, grade, qualidade)
 - [x] Fases 8–14 — Cadastros, agenda e qualidade (versão 1.1.0)
 - [x] Fase 15 — Fundação dos módulos operacionais (regras, serviços, dados de exemplo, invariantes)
@@ -518,6 +544,11 @@ O resumo de cada fase está em `docs/PR_FASE_<N>.md`. O backlog, ainda em uso, f
 termos dos módulos por quem não é desenvolvedor, e os testes com duas abas (roteiros em
 `docs/VERIFICACAO_MANUAL.md`).
 
-**Próximo passo:** publicar a versão 1.2.0. Depois, pelo `BACKLOG_MEDICORE.md`: integração
-contínua no GitHub (BL-60) e o backend real com autenticação, perfis de acesso e auditoria
-(BL-01 a BL-03), que também tira o limite de armazenamento do navegador.
+- [ ] Etapa 0 — Publicar a 1.2.0, acessos e decisões da Onda 1
+- [ ] Fases 22–30 — Onda 1: CI, monitoramento, backend, login, auditoria, backup (versão 2.0.0)
+- [ ] Fases 31–40 — Onda 2 (versões 2.1–2.3)
+- [ ] Fases 41–56 — Onda 3 (versões 2.4–2.9)
+- [ ] Fases 57–64 — Onda 4, só os itens aprovados (versão 3.x)
+
+**Próximo passo:** a Etapa 0 do `PLANO_EXECUCAO_MELHORIAS.md` (publicar a versão 1.2.0) e, em
+seguida, a Fase 22 (integração contínua, BL-60).

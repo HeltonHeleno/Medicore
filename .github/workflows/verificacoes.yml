@@ -1,0 +1,182 @@
+# Fase 22 (BL-60, D35): verificações de todo PR e de todo push na `main`.
+# O check obrigatório da `main` é o job "verificacoes", que só passa com os outros quatro verdes.
+name: Verificações
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Um push novo no mesmo PR cancela a execução anterior; na `main`, todas rodam até o fim.
+concurrency:
+  group: verificacoes-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '22'
+  # Desliga mensagens de atualização e de financiamento do npm nos logs.
+  NPM_CONFIG_UPDATE_NOTIFIER: 'false'
+  NPM_CONFIG_FUND: 'false'
+
+jobs:
+  estatica:
+    name: Lint, formato e textos
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Lint (oxlint)
+        run: npm run lint
+      - name: Formato (Prettier)
+        run: npm run format:check
+      - name: Textos fora do i18n
+        run: npm run i18n:verificar
+
+  testes:
+    name: Testes e cobertura
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Testes com as metas de cobertura de vite.config.ts
+        run: npm run test:coverage
+      - name: Relatório de cobertura
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura
+          path: coverage/
+          retention-days: 14
+          if-no-files-found: ignore
+
+  pacote:
+    name: Build e pacote inicial
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Pacote inicial (reprova se houver textos dos módulos)
+        run: npm run -s pacote:medir -- --json pacote-atual.json
+
+      # Na `main`: guarda a medição para os PRs compararem (BL-60.4).
+      - name: Guardar a medição da main
+        if: ${{ github.event_name == 'push' }}
+        run: mkdir -p .pacote-main && cp pacote-atual.json .pacote-main/pacote.json
+      - name: Cache da medição da main
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/cache/save@v4
+        with:
+          path: .pacote-main
+          key: pacote-main-${{ github.sha }}
+
+      # No PR: compara com a última medição da `main` e comenta no PR.
+      - name: Medição da main
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/cache/restore@v4
+        with:
+          path: .pacote-main
+          key: pacote-main-${{ github.event.pull_request.base.sha }}
+          restore-keys: pacote-main-
+      - name: Comparar com a main
+        if: ${{ github.event_name == 'pull_request' }}
+        run: >
+          node scripts/comparar-pacote.ts --base .pacote-main/pacote.json
+          --atual pacote-atual.json --saida comentario-pacote.md
+      - name: Resumo da execução
+        if: ${{ github.event_name == 'pull_request' }}
+        run: cat comentario-pacote.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Comentar no PR
+        if: ${{ github.event_name == 'pull_request' }}
+        # PRs vindos de forks não têm permissão de comentar; o resumo acima continua valendo.
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: >
+          gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file comentario-pacote.md
+          --edit-last --create-if-none
+
+  e2e:
+    name: Ponta a ponta (${{ matrix.parte }}/2)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        parte: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Versão do Playwright
+        id: playwright
+        run: echo "versao=$(npx playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+      - name: Cache do Chromium
+        id: cache-navegador
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.versao }}
+      - name: Instalar o Chromium
+        if: ${{ steps.cache-navegador.outputs.cache-hit != 'true' }}
+        run: npx playwright install --with-deps --only-shell chromium
+      - name: Dependências do sistema para o Chromium
+        if: ${{ steps.cache-navegador.outputs.cache-hit == 'true' }}
+        run: npx playwright install-deps chromium
+      - name: Testes de ponta a ponta
+        run: npm run test:e2e -- --shard=${{ matrix.parte }}/2
+      - name: Relatório e traces das falhas
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-${{ matrix.parte }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+
+  verificacoes:
+    name: verificacoes
+    if: ${{ always() }}
+    needs: [estatica, testes, pacote, e2e]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Todos os jobs verdes
+        env:
+          RESULTADOS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Resultados: $RESULTADOS"
+          for r in $RESULTADOS; do
+            if [ "$r" != "success" ]; then
+              echo "::error title=Verificações::Um ou mais jobs não passaram ($RESULTADOS)."
+              exit 1
+            fi
+          done

@@ -78,11 +78,11 @@ Os processos P1 a P5 funcionam de ponta a ponta em quatro telas. Cada tela é ca
 
 ## Números
 
-| Indicador | Fase 9 | Fase 10 |
-|---|---|---|
-| Testes | 286 | 313 (31 arquivos) |
-| Cobertura de linhas | — | 96,1% no geral; `components/ui/` 94,9%; `services/` 98,1%; `utils/` 98,5% |
-| Pacote inicial (`index.js`) | 72 kB | 55 kB; as telas de pacientes vão em arquivos separados, e o formulário tem 63 kB (21 kB gzip) |
+| Indicador                   | Fase 9 | Fase 10                                                                                       |
+| --------------------------- | ------ | --------------------------------------------------------------------------------------------- |
+| Testes                      | 286    | 313 (31 arquivos)                                                                             |
+| Cobertura de linhas         | —      | 96,1% no geral; `components/ui/` 94,9%; `services/` 98,1%; `utils/` 98,5%                     |
+| Pacote inicial (`index.js`) | 72 kB  | 55 kB; as telas de pacientes vão em arquivos separados, e o formulário tem 63 kB (21 kB gzip) |
 
 `npm run lint` e `npm run build` terminam sem avisos.
 
@@ -98,6 +98,7 @@ Os processos P1 a P5 funcionam de ponta a ponta em quatro telas. Cada tela é ca
   7. abrir o link antigo, que mostra a tela E-08.
 
   Nenhum erro no console.
+
 - **Larguras e temas:** as 4 telas foram testadas em 375, 768 e 1280px, nos temas claro e escuro. Não há rolagem horizontal, e o axe não aponta violações WCAG A/AA nem de boas práticas.
 - **Testes automatizados:**
   - lista: busca, filtro, ordenação, paginação, estados vazios e o "Voltar" que mantém os filtros;
@@ -108,6 +109,7 @@ Os processos P1 a P5 funcionam de ponta a ponta em quatro telas. Cada tela é ca
 - **Serviço de CEP:** testado com `fetch` simulado (sucesso, `{erro:true}`, 400, 500, falha de rede, tempo esgotado, cancelamento e cache).
 
 Capturas em `docs/capturas/`:
+
 - `fase10-lista-claro-1280.png`
 - `fase10-detalhe-claro-1280.png`
 - `fase10-cadastro-escuro-375.png`

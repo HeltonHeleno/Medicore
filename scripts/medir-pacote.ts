@@ -11,8 +11,10 @@
  * páginas (RS-12) e o script sai com código 1.
  *
  * Uso: `npm run build && npm run pacote:medir`
+ * Com `-- --json <arquivo>`, grava também o resultado em JSON (usado pela CI para comparar o
+ * pacote do PR com o da `main`, Fase 22, BL-60.4).
  */
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 
@@ -109,6 +111,23 @@ for (const m of semFonte) {
     `Aviso: o marcador "${m}" não está em src/i18n/pt-BR/. Atualize a lista MARCADORES.`,
   );
 }
+const posJson = process.argv.indexOf('--json');
+if (posJson !== -1) {
+  const destino = process.argv[posJson + 1];
+  if (!destino) {
+    console.error('Informe o arquivo depois de --json.');
+    process.exit(2);
+  }
+  const resultado = {
+    total: js + css,
+    js,
+    css,
+    marcadores: encontrados,
+    arquivos: lista.map(({ caminho, gzip }) => ({ caminho, gzip })),
+  };
+  writeFileSync(destino, `${JSON.stringify(resultado, null, 2)}\n`);
+}
+
 if (encontrados.length > 0) {
   console.error(`Textos dos módulos no pacote inicial: ${encontrados.join(', ')}`);
   process.exit(1);

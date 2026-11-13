@@ -55,16 +55,17 @@ O Painel passa a ler o mesmo repositório dos cadastros. Agendar, concluir ou ca
 
 ## Números
 
-| Indicador | Fase 12 | Fase 13 |
-|---|---|---|
-| Testes | 346 (34 arquivos) | 352 (35 arquivos) |
-| Cobertura de linhas (geral) | 94,0% | 94,1% |
-| `services/` · `utils/` (linhas) | 98,3% · 98,5% | 98,3% · 98,5% |
-| Pacote inicial (`index.js`) | 57 kB | 70 kB (21,5 kB gzip) |
+| Indicador                       | Fase 12           | Fase 13              |
+| ------------------------------- | ----------------- | -------------------- |
+| Testes                          | 346 (34 arquivos) | 352 (35 arquivos)    |
+| Cobertura de linhas (geral)     | 94,0%             | 94,1%                |
+| `services/` · `utils/` (linhas) | 98,3% · 98,5%     | 98,3% · 98,5%        |
+| Pacote inicial (`index.js`)     | 57 kB             | 70 kB (21,5 kB gzip) |
 
 **Por que o pacote inicial cresceu:** o Painel é a página inicial e agora importa o repositório, os serviços e os dados de exemplo. Antes, esse código só era carregado ao abrir Pacientes, Médicos ou Consultas. O aumento é esperado.
 
 **Testes:**
+
 - `dashboard.test.tsx` agora usa os dados de exemplo com relógio fixo (segunda, 09/11/2026, 11:30). Ele cobre:
   - agendar e cancelar consultas;
   - concluir uma pendência;
@@ -78,14 +79,15 @@ O Painel passa a ler o mesmo repositório dos cadastros. Agendar, concluir ou ca
 
 - **Duas abas (13.6.1), testadas no navegador:** com a aba A no Painel, a aba B agendou, concluiu e cancelou consultas. Em cada passo, a aba A mudou sozinha:
 
-  | Passo na aba B | Linhas da tabela | Resumo | Aviso de pendências | Topo da linha do tempo |
-  |---|---|---|---|---|
-  | Início | 9 | 7 consultas hoje | 4 | — |
-  | Agendou | 10 | 8 consultas hoje | 4 | "Consulta agendada: Ana Paula Silva com Dr. Paulo Mendes" |
-  | Concluiu a das 10:30 | 10 | 8 consultas hoje | 3 | "Consulta concluída com Mariana Alves" |
-  | Cancelou | 10 | 7 consultas hoje | 3 | "Consulta de Ana Paula Silva cancelada" |
+  | Passo na aba B       | Linhas da tabela | Resumo           | Aviso de pendências | Topo da linha do tempo                                    |
+  | -------------------- | ---------------- | ---------------- | ------------------- | --------------------------------------------------------- |
+  | Início               | 9                | 7 consultas hoje | 4                   | —                                                         |
+  | Agendou              | 10               | 8 consultas hoje | 4                   | "Consulta agendada: Ana Paula Silva com Dr. Paulo Mendes" |
+  | Concluiu a das 10:30 | 10               | 8 consultas hoje | 3                   | "Consulta concluída com Mariana Alves"                    |
+  | Cancelou             | 10               | 7 consultas hoje | 3                   | "Consulta de Ana Paula Silva cancelada"                   |
 
   "Restaurar dados de exemplo" numa aba também atualizou a outra. No fim, as duas tinham dados idênticos no storage.
+
 - **Comparação em 1600px (13.6.2):** o layout é igual ao de `referencia-fase7.png`. Mudam apenas:
   - nomes e números;
   - a faixa de demonstração da Fase 9, que desloca a página cerca de 28px;
@@ -93,9 +95,11 @@ O Painel passa a ler o mesmo repositório dos cadastros. Agendar, concluir ou ca
   - a altura do card de consultas, que segue a quantidade de consultas do dia.
 
   A comparação lado a lado está em `fase13-comparacao-1600.png`.
+
 - **Acessibilidade:** o Painel e a vitrine foram verificados em 375, 768, 1280 e 1600px, nos temas claro e escuro. O axe não encontrou nenhuma violação, e nenhuma largura teve rolagem horizontal.
 
 Capturas em `docs/capturas/`:
+
 - `fase13-painel-claro-1600.png`
 - `fase13-painel-escuro-1280.png`
 - `fase13-comparacao-1600.png`

@@ -15,7 +15,10 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: 0,
   workers: process.env.CI ? 2 : undefined,
-  reporter: process.env.CI ? 'github' : [['list'], ['html', { open: 'never' }]],
+  // Na CI (Fase 22): anotações no PR e o relatório HTML, anexado quando algum teste falha.
+  reporter: process.env.CI
+    ? [['github'], ['dot'], ['html', { open: 'never' }]]
+    : [['list'], ['html', { open: 'never' }]],
   timeout: 60_000,
   expect: { timeout: 7_000 },
   use: {

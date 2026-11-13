@@ -57,12 +57,12 @@ Os processos P6, P7 e P8 funcionam de ponta a ponta, e a disponibilidade definid
 
 ## Números
 
-| Indicador | Fase 10 | Fase 11 |
-|---|---|---|
-| Testes | 313 | 328 (33 arquivos) |
-| Cobertura de linhas (geral) | 96,1% | 95,2% |
+| Indicador                                         | Fase 10               | Fase 11               |
+| ------------------------------------------------- | --------------------- | --------------------- |
+| Testes                                            | 313                   | 328 (33 arquivos)     |
+| Cobertura de linhas (geral)                       | 96,1%                 | 95,2%                 |
 | `services/`, `utils/` e `components/ui/` (linhas) | 98,1% · 98,5% · 94,9% | 98,3% · 98,5% · 94,9% |
-| Pacote inicial (`index.js`) | 55 kB | 56 kB |
+| Pacote inicial (`index.js`)                       | 55 kB                 | 56 kB                 |
 
 `npm run lint` e `npm run build` terminam sem avisos.
 
@@ -76,6 +76,7 @@ Os processos P6, P7 e P8 funcionam de ponta a ponta, e a disponibilidade definid
   5. inativou e depois reativou.
 
   Nenhum erro no console, e o axe não apontou problemas com o diálogo aberto.
+
 - **Larguras e temas:** as 4 telas foram verificadas em 375, 768 e 1280px, nos temas claro e escuro. Não há rolagem horizontal e o axe não encontrou nenhuma violação. A grade semanal tinha uma rolagem sem acesso pelo teclado no celular; virou lista.
 - **11.6.1:** o teste cadastra uma médica e confere `horariosLivres`: 16 horários, 12:00 marcado como pausa e nenhum horário no sábado.
 
