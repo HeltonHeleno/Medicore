@@ -67,7 +67,7 @@
 
 | Ordem | Código | Item | Horizonte | Esforço | Depende de | Status |
 |:---:|---|---|:---:|:---:|---|:---:|
-| 1 | BL-60 | Integração contínua no GitHub (lint, testes, e2e a cada push) — Fase 22: workflow pronto, falta a 1ª execução | Agora | P | — | 🟨 |
+| 1 | BL-60 | Integração contínua no GitHub (lint, testes, e2e a cada push) — Fase 22: rodando no GitHub; falta ligar os Deployment Checks na Vercel | Agora | P | — | 🟨 |
 | 2 | BL-01 | Backend real (API + banco de dados) | Agora | G | — | 🟨 |
 | 3 | BL-02 | Autenticação e perfis de acesso | Agora | G | BL-01 | 🟨 |
 | 4 | BL-03 | Auditoria de acesso (LGPD) | Agora | M | BL-01, BL-02 | 🟨 |

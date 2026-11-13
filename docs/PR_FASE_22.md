@@ -51,10 +51,22 @@ Nada entra na `main` sem as verificações. O workflow `.github/workflows/verifi
 - [x] Comparação simulada: sem a `main` (só o tamanho), igual (±0,0), +5,9 kB (aviso no comentário e `::warning::`)
 - [x] Lógica do check agregado simulada: só passa com os quatro `success`
 - [x] `CI=1 npm run test:e2e -- --shard=1/2`: 70 verdes em 3,2 min, relatório HTML gerado; o conjunto completo com 2 workers: 139 verdes em 7,0 min
-- [ ] 👤 Primeira execução no GitHub: workflow aparece no PR, os cinco checks verdes e o comentário do pacote (22.1.1, 22.4.1)
-- [ ] 👤 PR de teste com um teste quebrado de propósito fica vermelho e não pode ser publicado (22.1.6)
+- [x] Primeira execução no GitHub (PR #8): o workflow aparece no PR, o comentário do pacote veio ("153,6 kB → 153,6 kB (±0,0 kB)"); verde na 2ª tentativa (ver abaixo)
+- [x] Com um teste falhando, o `verificacoes` fica vermelho (1ª tentativa do PR #8). "Não pode ser publicado" depende da 22.3.1
 - [ ] 👤 Vercel: Deployment Checks com o check `verificacoes` (22.3.1)
-- [ ] 👤 PR revisado e mesclado (22.F.3)
+- [x] PR #8 mesclado (13/11, antes do fim da 1ª execução)
+
+## Depois do merge (13/11/2026)
+
+| Execução            | Resultado                                                                                                                                   |      Tempo |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------: |
+| PR #8, 1ª tentativa | ❌ "Testes e cobertura": 1 teste instável (`leitos.paginas.test.tsx`, busca no mapa: 6,9 s contra a espera de 5 s); `verificacoes` vermelho | 3 min 16 s |
+| PR #8, 2ª tentativa | ✅ os seis checks                                                                                                                           | 3 min 22 s |
+| `main` (`7555855`)  | ✅ os seis checks; medição do pacote gravada                                                                                                | 3 min 00 s |
+
+- **22.F.4 (branch `fix/fase-22-pendencias`):** o teste passa a colar o nome em vez de digitar letra a letra (cada tecla re-renderizava os 130 cartões) e espera até 10 s. Com 1 CPU e cobertura: 9,1 s → 7,1 s, verde 3 vezes; `test:coverage` completo com 2 CPUs verde (681).
+- **22.3.1 continua pendente:** a versão de produção do merge ficou pronta às 13:45:41, 2,5 min antes de o `verificacoes` terminar; nada indica que os Deployment Checks estejam ligados.
+- **Sugestão:** antecipar a Fase 41 (proteger a `main`), porque o PR foi mesclado com a verificação ainda rodando.
 
 ## Para o revisor
 

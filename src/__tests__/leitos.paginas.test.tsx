@@ -28,6 +28,8 @@ prepararOperacoes('2026-11-10T10:30:00-03:00'); // terça-feira
 const toast = async (texto: string | RegExp) =>
   within(await screen.findByRole('region', { name: 'Notificações' })).findByText(texto);
 const usuario = () => userEvent.setup();
+/** Espera pelo mapa sob carga (cobertura na CI com 2 CPUs). */
+const ESPERA_MAPA = 10_000;
 const ativa = () =>
   repoInternacoes.todos().find((i) => i.status === 'ativa' && i.precaucao === 'padrao')!;
 const nomeDe = (pacienteId: string) => {
@@ -77,24 +79,28 @@ describe('Mapa de leitos (17.2–17.4)', { timeout: 30_000 }, () => {
     const busca = await screen
       .findByRole('searchbox', { name: 'Buscar paciente no mapa' })
       .catch(() => screen.getByLabelText('Buscar paciente no mapa'));
-    await user.type(busca, nomeDe(i.pacienteId));
-    // O mapa tem 130 cartões: sob carga (test:coverage), a busca leva mais de 1 s.
+    // O mapa tem 130 cartões. Digitar letra por letra re-renderiza a tela a cada tecla e, na CI
+    // (2 CPUs, com cobertura), a busca passou de 5 s (Fase 22, 1ª execução). Colar o nome gera uma
+    // só busca, que é o que este teste verifica; a espera da digitação é testada no BarraFiltros
+    // (lista.test.tsx).
+    await user.click(busca);
+    await user.paste(nomeDe(i.pacienteId));
     expect(
       await screen.findByText(/leito encontrado e destacado|leitos encontrados/, undefined, {
-        timeout: 5000,
+        timeout: ESPERA_MAPA,
       }),
     ).toBeInTheDocument();
     await waitFor(
       () => expect(document.activeElement).toHaveAccessibleName(new RegExp(`^${codigo}, Ocupado`)),
-      { timeout: 5000 },
+      { timeout: ESPERA_MAPA },
     );
 
     const livre = pacienteLivre();
     await user.clear(busca);
-    await user.type(busca, livre.nome);
+    await user.paste(livre.nome);
     expect(
       await screen.findByText(`"${livre.nome}" não está internado em nenhum leito.`, undefined, {
-        timeout: 5000,
+        timeout: ESPERA_MAPA,
       }),
     ).toBeInTheDocument();
   });
