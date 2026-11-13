@@ -4,7 +4,7 @@
 > **Base:** [`PLANO_MELHORIAS_MEDICORE.md`](PLANO_MELHORIAS_MEDICORE.md) (Revisão 1), que é a **especificação**: decisões, processos, regras e critérios. Em caso de dúvida, vale a especificação.
 > **Fases:** 22 a 64, em 4 ondas, precedidas da Etapa 0 (preparação) e com um encerramento por onda (versões 2.0.0, 2.3.0, 2.9.0 e 3.x).
 > **Estimativa:** ~231 dias úteis (1 desenvolvedor) se todos os itens da Onda 4 forem aprovados · ver [cronograma](#-cronograma-por-onda)
-> **Criado em:** 12/11/2026 · **Situação:** ⬜ não iniciado. Pré-requisito: versão 1.2.0 publicada (Etapa 0)
+> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 em andamento (5 de 12 tarefas; o resto depende de você). Versão 1.2.0 publicada em 13/11/2026
 
 ---
 
@@ -55,7 +55,7 @@
 
 | Etapa / Fase | Melhoria | Processos | Tarefas | Dias | Status | Início | Fim |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| Etapa 0 | Preparação (1.2.0 publicada, acessos, decisões, contratos) | — | 12 | 2 | ⬜ | | |
+| Etapa 0 | Preparação (1.2.0 publicada, acessos, decisões, contratos) | — | 12 | 2 | 🟨 | 13/11 | |
 | **Onda 1** | **Agora — versão 2.0.0** | | | **49** | | | |
 | Fase 22 | BL-60 Integração contínua | 4 | 17 | 2 | ⬜ | | |
 | Fase 23 | BL-05 Monitoramento de erros | 4 | 12 | 2 | ⬜ | | |
@@ -206,9 +206,9 @@ flowchart LR
 
 ### 0.1 Fechar a 1.2.0
 
-- [ ] **0.1.1** 👤 Mesclar na `main` os PRs das Fases 19, 20 e 21 e o `release/1.2.0`, nessa ordem · ✔ Vercel "Ready" na produção
-- [ ] **0.1.2** 👤 Criar e enviar a tag `v1.2.0`
-- [ ] **0.1.3** Testar a URL publicada: emergência → internação → dispensação → alta, no desktop e no celular · ✔ sem erros no console
+- [x] **0.1.1** 👤 Mesclar na `main` os PRs das Fases 19, 20 e 21 e o `release/1.2.0`, nessa ordem · ✔ Vercel "Ready" na produção — *13/11: PRs #5, #6 e #7 mesclados; `main` = `c487e33`, mesma árvore do `release/1.2.0`*
+- [ ] **0.1.2** 👤 Criar e enviar a tag `v1.2.0` — *13/11: criada, mas aponta para `4478845` (merge da Fase 21, sem o `release/1.2.0`); mover para `c487e33`*
+- [x] **0.1.3** Testar a URL publicada: emergência → internação → dispensação → alta, no desktop e no celular · ✔ sem erros no console — *13/11: testada por você*
 - [ ] **0.1.4** 👤 Verificações manuais pendentes da 1.2.0: NVDA (P1, P9, Painel, L1, E2, F3), revisão de termos e mensagens, testes com duas abas · 🔗 `docs/VERIFICACAO_MANUAL.md` · ✔ registro preenchido; correções viram itens do backlog
 
 ### 0.2 Acessos
@@ -218,14 +218,14 @@ flowchart LR
 
 ### 0.3 Decisões e contratos da Onda 1
 
-- [ ] **0.3.1** 👤 Aprovar ou ajustar D21–D35 · 🔗 [Decisões](PLANO_MELHORIAS_MEDICORE.md#-decisões-propostas) · ✔ resultado no Registro da especificação
-- [ ] **0.3.2** 👤 Escolher o provedor de hospedagem da API e do banco com região no Brasil (D23) e iniciar o contrato de operador de dados com o jurídico · 🔗 RS-21
+- [x] **0.3.1** 👤 Aprovar ou ajustar D21–D35 · 🔗 [Decisões](PLANO_MELHORIAS_MEDICORE.md#-decisões-propostas) · ✔ resultado no Registro da especificação — *13/11: aprovadas como recomendadas*
+- [ ] **0.3.2** 👤 Escolher o provedor de hospedagem da API e do banco com região no Brasil (D23) e iniciar o contrato de operador de dados com o jurídico · 🔗 RS-21 — *13/11: provedor escolhido, Google Cloud em São Paulo (D23); falta o contrato*
 - [ ] **0.3.3** 👤 Criar a conta do Sentry (ou alternativa da D34) e o projeto `medicore-web`
 - [ ] **0.3.4** 👤 Indicar quem aprova os itens clínicos e jurídicos das Ondas 3 e 4 (direção clínica, farmácia, enfermagem, jurídico)
 
 ### 0.4 Linha de base
 
-- [ ] **0.4.1** Registrar no Diário os números de partida (iguais aos finais da 1.2.0): 672 Vitest, 139 Playwright, cobertura 92,3%, pacote 153,6 kB, Lighthouse do Painel 99 · ✔ tabela da linha de base preenchida
+- [x] **0.4.1** Registrar no Diário os números de partida (iguais aos finais da 1.2.0): 672 Vitest, 139 Playwright, cobertura 92,3%, pacote 153,6 kB, Lighthouse do Painel 99 · ✔ tabela da linha de base preenchida — *13/11: medida de novo na `main`, mesmos números*
 - [ ] **0.4.2** Atualizar o painel de execução: Etapa 0 ✅
 
 ---
@@ -1339,9 +1339,9 @@ flowchart LR
 |---|:---:|:---:|:---:|:---:|:---:|
 | Testes unitários e de integração | 672 | | | | |
 | Testes ponta a ponta | 139 | | | | |
-| Cobertura (linhas) | 92,3% | | | | |
+| Cobertura (linhas) | 92,31% | | | | |
 | Pacote inicial (kB, gzip) | 153,6 | | | | |
-| Lighthouse do Painel | 99 | | | | |
+| Lighthouse do Painel | 99 (medido na Fase 21) | | | | |
 | p95 da API (ms) | — | | | | |
 
 **Registro**
@@ -1349,4 +1349,9 @@ flowchart LR
 | Data | Fase / tarefa | O que aconteceu (desvio, decisão, pendência nova com código do backlog) |
 |---|---|---|
 | 12/11/2026 | — | Plano criado (Revisão 1) junto com a especificação `PLANO_MELHORIAS_MEDICORE.md`, a partir do `BACKLOG_MEDICORE.md`. Etapa 0 a fazer |
+| 13/11/2026 | 0.1.1, 0.1.3 | 1.2.0 em produção: PRs #5, #6 e #7 mesclados; `main` = `c487e33`; URL testada por você |
+| 13/11/2026 | 0.1.2 | A tag `v1.2.0` aponta para `4478845` (antes do merge do `release/1.2.0`): falta a versão 1.2.0 no `package.json` e a correção da AppointmentsTable. Decisão: mover para `c487e33` (👤 comandos no PR) |
+| 13/11/2026 | 0.3.1, 0.3.2 | D21–D35 aprovadas. D23: Google Cloud em São Paulo (Cloud Run, Cloud SQL, Cloud KMS). D33 ajustada: a cópia diária vai para outro projeto na mesma região, porque só há uma região do Google Cloud no Brasil |
+| 13/11/2026 | 0.4.1 | Linha de base medida de novo na `main`: lint e i18n ok; 61 arquivos e 672 testes; cobertura 92,31% de linhas (90,95% instruções, 83,98% ramos, 89,56% funções); pacote 153,6 kB (JS 143,3 + CSS 10,3) com 0 marcadores; 139 e2e verdes em 10,5 min |
+| 13/11/2026 | 0.2.1 | O envio ao GitHub pelo Claude continua com 403 (app não instalado); os pushes seguem com você, por bundle. Na Fase 22, o e2e precisa do Chromium do Playwright em cache na CI (aqui, sem `PW_CHROMIUM_PATH`, os 139 falharam por falta do navegador da versão 1.64.1) |
 | | | |
