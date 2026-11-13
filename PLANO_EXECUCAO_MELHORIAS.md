@@ -493,7 +493,7 @@ flowchart LR
 **Objetivo:** dados protegidos em trânsito, em repouso e contra perda; liberar a produção com dados reais. **Duração:** 4 dias. **Branch:** `feat/fase-30-criptografia-backup`. **Especificação:** BL-04, D33.
 
 ### 30.0 Abertura
-- [ ] **30.0.1** 👤 Criar a branch; 👤 criar a chave no serviço de chaves do provedor
+- [ ] **30.0.1** 👤 Criar a branch; 👤 criar a chave no Cloud KMS (D23)
 
 ### 30.1 Criptografar em trânsito · BL-04.1
 - [ ] **30.1.1** HTTPS obrigatório com HSTS e cabeçalhos de segurança (CSP, `X-Content-Type-Options`, `Referrer-Policy`); TLS com o banco
@@ -503,7 +503,7 @@ flowchart LR
 - [ ] **30.2.2** Migração dos dados de homologação e demonstração; busca por CPF continua funcionando
 
 ### 30.3 Fazer backup · BL-04.3
-- [ ] **30.3.1** 👤 PITR de 7 dias e cópia diária em outra região do Brasil por 35 dias; alerta de falha
+- [ ] **30.3.1** 👤 PITR de 7 dias no Cloud SQL e cópia diária em bucket de outro projeto (São Paulo, bloqueio de retenção) por 35 dias; alerta de falha (D33)
 
 ### 30.4 Testar a restauração · BL-04.4
 - [ ] **30.4.1** ⭐ Roteiro de restauração em `docs/OPERACAO.md`; restaurar em ambiente isolado; conferir contagens e invariantes; cronometrar · ✔ < 4 h
