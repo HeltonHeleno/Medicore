@@ -4,7 +4,7 @@
 > **Base:** [`PLANO_MELHORIAS_MEDICORE.md`](PLANO_MELHORIAS_MEDICORE.md) (Revisão 1), que é a **especificação**: decisões, processos, regras e critérios. Em caso de dúvida, vale a especificação.
 > **Fases:** 22 a 64, em 4 ondas, precedidas da Etapa 0 (preparação) e com um encerramento por onda (versões 2.0.0, 2.3.0, 2.9.0 e 3.x).
 > **Estimativa:** ~231 dias úteis (1 desenvolvedor) se todos os itens da Onda 4 forem aprovados · ver [cronograma](#-cronograma-por-onda)
-> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 (6 de 12 tarefas; o resto depende de você) Fase 22 (falta ligar os Deployment Checks na Vercel) e Fase 23 (código pronto; falta o Sentry e o DSN) e Fase 24 (código pronto; falta a CI no GitHub). Versão 1.2.0 publicada em 13/11/2026
+> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 (6 de 12 tarefas; o resto depende de você) Fase 22 (falta ligar os Deployment Checks na Vercel) e Fase 23 (código pronto; falta o Sentry e o DSN) Fase 24 ✅ e Fase 25 (código pronto; falta a CI no GitHub). Versão 1.2.0 publicada em 13/11/2026
 
 ---
 
@@ -59,8 +59,8 @@
 | **Onda 1** | **Agora — versão 2.0.0** | | | **49** | | | |
 | Fase 22 | BL-60 Integração contínua | 4 | 18 | 2 | 🟨 | 13/11 | |
 | Fase 23 | BL-05 Monitoramento de erros | 4 | 12 | 2 | 🟨 | 13/11 | |
-| Fase 24 | BL-01 Backend (1/4): monorepo, API, banco e contrato | 3 | 23 | 8 | 🟨 | 16/11 | |
-| Fase 25 | BL-01 Backend (2/4): cadastros e agenda | 1 | 12 | 7 | ⬜ | | |
+| Fase 24 | BL-01 Backend (1/4): monorepo, API, banco e contrato | 3 | 23 | 8 | ✅ | 16/11 | 16/11 |
+| Fase 25 | BL-01 Backend (2/4): cadastros e agenda | 1 | 12 | 7 | 🟨 | 16/11 | |
 | Fase 26 | BL-01 Backend (3/4): leitos, emergência, farmácia e rotinas | 2 | 15 | 9 | ⬜ | | |
 | Fase 27 | BL-01 Backend (4/4): navegador na API e ambientes | 2 | 13 | 5 | ⬜ | | |
 | Fase 28 | BL-02 Autenticação e perfis | 7 | 21 | 8 | ⬜ | | |
@@ -317,7 +317,7 @@ flowchart LR
 - [x] **24.2.5** Usuário do banco da aplicação sem `UPDATE`/`DELETE` em movimentações (R-F9) — *papel `medicore_app` sem UPDATE, DELETE nem TRUNCATE*
 - [x] **24.2.6** Migração inicial gerada e revisada; `db:migrar` idempotente — *`0000_inicial` (Drizzle) + `0001_restricoes` (à mão)*
 - [x] **24.2.7** Semeadura: os geradores de `data/seeds/` rodam no servidor (A16) · ✔ mesmos números dos dados de exemplo (72% de ocupação, 3 com estoque baixo) — *120 pacientes, 130 leitos, 366 movimentações…; 72% e 3; ida e volta igual; invariantes verdes*
-- [ ] **24.2.8** Testes da API com PostgreSQL em contêiner (Testcontainers) na CI — *`TEST_DATABASE_URL` ou Testcontainers; aqui com PostgreSQL 16 local; 👤 na CI, Testcontainers ainda não rodou*
+- [x] **24.2.8** Testes da API com PostgreSQL em contêiner (Testcontainers) na CI — *16/11: rodou na CI do GitHub com Testcontainers, verde (job "API e banco", 53 s)*
 
 ### 24.3 Contrato e erros · BL-01.3
 - [x] **24.3.1** Gerar o OpenAPI a partir dos esquemas zod; `/api/v1/docs` · 🔗 D24 — *`/api/v1/openapi.json`, `/api/v1/docs` e `docs/backend/openapi.json`*
@@ -328,32 +328,32 @@ flowchart LR
 - [x] **24.3.6** Captura de erros da API no Sentry (vinda da 23.2.1): módulo com `limpeza.ts` (movida para `packages/dominio`) e o `id` do evento na resposta 500 — *`limpeza.ts` já estava no domínio; Sentry só com `SENTRY_DSN`*
 
 ### 24.F Fechamento
-- [ ] **24.F.1** CI verde com os três workspaces; `docs/PR_FASE_24.md` com o diagrama e o inventário — *`docs/PR_FASE_24.md` pronto; 👤 falta a CI verde no GitHub*
-- [ ] **24.F.2** Painel; 👤 PR mesclado
+- [x] **24.F.1** CI verde com os três workspaces; `docs/PR_FASE_24.md` com o diagrama e o inventário — *16/11: CI verde no PR #9 e na `main` (3 min 30 s)*
+- [x] **24.F.2** Painel; 👤 PR mesclado — *16/11: PR #9 mesclado; de novo antes de o `verificacoes` terminar (ver Diário)*
 
 ## Fase 25 — BL-01 Backend (2/4): cadastros e agenda no servidor
 
 **Objetivo:** P1–P13 no servidor, com as mesmas regras. **Duração:** 7 dias. **Branch:** `feat/fase-25-backend-cadastros`. **Especificação:** BL-01.4.
 
 ### 25.0 Abertura
-- [ ] **25.0.1** 👤 Criar a branch; separar a lista de rotas a partir do inventário (24.0.2)
+- [x] **25.0.1** 👤 Criar a branch; separar a lista de rotas a partir do inventário (24.0.2) — *16/11: branch sobre a `main` com a Fase 24; 33 rotas a partir do inventário*
 
 ### 25.1 Cadastros e agenda no servidor · BL-01.4
-- [ ] **25.1.1** Pacientes: listar, obter, criar, editar, inativar, reativar, excluir (P1–P5, R-P1–R-P6, R-X2, R-X3) com as transações no banco — *a busca precisa ignorar acentos e tratar números como o `filtrarPorTermo` (extensão `unaccent` ou coluna normalizada; achado da Fase 24)*
-- [ ] **25.1.2** Médicos: listar, obter, criar, editar, inativar, reativar (P6–P8, R-M1–R-M4, R-X4)
-- [ ] **25.1.3** ⭐ Agenda: horários livres (A1/A2) no servidor, agendar, reagendar, cancelar, concluir, falta, baixa em lote (P9–P13); o `EXCLUDE` como última garantia (E-04)
-- [ ] **25.1.4** Atividades: gravadas na mesma transação de cada operação (R-X6)
-- [ ] **25.1.5** Pendências entre módulos (R-X2–R-X4) lendo as tabelas dos módulos (ainda vazias até a Fase 26)
-- [ ] **25.1.6** Painel: indicadores dos cadastros (`useIndicadoresPainel`) como rota de indicadores
-- [ ] **25.1.7** Rota de CEP continua no navegador (só o CEP sai do navegador; sem mudança)
+- [x] **25.1.1** Pacientes: listar, obter, criar, editar, inativar, reativar, excluir (P1–P5, R-P1–R-P6, R-X2, R-X3) com as transações no banco — *busca sem acentos com `unaccent` (migração 0002); paridade com `filtrarPorTermo` e `ordenar` testada em 34 casos*
+- [x] **25.1.2** Médicos: listar, obter, criar, editar, inativar, reativar (P6–P8, R-M1–R-M4, R-X4)
+- [x] **25.1.3** ⭐ Agenda: horários livres (A1/A2) no servidor, agendar, reagendar, cancelar, concluir, falta, baixa em lote (P9–P13); o `EXCLUDE` como última garantia (E-04)
+- [x] **25.1.4** Atividades: gravadas na mesma transação de cada operação (R-X6)
+- [x] **25.1.5** Pendências entre módulos (R-X2–R-X4) lendo as tabelas dos módulos (ainda vazias até a Fase 26)
+- [x] **25.1.6** Painel: indicadores dos cadastros (`useIndicadoresPainel`) como rota de indicadores
+- [x] **25.1.7** Rota de CEP continua no navegador (só o CEP sai do navegador; sem mudança) — *sem mudança*
 
 ### 25.T Testes
-- [ ] **25.T.1** ⭐ Os testes de serviço de pacientes, médicos e consultas rodam contra a API e o banco · ✔ mesmas asserções, todas verdes
-- [ ] **25.T.2** Concorrência real: duas transações agendando o mesmo horário (uma recebe E-04); duas edições do mesmo paciente (uma recebe 412)
-- [ ] **25.T.3** Testes de contrato das rotas novas
+- [x] **25.T.1** ⭐ Os testes de serviço de pacientes, médicos e consultas rodam contra a API e o banco · ✔ mesmas asserções, todas verdes — *40 de 40, mesmas asserções, pelo cliente HTTP com as assinaturas do navegador*
+- [x] **25.T.2** Concorrência real: duas transações agendando o mesmo horário (uma recebe E-04); duas edições do mesmo paciente (uma recebe 412) — *7 testes, 3 rodadas verdes*
+- [x] **25.T.3** Testes de contrato das rotas novas — *34 casos*
 
 ### 25.F Fechamento
-- [ ] **25.F.1** CI verde; `docs/PR_FASE_25.md`; painel; 👤 PR mesclado
+- [ ] **25.F.1** CI verde; `docs/PR_FASE_25.md`; painel; 👤 PR mesclado — *`docs/PR_FASE_25.md`; 👤 falta a CI no GitHub e o PR*
 
 ## Fase 26 — BL-01 Backend (3/4): leitos, emergência, farmácia e rotinas
 
@@ -1360,4 +1360,6 @@ flowchart LR
 | 13/11/2026 | 0.1.2 | Tag `v1.2.0` movida para `c487e33` |
 | 13/11/2026 | Fase 23 | Monitoramento com `@sentry/browser` 11.10 sob demanda (+0,4 kB no inicial), limpeza de dados pessoais em `src/monitoramento/limpeza.ts`, código do erro na tela E-09, mapas de código só com `SENTRY_AUTH_TOKEN`. 717 Vitest (+36), 139 e2e. Conferido com o SDK real contra um Sentry falso local: nada pessoal saiu. Desvio: `beforeSendTransaction` → `beforeSendSpan` (SDK 11). 23.2.1 passa para a 24.3.6. Pendente (👤): projeto no Sentry, variáveis na Vercel, alertas, teste em homologação |
 | 16/11/2026 | Fase 24 | Monorepo (`apps/web`, `apps/api`, `packages/dominio`), API Fastify com PostgreSQL 16 e Drizzle (13 tabelas, restrições da D25, papel sem UPDATE/DELETE em movimentações), contrato de erros nos dois sentidos, ETag/If-Match, listas e OpenAPI. 787 Vitest (domínio 199, app 536, API 52) e 139 e2e. Desvios: os textos (`i18n`) foram para o domínio junto com os esquemas; o Docker Hub está bloqueado nesta sessão, então os testes da API usaram um PostgreSQL 16 local (`TEST_DATABASE_URL`) e o Compose/Dockerfile ficam para conferir numa máquina com Docker. Achados: (1) o Drizzle põe SQL e valores na mensagem de erro → trocada antes do log e do Sentry; (2) a ordem de texto do banco precisa da colação `pt_br_base` para ficar igual à das telas; (3) a busca das rotas da Fase 25 precisa ignorar acentos (anotado na 25.1.1); (4) o Tailwind lia os `.md` da raiz e gerava 10 classes que nenhuma tela usa (CSS −0,3 kB) |
+| 16/11/2026 | Fase 24 | CI do PR #9 e da `main` verde, inclusive o job "API e banco" com Testcontainers. O PR foi mesclado às 09:47, antes do fim da execução (como o #8): reforça a antecipação da Fase 41 |
+| 16/11/2026 | Fase 25 | Cadastros e agenda no servidor: 33 rotas, serviços com as regras do navegador numa transação, cliente HTTP com as mesmas assinaturas. Os 40 testes de serviço do navegador rodam contra a API com as mesmas asserções. API com 173 testes (100% de linhas), domínio 217, app 528, e2e 139. Ajustes de regra: R-API1 (`If-Match` só obrigatório nas edições) e R-API2 (agenda como janela de datas). Achados: o Drizzle tira o nome da tabela das colunas no SELECT de uma tabela só (a subconsulta da próxima consulta voltava vazia); travas da agenda e `FOR SHARE` para não sobrar consulta de médico inativado ao mesmo tempo |
 | | | |

@@ -58,11 +58,11 @@ Todas estão no OpenAPI (`/api/v1/docs`, cópia em `docs/backend/openapi.json`):
 | — regras entre módulos (R-X2 a R-X4)        | —               | 6                                                                            |
 | — contrato das rotas novas                  | —               | 34 casos                                                                     |
 | Testes do domínio                           | 199             | **217** (+cliente, textos dos cadastros, contrato sobre os dados de exemplo) |
-| Testes do app                               | 536             | **{WEB}** (o teste das máscaras foi para o domínio)                          |
-| Testes Playwright                           | 139             | **{E2E}**                                                                    |
+| Testes do app                               | 536             | **528 (47)** (o teste das máscaras foi para o domínio)                       |
+| Testes Playwright                           | 139             | **139**                                                                      |
 | Cobertura da API                            | 100% de linhas  | **100% de linhas** (99,2% de instruções, 92,5% de ramos)                     |
 | Cobertura do domínio                        | 95,8%           | **96,2%**                                                                    |
-| Pacote inicial (gzip)                       | 153,9 kB        | **{PACOTE}**                                                                 |
+| Pacote inicial (gzip)                       | 153,9 kB        | **154,0 kB (+0,1 kB: `cadastros.ts` e `departamentos.ts` do domínio)**       |
 
 ## Verificação
 
@@ -82,7 +82,7 @@ Todas estão no OpenAPI (`/api/v1/docs`, cópia em `docs/backend/openapi.json`):
   - 428, 412 e 200 nas edições; `If-Match` opcional nas ações;
   - 404 com a mensagem do domínio, 422 com os campos, 409 com código e campo, E-17 com os itens;
   - OpenAPI com todas as rotas.
-- [x] {E2E} testes de ponta a ponta verdes
+- [x] 139 testes de ponta a ponta verdes (5,2 min). Numa primeira rodada, 9 testes de teclado e axe passaram do tempo porque havia outro processo de teste rodando junto (carga 10); sozinhos, os 9 e depois os 139 passaram
 - [ ] 👤 CI verde no GitHub e PR mesclado **depois** do `verificacoes` terminar
 
 ## Para o revisor
