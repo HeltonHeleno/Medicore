@@ -57,4 +57,15 @@ describe('cliente dos módulos operacionais', () => {
     ).toEqual({ tipo: 'internacao', id: 'int-1' });
     expect(await cliente(null).c.destinoDaDispensacao('p')).toBeNull();
   });
+
+  it('toda função do cliente vira uma requisição para /api/v1 (nenhuma fica sem rota)', async () => {
+    const { c, transporte } = cliente({ tipo: 'internacao', id: 'x' });
+    const funcoes = Object.entries(c) as [string, (...a: unknown[]) => Promise<unknown>][];
+    for (const [, fn] of funcoes) await fn('id-1', { motivo: 'x' }, 1, 'extra');
+    expect(transporte).toHaveBeenCalledTimes(funcoes.length);
+    for (const [r] of transporte.mock.calls) {
+      expect(r.caminho).toMatch(/^\/[a-z]/);
+      expect(['GET', 'POST', 'PUT']).toContain(r.metodo);
+    }
+  });
 });
