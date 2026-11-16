@@ -9,8 +9,17 @@ import { randomUUID } from 'node:crypto';
 import { limparEvento, limparMigalha, limparSpan } from '@medicore/dominio/monitoramento/limpeza';
 import type { Config } from './config';
 
+/**
+ * Marcadores e contextos que podem acompanhar o erro (só os da lista da limpeza saem: `modulo`,
+ * `invariante`…). As rotinas usam para mandar a invariante violada e os ids (BL-05.4).
+ */
+export interface ContextoErro {
+  tags?: Record<string, string>;
+  contextos?: Record<string, Record<string, unknown>>;
+}
+
 /** Registra um erro inesperado e devolve o código do evento (vai no corpo do 500). */
-export type RegistrarErro = (erro: unknown) => string;
+export type RegistrarErro = (erro: unknown, contexto?: ContextoErro) => string;
 
 export async function iniciarMonitoramento(
   config: Pick<Config, 'SENTRY_DSN' | 'AMBIENTE'>,
@@ -35,5 +44,6 @@ export async function iniciarMonitoramento(
     beforeBreadcrumb: (migalha) => limparMigalha(migalha),
     beforeSendSpan: (span) => limparSpan(span),
   });
-  return (erro) => Sentry.captureException(erro);
+  return (erro, contexto) =>
+    Sentry.captureException(erro, { tags: contexto?.tags, contexts: contexto?.contextos });
 }

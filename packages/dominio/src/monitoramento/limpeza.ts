@@ -75,8 +75,18 @@ function limparUrl(endereco: string): string {
   return rotaSemParametros(endereco);
 }
 
-const CONTEXTOS_PERMITIDOS = new Set(['os', 'browser', 'device', 'trace', 'culture', 'runtime']);
-const TAGS_PERMITIDAS = new Set(['origem', 'rota', 'modulo']);
+const CONTEXTOS_PERMITIDOS = new Set([
+  'os',
+  'browser',
+  'device',
+  'trace',
+  'culture',
+  'runtime',
+  // Fase 26 (BL-05.4): a rotina das invariantes manda os ids dos registros (ids gerados, sem dados
+  // pessoais).
+  'invariante',
+]);
+const TAGS_PERMITIDAS = new Set(['origem', 'rota', 'modulo', 'invariante', 'rotina']);
 
 /** Formato mínimo de um evento do Sentry usado aqui (compatível com `Event` do SDK). */
 export interface EventoLimpavel {

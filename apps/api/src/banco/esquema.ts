@@ -409,6 +409,19 @@ export const resumos = pgTable('resumos', {
   saidasPorMedicamento: jsonb().$type<Record<string, number>>().notNull().default({}),
 });
 
+/**
+ * Fase 26 (26.2.1) — Rotinas do servidor (BL-01.6): o último dia (no fuso do hospital) em que cada
+ * rotina rodou. A linha é a trava: só uma instância da API "pega" o dia (`UPDATE … WHERE
+ * ultimo_dia < hoje`). Não é uma coleção do domínio, por isso fica fora de `TABELAS`.
+ */
+export const rotinas = pgTable('rotinas', {
+  nome: text().primaryKey(),
+  ultimoDia: date({ mode: 'string' }),
+  executadaEm: instante(),
+  /** Números da última execução (o que saiu, o que foi arquivado, violações). */
+  resultado: jsonb().$type<Record<string, unknown>>(),
+});
+
 /** As 13 tabelas, na ordem em que podem ser preenchidas sem violar as chaves estrangeiras. */
 export const TABELAS = {
   pacientes,

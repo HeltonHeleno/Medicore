@@ -8,7 +8,7 @@ import { getTableName, sql } from 'drizzle-orm';
 import pg from 'pg';
 import { inject } from 'vitest';
 import { conectar, desconectar, type Banco } from '../../src/banco/conexao';
-import { TABELAS } from '../../src/banco/esquema';
+import { rotinas, TABELAS } from '../../src/banco/esquema';
 import { migrar } from '../../src/banco/migrar';
 
 export interface BancoDeTeste {
@@ -73,7 +73,7 @@ export async function criarBancoDeTeste(): Promise<BancoDeTeste> {
     urlApp,
     urlDono,
     limpar: async () => {
-      const nomes = Object.values(TABELAS)
+      const nomes = [...Object.values(TABELAS), rotinas]
         .map((t) => `"${getTableName(t)}"`)
         .join(', ');
       await dono.execute(sql.raw(`TRUNCATE ${nomes}`));

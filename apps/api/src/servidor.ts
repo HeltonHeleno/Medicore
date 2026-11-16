@@ -18,10 +18,14 @@ import type { Config } from './config';
 import { registrarTratamentoDeErros } from './http/erros';
 import type { RegistrarErro } from './monitoramento';
 import { rotasConsultas } from './rotas/consultas';
+import { rotasEmergencia } from './rotas/emergencia';
+import { rotasFarmacia } from './rotas/farmacia';
+import { rotasLeitos } from './rotas/leitos';
 import { rotasMedicos } from './rotas/medicos';
 import { rotasPacientes } from './rotas/pacientes';
 import { rotasPainel } from './rotas/painel';
 import { rotasSaude } from './rotas/saude';
+import { rotasSituacao } from './rotas/situacao';
 
 export const PREFIXO = '/api/v1';
 
@@ -92,7 +96,10 @@ export async function criarServidor(dep: DependenciasServidor) {
         { name: 'pacientes', description: 'P1–P5 (Fase 25)' },
         { name: 'médicos', description: 'P6–P8 (Fase 25)' },
         { name: 'agenda', description: 'P9–P13, A1, A5 (Fase 25)' },
-        { name: 'painel', description: 'Atividades e indicadores dos cadastros' },
+        { name: 'leitos', description: 'L1–L9, A11 (Fase 26)' },
+        { name: 'emergência', description: 'E1–E10, A7, A8 (Fase 26)' },
+        { name: 'farmácia', description: 'F1–F9, A9 (Fase 26)' },
+        { name: 'painel', description: 'Atividades e indicadores (A12–A14)' },
       ],
     },
     transform: jsonSchemaTransform,
@@ -111,6 +118,10 @@ export async function criarServidor(dep: DependenciasServidor) {
       await v1.register(rotasMedicos(dep.banco));
       await v1.register(rotasConsultas(dep.banco));
       await v1.register(rotasPainel(dep.banco));
+      await v1.register(rotasLeitos(dep.banco));
+      await v1.register(rotasEmergencia(dep.banco));
+      await v1.register(rotasFarmacia(dep.banco));
+      await v1.register(rotasSituacao(dep.banco));
       if (dep.rotasExtras) await dep.rotasExtras(v1);
     },
     { prefix: PREFIXO },

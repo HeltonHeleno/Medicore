@@ -49,13 +49,16 @@ export async function pendenciasPaciente(
 
 /** R-X3: quem já teve internação, atendimento, pedido de leito ou dispensação não é excluído. */
 export async function temHistoricoNosModulos(tx: Executor, pacienteId: string): Promise<boolean> {
-  const contagens = await Promise.all([
-    tx.$count(internacoes, eq(internacoes.pacienteId, pacienteId)),
-    tx.$count(atendimentos, eq(atendimentos.pacienteId, pacienteId)),
-    tx.$count(solicitacoes, eq(solicitacoes.pacienteId, pacienteId)),
-    tx.$count(dispensacoes, eq(dispensacoes.pacienteId, pacienteId)),
-  ]);
-  return contagens.some((n) => n > 0);
+  // Uma consulta por vez: numa transação, a conexão é uma só (o `pg` 9 não aceita consultas juntas).
+  for (const [tabela, coluna] of [
+    [internacoes, internacoes.pacienteId],
+    [atendimentos, atendimentos.pacienteId],
+    [solicitacoes, solicitacoes.pacienteId],
+    [dispensacoes, dispensacoes.pacienteId],
+  ] as const) {
+    if ((await tx.$count(tabela, eq(coluna, pacienteId))) > 0) return true;
+  }
+  return false;
 }
 
 /** R-X4: responsável por internação ativa ou com atendimento aberto. */
