@@ -18,7 +18,7 @@ import { t } from '@medicore/dominio/i18n/pt-BR';
 import { ErroConcorrencia, ErroNaoEncontrado } from '@medicore/dominio/erros';
 import { atualizarPaciente, nomeExibicaoPaciente, obterPaciente } from '../../services/pacientes';
 import type { Paciente } from '@medicore/dominio/types';
-import { mascararCpf } from '../../utils/mascaras';
+import { mascararCpf } from '@medicore/dominio/utils/mascaras';
 
 const p = t.pacientes;
 

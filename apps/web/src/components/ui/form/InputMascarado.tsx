@@ -5,7 +5,7 @@ import {
   type InputHTMLAttributes,
   type Ref,
 } from 'react';
-import { MASCARAS, posicaoAposDigitos, type TipoMascara } from '../../../utils/mascaras';
+import { MASCARAS, posicaoAposDigitos, type TipoMascara } from '@medicore/dominio/utils/mascaras';
 import { somenteDigitos } from '@medicore/dominio/utils/validacao';
 import { Input } from './Input';
 

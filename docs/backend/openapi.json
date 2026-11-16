@@ -96,6 +96,5572 @@
           }
         }
       }
+    },
+    "/api/v1/pacientes": {
+      "get": {
+        "summary": "Lista paginada (busca por nome, nome social, CPF ou telefone)",
+        "tags": [
+          "pacientes"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "default": 1,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "in": "query",
+            "name": "pagina",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": 10,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "in": "query",
+            "name": "porPagina",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "in": "query",
+            "name": "busca",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "asc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "in": "query",
+            "name": "ordem",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "nome",
+              "type": "string",
+              "enum": [
+                "nome",
+                "idade",
+                "proximaConsulta"
+              ]
+            },
+            "in": "query",
+            "name": "ordenarPor",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "ativos",
+              "type": "string",
+              "enum": [
+                "ativos",
+                "inativos",
+                "todos"
+              ]
+            },
+            "in": "query",
+            "name": "status",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "itens": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "nomeExibicao": {
+                            "type": "string"
+                          },
+                          "cpfMascarado": {
+                            "type": "string"
+                          },
+                          "idade": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "telefone": {
+                            "type": "string"
+                          },
+                          "convenioNome": {
+                            "type": "string"
+                          },
+                          "temAlergias": {
+                            "type": "boolean"
+                          },
+                          "proximaConsulta": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "ativo": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "nomeExibicao",
+                          "cpfMascarado",
+                          "idade",
+                          "telefone",
+                          "convenioNome",
+                          "temAlergias",
+                          "ativo"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "pagina": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "porPagina": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 100
+                    }
+                  },
+                  "required": [
+                    "itens",
+                    "total",
+                    "pagina",
+                    "porPagina"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "P1",
+        "tags": [
+          "pacientes"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "nomeSocial": {
+                    "type": "string"
+                  },
+                  "cpf": {
+                    "type": "string"
+                  },
+                  "dataNascimento": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "sexo": {
+                    "type": "string",
+                    "enum": [
+                      "feminino",
+                      "masculino",
+                      "outro",
+                      "nao_informado"
+                    ]
+                  },
+                  "telefone": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "endereco": {
+                    "type": "object",
+                    "properties": {
+                      "cep": {
+                        "type": "string"
+                      },
+                      "logradouro": {
+                        "type": "string"
+                      },
+                      "numero": {
+                        "type": "string"
+                      },
+                      "complemento": {
+                        "type": "string"
+                      },
+                      "bairro": {
+                        "type": "string"
+                      },
+                      "cidade": {
+                        "type": "string"
+                      },
+                      "uf": {
+                        "type": "string",
+                        "enum": [
+                          "AC",
+                          "AL",
+                          "AP",
+                          "AM",
+                          "BA",
+                          "CE",
+                          "DF",
+                          "ES",
+                          "GO",
+                          "MA",
+                          "MT",
+                          "MS",
+                          "MG",
+                          "PA",
+                          "PB",
+                          "PR",
+                          "PE",
+                          "PI",
+                          "RJ",
+                          "RN",
+                          "RS",
+                          "RO",
+                          "RR",
+                          "SC",
+                          "SP",
+                          "SE",
+                          "TO"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "cep",
+                      "logradouro",
+                      "numero",
+                      "bairro",
+                      "cidade",
+                      "uf"
+                    ]
+                  },
+                  "convenio": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "tipo": {
+                            "type": "string",
+                            "enum": [
+                              "particular"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "tipo"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "tipo": {
+                            "type": "string",
+                            "enum": [
+                              "convenio"
+                            ]
+                          },
+                          "nome": {
+                            "type": "string"
+                          },
+                          "carteirinha": {
+                            "type": "string"
+                          },
+                          "validade": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "tipo",
+                          "nome",
+                          "carteirinha"
+                        ]
+                      }
+                    ]
+                  },
+                  "responsavel": {
+                    "type": "object",
+                    "properties": {
+                      "nome": {
+                        "type": "string"
+                      },
+                      "cpf": {
+                        "type": "string"
+                      },
+                      "parentesco": {
+                        "type": "string"
+                      },
+                      "telefone": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "nome",
+                      "cpf",
+                      "parentesco",
+                      "telefone"
+                    ]
+                  },
+                  "tipoSanguineo": {
+                    "type": "string",
+                    "enum": [
+                      "A+",
+                      "A-",
+                      "B+",
+                      "B-",
+                      "AB+",
+                      "AB-",
+                      "O+",
+                      "O-"
+                    ]
+                  },
+                  "alergias": {
+                    "type": "string"
+                  },
+                  "contatoEmergencia": {
+                    "type": "object",
+                    "properties": {
+                      "nome": {
+                        "type": "string"
+                      },
+                      "telefone": {
+                        "type": "string"
+                      },
+                      "parentesco": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "nome",
+                      "telefone",
+                      "parentesco"
+                    ]
+                  },
+                  "observacoes": {
+                    "type": "string"
+                  },
+                  "consentimentoLgpd": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  }
+                },
+                "required": [
+                  "nome",
+                  "cpf",
+                  "dataNascimento",
+                  "sexo",
+                  "telefone",
+                  "convenio",
+                  "consentimentoLgpd"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "inativadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "motivoInativacao": {
+                      "type": "string"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "nomeSocial": {
+                      "type": "string"
+                    },
+                    "cpf": {
+                      "type": "string"
+                    },
+                    "dataNascimento": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                    },
+                    "sexo": {
+                      "type": "string",
+                      "enum": [
+                        "feminino",
+                        "masculino",
+                        "outro",
+                        "nao_informado"
+                      ]
+                    },
+                    "telefone": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "endereco": {
+                      "type": "object",
+                      "properties": {
+                        "cep": {
+                          "type": "string"
+                        },
+                        "logradouro": {
+                          "type": "string"
+                        },
+                        "numero": {
+                          "type": "string"
+                        },
+                        "complemento": {
+                          "type": "string"
+                        },
+                        "bairro": {
+                          "type": "string"
+                        },
+                        "cidade": {
+                          "type": "string"
+                        },
+                        "uf": {
+                          "type": "string",
+                          "minLength": 2,
+                          "maxLength": 2
+                        }
+                      },
+                      "required": [
+                        "cep",
+                        "logradouro",
+                        "numero",
+                        "bairro",
+                        "cidade",
+                        "uf"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "convenio": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "particular"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "tipo"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "convenio"
+                              ]
+                            },
+                            "nome": {
+                              "type": "string"
+                            },
+                            "carteirinha": {
+                              "type": "string"
+                            },
+                            "validade": {
+                              "type": "string",
+                              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "nome",
+                            "carteirinha"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
+                    "responsavel": {
+                      "type": "object",
+                      "properties": {
+                        "nome": {
+                          "type": "string"
+                        },
+                        "cpf": {
+                          "type": "string"
+                        },
+                        "parentesco": {
+                          "type": "string"
+                        },
+                        "telefone": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nome",
+                        "cpf",
+                        "parentesco",
+                        "telefone"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "tipoSanguineo": {
+                      "type": "string",
+                      "enum": [
+                        "A+",
+                        "A-",
+                        "B+",
+                        "B-",
+                        "AB+",
+                        "AB-",
+                        "O+",
+                        "O-"
+                      ]
+                    },
+                    "alergias": {
+                      "type": "string"
+                    },
+                    "contatoEmergencia": {
+                      "type": "object",
+                      "properties": {
+                        "nome": {
+                          "type": "string"
+                        },
+                        "telefone": {
+                          "type": "string"
+                        },
+                        "parentesco": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nome",
+                        "telefone",
+                        "parentesco"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "observacoes": {
+                      "type": "string"
+                    },
+                    "consentimentoLgpd": {
+                      "type": "object",
+                      "properties": {
+                        "aceito": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "em": {
+                          "type": "string",
+                          "description": "Data e hora em ISO 8601, UTC"
+                        }
+                      },
+                      "required": [
+                        "aceito",
+                        "em"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "obito": {
+                      "type": "object",
+                      "properties": {
+                        "em": {
+                          "type": "string",
+                          "description": "Data e hora em ISO 8601, UTC"
+                        },
+                        "referencia": {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "internacao",
+                                "atendimento"
+                              ]
+                            },
+                            "id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "id"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "em",
+                        "referencia"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "ativo",
+                    "nome",
+                    "cpf",
+                    "dataNascimento",
+                    "sexo",
+                    "telefone",
+                    "convenio",
+                    "consentimentoLgpd"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pacientes/{id}": {
+      "get": {
+        "tags": [
+          "pacientes"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "inativadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "motivoInativacao": {
+                      "type": "string"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "nomeSocial": {
+                      "type": "string"
+                    },
+                    "cpf": {
+                      "type": "string"
+                    },
+                    "dataNascimento": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                    },
+                    "sexo": {
+                      "type": "string",
+                      "enum": [
+                        "feminino",
+                        "masculino",
+                        "outro",
+                        "nao_informado"
+                      ]
+                    },
+                    "telefone": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "endereco": {
+                      "type": "object",
+                      "properties": {
+                        "cep": {
+                          "type": "string"
+                        },
+                        "logradouro": {
+                          "type": "string"
+                        },
+                        "numero": {
+                          "type": "string"
+                        },
+                        "complemento": {
+                          "type": "string"
+                        },
+                        "bairro": {
+                          "type": "string"
+                        },
+                        "cidade": {
+                          "type": "string"
+                        },
+                        "uf": {
+                          "type": "string",
+                          "minLength": 2,
+                          "maxLength": 2
+                        }
+                      },
+                      "required": [
+                        "cep",
+                        "logradouro",
+                        "numero",
+                        "bairro",
+                        "cidade",
+                        "uf"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "convenio": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "particular"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "tipo"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "convenio"
+                              ]
+                            },
+                            "nome": {
+                              "type": "string"
+                            },
+                            "carteirinha": {
+                              "type": "string"
+                            },
+                            "validade": {
+                              "type": "string",
+                              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "nome",
+                            "carteirinha"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
+                    "responsavel": {
+                      "type": "object",
+                      "properties": {
+                        "nome": {
+                          "type": "string"
+                        },
+                        "cpf": {
+                          "type": "string"
+                        },
+                        "parentesco": {
+                          "type": "string"
+                        },
+                        "telefone": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nome",
+                        "cpf",
+                        "parentesco",
+                        "telefone"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "tipoSanguineo": {
+                      "type": "string",
+                      "enum": [
+                        "A+",
+                        "A-",
+                        "B+",
+                        "B-",
+                        "AB+",
+                        "AB-",
+                        "O+",
+                        "O-"
+                      ]
+                    },
+                    "alergias": {
+                      "type": "string"
+                    },
+                    "contatoEmergencia": {
+                      "type": "object",
+                      "properties": {
+                        "nome": {
+                          "type": "string"
+                        },
+                        "telefone": {
+                          "type": "string"
+                        },
+                        "parentesco": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nome",
+                        "telefone",
+                        "parentesco"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "observacoes": {
+                      "type": "string"
+                    },
+                    "consentimentoLgpd": {
+                      "type": "object",
+                      "properties": {
+                        "aceito": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "em": {
+                          "type": "string",
+                          "description": "Data e hora em ISO 8601, UTC"
+                        }
+                      },
+                      "required": [
+                        "aceito",
+                        "em"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "obito": {
+                      "type": "object",
+                      "properties": {
+                        "em": {
+                          "type": "string",
+                          "description": "Data e hora em ISO 8601, UTC"
+                        },
+                        "referencia": {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "internacao",
+                                "atendimento"
+                              ]
+                            },
+                            "id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "id"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "em",
+                        "referencia"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "ativo",
+                    "nome",
+                    "cpf",
+                    "dataNascimento",
+                    "sexo",
+                    "telefone",
+                    "convenio",
+                    "consentimentoLgpd"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "P2 (If-Match obrigatório)",
+        "tags": [
+          "pacientes"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "nomeSocial": {
+                    "type": "string"
+                  },
+                  "cpf": {
+                    "type": "string"
+                  },
+                  "dataNascimento": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "sexo": {
+                    "type": "string",
+                    "enum": [
+                      "feminino",
+                      "masculino",
+                      "outro",
+                      "nao_informado"
+                    ]
+                  },
+                  "telefone": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "endereco": {
+                    "type": "object",
+                    "properties": {
+                      "cep": {
+                        "type": "string"
+                      },
+                      "logradouro": {
+                        "type": "string"
+                      },
+                      "numero": {
+                        "type": "string"
+                      },
+                      "complemento": {
+                        "type": "string"
+                      },
+                      "bairro": {
+                        "type": "string"
+                      },
+                      "cidade": {
+                        "type": "string"
+                      },
+                      "uf": {
+                        "type": "string",
+                        "enum": [
+                          "AC",
+                          "AL",
+                          "AP",
+                          "AM",
+                          "BA",
+                          "CE",
+                          "DF",
+                          "ES",
+                          "GO",
+                          "MA",
+                          "MT",
+                          "MS",
+                          "MG",
+                          "PA",
+                          "PB",
+                          "PR",
+                          "PE",
+                          "PI",
+                          "RJ",
+                          "RN",
+                          "RS",
+                          "RO",
+                          "RR",
+                          "SC",
+                          "SP",
+                          "SE",
+                          "TO"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "cep",
+                      "logradouro",
+                      "numero",
+                      "bairro",
+                      "cidade",
+                      "uf"
+                    ]
+                  },
+                  "convenio": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "tipo": {
+                            "type": "string",
+                            "enum": [
+                              "particular"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "tipo"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "tipo": {
+                            "type": "string",
+                            "enum": [
+                              "convenio"
+                            ]
+                          },
+                          "nome": {
+                            "type": "string"
+                          },
+                          "carteirinha": {
+                            "type": "string"
+                          },
+                          "validade": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "tipo",
+                          "nome",
+                          "carteirinha"
+                        ]
+                      }
+                    ]
+                  },
+                  "responsavel": {
+                    "type": "object",
+                    "properties": {
+                      "nome": {
+                        "type": "string"
+                      },
+                      "cpf": {
+                        "type": "string"
+                      },
+                      "parentesco": {
+                        "type": "string"
+                      },
+                      "telefone": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "nome",
+                      "cpf",
+                      "parentesco",
+                      "telefone"
+                    ]
+                  },
+                  "tipoSanguineo": {
+                    "type": "string",
+                    "enum": [
+                      "A+",
+                      "A-",
+                      "B+",
+                      "B-",
+                      "AB+",
+                      "AB-",
+                      "O+",
+                      "O-"
+                    ]
+                  },
+                  "alergias": {
+                    "type": "string"
+                  },
+                  "contatoEmergencia": {
+                    "type": "object",
+                    "properties": {
+                      "nome": {
+                        "type": "string"
+                      },
+                      "telefone": {
+                        "type": "string"
+                      },
+                      "parentesco": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "nome",
+                      "telefone",
+                      "parentesco"
+                    ]
+                  },
+                  "observacoes": {
+                    "type": "string"
+                  },
+                  "consentimentoLgpd": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  }
+                },
+                "required": [
+                  "nome",
+                  "cpf",
+                  "dataNascimento",
+                  "sexo",
+                  "telefone",
+                  "convenio",
+                  "consentimentoLgpd"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "inativadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "motivoInativacao": {
+                      "type": "string"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "nomeSocial": {
+                      "type": "string"
+                    },
+                    "cpf": {
+                      "type": "string"
+                    },
+                    "dataNascimento": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                    },
+                    "sexo": {
+                      "type": "string",
+                      "enum": [
+                        "feminino",
+                        "masculino",
+                        "outro",
+                        "nao_informado"
+                      ]
+                    },
+                    "telefone": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "endereco": {
+                      "type": "object",
+                      "properties": {
+                        "cep": {
+                          "type": "string"
+                        },
+                        "logradouro": {
+                          "type": "string"
+                        },
+                        "numero": {
+                          "type": "string"
+                        },
+                        "complemento": {
+                          "type": "string"
+                        },
+                        "bairro": {
+                          "type": "string"
+                        },
+                        "cidade": {
+                          "type": "string"
+                        },
+                        "uf": {
+                          "type": "string",
+                          "minLength": 2,
+                          "maxLength": 2
+                        }
+                      },
+                      "required": [
+                        "cep",
+                        "logradouro",
+                        "numero",
+                        "bairro",
+                        "cidade",
+                        "uf"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "convenio": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "particular"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "tipo"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "convenio"
+                              ]
+                            },
+                            "nome": {
+                              "type": "string"
+                            },
+                            "carteirinha": {
+                              "type": "string"
+                            },
+                            "validade": {
+                              "type": "string",
+                              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "nome",
+                            "carteirinha"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
+                    "responsavel": {
+                      "type": "object",
+                      "properties": {
+                        "nome": {
+                          "type": "string"
+                        },
+                        "cpf": {
+                          "type": "string"
+                        },
+                        "parentesco": {
+                          "type": "string"
+                        },
+                        "telefone": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nome",
+                        "cpf",
+                        "parentesco",
+                        "telefone"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "tipoSanguineo": {
+                      "type": "string",
+                      "enum": [
+                        "A+",
+                        "A-",
+                        "B+",
+                        "B-",
+                        "AB+",
+                        "AB-",
+                        "O+",
+                        "O-"
+                      ]
+                    },
+                    "alergias": {
+                      "type": "string"
+                    },
+                    "contatoEmergencia": {
+                      "type": "object",
+                      "properties": {
+                        "nome": {
+                          "type": "string"
+                        },
+                        "telefone": {
+                          "type": "string"
+                        },
+                        "parentesco": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nome",
+                        "telefone",
+                        "parentesco"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "observacoes": {
+                      "type": "string"
+                    },
+                    "consentimentoLgpd": {
+                      "type": "object",
+                      "properties": {
+                        "aceito": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "em": {
+                          "type": "string",
+                          "description": "Data e hora em ISO 8601, UTC"
+                        }
+                      },
+                      "required": [
+                        "aceito",
+                        "em"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "obito": {
+                      "type": "object",
+                      "properties": {
+                        "em": {
+                          "type": "string",
+                          "description": "Data e hora em ISO 8601, UTC"
+                        },
+                        "referencia": {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "internacao",
+                                "atendimento"
+                              ]
+                            },
+                            "id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "id"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "em",
+                        "referencia"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "ativo",
+                    "nome",
+                    "cpf",
+                    "dataNascimento",
+                    "sexo",
+                    "telefone",
+                    "convenio",
+                    "consentimentoLgpd"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "P5 (só sem histórico)",
+        "tags": [
+          "pacientes"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/api/v1/pacientes/cpf/{cpf}": {
+      "get": {
+        "summary": "Cadastro que já usa o CPF (R-P1)",
+        "tags": [
+          "pacientes"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "ignorarId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{11}$"
+            },
+            "in": "path",
+            "name": "cpf",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cadastro que já usa o documento, ou null",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "nomeExibicao": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "nomeExibicao"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "Cadastro que já usa o documento, ou null"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pacientes/{id}/tem-consultas": {
+      "get": {
+        "tags": [
+          "pacientes"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "temConsultas": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "temConsultas"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pacientes/{id}/consultas-futuras": {
+      "get": {
+        "tags": [
+          "pacientes"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "criadoEm": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "atualizadoEm": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "versao": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "pacienteId": {
+                        "type": "string"
+                      },
+                      "medicoId": {
+                        "type": "string"
+                      },
+                      "departamentoId": {
+                        "type": "string"
+                      },
+                      "inicio": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "duracaoMin": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "tipo": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "agendada",
+                          "concluida",
+                          "cancelada",
+                          "faltou"
+                        ]
+                      },
+                      "motivo": {
+                        "type": "string"
+                      },
+                      "motivoCancelamento": {
+                        "type": "string"
+                      },
+                      "eventos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "agendada",
+                                "reagendada",
+                                "concluida",
+                                "faltou",
+                                "cancelada"
+                              ]
+                            },
+                            "em": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            },
+                            "detalhe": {
+                              "type": "string"
+                            },
+                            "de": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            },
+                            "para": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "em"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "criadoEm",
+                      "atualizadoEm",
+                      "versao",
+                      "pacienteId",
+                      "medicoId",
+                      "departamentoId",
+                      "inicio",
+                      "duracaoMin",
+                      "tipo",
+                      "status",
+                      "eventos"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pacientes/{id}/pendencias": {
+      "get": {
+        "summary": "R-X2",
+        "tags": [
+          "pacientes"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "tipo": {
+                        "type": "string",
+                        "enum": [
+                          "internacao",
+                          "atendimento"
+                        ]
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "descricao": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "tipo",
+                      "id",
+                      "descricao"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pacientes/{id}/inativar": {
+      "post": {
+        "summary": "P3: inativa e cancela as consultas futuras",
+        "tags": [
+          "pacientes"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "motivo": {
+                    "type": "string",
+                    "maxLength": 300
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "consultasCanceladas": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "consultasCanceladas"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pacientes/{id}/reativar": {
+      "post": {
+        "summary": "P4",
+        "tags": [
+          "pacientes"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "inativadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "motivoInativacao": {
+                      "type": "string"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "nomeSocial": {
+                      "type": "string"
+                    },
+                    "cpf": {
+                      "type": "string"
+                    },
+                    "dataNascimento": {
+                      "type": "string",
+                      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                    },
+                    "sexo": {
+                      "type": "string",
+                      "enum": [
+                        "feminino",
+                        "masculino",
+                        "outro",
+                        "nao_informado"
+                      ]
+                    },
+                    "telefone": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "endereco": {
+                      "type": "object",
+                      "properties": {
+                        "cep": {
+                          "type": "string"
+                        },
+                        "logradouro": {
+                          "type": "string"
+                        },
+                        "numero": {
+                          "type": "string"
+                        },
+                        "complemento": {
+                          "type": "string"
+                        },
+                        "bairro": {
+                          "type": "string"
+                        },
+                        "cidade": {
+                          "type": "string"
+                        },
+                        "uf": {
+                          "type": "string",
+                          "minLength": 2,
+                          "maxLength": 2
+                        }
+                      },
+                      "required": [
+                        "cep",
+                        "logradouro",
+                        "numero",
+                        "bairro",
+                        "cidade",
+                        "uf"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "convenio": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "particular"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "tipo"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "convenio"
+                              ]
+                            },
+                            "nome": {
+                              "type": "string"
+                            },
+                            "carteirinha": {
+                              "type": "string"
+                            },
+                            "validade": {
+                              "type": "string",
+                              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "nome",
+                            "carteirinha"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
+                    "responsavel": {
+                      "type": "object",
+                      "properties": {
+                        "nome": {
+                          "type": "string"
+                        },
+                        "cpf": {
+                          "type": "string"
+                        },
+                        "parentesco": {
+                          "type": "string"
+                        },
+                        "telefone": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nome",
+                        "cpf",
+                        "parentesco",
+                        "telefone"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "tipoSanguineo": {
+                      "type": "string",
+                      "enum": [
+                        "A+",
+                        "A-",
+                        "B+",
+                        "B-",
+                        "AB+",
+                        "AB-",
+                        "O+",
+                        "O-"
+                      ]
+                    },
+                    "alergias": {
+                      "type": "string"
+                    },
+                    "contatoEmergencia": {
+                      "type": "object",
+                      "properties": {
+                        "nome": {
+                          "type": "string"
+                        },
+                        "telefone": {
+                          "type": "string"
+                        },
+                        "parentesco": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nome",
+                        "telefone",
+                        "parentesco"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "observacoes": {
+                      "type": "string"
+                    },
+                    "consentimentoLgpd": {
+                      "type": "object",
+                      "properties": {
+                        "aceito": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "em": {
+                          "type": "string",
+                          "description": "Data e hora em ISO 8601, UTC"
+                        }
+                      },
+                      "required": [
+                        "aceito",
+                        "em"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "obito": {
+                      "type": "object",
+                      "properties": {
+                        "em": {
+                          "type": "string",
+                          "description": "Data e hora em ISO 8601, UTC"
+                        },
+                        "referencia": {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "internacao",
+                                "atendimento"
+                              ]
+                            },
+                            "id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "id"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "em",
+                        "referencia"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "ativo",
+                    "nome",
+                    "cpf",
+                    "dataNascimento",
+                    "sexo",
+                    "telefone",
+                    "convenio",
+                    "consentimentoLgpd"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/departamentos": {
+      "get": {
+        "tags": [
+          "médicos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "nome": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "nome"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/medicos": {
+      "get": {
+        "summary": "Lista paginada (busca por nome, CRM ou telefone)",
+        "tags": [
+          "médicos"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "default": 1,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "in": "query",
+            "name": "pagina",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": 10,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "in": "query",
+            "name": "porPagina",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "in": "query",
+            "name": "busca",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "asc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "in": "query",
+            "name": "ordem",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "nome",
+              "type": "string",
+              "enum": [
+                "nome",
+                "departamento"
+              ]
+            },
+            "in": "query",
+            "name": "ordenarPor",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": "ativos",
+              "type": "string",
+              "enum": [
+                "ativos",
+                "inativos",
+                "todos"
+              ]
+            },
+            "in": "query",
+            "name": "status",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "departamentoId",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "itens": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "nomeExibicao": {
+                            "type": "string"
+                          },
+                          "crmFormatado": {
+                            "type": "string"
+                          },
+                          "departamentoId": {
+                            "type": "string"
+                          },
+                          "departamentoNome": {
+                            "type": "string"
+                          },
+                          "diasResumo": {
+                            "type": "string"
+                          },
+                          "consultasHoje": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "ativo": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "nomeExibicao",
+                          "crmFormatado",
+                          "departamentoId",
+                          "departamentoNome",
+                          "diasResumo",
+                          "consultasHoje",
+                          "ativo"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "pagina": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "porPagina": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 100
+                    }
+                  },
+                  "required": [
+                    "itens",
+                    "total",
+                    "pagina",
+                    "porPagina"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "P6",
+        "tags": [
+          "médicos"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "tratamento": {
+                    "type": "string",
+                    "enum": [
+                      "Dr.",
+                      "Dra."
+                    ]
+                  },
+                  "crm": {
+                    "type": "object",
+                    "properties": {
+                      "numero": {
+                        "type": "string"
+                      },
+                      "uf": {
+                        "type": "string",
+                        "enum": [
+                          "AC",
+                          "AL",
+                          "AP",
+                          "AM",
+                          "BA",
+                          "CE",
+                          "DF",
+                          "ES",
+                          "GO",
+                          "MA",
+                          "MT",
+                          "MS",
+                          "MG",
+                          "PA",
+                          "PB",
+                          "PR",
+                          "PE",
+                          "PI",
+                          "RJ",
+                          "RN",
+                          "RS",
+                          "RO",
+                          "RR",
+                          "SC",
+                          "SP",
+                          "SE",
+                          "TO"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "numero",
+                      "uf"
+                    ]
+                  },
+                  "departamentoId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "telefone": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "disponibilidade": {
+                    "type": "object",
+                    "properties": {
+                      "diasSemana": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 6
+                        }
+                      },
+                      "inicio": {
+                        "type": "string",
+                        "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                      },
+                      "fim": {
+                        "type": "string",
+                        "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                      },
+                      "pausa": {
+                        "type": "object",
+                        "properties": {
+                          "inicio": {
+                            "type": "string",
+                            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                          },
+                          "fim": {
+                            "type": "string",
+                            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                          }
+                        },
+                        "required": [
+                          "inicio",
+                          "fim"
+                        ]
+                      },
+                      "duracaoPadraoMin": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "diasSemana",
+                      "inicio",
+                      "fim",
+                      "duracaoPadraoMin"
+                    ]
+                  }
+                },
+                "required": [
+                  "nome",
+                  "tratamento",
+                  "crm",
+                  "departamentoId",
+                  "telefone",
+                  "email",
+                  "disponibilidade"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "inativadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "motivoInativacao": {
+                      "type": "string"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "tratamento": {
+                      "type": "string",
+                      "enum": [
+                        "Dr.",
+                        "Dra."
+                      ]
+                    },
+                    "crm": {
+                      "type": "object",
+                      "properties": {
+                        "numero": {
+                          "type": "string"
+                        },
+                        "uf": {
+                          "type": "string",
+                          "minLength": 2,
+                          "maxLength": 2
+                        }
+                      },
+                      "required": [
+                        "numero",
+                        "uf"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "departamentoId": {
+                      "type": "string"
+                    },
+                    "telefone": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "disponibilidade": {
+                      "type": "object",
+                      "properties": {
+                        "diasSemana": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 6
+                          }
+                        },
+                        "inicio": {
+                          "type": "string"
+                        },
+                        "fim": {
+                          "type": "string"
+                        },
+                        "pausa": {
+                          "type": "object",
+                          "properties": {
+                            "inicio": {
+                              "type": "string"
+                            },
+                            "fim": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "inicio",
+                            "fim"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "duracaoPadraoMin": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "diasSemana",
+                        "inicio",
+                        "fim",
+                        "duracaoPadraoMin"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "ativo",
+                    "nome",
+                    "tratamento",
+                    "crm",
+                    "departamentoId",
+                    "telefone",
+                    "email",
+                    "disponibilidade"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/medicos/{id}": {
+      "get": {
+        "tags": [
+          "médicos"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "inativadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "motivoInativacao": {
+                      "type": "string"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "tratamento": {
+                      "type": "string",
+                      "enum": [
+                        "Dr.",
+                        "Dra."
+                      ]
+                    },
+                    "crm": {
+                      "type": "object",
+                      "properties": {
+                        "numero": {
+                          "type": "string"
+                        },
+                        "uf": {
+                          "type": "string",
+                          "minLength": 2,
+                          "maxLength": 2
+                        }
+                      },
+                      "required": [
+                        "numero",
+                        "uf"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "departamentoId": {
+                      "type": "string"
+                    },
+                    "telefone": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "disponibilidade": {
+                      "type": "object",
+                      "properties": {
+                        "diasSemana": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 6
+                          }
+                        },
+                        "inicio": {
+                          "type": "string"
+                        },
+                        "fim": {
+                          "type": "string"
+                        },
+                        "pausa": {
+                          "type": "object",
+                          "properties": {
+                            "inicio": {
+                              "type": "string"
+                            },
+                            "fim": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "inicio",
+                            "fim"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "duracaoPadraoMin": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "diasSemana",
+                        "inicio",
+                        "fim",
+                        "duracaoPadraoMin"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "ativo",
+                    "nome",
+                    "tratamento",
+                    "crm",
+                    "departamentoId",
+                    "telefone",
+                    "email",
+                    "disponibilidade"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "P7 (If-Match obrigatório)",
+        "tags": [
+          "médicos"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "tratamento": {
+                    "type": "string",
+                    "enum": [
+                      "Dr.",
+                      "Dra."
+                    ]
+                  },
+                  "crm": {
+                    "type": "object",
+                    "properties": {
+                      "numero": {
+                        "type": "string"
+                      },
+                      "uf": {
+                        "type": "string",
+                        "enum": [
+                          "AC",
+                          "AL",
+                          "AP",
+                          "AM",
+                          "BA",
+                          "CE",
+                          "DF",
+                          "ES",
+                          "GO",
+                          "MA",
+                          "MT",
+                          "MS",
+                          "MG",
+                          "PA",
+                          "PB",
+                          "PR",
+                          "PE",
+                          "PI",
+                          "RJ",
+                          "RN",
+                          "RS",
+                          "RO",
+                          "RR",
+                          "SC",
+                          "SP",
+                          "SE",
+                          "TO"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "numero",
+                      "uf"
+                    ]
+                  },
+                  "departamentoId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "telefone": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "disponibilidade": {
+                    "type": "object",
+                    "properties": {
+                      "diasSemana": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 6
+                        }
+                      },
+                      "inicio": {
+                        "type": "string",
+                        "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                      },
+                      "fim": {
+                        "type": "string",
+                        "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                      },
+                      "pausa": {
+                        "type": "object",
+                        "properties": {
+                          "inicio": {
+                            "type": "string",
+                            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                          },
+                          "fim": {
+                            "type": "string",
+                            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                          }
+                        },
+                        "required": [
+                          "inicio",
+                          "fim"
+                        ]
+                      },
+                      "duracaoPadraoMin": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "diasSemana",
+                      "inicio",
+                      "fim",
+                      "duracaoPadraoMin"
+                    ]
+                  }
+                },
+                "required": [
+                  "nome",
+                  "tratamento",
+                  "crm",
+                  "departamentoId",
+                  "telefone",
+                  "email",
+                  "disponibilidade"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "medico": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "criadoEm": {
+                          "type": "string",
+                          "description": "Data e hora em ISO 8601, UTC"
+                        },
+                        "atualizadoEm": {
+                          "type": "string",
+                          "description": "Data e hora em ISO 8601, UTC"
+                        },
+                        "versao": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991
+                        },
+                        "ativo": {
+                          "type": "boolean"
+                        },
+                        "inativadoEm": {
+                          "type": "string",
+                          "description": "Data e hora em ISO 8601, UTC"
+                        },
+                        "motivoInativacao": {
+                          "type": "string"
+                        },
+                        "nome": {
+                          "type": "string"
+                        },
+                        "tratamento": {
+                          "type": "string",
+                          "enum": [
+                            "Dr.",
+                            "Dra."
+                          ]
+                        },
+                        "crm": {
+                          "type": "object",
+                          "properties": {
+                            "numero": {
+                              "type": "string"
+                            },
+                            "uf": {
+                              "type": "string",
+                              "minLength": 2,
+                              "maxLength": 2
+                            }
+                          },
+                          "required": [
+                            "numero",
+                            "uf"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "departamentoId": {
+                          "type": "string"
+                        },
+                        "telefone": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "disponibilidade": {
+                          "type": "object",
+                          "properties": {
+                            "diasSemana": {
+                              "type": "array",
+                              "items": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 6
+                              }
+                            },
+                            "inicio": {
+                              "type": "string"
+                            },
+                            "fim": {
+                              "type": "string"
+                            },
+                            "pausa": {
+                              "type": "object",
+                              "properties": {
+                                "inicio": {
+                                  "type": "string"
+                                },
+                                "fim": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "inicio",
+                                "fim"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "duracaoPadraoMin": {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "diasSemana",
+                            "inicio",
+                            "fim",
+                            "duracaoPadraoMin"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "criadoEm",
+                        "atualizadoEm",
+                        "versao",
+                        "ativo",
+                        "nome",
+                        "tratamento",
+                        "crm",
+                        "departamentoId",
+                        "telefone",
+                        "email",
+                        "disponibilidade"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "consultasForaDoHorario": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "medico",
+                    "consultasForaDoHorario"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/medicos/crm/{uf}/{numero}": {
+      "get": {
+        "summary": "Médico que já usa o CRM (R-M1)",
+        "tags": [
+          "médicos"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "ignorarId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "AC",
+                "AL",
+                "AP",
+                "AM",
+                "BA",
+                "CE",
+                "DF",
+                "ES",
+                "GO",
+                "MA",
+                "MT",
+                "MS",
+                "MG",
+                "PA",
+                "PB",
+                "PR",
+                "PE",
+                "PI",
+                "RJ",
+                "RN",
+                "RS",
+                "RO",
+                "RR",
+                "SC",
+                "SP",
+                "SE",
+                "TO"
+              ]
+            },
+            "in": "path",
+            "name": "uf",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4,7}$"
+            },
+            "in": "path",
+            "name": "numero",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cadastro que já usa o documento, ou null",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "nomeExibicao": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "nomeExibicao"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "Cadastro que já usa o documento, ou null"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/medicos/{id}/consultas-futuras": {
+      "get": {
+        "summary": "R-M2",
+        "tags": [
+          "médicos"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "criadoEm": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "atualizadoEm": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "versao": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "pacienteId": {
+                        "type": "string"
+                      },
+                      "medicoId": {
+                        "type": "string"
+                      },
+                      "departamentoId": {
+                        "type": "string"
+                      },
+                      "inicio": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "duracaoMin": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "tipo": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "agendada",
+                          "concluida",
+                          "cancelada",
+                          "faltou"
+                        ]
+                      },
+                      "motivo": {
+                        "type": "string"
+                      },
+                      "motivoCancelamento": {
+                        "type": "string"
+                      },
+                      "eventos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "agendada",
+                                "reagendada",
+                                "concluida",
+                                "faltou",
+                                "cancelada"
+                              ]
+                            },
+                            "em": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            },
+                            "detalhe": {
+                              "type": "string"
+                            },
+                            "de": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            },
+                            "para": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "em"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "criadoEm",
+                      "atualizadoEm",
+                      "versao",
+                      "pacienteId",
+                      "medicoId",
+                      "departamentoId",
+                      "inicio",
+                      "duracaoMin",
+                      "tipo",
+                      "status",
+                      "eventos"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/medicos/{id}/consultas-afetadas": {
+      "post": {
+        "summary": "R-M3 / A3: consultas futuras fora de uma nova disponibilidade",
+        "tags": [
+          "médicos"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "diasSemana": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 6
+                    }
+                  },
+                  "inicio": {
+                    "type": "string"
+                  },
+                  "fim": {
+                    "type": "string"
+                  },
+                  "pausa": {
+                    "type": "object",
+                    "properties": {
+                      "inicio": {
+                        "type": "string"
+                      },
+                      "fim": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "inicio",
+                      "fim"
+                    ]
+                  },
+                  "duracaoPadraoMin": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "diasSemana",
+                  "inicio",
+                  "fim",
+                  "duracaoPadraoMin"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "criadoEm": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "atualizadoEm": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "versao": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "pacienteId": {
+                        "type": "string"
+                      },
+                      "medicoId": {
+                        "type": "string"
+                      },
+                      "departamentoId": {
+                        "type": "string"
+                      },
+                      "inicio": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "duracaoMin": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "tipo": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "agendada",
+                          "concluida",
+                          "cancelada",
+                          "faltou"
+                        ]
+                      },
+                      "motivo": {
+                        "type": "string"
+                      },
+                      "motivoCancelamento": {
+                        "type": "string"
+                      },
+                      "eventos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "agendada",
+                                "reagendada",
+                                "concluida",
+                                "faltou",
+                                "cancelada"
+                              ]
+                            },
+                            "em": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            },
+                            "detalhe": {
+                              "type": "string"
+                            },
+                            "de": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            },
+                            "para": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "em"
+                          ],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "criadoEm",
+                      "atualizadoEm",
+                      "versao",
+                      "pacienteId",
+                      "medicoId",
+                      "departamentoId",
+                      "inicio",
+                      "duracaoMin",
+                      "tipo",
+                      "status",
+                      "eventos"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/medicos/{id}/pendencias": {
+      "get": {
+        "summary": "R-X4",
+        "tags": [
+          "médicos"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "tipo": {
+                        "type": "string",
+                        "enum": [
+                          "internacao",
+                          "atendimento"
+                        ]
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "descricao": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "tipo",
+                      "id",
+                      "descricao"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/medicos/{id}/inativar": {
+      "post": {
+        "summary": "P8 (bloqueado com consultas futuras ou pendências nos módulos)",
+        "tags": [
+          "médicos"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "motivo": {
+                    "type": "string",
+                    "maxLength": 300
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "inativadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "motivoInativacao": {
+                      "type": "string"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "tratamento": {
+                      "type": "string",
+                      "enum": [
+                        "Dr.",
+                        "Dra."
+                      ]
+                    },
+                    "crm": {
+                      "type": "object",
+                      "properties": {
+                        "numero": {
+                          "type": "string"
+                        },
+                        "uf": {
+                          "type": "string",
+                          "minLength": 2,
+                          "maxLength": 2
+                        }
+                      },
+                      "required": [
+                        "numero",
+                        "uf"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "departamentoId": {
+                      "type": "string"
+                    },
+                    "telefone": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "disponibilidade": {
+                      "type": "object",
+                      "properties": {
+                        "diasSemana": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 6
+                          }
+                        },
+                        "inicio": {
+                          "type": "string"
+                        },
+                        "fim": {
+                          "type": "string"
+                        },
+                        "pausa": {
+                          "type": "object",
+                          "properties": {
+                            "inicio": {
+                              "type": "string"
+                            },
+                            "fim": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "inicio",
+                            "fim"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "duracaoPadraoMin": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "diasSemana",
+                        "inicio",
+                        "fim",
+                        "duracaoPadraoMin"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "ativo",
+                    "nome",
+                    "tratamento",
+                    "crm",
+                    "departamentoId",
+                    "telefone",
+                    "email",
+                    "disponibilidade"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/medicos/{id}/reativar": {
+      "post": {
+        "tags": [
+          "médicos"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "inativadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "motivoInativacao": {
+                      "type": "string"
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "tratamento": {
+                      "type": "string",
+                      "enum": [
+                        "Dr.",
+                        "Dra."
+                      ]
+                    },
+                    "crm": {
+                      "type": "object",
+                      "properties": {
+                        "numero": {
+                          "type": "string"
+                        },
+                        "uf": {
+                          "type": "string",
+                          "minLength": 2,
+                          "maxLength": 2
+                        }
+                      },
+                      "required": [
+                        "numero",
+                        "uf"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "departamentoId": {
+                      "type": "string"
+                    },
+                    "telefone": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "disponibilidade": {
+                      "type": "object",
+                      "properties": {
+                        "diasSemana": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 6
+                          }
+                        },
+                        "inicio": {
+                          "type": "string"
+                        },
+                        "fim": {
+                          "type": "string"
+                        },
+                        "pausa": {
+                          "type": "object",
+                          "properties": {
+                            "inicio": {
+                              "type": "string"
+                            },
+                            "fim": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "inicio",
+                            "fim"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "duracaoPadraoMin": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        }
+                      },
+                      "required": [
+                        "diasSemana",
+                        "inicio",
+                        "fim",
+                        "duracaoPadraoMin"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "ativo",
+                    "nome",
+                    "tratamento",
+                    "crm",
+                    "departamentoId",
+                    "telefone",
+                    "email",
+                    "disponibilidade"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/consultas": {
+      "get": {
+        "summary": "Agenda: consultas em ordem de início (janela de datas, até 1000)",
+        "tags": [
+          "agenda"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "in": "query",
+            "name": "data",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "in": "query",
+            "name": "de",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "in": "query",
+            "name": "ate",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "medicoId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "pacienteId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "departamentoId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "agendada",
+                "concluida",
+                "cancelada",
+                "faltou"
+              ]
+            },
+            "in": "query",
+            "name": "status",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "in": "query",
+            "name": "pendentes",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "criadoEm": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "atualizadoEm": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "versao": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "pacienteId": {
+                        "type": "string"
+                      },
+                      "medicoId": {
+                        "type": "string"
+                      },
+                      "departamentoId": {
+                        "type": "string"
+                      },
+                      "inicio": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "duracaoMin": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "tipo": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "agendada",
+                          "concluida",
+                          "cancelada",
+                          "faltou"
+                        ]
+                      },
+                      "motivo": {
+                        "type": "string"
+                      },
+                      "motivoCancelamento": {
+                        "type": "string"
+                      },
+                      "eventos": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "tipo": {
+                              "type": "string",
+                              "enum": [
+                                "agendada",
+                                "reagendada",
+                                "concluida",
+                                "faltou",
+                                "cancelada"
+                              ]
+                            },
+                            "em": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            },
+                            "detalhe": {
+                              "type": "string"
+                            },
+                            "de": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            },
+                            "para": {
+                              "type": "string",
+                              "description": "Data e hora em ISO 8601, UTC"
+                            }
+                          },
+                          "required": [
+                            "tipo",
+                            "em"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "pacienteNome": {
+                        "type": "string"
+                      },
+                      "pacienteAlergias": {
+                        "type": "string"
+                      },
+                      "medicoNome": {
+                        "type": "string"
+                      },
+                      "departamentoNome": {
+                        "type": "string"
+                      },
+                      "fim": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "atrasada": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "criadoEm",
+                      "atualizadoEm",
+                      "versao",
+                      "pacienteId",
+                      "medicoId",
+                      "departamentoId",
+                      "inicio",
+                      "duracaoMin",
+                      "tipo",
+                      "status",
+                      "eventos",
+                      "pacienteNome",
+                      "medicoNome",
+                      "departamentoNome",
+                      "fim",
+                      "atrasada"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "P9",
+        "tags": [
+          "agenda"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pacienteId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "medicoId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "data": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "hora": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "duracaoMin": {
+                    "type": "integer",
+                    "minimum": 5,
+                    "maximum": 120
+                  },
+                  "tipo": {
+                    "type": "string",
+                    "enum": [
+                      "primeira_vez",
+                      "retorno",
+                      "exame",
+                      "teleconsulta"
+                    ]
+                  },
+                  "motivo": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "pacienteId",
+                  "medicoId",
+                  "data",
+                  "hora",
+                  "duracaoMin",
+                  "tipo"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "pacienteId": {
+                      "type": "string"
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "departamentoId": {
+                      "type": "string"
+                    },
+                    "inicio": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "duracaoMin": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "tipo": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "agendada",
+                        "concluida",
+                        "cancelada",
+                        "faltou"
+                      ]
+                    },
+                    "motivo": {
+                      "type": "string"
+                    },
+                    "motivoCancelamento": {
+                      "type": "string"
+                    },
+                    "eventos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tipo": {
+                            "type": "string",
+                            "enum": [
+                              "agendada",
+                              "reagendada",
+                              "concluida",
+                              "faltou",
+                              "cancelada"
+                            ]
+                          },
+                          "em": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "detalhe": {
+                            "type": "string"
+                          },
+                          "de": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "para": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          }
+                        },
+                        "required": [
+                          "tipo",
+                          "em"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "pacienteNome": {
+                      "type": "string"
+                    },
+                    "pacienteAlergias": {
+                      "type": "string"
+                    },
+                    "medicoNome": {
+                      "type": "string"
+                    },
+                    "departamentoNome": {
+                      "type": "string"
+                    },
+                    "fim": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atrasada": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "pacienteId",
+                    "medicoId",
+                    "departamentoId",
+                    "inicio",
+                    "duracaoMin",
+                    "tipo",
+                    "status",
+                    "eventos",
+                    "pacienteNome",
+                    "medicoNome",
+                    "departamentoNome",
+                    "fim",
+                    "atrasada"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/consultas/{id}": {
+      "get": {
+        "tags": [
+          "agenda"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "pacienteId": {
+                      "type": "string"
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "departamentoId": {
+                      "type": "string"
+                    },
+                    "inicio": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "duracaoMin": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "tipo": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "agendada",
+                        "concluida",
+                        "cancelada",
+                        "faltou"
+                      ]
+                    },
+                    "motivo": {
+                      "type": "string"
+                    },
+                    "motivoCancelamento": {
+                      "type": "string"
+                    },
+                    "eventos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tipo": {
+                            "type": "string",
+                            "enum": [
+                              "agendada",
+                              "reagendada",
+                              "concluida",
+                              "faltou",
+                              "cancelada"
+                            ]
+                          },
+                          "em": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "detalhe": {
+                            "type": "string"
+                          },
+                          "de": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "para": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          }
+                        },
+                        "required": [
+                          "tipo",
+                          "em"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "pacienteNome": {
+                      "type": "string"
+                    },
+                    "pacienteAlergias": {
+                      "type": "string"
+                    },
+                    "medicoNome": {
+                      "type": "string"
+                    },
+                    "departamentoNome": {
+                      "type": "string"
+                    },
+                    "fim": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atrasada": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "pacienteId",
+                    "medicoId",
+                    "departamentoId",
+                    "inicio",
+                    "duracaoMin",
+                    "tipo",
+                    "status",
+                    "eventos",
+                    "pacienteNome",
+                    "medicoNome",
+                    "departamentoNome",
+                    "fim",
+                    "atrasada"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "P10: reagendar (If-Match obrigatório)",
+        "tags": [
+          "agenda"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pacienteId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "medicoId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "data": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "hora": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "duracaoMin": {
+                    "type": "integer",
+                    "minimum": 5,
+                    "maximum": 120
+                  },
+                  "tipo": {
+                    "type": "string",
+                    "enum": [
+                      "primeira_vez",
+                      "retorno",
+                      "exame",
+                      "teleconsulta"
+                    ]
+                  },
+                  "motivo": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "pacienteId",
+                  "medicoId",
+                  "data",
+                  "hora",
+                  "duracaoMin",
+                  "tipo"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "pacienteId": {
+                      "type": "string"
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "departamentoId": {
+                      "type": "string"
+                    },
+                    "inicio": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "duracaoMin": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "tipo": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "agendada",
+                        "concluida",
+                        "cancelada",
+                        "faltou"
+                      ]
+                    },
+                    "motivo": {
+                      "type": "string"
+                    },
+                    "motivoCancelamento": {
+                      "type": "string"
+                    },
+                    "eventos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tipo": {
+                            "type": "string",
+                            "enum": [
+                              "agendada",
+                              "reagendada",
+                              "concluida",
+                              "faltou",
+                              "cancelada"
+                            ]
+                          },
+                          "em": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "detalhe": {
+                            "type": "string"
+                          },
+                          "de": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "para": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          }
+                        },
+                        "required": [
+                          "tipo",
+                          "em"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "pacienteNome": {
+                      "type": "string"
+                    },
+                    "pacienteAlergias": {
+                      "type": "string"
+                    },
+                    "medicoNome": {
+                      "type": "string"
+                    },
+                    "departamentoNome": {
+                      "type": "string"
+                    },
+                    "fim": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atrasada": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "pacienteId",
+                    "medicoId",
+                    "departamentoId",
+                    "inicio",
+                    "duracaoMin",
+                    "tipo",
+                    "status",
+                    "eventos",
+                    "pacienteNome",
+                    "medicoNome",
+                    "departamentoNome",
+                    "fim",
+                    "atrasada"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/agenda/horarios": {
+      "get": {
+        "summary": "A1 / R-C5: grade do dia com o motivo de cada horário indisponível",
+        "tags": [
+          "agenda"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "medicoId",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "in": "query",
+            "name": "data",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 240
+            },
+            "in": "query",
+            "name": "duracaoMin",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "pacienteId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "ignorarConsultaId",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "hora": {
+                        "type": "string"
+                      },
+                      "inicio": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "livre": {
+                        "type": "boolean"
+                      },
+                      "motivo": {
+                        "type": "string",
+                        "enum": [
+                          "passado",
+                          "pausa",
+                          "medico_ocupado",
+                          "paciente_ocupado",
+                          "fora_expediente"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "hora",
+                      "inicio",
+                      "livre"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/agenda/proximo-dia": {
+      "get": {
+        "summary": "A5: próximo dia com horário livre",
+        "tags": [
+          "agenda"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "medicoId",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "in": "query",
+            "name": "data",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 240
+            },
+            "in": "query",
+            "name": "duracaoMin",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "pacienteId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "ignorarConsultaId",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/consultas/{id}/cancelar": {
+      "post": {
+        "summary": "P11 (If-Match obrigatório)",
+        "tags": [
+          "agenda"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "motivo": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "motivo"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "pacienteId": {
+                      "type": "string"
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "departamentoId": {
+                      "type": "string"
+                    },
+                    "inicio": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "duracaoMin": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "tipo": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "agendada",
+                        "concluida",
+                        "cancelada",
+                        "faltou"
+                      ]
+                    },
+                    "motivo": {
+                      "type": "string"
+                    },
+                    "motivoCancelamento": {
+                      "type": "string"
+                    },
+                    "eventos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tipo": {
+                            "type": "string",
+                            "enum": [
+                              "agendada",
+                              "reagendada",
+                              "concluida",
+                              "faltou",
+                              "cancelada"
+                            ]
+                          },
+                          "em": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "detalhe": {
+                            "type": "string"
+                          },
+                          "de": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "para": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          }
+                        },
+                        "required": [
+                          "tipo",
+                          "em"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "pacienteNome": {
+                      "type": "string"
+                    },
+                    "pacienteAlergias": {
+                      "type": "string"
+                    },
+                    "medicoNome": {
+                      "type": "string"
+                    },
+                    "departamentoNome": {
+                      "type": "string"
+                    },
+                    "fim": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atrasada": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "pacienteId",
+                    "medicoId",
+                    "departamentoId",
+                    "inicio",
+                    "duracaoMin",
+                    "tipo",
+                    "status",
+                    "eventos",
+                    "pacienteNome",
+                    "medicoNome",
+                    "departamentoNome",
+                    "fim",
+                    "atrasada"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/consultas/{id}/concluir": {
+      "post": {
+        "summary": "P12",
+        "tags": [
+          "agenda"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "pacienteId": {
+                      "type": "string"
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "departamentoId": {
+                      "type": "string"
+                    },
+                    "inicio": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "duracaoMin": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "tipo": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "agendada",
+                        "concluida",
+                        "cancelada",
+                        "faltou"
+                      ]
+                    },
+                    "motivo": {
+                      "type": "string"
+                    },
+                    "motivoCancelamento": {
+                      "type": "string"
+                    },
+                    "eventos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tipo": {
+                            "type": "string",
+                            "enum": [
+                              "agendada",
+                              "reagendada",
+                              "concluida",
+                              "faltou",
+                              "cancelada"
+                            ]
+                          },
+                          "em": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "detalhe": {
+                            "type": "string"
+                          },
+                          "de": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "para": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          }
+                        },
+                        "required": [
+                          "tipo",
+                          "em"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "pacienteNome": {
+                      "type": "string"
+                    },
+                    "pacienteAlergias": {
+                      "type": "string"
+                    },
+                    "medicoNome": {
+                      "type": "string"
+                    },
+                    "departamentoNome": {
+                      "type": "string"
+                    },
+                    "fim": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atrasada": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "pacienteId",
+                    "medicoId",
+                    "departamentoId",
+                    "inicio",
+                    "duracaoMin",
+                    "tipo",
+                    "status",
+                    "eventos",
+                    "pacienteNome",
+                    "medicoNome",
+                    "departamentoNome",
+                    "fim",
+                    "atrasada"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/consultas/{id}/faltou": {
+      "post": {
+        "summary": "P12",
+        "tags": [
+          "agenda"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atualizadoEm": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    "pacienteId": {
+                      "type": "string"
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "departamentoId": {
+                      "type": "string"
+                    },
+                    "inicio": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "duracaoMin": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "tipo": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "agendada",
+                        "concluida",
+                        "cancelada",
+                        "faltou"
+                      ]
+                    },
+                    "motivo": {
+                      "type": "string"
+                    },
+                    "motivoCancelamento": {
+                      "type": "string"
+                    },
+                    "eventos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tipo": {
+                            "type": "string",
+                            "enum": [
+                              "agendada",
+                              "reagendada",
+                              "concluida",
+                              "faltou",
+                              "cancelada"
+                            ]
+                          },
+                          "em": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "detalhe": {
+                            "type": "string"
+                          },
+                          "de": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          },
+                          "para": {
+                            "type": "string",
+                            "description": "Data e hora em ISO 8601, UTC"
+                          }
+                        },
+                        "required": [
+                          "tipo",
+                          "em"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "pacienteNome": {
+                      "type": "string"
+                    },
+                    "pacienteAlergias": {
+                      "type": "string"
+                    },
+                    "medicoNome": {
+                      "type": "string"
+                    },
+                    "departamentoNome": {
+                      "type": "string"
+                    },
+                    "fim": {
+                      "type": "string",
+                      "description": "Data e hora em ISO 8601, UTC"
+                    },
+                    "atrasada": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "criadoEm",
+                    "atualizadoEm",
+                    "versao",
+                    "pacienteId",
+                    "medicoId",
+                    "departamentoId",
+                    "inicio",
+                    "duracaoMin",
+                    "tipo",
+                    "status",
+                    "eventos",
+                    "pacienteNome",
+                    "medicoNome",
+                    "departamentoNome",
+                    "fim",
+                    "atrasada"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/consultas/lote": {
+      "post": {
+        "summary": "P13: registra várias; se uma falhar, nenhuma muda",
+        "tags": [
+          "agenda"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "acao": {
+                    "type": "string",
+                    "enum": [
+                      "concluida",
+                      "faltou"
+                    ]
+                  }
+                },
+                "required": [
+                  "ids",
+                  "acao"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "total"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/atividades": {
+      "get": {
+        "summary": "Linha do tempo (mais recentes primeiro)",
+        "tags": [
+          "painel"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "default": 10,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "in": "query",
+            "name": "limite",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "tipo": {
+                        "type": "string"
+                      },
+                      "descricao": {
+                        "type": "string"
+                      },
+                      "em": {
+                        "type": "string",
+                        "description": "Data e hora em ISO 8601, UTC"
+                      },
+                      "referenciaId": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "tipo",
+                      "descricao",
+                      "em"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/indicadores/cadastros": {
+      "get": {
+        "summary": "KPIs \"Total de pacientes\" e \"Médicos de plantão\"",
+        "tags": [
+          "painel"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pacientesAtivos": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "medicosPlantao": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "pacientesAtivos",
+                    "medicosPlantao"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "servers": [
@@ -107,6 +5673,22 @@
     {
       "name": "sistema",
       "description": "Situação da API"
+    },
+    {
+      "name": "pacientes",
+      "description": "P1–P5 (Fase 25)"
+    },
+    {
+      "name": "médicos",
+      "description": "P6–P8 (Fase 25)"
+    },
+    {
+      "name": "agenda",
+      "description": "P9–P13, A1, A5 (Fase 25)"
+    },
+    {
+      "name": "painel",
+      "description": "Atividades e indicadores dos cadastros"
     }
   ]
 }

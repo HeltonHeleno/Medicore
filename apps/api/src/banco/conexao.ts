@@ -12,6 +12,9 @@ export function conectar(url: string, conexoes = 10): Banco {
     // Toda sessão trabalha em UTC; o fuso do hospital é aplicado pelo domínio (M3).
     options: '-c timezone=UTC',
   });
+  // Uma conexão ociosa derrubada pelo servidor (reinício, failover) não pode derrubar a API: o
+  // pool descarta a conexão e abre outra na próxima consulta.
+  pool.on('error', () => {});
   return drizzle(pool, { schema: esquema, casing: 'snake_case' }) as Banco;
 }
 

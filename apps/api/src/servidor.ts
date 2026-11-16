@@ -17,6 +17,10 @@ import type { Banco } from './banco/conexao';
 import type { Config } from './config';
 import { registrarTratamentoDeErros } from './http/erros';
 import type { RegistrarErro } from './monitoramento';
+import { rotasConsultas } from './rotas/consultas';
+import { rotasMedicos } from './rotas/medicos';
+import { rotasPacientes } from './rotas/pacientes';
+import { rotasPainel } from './rotas/painel';
 import { rotasSaude } from './rotas/saude';
 
 export const PREFIXO = '/api/v1';
@@ -83,7 +87,13 @@ export async function criarServidor(dep: DependenciasServidor) {
           'API do MediCore (D24). Erros no formato do contrato: `{ codigo, … }`. Gravações exigem `If-Match` com a versão lida (R-API1).',
       },
       servers: [{ url: '/' }],
-      tags: [{ name: 'sistema', description: 'Situação da API' }],
+      tags: [
+        { name: 'sistema', description: 'Situação da API' },
+        { name: 'pacientes', description: 'P1–P5 (Fase 25)' },
+        { name: 'médicos', description: 'P6–P8 (Fase 25)' },
+        { name: 'agenda', description: 'P9–P13, A1, A5 (Fase 25)' },
+        { name: 'painel', description: 'Atividades e indicadores dos cadastros' },
+      ],
     },
     transform: jsonSchemaTransform,
   });
@@ -97,6 +107,10 @@ export async function criarServidor(dep: DependenciasServidor) {
       await v1.register(
         rotasSaude({ banco: dep.banco, versao: VERSAO_API, ambiente: dep.config.AMBIENTE }),
       );
+      await v1.register(rotasPacientes(dep.banco));
+      await v1.register(rotasMedicos(dep.banco));
+      await v1.register(rotasConsultas(dep.banco));
+      await v1.register(rotasPainel(dep.banco));
       if (dep.rotasExtras) await dep.rotasExtras(v1);
     },
     { prefix: PREFIXO },

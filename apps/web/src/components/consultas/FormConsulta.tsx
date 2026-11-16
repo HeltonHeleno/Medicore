@@ -30,7 +30,7 @@ import {
   dataDoInstante,
   somarDias,
 } from '@medicore/dominio/utils/datas';
-import { ocultarCpf } from '../../utils/mascaras';
+import { ocultarCpf } from '@medicore/dominio/utils/mascaras';
 import { agora } from '@medicore/dominio/utils/relogio';
 import {
   ComboboxPaciente,

@@ -20,7 +20,7 @@ import { consultasForaDaDisponibilidade } from '@medicore/dominio/utils/agenda';
 import { filtrarPorTermo, ordenar, paginar } from '@medicore/dominio/utils/busca';
 import { dataDoInstante, hojeNoFuso } from '@medicore/dominio/utils/datas';
 import { gerarId } from '@medicore/dominio/utils/id';
-import { formatarCrm } from '../utils/mascaras';
+import { formatarCrm } from '@medicore/dominio/utils/mascaras';
 import { agora } from '@medicore/dominio/utils/relogio';
 import { registrarAtividade } from './atividades';
 import { repoConsultas, repoMedicos } from './colecoes';
@@ -34,24 +34,14 @@ import { executar } from './infra';
 import { consultasFuturasAgendadas, filtrarStatus } from './pacientes';
 import { transacao } from './repositorio';
 
-export const nomeExibicaoMedico = (m: Pick<Medico, 'tratamento' | 'nome'>) =>
-  `${m.tratamento} ${m.nome}`;
+export { nomeExibicaoMedico, resumirDisponibilidade };
 
-export const nomeDepartamento = (id: string) => departamentos.find((d) => d.id === id)?.nome ?? id;
+import { nomeDepartamento } from '@medicore/dominio/config/departamentos';
+import { nomeExibicaoMedico, resumirDisponibilidade } from '@medicore/dominio/utils/cadastros';
+
+export { nomeDepartamento };
 
 export const listarDepartamentos = (): Promise<Departamento[]> => executar(() => departamentos);
-
-/** "Seg a Sex · 08:00–17:00" ou "Seg, Qua, Sex · 08:00–12:00". */
-export function resumirDisponibilidade(d: Disponibilidade): string {
-  const dias = [...d.diasSemana].sort((a, b) => a - b);
-  const nomes = t.diasSemanaCurto;
-  const consecutivos =
-    dias.length >= 3 && dias.every((dia, i) => i === 0 || dia === dias[i - 1] + 1);
-  const texto = consecutivos
-    ? t.diasAte(nomes[dias[0]], nomes[dias[dias.length - 1]])
-    : dias.map((dia) => nomes[dia]).join(', ');
-  return `${texto} · ${d.inicio}–${d.fim}`;
-}
 
 function obterOuFalhar(id: string): Medico {
   const m = repoMedicos.obter(id);
