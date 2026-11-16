@@ -2,6 +2,7 @@
 import { conectar, desconectar } from './banco/conexao';
 import { ErroConfiguracao, lerConfig } from './config';
 import { iniciarMonitoramento } from './monitoramento';
+import { iniciarAgendador } from './rotinas/agendador';
 import { criarServidor, VERSAO_API } from './servidor';
 
 let config;
@@ -18,8 +19,10 @@ try {
 const registrarErro = await iniciarMonitoramento(config, VERSAO_API);
 const banco = conectar(config.DATABASE_URL, config.BANCO_CONEXOES);
 const app = await criarServidor({ config, banco, registrarErro });
+const pararRotinas = config.ROTINAS ? iniciarAgendador(banco, registrarErro) : () => {};
 
 const encerrar = async () => {
+  pararRotinas();
   await app.close();
   await desconectar(banco);
   process.exit(0);

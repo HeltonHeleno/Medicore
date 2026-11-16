@@ -260,6 +260,9 @@ describe('OpenAPI', () => {
       'pacientes',
       'médicos',
       'agenda',
+      'leitos',
+      'emergência',
+      'farmácia',
       'painel',
     ]);
   });

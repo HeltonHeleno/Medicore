@@ -12,11 +12,15 @@ ALTER TABLE "consultas" ADD CONSTRAINT "consultas_sem_sobreposicao_por_medico"
 -- Papel da aplicação. A API se conecta com um usuário que pertence a este papel
 -- (no Docker Compose: `medicore_api`; na nuvem, criado na Fase 27). Quem roda as migrações
 -- é o dono das tabelas e não usa este papel.
+-- O papel é do servidor (vale para todos os bancos): duas migrações ao mesmo tempo em bancos
+-- diferentes (os testes da CI) podem tentar criá-lo juntas; a segunda ignora o erro.
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'medicore_app') THEN
     CREATE ROLE medicore_app NOLOGIN;
   END IF;
+EXCEPTION WHEN duplicate_object OR unique_violation THEN
+  NULL;
 END
 $$;
 --> statement-breakpoint

@@ -26,6 +26,14 @@ const esquema = z.object({
   LOG_NIVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   /** Monitoramento (BL-05.2). Sem a chave, nenhum erro sai do servidor. */
   SENTRY_DSN: z.string().url().optional(),
+  /**
+   * Rotinas do dia (retenção A15, lote vencido, invariantes A17). Pode ficar ligado em todas as
+   * instâncias: a tabela `rotinas` garante uma execução por dia.
+   */
+  ROTINAS: z
+    .enum(['sim', 'nao'])
+    .default('sim')
+    .transform((v) => v === 'sim'),
   /** Publica a documentação em `/api/v1/docs` (desligar só se a produção exigir). */
   DOCS: z
     .enum(['sim', 'nao'])

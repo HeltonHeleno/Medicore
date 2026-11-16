@@ -1,4 +1,4 @@
-/** 24.2.6 — Migrações: as 13 tabelas, as restrições escritas à mão e `db:migrar` idempotente. */
+/** 24.2.6 — Migrações: as 13 tabelas (+ `rotinas`, Fase 26), as restrições escritas à mão e `db:migrar` idempotente. */
 import { sql } from 'drizzle-orm';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { migrar } from '../src/banco/migrar';
@@ -14,7 +14,7 @@ const linhas = async (consulta: ReturnType<typeof sql>) =>
   (await b.dono.execute(consulta)).rows as Record<string, unknown>[];
 
 describe('migrações', () => {
-  it('criam as 13 tabelas', async () => {
+  it('criam as 13 tabelas e a das rotinas', async () => {
     const tabelas = await linhas(
       sql`select table_name from information_schema.tables where table_schema = 'public' order by 1`,
     );
@@ -31,6 +31,7 @@ describe('migrações', () => {
       'movimentacoes',
       'pacientes',
       'resumos',
+      'rotinas',
       'solicitacoes',
     ]);
   });
@@ -41,7 +42,7 @@ describe('migrações', () => {
     await migrar(b.urlDono);
     const depois = await linhas(sql`select count(*)::int as n from drizzle.__drizzle_migrations`);
     expect(depois).toEqual(antes);
-    expect(antes[0]!.n).toBe(3); // 0000_inicial, 0001_restricoes, 0002_busca
+    expect(antes[0]!.n).toBe(4); // 0000_inicial, 0001_restricoes, 0002_busca, 0003_rotinas
   });
 
   it('a migração 0001 cria o EXCLUDE, o papel da aplicação e a colação pt-BR', async () => {

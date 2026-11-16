@@ -23,7 +23,11 @@ describe('configuração (24.2.1)', () => {
       HOST: '0.0.0.0',
       AMBIENTE: 'desenvolvimento',
       DOCS: true,
+      ROTINAS: true,
     });
+    expect(lerConfig({ DATABASE_URL: 'postgres://u@h:5432/b', ROTINAS: 'nao' }).ROTINAS).toBe(
+      false,
+    );
   });
 
   it('variável errada impede a API de subir, citando o nome e nunca o valor', () => {

@@ -125,6 +125,15 @@ describe('limparEvento (23.1.4)', () => {
     expect(limpo.extra).toBeUndefined();
   });
 
+  it('Fase 26 (BL-05.4): a invariante violada e os ids dos registros saem (ids gerados, sem dados pessoais)', () => {
+    const limpo = limparEvento({
+      tags: { rotina: 'invariantes', invariante: 'INV-1', paciente: 'Ana' },
+      contexts: { invariante: { inv: 'INV-1', ids: ['lei-1', 'int-2'] } },
+    });
+    expect(limpo.tags).toEqual({ rotina: 'invariantes', invariante: 'INV-1' });
+    expect(limpo.contexts).toEqual({ invariante: { inv: 'INV-1', ids: ['lei-1', 'int-2'] } });
+  });
+
   it('migalhas: digitação sai, clique fica só com a categoria, navegação sem parâmetros', () => {
     const migalhas = limparEvento(eventoComPacienteInteiro()).breadcrumbs!;
     expect(migalhas.map((m) => m.category)).toEqual(['console', 'ui.click', 'navigation', 'fetch']);

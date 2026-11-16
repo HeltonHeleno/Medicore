@@ -68,11 +68,11 @@
 | Ordem | Código | Item | Horizonte | Esforço | Depende de | Status |
 |:---:|---|---|:---:|:---:|---|:---:|
 | 1 | BL-60 | Integração contínua no GitHub (lint, testes, e2e a cada push) — Fase 22: rodando no GitHub; falta ligar os Deployment Checks na Vercel | Agora | P | — | 🟨 |
-| 2 | BL-01 | Backend real (API + banco de dados) — Fases 24 e 25 (2/4) prontas | Agora | G | — | 🟨 |
+| 2 | BL-01 | Backend real (API + banco de dados) — Fases 24 a 26 (3/4) prontas | Agora | G | — | 🟨 |
 | 3 | BL-02 | Autenticação e perfis de acesso | Agora | G | BL-01 | 🟨 |
 | 4 | BL-03 | Auditoria de acesso (LGPD) | Agora | M | BL-01, BL-02 | 🟨 |
 | 5 | BL-04 | Criptografia, backup e guarda dos dados | Agora | M | BL-01 | 🟨 |
-| 6 | BL-05 | Monitoramento de erros (ex.: Sentry) — Fase 23: código pronto, falta o DSN | Agora | P | — | 🟨 |
+| 6 | BL-05 | Monitoramento de erros (ex.: Sentry) — Fase 23: código pronto, falta o DSN; invariantes no servidor (BL-05.4) na Fase 26 | Agora | P | — | 🟨 |
 | 7 | BL-10 | Horários por dia da semana e bloqueios de agenda | Próximo | M | — | 🟨 |
 | 8 | BL-13 | Pacientes sem CPF (recém-nascido, estrangeiro, CNS) | Próximo | M | — | 🟨 |
 | 9 | BL-18 | Cadastro estruturado de alergias | Próximo | M | — | 🟨 |

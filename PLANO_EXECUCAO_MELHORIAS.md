@@ -4,7 +4,7 @@
 > **Base:** [`PLANO_MELHORIAS_MEDICORE.md`](PLANO_MELHORIAS_MEDICORE.md) (Revisão 1), que é a **especificação**: decisões, processos, regras e critérios. Em caso de dúvida, vale a especificação.
 > **Fases:** 22 a 64, em 4 ondas, precedidas da Etapa 0 (preparação) e com um encerramento por onda (versões 2.0.0, 2.3.0, 2.9.0 e 3.x).
 > **Estimativa:** ~231 dias úteis (1 desenvolvedor) se todos os itens da Onda 4 forem aprovados · ver [cronograma](#-cronograma-por-onda)
-> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 (6 de 12 tarefas; o resto depende de você) Fase 22 (falta ligar os Deployment Checks na Vercel) e Fase 23 (código pronto; falta o Sentry e o DSN) Fase 24 ✅ e Fase 25 (código pronto; falta a CI no GitHub). Versão 1.2.0 publicada em 13/11/2026
+> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 (6 de 12 tarefas; o resto depende de você) Fase 22 (falta ligar os Deployment Checks na Vercel) e Fase 23 (código pronto; falta o Sentry e o DSN) Fase 24 ✅, Fase 25 (código pronto; a CI da `main` volta a ficar verde com o 1º commit da Fase 26) e Fase 26 (código pronto; falta a CI no GitHub). Versão 1.2.0 publicada em 13/11/2026
 
 ---
 
@@ -61,8 +61,8 @@
 | Fase 23 | BL-05 Monitoramento de erros | 4 | 12 | 2 | 🟨 | 13/11 | |
 | Fase 24 | BL-01 Backend (1/4): monorepo, API, banco e contrato | 3 | 23 | 8 | ✅ | 16/11 | 16/11 |
 | Fase 25 | BL-01 Backend (2/4): cadastros e agenda | 1 | 12 | 7 | 🟨 | 16/11 | |
-| Fase 26 | BL-01 Backend (3/4): leitos, emergência, farmácia e rotinas | 2 | 15 | 9 | ⬜ | | |
-| Fase 27 | BL-01 Backend (4/4): navegador na API e ambientes | 2 | 13 | 5 | ⬜ | | |
+| Fase 26 | BL-01 Backend (3/4): leitos, emergência, farmácia e rotinas | 2 | 15 | 9 | 🟨 | 16/11 | |
+| Fase 27 | BL-01 Backend (4/4): navegador na API e ambientes | 2 | 14 | 5 | ⬜ | | |
 | Fase 28 | BL-02 Autenticação e perfis | 7 | 21 | 8 | ⬜ | | |
 | Fase 29 | BL-03 Auditoria (LGPD) | 5 | 11 | 4 | ⬜ | | |
 | Fase 30 | BL-04 Criptografia, backup e guarda | 6 | 9 | 4 | ⬜ | | |
@@ -107,7 +107,7 @@
 | Fase 63 | BL-46 Central de mensagens | 4 | 5 | 8 | ⬜ | | |
 | Fase 64 | BL-52 Outros idiomas | 4 | 5 | 5 | ⬜ | | |
 | Encerramento 4 | Versão 3.x | — | 4 | 0,5 | ⬜ | | |
-| **Total** | **40 melhorias** | **161** | **407** | **~231** | ⬜ | | |
+| **Total** | **40 melhorias** | **161** | **408** | **~231** | ⬜ | | |
 
 **Ordem das ondas**
 
@@ -360,29 +360,29 @@ flowchart LR
 **Objetivo:** L1–L9, E1–E10, F1–F9, R-X e indicadores no servidor; rotinas sem depender de alguém abrir o sistema. **Duração:** 9 dias. **Branch:** `feat/fase-26-backend-modulos`. **Especificação:** BL-01.5, BL-01.6, R-API3.
 
 ### 26.0 Abertura
-- [ ] **26.0.1** 👤 Criar a branch; listar as transações multi-coleção do inventário e o nível de isolamento de cada uma
+- [x] **26.0.1** 👤 Criar a branch; listar as transações multi-coleção do inventário e o nível de isolamento de cada uma — *16/11: `docs/backend/TRANSACOES.md` (35 gravações + retenção; leituras `REPEATABLE READ`, gravações `SERIALIZABLE` com trava por área). Antes, correção da CI da `main` (papel `medicore_app` criado ao mesmo tempo por dois arquivos de teste)*
 
 ### 26.1 Módulos operacionais no servidor · BL-01.5
-- [ ] **26.1.1** ⭐ Leitos: L1–L9, mapa, compatíveis (A11), pedidos de leito; transações `SERIALIZABLE` com nova tentativa (R-API3)
-- [ ] **26.1.2** ⭐ Emergência: E1–E10, fila (A7), número do atendimento (A8) com `UNIQUE (dia, numero)` e nova tentativa
-- [ ] **26.1.3** ⭐ Farmácia: F1–F9, FEFO (A9) com `SELECT … FOR UPDATE` nos lotes, livro de controlados
-- [ ] **26.1.4** Regras entre módulos: óbito (R-X7), situação hospitalar (R-X8), pendências (R-X2–R-X4)
-- [ ] **26.1.5** Indicadores (A12–A14) e resumo de estoque como rotas de leitura, com o mesmo resultado de hoje
-- [ ] **26.1.6** Janelas de correção (D19) com a hora do servidor
+- [x] **26.1.1** ⭐ Leitos: L1–L9, mapa, compatíveis (A11), pedidos de leito; transações `SERIALIZABLE` com nova tentativa (R-API3) — *as regras do navegador rodam sobre uma unidade de trabalho no banco (`servicos/operacoes/unidade.ts`); 24 rotas*
+- [x] **26.1.2** ⭐ Emergência: E1–E10, fila (A7), número do atendimento (A8) com `UNIQUE (dia, numero)` e nova tentativa — *15 rotas; número repetido faz a chegada rodar de novo*
+- [x] **26.1.3** ⭐ Farmácia: F1–F9, FEFO (A9) com `SELECT … FOR UPDATE` nos lotes, livro de controlados — *23 rotas; movimentações lidas só por medicamento ou filtro*
+- [x] **26.1.4** Regras entre módulos: óbito (R-X7), situação hospitalar (R-X8), pendências (R-X2–R-X4) — *10 testes portados; inativar × internar ao mesmo tempo testado*
+- [x] **26.1.5** Indicadores (A12–A14) e resumo de estoque como rotas de leitura, com o mesmo resultado de hoje — *6 rotas; 10 testes portados (72% de ocupação, alertas)*
+- [x] **26.1.6** Janelas de correção (D19) com a hora do servidor — *desfazer alta, reabrir e estornar usam o relógio da API; testes de janela portados*
 
 ### 26.2 Rotinas do servidor · BL-01.6
-- [ ] **26.2.1** Agendador com trava no banco (uma execução por dia, mesmo com mais de uma instância da API)
-- [ ] **26.2.2** Retenção e resumos mensais (A15); os tetos por coleção da D15 deixam de existir · ✔ teste da retenção contra o banco
-- [ ] **26.2.3** Rotina do dia: `lote_vencido` e `estoque_baixo`
-- [ ] **26.2.4** ⭐ Verificação das invariantes (A17) toda madrugada; violação vira evento no Sentry com os ids · 🔗 BL-05.4
+- [x] **26.2.1** Agendador com trava no banco (uma execução por dia, mesmo com mais de uma instância da API) — *tabela `rotinas` (migração 0003); a cada 15 min; testado com duas instâncias. Na Fase 27: 1 instância mínima no Cloud Run ou Cloud Scheduler*
+- [x] **26.2.2** Retenção e resumos mensais (A15); os tetos por coleção da D15 deixam de existir · ✔ teste da retenção contra o banco — *movimentações nunca saem (R-F9), então os lotes também ficam*
+- [x] **26.2.3** Rotina do dia: `lote_vencido` e `estoque_baixo`
+- [x] **26.2.4** ⭐ Verificação das invariantes (A17) toda madrugada; violação vira evento no Sentry com os ids · 🔗 BL-05.4 — *marcador e contexto `invariante` liberados na limpeza*
 
 ### 26.T Testes
-- [ ] **26.T.1** ⭐ Os testes de serviço de leitos, emergência e farmácia rodam contra o banco · ✔ todas as asserções verdes
-- [ ] **26.T.2** ⭐ Teste de 500 operações aleatórias contra a API, com `verificarConsistencia()` depois de cada uma · ✔ 3 sementes sem violação
-- [ ] **26.T.3** Concorrência real: duas transações no mesmo leito (E-11) e no último estoque (E-12)
+- [x] **26.T.1** ⭐ Os testes de serviço de leitos, emergência e farmácia rodam contra o banco · ✔ todas as asserções verdes — *87 de 87; 6 asserções ajustadas na forma (campo apagado não vem no JSON; 100 por página)*
+- [x] **26.T.2** ⭐ Teste de 500 operações aleatórias contra a API, com `verificarConsistencia()` depois de cada uma · ✔ 3 sementes sem violação — *50 s*
+- [x] **26.T.3** Concorrência real: duas transações no mesmo leito (E-11) e no último estoque (E-12) — *6 cenários × 3 rodadas (+ A8, E-14, R-X2, E-16) e 3 da nova tentativa. Achado: a trava consultiva tirava o retrato antes de esperar; trocada por `LOCK TABLE`*
 
 ### 26.F Fechamento
-- [ ] **26.F.1** CI verde; `docs/PR_FASE_26.md`; painel; 👤 PR mesclado
+- [ ] **26.F.1** CI verde; `docs/PR_FASE_26.md`; painel; 👤 PR mesclado — *`docs/PR_FASE_26.md`; 👤 falta a CI no GitHub e o PR*
 
 ## Fase 27 — BL-01 Backend (4/4): o navegador usa a API e ambientes
 
@@ -401,10 +401,11 @@ flowchart LR
 - [ ] **27.2.1** Prévia por PR com banco de homologação; demonstração com a semeadura dos dados de exemplo
 - [ ] **27.2.2** "Restaurar dados de exemplo" vira rotina da demonstração (só lá)
 - [ ] **27.2.3** Aviso único no primeiro acesso depois da troca: "Os dados de exemplo agora ficam no servidor" · 🔗 D27
+- [ ] **27.2.4** Rotinas do dia na nuvem (vinda da 26.2.1): o Cloud Run para o relógio quando escala para zero; deixar 1 instância mínima ou chamar as rotinas pelo Cloud Scheduler · ✔ a tabela `rotinas` mostra a execução de cada dia em homologação
 
 ### 27.T Testes
 - [ ] **27.T.1** ⭐ Cenários e2e 1 a 10 contra a API local (a CI sobe API, banco e app) · ✔ 3 vezes seguidas verdes
-- [ ] **27.T.2** Carga: 50 usuários simultâneos com k6 nas telas operacionais · ✔ p95 < 300 ms por chamada · 🔗 RS-22
+- [ ] **27.T.2** Carga: 50 usuários simultâneos com k6 nas telas operacionais · ✔ p95 < 300 ms por chamada · 🔗 RS-22 — *medir também a unidade de trabalho da Fase 26 (lê as tabelas pequenas inteiras a cada gravação; a lista de movimentações sem filtro lê todas)*
 - [ ] **27.T.3** Lighthouse ≥ 90 no Painel, mapa, fila, estoque e dispensar
 
 ### 27.V Verificação
@@ -1362,4 +1363,6 @@ flowchart LR
 | 16/11/2026 | Fase 24 | Monorepo (`apps/web`, `apps/api`, `packages/dominio`), API Fastify com PostgreSQL 16 e Drizzle (13 tabelas, restrições da D25, papel sem UPDATE/DELETE em movimentações), contrato de erros nos dois sentidos, ETag/If-Match, listas e OpenAPI. 787 Vitest (domínio 199, app 536, API 52) e 139 e2e. Desvios: os textos (`i18n`) foram para o domínio junto com os esquemas; o Docker Hub está bloqueado nesta sessão, então os testes da API usaram um PostgreSQL 16 local (`TEST_DATABASE_URL`) e o Compose/Dockerfile ficam para conferir numa máquina com Docker. Achados: (1) o Drizzle põe SQL e valores na mensagem de erro → trocada antes do log e do Sentry; (2) a ordem de texto do banco precisa da colação `pt_br_base` para ficar igual à das telas; (3) a busca das rotas da Fase 25 precisa ignorar acentos (anotado na 25.1.1); (4) o Tailwind lia os `.md` da raiz e gerava 10 classes que nenhuma tela usa (CSS −0,3 kB) |
 | 16/11/2026 | Fase 24 | CI do PR #9 e da `main` verde, inclusive o job "API e banco" com Testcontainers. O PR foi mesclado às 09:47, antes do fim da execução (como o #8): reforça a antecipação da Fase 41 |
 | 16/11/2026 | Fase 25 | Cadastros e agenda no servidor: 33 rotas, serviços com as regras do navegador numa transação, cliente HTTP com as mesmas assinaturas. Os 40 testes de serviço do navegador rodam contra a API com as mesmas asserções. API com 173 testes (100% de linhas), domínio 217, app 528, e2e 139. Ajustes de regra: R-API1 (`If-Match` só obrigatório nas edições) e R-API2 (agenda como janela de datas). Achados: o Drizzle tira o nome da tabela das colunas no SELECT de uma tabela só (a subconsulta da próxima consulta voltava vazia); travas da agenda e `FOR SHARE` para não sobrar consulta de médico inativado ao mesmo tempo |
+| 16/11/2026 | Fase 25 | CI vermelha na `main` depois do merge do PR #10: dois arquivos de teste da API criavam o papel `medicore_app` ao mesmo tempo (23505). Corrigido no 1º commit da Fase 26 (papel criado antes dos testes; a migração ignora o erro se outra criar junto) |
+| 16/11/2026 | Fase 26 | Leitos, emergência, farmácia, R-X, indicadores e rotinas no servidor: 67 caminhos novos (95 no total), as regras do navegador rodando sobre uma unidade de trabalho no banco (`SERIALIZABLE`, nova tentativa até 3 vezes, trava por área), agendador com a tabela `rotinas` (uma vez por dia, várias instâncias), invariantes no monitoramento. Os 87 testes de serviço dos módulos rodam contra a API (6 asserções ajustadas só na forma); 500 operações aleatórias × 3 sementes pela API sem violação. API 320 testes (97,6% de linhas), domínio 222, app 528. Achados: (1) `pg_advisory_xact_lock` no `SERIALIZABLE` tira o retrato antes de esperar — trocado por `LOCK TABLE` (os testes de chegadas simultâneas pegaram); (2) a R-F9 impede a retenção de apagar movimentações no servidor, então os lotes também ficam; (3) a R-X3 da Fase 25 fazia consultas juntas na mesma conexão (aviso do `pg` 9). Pendente para a Fase 27: rotinas com o Cloud Run escalando para zero (1 instância mínima ou Cloud Scheduler) |
 | | | |

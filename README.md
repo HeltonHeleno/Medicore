@@ -84,8 +84,11 @@ npm run dev                            # API (http://localhost:3000) e app junto
 
 A documentação da API fica em http://localhost:3000/api/v1/docs (cópia em
 `docs/backend/openapi.json`). Desde a Fase 25, a API tem os cadastros e a agenda (pacientes,
-médicos, consultas, atividades e os indicadores dos cadastros no Painel); os módulos chegam na
-Fase 26. Até a Fase 27, o app ainda usa os dados do navegador.
+médicos, consultas, atividades e os indicadores dos cadastros no Painel); desde a Fase 26, também
+leitos, emergência, farmácia, os indicadores dos módulos e as rotinas do dia (retenção, lote
+vencido e a conferência das invariantes, uma vez por dia; `ROTINAS=nao` desliga numa instância).
+As transações e travas estão em `docs/backend/TRANSACOES.md`. Até a Fase 27, o app ainda usa os
+dados do navegador.
 
 Na primeira execução, os dados de exemplo são criados automaticamente:
 
