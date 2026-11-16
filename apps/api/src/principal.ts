@@ -18,13 +18,32 @@ try {
 
 const registrarErro = await iniciarMonitoramento(config, VERSAO_API);
 const banco = conectar(config.DATABASE_URL, config.BANCO_CONEXOES);
-const app = await criarServidor({ config, banco, registrarErro });
-const pararRotinas = config.ROTINAS ? iniciarAgendador(banco, registrarErro) : () => {};
+// Fase 27: a conexão do dono das tabelas, só onde é preciso apagar tudo e semear de novo: as rotas
+// de teste (AMBIENTE=teste, ver config.ts) e a restauração diária da demonstração (27.2.2).
+const precisaDoDono = config.ROTAS_TESTE || config.AMBIENTE === 'demonstracao';
+const bancoDono = precisaDoDono
+  ? conectar(config.DATABASE_URL_MIGRACAO ?? config.DATABASE_URL, 2)
+  : undefined;
+const opcoesRotinas =
+  config.AMBIENTE === 'demonstracao' ? { restaurarDemonstracao: bancoDono } : {};
+const app = await criarServidor({
+  config,
+  banco,
+  registrarErro,
+  bancoDeTeste: config.ROTAS_TESTE ? bancoDono : undefined,
+  rotinas: config.ROTINAS_CHAVE
+    ? { chave: config.ROTINAS_CHAVE, opcoes: opcoesRotinas }
+    : undefined,
+});
+const pararRotinas = config.ROTINAS
+  ? iniciarAgendador(banco, registrarErro, undefined, opcoesRotinas)
+  : () => {};
 
 const encerrar = async () => {
   pararRotinas();
   await app.close();
   await desconectar(banco);
+  if (bancoDono) await desconectar(bancoDono);
   process.exit(0);
 };
 process.on('SIGTERM', () => void encerrar());

@@ -6,9 +6,9 @@
  * 3 medicamentos com estoque baixo). Só para os ambientes de desenvolvimento, teste, homologação e
  * demonstração (D27): nunca em produção.
  *
- * Uso: `npm run db:semear` (recusa se o banco já tiver pacientes, a não ser com `--substituir`).
+ * Uso: `npm run db:semear` (`semear-cli.ts`; recusa se o banco já tiver pacientes, a não ser com
+ * `--substituir`).
  */
-import { fileURLToPath } from 'node:url';
 import { semearAtividades } from '@medicore/dominio/seeds/atividades';
 import { semearConsultas } from '@medicore/dominio/seeds/consultas';
 import { semearMedicos } from '@medicore/dominio/seeds/medicos';
@@ -19,7 +19,7 @@ import { dataDoInstante } from '@medicore/dominio/utils/datas';
 import { agora } from '@medicore/dominio/utils/relogio';
 import { count, getTableName, sql } from 'drizzle-orm';
 import type { PgInsertValue, PgTable } from 'drizzle-orm/pg-core';
-import { conectar, desconectar, type Banco } from './conexao';
+import type { Banco } from './conexao';
 import * as e from './esquema';
 
 const MINUTO = 60_000;
@@ -114,27 +114,3 @@ export async function semear(
     },
   };
 }
-
-// Linha de comando (`npm run db:…`): exercitada pela CI e pelo Docker Compose, não pelo Vitest.
-/* v8 ignore start */
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
-  if (process.env.AMBIENTE === 'producao') {
-    console.error('A semeadura dos dados de exemplo não roda em produção (D27).');
-    process.exit(2);
-  }
-  const url = process.env.DATABASE_URL_MIGRACAO || process.env.DATABASE_URL;
-  if (!url) {
-    console.error('Defina DATABASE_URL_MIGRACAO (ou DATABASE_URL).');
-    process.exit(2);
-  }
-  const banco = conectar(url, 1);
-  try {
-    const { contagens } = await semear(banco, {
-      substituir: process.argv.includes('--substituir'),
-    });
-    console.log('Dados de exemplo gravados:', contagens);
-  } finally {
-    await desconectar(banco);
-  }
-}
-/* v8 ignore stop */

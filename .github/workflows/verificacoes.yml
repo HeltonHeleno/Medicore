@@ -194,10 +194,68 @@ jobs:
             apps/web/test-results/
           retention-days: 14
 
+  e2e-api:
+    # Fase 27 (27.T.1): os cenários 1 a 10 com o app no modo API, contra a API e um PostgreSQL 16.
+    name: Ponta a ponta com a API
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: medicore_e2e
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s
+          --health-retries 10
+    env:
+      E2E_API: http://localhost:3100
+      E2E_DATABASE_URL: postgres://postgres:postgres@localhost:5432/medicore_e2e
+      E2E_DATABASE_URL_APP: postgres://medicore_api_e2e:e2e@localhost:5432/medicore_e2e
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Usuário da API no papel da aplicação (sem DELETE em movimentações)
+        run: |
+          psql "$E2E_DATABASE_URL" -v ON_ERROR_STOP=1 \
+            -c "create role medicore_app nologin" \
+            -c "create role medicore_api_e2e login password 'e2e' in role medicore_app"
+      - name: Versão do Playwright
+        id: playwright
+        run: echo "versao=$(npx playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+      - name: Cache do Chromium
+        id: cache-navegador
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.versao }}
+      - name: Instalar o Chromium
+        if: ${{ steps.cache-navegador.outputs.cache-hit != 'true' }}
+        run: npx playwright install --with-deps --only-shell chromium
+      - name: Dependências do sistema para o Chromium
+        if: ${{ steps.cache-navegador.outputs.cache-hit == 'true' }}
+        run: npx playwright install-deps chromium
+      - name: Cenários 1 a 10 contra a API
+        run: npm run test:e2e
+      - name: Relatório e traces das falhas
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-api
+          path: |
+            apps/web/playwright-report/
+            apps/web/test-results/
+          retention-days: 14
+
   verificacoes:
     name: verificacoes
     if: ${{ always() }}
-    needs: [estatica, testes, api, pacote, e2e]
+    needs: [estatica, testes, api, pacote, e2e, e2e-api]
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:

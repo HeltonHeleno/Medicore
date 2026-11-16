@@ -49,6 +49,16 @@ export function responderComVersao(
   return false;
 }
 
+/**
+ * Fase 27 — Registro com campos calculados na hora (atrasada, minutos no status, até quando dá para
+ * desfazer): o `ETag` vai (é a versão para o `If-Match`), mas nunca há 304. A mesma versão pode ter
+ * outro conteúdo depois que o tempo passa; a resposta também não fica no cache do navegador.
+ */
+export function informarVersao(resposta: FastifyReply, versao: number): void {
+  resposta.header('ETag', etag(versao));
+  resposta.header('Cache-Control', 'no-store');
+}
+
 type TabelaComVersao = PgTable & {
   id: PgColumn;
   versao: PgColumn;

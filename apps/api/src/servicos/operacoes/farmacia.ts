@@ -9,6 +9,7 @@
  */
 import * as esquemas from '@medicore/dominio/schemas/farmacia';
 import { to } from '@medicore/dominio/i18n/pt-BR/operacoes';
+import { nomeMedicamento, quantidadeComUnidade } from '@medicore/dominio/utils/operacoes';
 import { and, eq, sql, type SQL } from 'drizzle-orm';
 import { movimentacoes } from '../../banco/esquema';
 import {
@@ -94,11 +95,7 @@ import { transacao } from './repos';
 const ta = t.textosAtividade;
 
 /** "60 comprimidos" */
-export const quantidadeComUnidade = (m: Pick<Medicamento, 'unidade'>, n: number) =>
-  `${n.toLocaleString('pt-BR')} ${tf.unidades[m.unidade](n)}`;
-/** "Dipirona sódica 500 mg" */
-export const nomeMedicamento = (m: Pick<Medicamento, 'nome' | 'concentracao'>) =>
-  `${m.nome} ${m.concentracao}`;
+export { nomeMedicamento, quantidadeComUnidade };
 
 const lotesDe = (medicamentoId: string) =>
   repoLotes.todos().filter((l) => l.medicamentoId === medicamentoId);

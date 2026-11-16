@@ -24,6 +24,8 @@ await build({
   entryPoints: {
     principal: join(RAIZ, 'src', 'principal.ts'),
     migrar: join(RAIZ, 'src', 'banco', 'migrar.ts'),
+    // Fase 27: dados de exemplo da homologação e da demonstração (`--se-vazio`; nunca em produção).
+    semear: join(RAIZ, 'src', 'banco', 'semear-cli.ts'),
   },
   outdir: join(RAIZ, 'dist'),
   bundle: true,

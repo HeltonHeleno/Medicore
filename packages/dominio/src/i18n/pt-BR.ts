@@ -377,7 +377,12 @@ export const t = {
 
   erro: {
     carregar: 'Não foi possível carregar os dados.',
+    /** E-22 ao carregar (modo API, Fase 27). */
+    carregarSemConexao: 'Sem conexão com o servidor. Confira a internet e tente de novo.',
     tentarNovamente: 'Tentar novamente',
+    /** E-22 ao gravar: o botão do aviso reenvia a gravação. */
+    tentarDeNovo: 'Tentar de novo',
+    reenviado: 'Alterações salvas.',
     simulado: 'Erro simulado (VITE_SIMULAR_ERRO ativo).',
   },
 
@@ -451,6 +456,14 @@ export const t = {
       'Todos os cadastros e consultas feitos neste navegador serão apagados. Esta ação não pode ser desfeita.',
     restaurarConfirmar: 'Apagar e restaurar',
     restaurados: 'Dados de exemplo restaurados',
+    /** Fase 27 (27.2.2): com a API, quem restaura é a rotina da demonstração. */
+    restaurarNoServidor:
+      'Os dados de exemplo ficam no servidor e são restaurados todo dia, de madrugada, no ambiente de demonstração.',
+    /** Fase 27 (27.2.3, D27): aviso único no primeiro acesso depois da troca. */
+    servidorTitulo: 'Os dados de exemplo agora ficam no servidor',
+    servidorMensagem:
+      'O que estava salvo só neste navegador não foi levado (eram dados fictícios). As mudanças agora aparecem para todas as pessoas que usam a demonstração.',
+    servidorEntendi: 'Entendi',
   },
 
   rota: {

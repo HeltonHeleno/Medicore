@@ -10,7 +10,7 @@ import { esquemaAgendamento, esquemaCancelamento } from '@medicore/dominio/schem
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import { z } from 'zod';
 import type { Banco } from '../banco/conexao';
-import { naoModificado, responderComVersao, versaoExigida } from '../http/versao';
+import { informarVersao, responderComVersao, versaoExigida } from '../http/versao';
 import * as s from '../servicos/consultas';
 
 const comId = z.object({ id: z.string() });
@@ -36,7 +36,8 @@ export function rotasConsultas(banco: Banco): FastifyPluginAsyncZod {
       { schema: { tags, params: comId, response: { 200: consultaDetalhada } } },
       async (req, res) => {
         const c = await s.obterConsulta(banco, req.params.id);
-        if (responderComVersao(req, res, c.versao)) return naoModificado(res);
+        // `atrasada` muda com o tempo: ETag sem 304 (Fase 27).
+        informarVersao(res, c.versao);
         return c;
       },
     );

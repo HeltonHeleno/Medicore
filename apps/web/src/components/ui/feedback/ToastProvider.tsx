@@ -83,10 +83,32 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const fechar = useCallback((id: string) => setToasts((l) => l.filter((x) => x.id !== id)), []);
 
   const api = useMemo<ApiToast>(() => {
+    const reenviar = async () => {
+      const [{ repetirUltimaGravacao }, { erroDeResposta }] = await Promise.all([
+        import('../../../services/api/rede'),
+        import('@medicore/dominio/contrato/erros'),
+      ]);
+      const r = await repetirUltimaGravacao();
+      if (!r) return;
+      if (r.status > 0 && r.status < 400) adicionar('sucesso')(t.erro.reenviado);
+      else adicionar('erro')(erroDeResposta(r.status, r.corpo).message);
+    };
     const adicionar =
       (tipo: TipoToast) =>
       (mensagem: string, opcoes: OpcoesToast = {}) => {
         const id = `toast-${++contador.current}`;
+        // E-22 (modo API, Fase 27): "Tentar de novo" reenvia a gravação que falhou por rede.
+        if (
+          import.meta.env.VITE_API_URL &&
+          tipo === 'erro' &&
+          mensagem === t.erros.rede &&
+          !opcoes.acao
+        ) {
+          opcoes = {
+            ...opcoes,
+            acao: { rotulo: t.erro.tentarDeNovo, aoClicar: () => void reenviar() },
+          };
+        }
         setToasts((l) => [...l, { id, tipo, mensagem, ...opcoes }].slice(-MAXIMO));
         return id;
       };

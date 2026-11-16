@@ -3,6 +3,7 @@
  * As ações seguem a matriz de ações por estado; o que não vale no estado atual dá E-16.
  */
 import { to } from '@medicore/dominio/i18n/pt-BR/operacoes';
+import { DESFECHO_PERMITIDO, desfechosPermitidos } from '@medicore/dominio/utils/operacoes';
 import {
   EVASAO_MIN,
   JANELAS_CORRECAO_H,
@@ -27,7 +28,6 @@ import type {
   Medico,
   Paginado,
   StatusAtendimento,
-  TipoDesfecho,
 } from '@medicore/dominio/types';
 import { autorAtual } from '@medicore/dominio/utils/autor';
 import { paginar } from '@medicore/dominio/utils/busca';
@@ -440,22 +440,8 @@ export const solicitarLeito = async (
   );
 };
 
-/** Matriz de ações: em quais status cada desfecho direto vale (E5). */
-const DESFECHO_PERMITIDO: Record<
-  Exclude<TipoDesfecho, 'internacao'>,
-  readonly StatusAtendimento[]
-> = {
-  alta: ['em_atendimento', 'em_observacao', 'aguardando_leito'],
-  transferencia: ['em_atendimento', 'em_observacao', 'aguardando_leito'],
-  obito: ['aguardando_atendimento', 'em_atendimento', 'em_observacao', 'aguardando_leito'],
-  evasao: ['aguardando_triagem', 'aguardando_atendimento'],
-};
-
-/** Desfechos que valem para o status (para a tela montar o diálogo). */
-export const desfechosPermitidos = (status: StatusAtendimento) =>
-  (Object.keys(DESFECHO_PERMITIDO) as (keyof typeof DESFECHO_PERMITIDO)[]).filter((d) =>
-    DESFECHO_PERMITIDO[d].includes(status),
-  );
+/** Matriz de ações (E5): no domínio, para valer igual no navegador e no servidor. */
+export { desfechosPermitidos };
 
 export interface ResultadoEncerramento {
   atendimento: Atendimento;

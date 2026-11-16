@@ -15,9 +15,10 @@
     "openapi": "tsx scripts/gerar-openapi.ts",
     "db:gerar": "drizzle-kit generate",
     "db:migrar": "tsx --env-file-if-exists=.env src/banco/migrar.ts",
-    "db:semear": "tsx --env-file-if-exists=.env src/banco/semear.ts"
+    "db:semear": "tsx --env-file-if-exists=.env src/banco/semear-cli.ts"
   },
   "dependencies": {
+    "@fastify/cors": "11.3.1",
     "@fastify/swagger": "9.9.3",
     "@fastify/swagger-ui": "6.1.2",
     "@medicore/dominio": "*",

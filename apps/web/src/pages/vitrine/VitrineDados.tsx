@@ -20,8 +20,13 @@ export function VitrineDados() {
       perigo: true,
     });
     if (!ok) return;
-    restaurarDadosExemplo();
-    toast.sucesso(d.restaurados);
+    try {
+      restaurarDadosExemplo();
+      toast.sucesso(d.restaurados);
+    } catch (e) {
+      // Modo API (Fase 27): quem restaura é a rotina da demonstração, no servidor.
+      toast.aviso(e instanceof Error ? e.message : d.restaurarNoServidor);
+    }
   }
 
   return (

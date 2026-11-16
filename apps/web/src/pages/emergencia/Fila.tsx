@@ -1,5 +1,5 @@
 import { AlertTriangle, Plus } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ListaFila } from '../../components/emergencia/ListaFila';
 import { GRUPOS_FILA } from '../../components/emergencia/fila';
@@ -16,7 +16,11 @@ import { useAcoesAtendimento } from '../../hooks/useAcoesAtendimento';
 import { useAlertas, useFila, useIndicadoresEmergencia } from '../../hooks/useDadosOperacoes';
 import { useFiltrosUrl } from '../../hooks/useFiltrosUrl';
 import { te } from '@medicore/dominio/i18n/pt-BR/emergencia';
-import type { AlertaOperacional, FilaEmergencia } from '@medicore/dominio/types';
+import type {
+  AlertaOperacional,
+  AtendimentoDetalhado,
+  FilaEmergencia,
+} from '@medicore/dominio/types';
 import { CORES_RISCO } from '@medicore/dominio/types/emergencia';
 import { cn } from '../../utils/cn';
 import { abasEmergencia } from './abas';
@@ -109,6 +113,10 @@ export default function Fila() {
   const acoes = useAcoesAtendimento();
   const anuncio = useAnuncioPrioritario(fila.data);
   const naAbaAlertas = filtros.aba === 'alertas';
+  // A lista é a parte pesada da tela: não redesenha quando chegam os indicadores ou os alertas
+  // (no modo API, cada um chega numa hora; Fase 27, Lighthouse).
+  const { executar } = acoes;
+  const aoChamar = useCallback((a: AtendimentoDetalhado) => executar('chamar', a), [executar]);
 
   const opcoesMostrar = [
     { valor: '', rotulo: f.todos },
@@ -169,11 +177,7 @@ export default function Fila() {
             {fila.erro ? (
               <ErrorState aoTentarNovamente={fila.recarregar} />
             ) : fila.data ? (
-              <ListaFila
-                fila={fila.data}
-                mostrar={filtros.mostrar}
-                aoChamar={(a) => acoes.executar('chamar', a)}
-              />
+              <ListaFila fila={fila.data} mostrar={filtros.mostrar} aoChamar={aoChamar} />
             ) : (
               <div aria-busy="true">
                 <SkeletonLinhas linhas={6} />

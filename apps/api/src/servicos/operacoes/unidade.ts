@@ -379,7 +379,10 @@ export class Unidade {
     const l = this.lido(nome);
     const tabela = CONFIG[nome].tabela;
     for (const linha of linhas) {
-      const item = congelar(deLinha<Item>(tabela, linha));
+      // Congelar pega, nas gravações, uma regra que alterasse um registro sem `atualizar`; nas
+      // leituras não há o que gravar, e congelar cada linha custa caro.
+      const lida = deLinha<Item>(tabela, linha);
+      const item = this.modo === 'gravacao' ? congelar(lida) : lida;
       if (!l.linhas.has(item.id)) l.linhas.set(item.id, item);
       l.ausentes.delete(item.id);
     }

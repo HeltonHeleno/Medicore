@@ -1,0 +1,82 @@
+# Fase 27 (BL-01.8, D23, D28) — Publica a API no Cloud Run (São Paulo).
+#
+# - A cada push na `main` que mexe na API: homologação e demonstração.
+# - Manual (Actions → "Publicar a API" → Run workflow): um ambiente escolhido.
+# - Só roda depois da configuração única de `docs/backend/PUBLICACAO.md` (variável GCP_PROJETO).
+#
+# Cada ambiente do GitHub (Settings → Environments: homologacao, demonstracao) tem as variáveis:
+#   GCP_PROJETO, GCP_REGIAO, GCP_WIF_PROVEDOR, GCP_CONTA_SERVICO, GCP_CONTA_EXECUCAO,
+#   CLOUDSQL_INSTANCIA, CORS_ORIGENS
+# Os segredos ficam no Secret Manager (nunca no GitHub); o Cloud Run lê direto de lá.
+name: Publicar a API
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/api/**'
+      - 'packages/dominio/**'
+      - 'package-lock.json'
+      - '.github/workflows/publicar-api.yml'
+  workflow_dispatch:
+    inputs:
+      ambiente:
+        description: Ambiente
+        type: choice
+        options: [homologacao, demonstracao]
+        default: homologacao
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publicar:
+    name: Publicar (${{ matrix.ambiente }})
+    if: ${{ vars.GCP_PROJETO != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        ambiente: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.ambiente) || '["homologacao","demonstracao"]') }}
+    environment: ${{ matrix.ambiente }}
+    concurrency: publicar-api-${{ matrix.ambiente }}
+    env:
+      IMAGEM: ${{ vars.GCP_REGIAO }}-docker.pkg.dev/${{ vars.GCP_PROJETO }}/medicore/api:${{ github.sha }}
+      SERVICO: medicore-api-${{ matrix.ambiente }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Entrar no Google Cloud (sem chave, por Workload Identity Federation)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVEDOR }}
+          service_account: ${{ vars.GCP_CONTA_SERVICO }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Construir e enviar a imagem
+        run: |
+          gcloud auth configure-docker "${{ vars.GCP_REGIAO }}-docker.pkg.dev" --quiet
+          docker build -f apps/api/Dockerfile -t "$IMAGEM" .
+          docker push "$IMAGEM"
+      - name: Publicar no Cloud Run
+        env:
+          AMBIENTE: ${{ matrix.ambiente }}
+        run: |
+          gcloud run deploy "$SERVICO" \
+            --project "${{ vars.GCP_PROJETO }}" \
+            --region "${{ vars.GCP_REGIAO }}" \
+            --image "$IMAGEM" \
+            --service-account "${{ vars.GCP_CONTA_EXECUCAO }}" \
+            --add-cloudsql-instances "${{ vars.CLOUDSQL_INSTANCIA }}" \
+            --allow-unauthenticated \
+            --min-instances 0 \
+            --max-instances 3 \
+            --port 3000 \
+            --set-env-vars "^@^AMBIENTE=$AMBIENTE@SEMEAR=se-vazio@ROTINAS=nao@LOG_NIVEL=info@CORS_ORIGENS=${{ vars.CORS_ORIGENS }}" \
+            --set-secrets "DATABASE_URL=medicore-$AMBIENTE-database-url:latest,DATABASE_URL_MIGRACAO=medicore-$AMBIENTE-database-url-migracao:latest,ROTINAS_CHAVE=medicore-$AMBIENTE-rotinas-chave:latest"
+      - name: Conferir a saúde
+        run: |
+          URL="$(gcloud run services describe "$SERVICO" --project "${{ vars.GCP_PROJETO }}" --region "${{ vars.GCP_REGIAO }}" --format 'value(status.url)')"
+          curl --fail --silent --show-error --retry 5 --retry-delay 5 "$URL/api/v1/saude"
+          echo "API publicada: $URL" >> "$GITHUB_STEP_SUMMARY"

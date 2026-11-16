@@ -268,7 +268,7 @@ export default function DetalheAtendimento() {
       />
     );
   }
-  if (erro) return <ErrorState aoTentarNovamente={recarregar} />;
+  if (erro) return <ErrorState erro={erro} aoTentarNovamente={recarregar} />;
   if (!a) {
     return (
       <div aria-busy="true">
