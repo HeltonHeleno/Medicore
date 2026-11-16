@@ -49,17 +49,17 @@ flowchart LR
   - chaves estrangeiras nas relações "para a frente". Os ponteiros de volta (o leito que aponta para a internação) ficam sem chave, para não formar ciclos, e as invariantes (A17) continuam conferindo esses ponteiros.
 - **Restrições (D25):**
 
-  | Regra | Restrição | Erro do banco → conflito |
-  | --- | --- | --- |
-  | CPF único (R-P1) | `UNIQUE` | `cpf_duplicado` |
-  | CRM (número + UF) e e-mail do médico (R-M1) | `UNIQUE` (e-mail sem diferença de maiúsculas) | `crm_duplicado`, `email_duplicado` |
-  | Consultas agendadas do mesmo médico não se sobrepõem (A1/A2) | `EXCLUDE USING gist (medico_id =, tstzrange(inicio, fim) &&) WHERE status = 'agendada'` | `medico_ocupado` (E-04) |
-  | Uma internação ativa por leito e por paciente (R-L1) | índices únicos parciais | `leito_indisponivel`, `paciente_internado` |
-  | Um atendimento aberto por paciente (R-E10) | índice único parcial | `paciente_em_atendimento` |
-  | Número do atendimento único no dia (A8) | `UNIQUE (dia, numero)` | `conflito_dados` (a Fase 26 repete) |
-  | Estoque do lote nunca negativo (INV-8) | `CHECK (quantidade_atual >= 0)` | `estoque_insuficiente` |
-  | Lote não repete no medicamento (F2) | `UNIQUE (medicamento_id, upper(numero))` | `conflito_dados` |
-  | Movimentações imutáveis (R-F9) | papel `medicore_app` sem `UPDATE`, `DELETE` nem `TRUNCATE` | permissão negada |
+  | Regra                                                        | Restrição                                                                               | Erro do banco → conflito                   |
+  | ------------------------------------------------------------ | --------------------------------------------------------------------------------------- | ------------------------------------------ |
+  | CPF único (R-P1)                                             | `UNIQUE`                                                                                | `cpf_duplicado`                            |
+  | CRM (número + UF) e e-mail do médico (R-M1)                  | `UNIQUE` (e-mail sem diferença de maiúsculas)                                           | `crm_duplicado`, `email_duplicado`         |
+  | Consultas agendadas do mesmo médico não se sobrepõem (A1/A2) | `EXCLUDE USING gist (medico_id =, tstzrange(inicio, fim) &&) WHERE status = 'agendada'` | `medico_ocupado` (E-04)                    |
+  | Uma internação ativa por leito e por paciente (R-L1)         | índices únicos parciais                                                                 | `leito_indisponivel`, `paciente_internado` |
+  | Um atendimento aberto por paciente (R-E10)                   | índice único parcial                                                                    | `paciente_em_atendimento`                  |
+  | Número do atendimento único no dia (A8)                      | `UNIQUE (dia, numero)`                                                                  | `conflito_dados` (a Fase 26 repete)        |
+  | Estoque do lote nunca negativo (INV-8)                       | `CHECK (quantidade_atual >= 0)`                                                         | `estoque_insuficiente`                     |
+  | Lote não repete no medicamento (F2)                          | `UNIQUE (medicamento_id, upper(numero))`                                                | `conflito_dados`                           |
+  | Movimentações imutáveis (R-F9)                               | papel `medicore_app` sem `UPDATE`, `DELETE` nem `TRUNCATE`                              | permissão negada                           |
 
 - **Migrações:**
   - `0000_inicial` é gerada pelo Drizzle;
@@ -94,19 +94,19 @@ flowchart LR
 
 ## Números
 
-| Indicador | Fase 23 | Fase 24 |
-| --- | --- | --- |
-| Testes Vitest | 717 (65 arquivos) | **{TOTAL}** — domínio 199 (18), app 536 (48), API 52 (5) |
-| Testes Playwright | 139 | **{E2E}** |
-| Cobertura | 92,2% (app) | app {COB_WEB} · domínio {COB_DOM} · API 100% de linhas |
-| Pacote inicial (gzip) | 154,0 kB | **153,9 kB (−0,1 kB)** · JS +0,2 (classes de erro novas) · CSS −0,3 |
-| Inventário dos serviços | — | 181 funções em 24 arquivos (`docs/backend/INVENTARIO.md`) |
+| Indicador               | Fase 23           | Fase 24                                                             |
+| ----------------------- | ----------------- | ------------------------------------------------------------------- |
+| Testes Vitest           | 717 (65 arquivos) | **787** — domínio 199 (18), app 536 (48), API 52 (5)                |
+| Testes Playwright       | 139               | **139**                                                             |
+| Cobertura               | 92,2% (app)       | app 91,1% de linhas · domínio 95,8% · API 100% de linhas            |
+| Pacote inicial (gzip)   | 154,0 kB          | **153,9 kB (−0,1 kB)** · JS +0,2 (classes de erro novas) · CSS −0,3 |
+| Inventário dos serviços | —                 | 181 funções em 24 arquivos (`docs/backend/INVENTARIO.md`)           |
 
 ## Verificação
 
 - [x] `lint`, `format:check`, `i18n:verificar` e `typecheck` (domínio, app e API) sem achados
 - [x] Domínio e app: os 717 testes de antes (181 + 536) verdes depois da mudança para o monorepo; mais 18 do contrato
-- [x] {E2E} testes de ponta a ponta verdes
+- [x] 139 testes de ponta a ponta verdes (5,4 min com 2 workers)
 - [x] API contra o PostgreSQL 16: restrições (cada uma violada recebe o erro e o conflito certo), semeadura (ida e volta igual, 72%, 3, invariantes), migração idempotente, contrato (17 testes), logs sem dados pessoais
 - [x] `build:api`: `node dist/migrar.js` e `node dist/principal.js` sobem e respondem `/api/v1/saude`
 - [x] Fluxo do Docker Compose simulado num PostgreSQL local (script de inicialização, migração como dono, semeadura e o login da API sem `UPDATE` em movimentações)
