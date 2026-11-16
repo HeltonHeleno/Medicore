@@ -91,3 +91,11 @@ export async function atualizarComVersao<T extends TabelaComVersao>(
 export function naoModificado(resposta: FastifyReply): FastifyReply {
   return resposta.status(304).send();
 }
+
+/**
+ * Ações sobre um registro (inativar, concluir, cancelar sem edição…): o `If-Match` é opcional.
+ * Quando vem, a versão é conferida; as edições de conteúdo (PUT) usam `versaoExigida` (R-API1).
+ */
+export function versaoOpcional(requisicao: FastifyRequest): number | undefined {
+  return versaoDoCabecalho(requisicao.headers['if-match']);
+}

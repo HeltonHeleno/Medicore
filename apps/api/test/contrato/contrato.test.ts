@@ -84,11 +84,18 @@ describe('rotas do sistema', () => {
     expect(docs.headers['content-type']).toMatch(/html/);
   });
 
-  it('toda rota GET sem parâmetros do OpenAPI responde 200 no formato declarado', async () => {
+  it('toda rota GET sem parâmetros obrigatórios do OpenAPI responde 200 no formato declarado', async () => {
     const { corpo } = await chamar('GET', '/api/v1/openapi.json');
-    const rotas = Object.entries(corpo.paths as Record<string, { get?: unknown }>)
+    type Operacao = { parameters?: { required?: boolean }[] };
+    const rotas = Object.entries(corpo.paths as Record<string, { get?: Operacao }>)
       // As rotas `_exemplo` existem só nestes testes.
-      .filter(([caminho, op]) => op.get && !caminho.includes('{') && !caminho.includes('/_'))
+      .filter(
+        ([caminho, op]) =>
+          op.get &&
+          !caminho.includes('{') &&
+          !caminho.includes('/_') &&
+          !(op.get.parameters ?? []).some((p) => p.required),
+      )
       .map(([caminho]) => caminho);
     expect(rotas.length).toBeGreaterThan(0);
     for (const rota of rotas) {

@@ -1,5 +1,5 @@
 import { nomeExibicaoPaciente, obterPaciente } from '../../services/pacientes';
-import { ocultarCpf } from '../../utils/mascaras';
+import { ocultarCpf } from '@medicore/dominio/utils/mascaras';
 import type { OpcaoPaciente } from './ComboboxPaciente';
 
 /** Opção do `ComboboxPaciente` a partir do id (pré-preenchimento por `?pacienteId=`). */

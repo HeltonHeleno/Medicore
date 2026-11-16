@@ -17,7 +17,8 @@ import type {
 import { filtrarPorTermo, ordenar, paginar } from '@medicore/dominio/utils/busca';
 import { idade } from '@medicore/dominio/utils/datas';
 import { gerarId } from '@medicore/dominio/utils/id';
-import { ocultarCpf } from '../utils/mascaras';
+import { nomeExibicaoPaciente } from '@medicore/dominio/utils/cadastros';
+import { ocultarCpf } from '@medicore/dominio/utils/mascaras';
 import { agora } from '@medicore/dominio/utils/relogio';
 import { registrarAtividade } from './atividades';
 import { repoConsultas, repoPacientes } from './colecoes';
@@ -30,9 +31,7 @@ import {
 import { executar } from './infra';
 import { transacao } from './repositorio';
 
-/** R-P6: nome social, quando houver, é o nome exibido. */
-export const nomeExibicaoPaciente = (p: Pick<Paciente, 'nome' | 'nomeSocial'>) =>
-  p.nomeSocial || p.nome;
+export { nomeExibicaoPaciente };
 
 export const filtrarStatus = <T extends { ativo: boolean }>(
   itens: readonly T[],

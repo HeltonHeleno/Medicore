@@ -2,8 +2,8 @@
  * Formatação de documentos para exibição.
  * (A Fase 9 acrescenta as máscaras de digitação dos formulários.)
  */
-import type { Crm } from '@medicore/dominio/types';
-import { somenteDigitos } from '@medicore/dominio/utils/validacao';
+import type { Crm } from '../types';
+import { somenteDigitos } from './validacao';
 
 /** "52998224725" → "529.982.247-25". */
 export function mascararCpf(valor: string): string {

@@ -497,8 +497,8 @@ Vale a definição dos planos anteriores (lint, testes, i18n, axe, teclado, esca
 
 **Regras novas**
 
-- **R-API1** Toda gravação envia a versão (`If-Match`); sem ela, 428.
-- **R-API2** Toda lista é paginada no servidor (máximo de 100 por página; o Painel usa rotas de indicadores, não listas).
+- **R-API1** Toda edição de conteúdo (`PUT`, cancelar consulta) envia a versão (`If-Match`); sem ela, 428. As ações sobre o registro (inativar, reativar, excluir, concluir, faltou) aceitam o `If-Match` e o conferem quando vem, mas não o exigem: as telas de hoje não têm a versão nesses botões, e as regras de transição já impedem a ação dupla (ajuste da Fase 25).
+- **R-API2** Toda lista é paginada no servidor (máximo de 100 por página; o Painel usa rotas de indicadores, não listas). Exceção: a agenda (`GET /consultas`) é uma janela de datas, como a tela, com no máximo 1.000 consultas (Fase 25).
 - **R-API3** As transações que hoje são multi-coleção são **uma transação do banco**; em conflito de serialização, a API tenta de novo até 3 vezes antes de devolver E-16.
 - **R-API4** Nenhuma resposta de erro traz pilha, SQL ou dado de outro registro.
 
@@ -959,4 +959,5 @@ Vale a definição dos planos anteriores (lint, testes, i18n, axe, teclado, esca
 | 12/11/2026 | Plano criado (Revisão 1) a partir do `BACKLOG_MEDICORE.md` revisto no Encerramento da 1.2.0. Escopo pedido pelo usuário: **o backlog inteiro**, com especificação e plano de execução, **separado por processo**. 40 melhorias em 43 fases (a BL-01 em quatro), 4 ondas, decisões D21–D66 propostas | Usuário |
 | 12/11/2026 | Ordem: BL-60 e BL-05 antes do backend, porque migrar a camada de dados sem integração contínua e sem monitoramento é o maior risco do plano (RS-19). BL-61 está na Onda 3 como no backlog, mas pode ser feita logo depois da Fase 22 | |
 | 13/11/2026 | **Etapa 0:** decisões D21–D35 (Onda 1) **aprovadas** como recomendadas. D23: provedor escolhido, **Google Cloud em São Paulo** (Cloud Run, Cloud SQL, Cloud KMS). D33 ajustada: como só há uma região do Google Cloud no Brasil, a cópia diária vai para outro projeto, na mesma região e em outra zona, com bloqueio de retenção | Usuário |
+| 16/11/2026 | **Fase 25:** dois ajustes nas regras da API, para as telas de hoje continuarem iguais: R-API1 (`If-Match` obrigatório só nas edições de conteúdo; opcional nas ações) e R-API2 (a agenda é uma janela de datas, até 1.000 consultas) | |
 | | | |

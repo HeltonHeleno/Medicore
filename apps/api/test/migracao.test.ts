@@ -41,7 +41,7 @@ describe('migrações', () => {
     await migrar(b.urlDono);
     const depois = await linhas(sql`select count(*)::int as n from drizzle.__drizzle_migrations`);
     expect(depois).toEqual(antes);
-    expect(antes[0]!.n).toBe(2);
+    expect(antes[0]!.n).toBe(3); // 0000_inicial, 0001_restricoes, 0002_busca
   });
 
   it('a migração 0001 cria o EXCLUDE, o papel da aplicação e a colação pt-BR', async () => {

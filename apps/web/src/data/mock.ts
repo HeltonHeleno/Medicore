@@ -1,3 +1,4 @@
+import { DEPARTAMENTOS } from '@medicore/dominio/config/departamentos';
 import type { Departamento, Kpis, Usuario } from '@medicore/dominio/types';
 
 export const usuario: Usuario = {
@@ -15,11 +16,17 @@ export const kpis: Kpis = {
   variacaoPacientes: 12,
 };
 
-export const departamentos: Departamento[] = [
-  { id: 'cardiologia', nome: 'Cardiologia', desempenho: 88 },
-  { id: 'emergencia', nome: 'Emergência', desempenho: 93 },
-  { id: 'neurologia', nome: 'Neurologia', desempenho: 80 },
-  { id: 'clinica-geral', nome: 'Clínica Geral', desempenho: 79 },
-  { id: 'ortopedia', nome: 'Ortopedia', desempenho: 75 },
-  { id: 'pediatria', nome: 'Pediatria', desempenho: 65 },
-];
+/** Desempenho ainda simulado (BL-41); os departamentos vêm do domínio. */
+const DESEMPENHO_SIMULADO: Record<string, number> = {
+  cardiologia: 88,
+  emergencia: 93,
+  neurologia: 80,
+  'clinica-geral': 79,
+  ortopedia: 75,
+  pediatria: 65,
+};
+
+export const departamentos: Departamento[] = DEPARTAMENTOS.map((d) => ({
+  ...d,
+  desempenho: DESEMPENHO_SIMULADO[d.id] ?? 0,
+}));

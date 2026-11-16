@@ -82,8 +82,10 @@ npm run db:migrar && npm run db:semear # cria as tabelas e grava os dados de exe
 npm run dev                            # API (http://localhost:3000) e app juntos
 ```
 
-A documentação da API fica em http://localhost:3000/api/v1/docs. Até a Fase 27, o app ainda usa
-os dados do navegador; a API é usada pelos testes e pela documentação.
+A documentação da API fica em http://localhost:3000/api/v1/docs (cópia em
+`docs/backend/openapi.json`). Desde a Fase 25, a API tem os cadastros e a agenda (pacientes,
+médicos, consultas, atividades e os indicadores dos cadastros no Painel); os módulos chegam na
+Fase 26. Até a Fase 27, o app ainda usa os dados do navegador.
 
 Na primeira execução, os dados de exemplo são criados automaticamente:
 

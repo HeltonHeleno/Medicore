@@ -22,7 +22,7 @@ import { t } from '@medicore/dominio/i18n/pt-BR';
 import { ErroNaoEncontrado } from '@medicore/dominio/erros';
 import { nomeDepartamento, nomeExibicaoMedico } from '../../services/medicos';
 import { dataDoInstante, formatarData } from '@medicore/dominio/utils/datas';
-import { formatarCrm, mascararTelefone } from '../../utils/mascaras';
+import { formatarCrm, mascararTelefone } from '@medicore/dominio/utils/mascaras';
 
 const m = t.medicos;
 

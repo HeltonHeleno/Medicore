@@ -5,7 +5,7 @@ import { useOrigem } from '../../hooks/useFiltrosUrl';
 import { t } from '@medicore/dominio/i18n/pt-BR';
 import type { PacienteResumo, Paginado } from '@medicore/dominio/types';
 import { formatarDataHora } from '@medicore/dominio/utils/datas';
-import { mascararTelefone } from '../../utils/mascaras';
+import { mascararTelefone } from '@medicore/dominio/utils/mascaras';
 import { Avatar } from '../ui/Avatar';
 import { BadgeSituacao } from '../ui/BadgeSituacao';
 import { DataTable, type Coluna, type OrdenacaoTabela } from '../ui/lista/DataTable';

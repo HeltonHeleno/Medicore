@@ -30,7 +30,12 @@ import { t } from '@medicore/dominio/i18n/pt-BR';
 import { ErroNaoEncontrado } from '@medicore/dominio/erros';
 import { nomeExibicaoPaciente } from '../../services/pacientes';
 import { dataDoInstante, formatarData, hojeNoFuso, idade } from '@medicore/dominio/utils/datas';
-import { mascararCep, mascararCpf, mascararTelefone, ocultarCpf } from '../../utils/mascaras';
+import {
+  mascararCep,
+  mascararCpf,
+  mascararTelefone,
+  ocultarCpf,
+} from '@medicore/dominio/utils/mascaras';
 import { agora } from '@medicore/dominio/utils/relogio';
 
 const p = t.pacientes;
