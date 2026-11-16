@@ -1,0 +1,42 @@
+# Fase 24 (24.2.2) — Ambiente local: PostgreSQL 16 e, com o perfil "completo", a API em contêiner.
+#
+#   docker compose up -d            # só o banco (a API roda com `npm run dev`, com recarga)
+#   docker compose --profile completo up -d --build   # banco + API em contêiner
+#
+# Senhas só para uso local.
+services:
+  banco:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: medicore
+      POSTGRES_USER: medicore
+      POSTGRES_PASSWORD: medicore
+      TZ: UTC
+    ports:
+      - '5432:5432'
+    volumes:
+      - banco:/var/lib/postgresql/data
+      - ./infra/postgres:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U medicore -d medicore']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  api:
+    profiles: [completo]
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    depends_on:
+      banco:
+        condition: service_healthy
+    environment:
+      AMBIENTE: desenvolvimento
+      DATABASE_URL: postgres://medicore_api:medicore_api@banco:5432/medicore
+      DATABASE_URL_MIGRACAO: postgres://medicore:medicore@banco:5432/medicore
+    ports:
+      - '3000:3000'
+
+volumes:
+  banco:

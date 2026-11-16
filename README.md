@@ -62,15 +62,28 @@ Funciona em desktop, tablet e celular, nos temas claro e escuro.
 
 ## Pré-requisitos
 
-- Node.js 20.19 ou superior (recomendado: 22 LTS)
+- Node.js 22.18 ou superior
 - npm 10+
+- Para a API: Docker (o banco local roda no Docker Compose)
 
 ## Como rodar
 
 ```bash
-npm install        # instala as dependências
-npm run dev        # servidor de desenvolvimento (http://localhost:5173)
+npm install            # instala as dependências de todos os pacotes
+npm run dev:web        # só o app (http://localhost:5173), com os dados no navegador
 ```
+
+Com a API (Fase 24 em diante):
+
+```bash
+docker compose up -d                   # PostgreSQL 16 em localhost:5432
+cp apps/api/.env.example apps/api/.env
+npm run db:migrar && npm run db:semear # cria as tabelas e grava os dados de exemplo
+npm run dev                            # API (http://localhost:3000) e app juntos
+```
+
+A documentação da API fica em http://localhost:3000/api/v1/docs. Até a Fase 27, o app ainda usa
+os dados do navegador; a API é usada pelos testes e pela documentação.
 
 Na primeira execução, os dados de exemplo são criados automaticamente:
 
@@ -79,19 +92,29 @@ Na primeira execução, os dados de exemplo são criados automaticamente:
 
 ## Scripts
 
-| Comando                  | O que faz                                                         |
-| ------------------------ | ----------------------------------------------------------------- |
-| `npm run dev`            | Inicia o servidor de desenvolvimento                              |
-| `npm run build`          | Checa os tipos e gera a build de produção em `dist/`              |
-| `npm run preview`        | Serve a build de produção localmente (http://localhost:4173)      |
-| `npm run test`           | Testes unitários e de componentes (Vitest), uma vez               |
-| `npm run test:watch`     | Os mesmos testes em modo observação                               |
-| `npm run test:coverage`  | Testes com relatório de cobertura (HTML em `coverage/index.html`) |
-| `npm run test:e2e`       | Testes de ponta a ponta e acessibilidade (Playwright + axe)       |
-| `npm run test:e2e:ui`    | Os testes de ponta a ponta no modo visual do Playwright           |
-| `npm run i18n:verificar` | Procura textos de interface escritos fora de `src/i18n/pt-BR.ts`  |
-| `npm run lint`           | Analisa o código com oxlint                                       |
-| `npm run format`         | Formata o código com Prettier                                     |
+Todos rodam da raiz.
+
+| Comando                  | O que faz                                                                    |
+| ------------------------ | ---------------------------------------------------------------------------- |
+| `npm run dev`            | API e app juntos (`dev:api` e `dev:web` sobem um só)                         |
+| `npm run build`          | Checa os tipos e gera a build do app em `apps/web/dist/`                     |
+| `npm run build:api`      | Gera a API em `apps/api/dist/` (`principal.js` e `migrar.js`)                |
+| `npm run preview`        | Serve a build do app localmente (http://localhost:4173)                      |
+| `npm run test`           | Testes (Vitest) do domínio, do app e da API                                  |
+| `npm run test:coverage`  | Os mesmos testes com cobertura (HTML em `coverage/` de cada pacote)          |
+| `npm run test:contrato`  | Testes de contrato da API (formato das respostas e dos erros)                |
+| `npm run test:e2e`       | Testes de ponta a ponta e acessibilidade (Playwright + axe)                  |
+| `npm run typecheck`      | Checa os tipos do domínio, do app e da API                                   |
+| `npm run db:migrar`      | Aplica as migrações do banco (idempotente)                                   |
+| `npm run db:semear`      | Grava os dados de exemplo no banco (`-- --substituir` apaga e grava de novo) |
+| `npm run db:gerar`       | Gera a próxima migração a partir de `apps/api/src/banco/esquema.ts`          |
+| `npm run i18n:verificar` | Procura textos de interface escritos fora do `i18n`                          |
+| `npm run pacote:medir`   | Mede o pacote inicial do app (depois do `build`)                             |
+| `npm run lint`           | Analisa o código com oxlint                                                  |
+| `npm run format`         | Formata o código com Prettier                                                |
+
+Os testes da API precisam de um PostgreSQL 16: com `TEST_DATABASE_URL` (um superusuário), usam
+esse servidor; sem ela, sobem um contêiner com Testcontainers (precisa de Docker).
 
 ### Testes de ponta a ponta
 
@@ -100,7 +123,7 @@ npx playwright install chromium   # só na primeira vez
 npm run test:e2e
 ```
 
-O Playwright gera a build, sobe o `vite preview` e roda os cenários em `e2e/`. Cada teste
+O Playwright gera a build, sobe o `vite preview` e roda os cenários em `apps/web/e2e/`. Cada teste
 começa com o navegador limpo e o relógio fixado em uma segunda-feira, 09/11/2026, às 09:40, no
 fuso `America/Sao_Paulo`, para que os dados de exemplo sejam sempre os mesmos.
 
@@ -121,7 +144,7 @@ Os cenários são:
 - fluxos só com teclado;
 - axe em todas as rotas e nos diálogos, nos temas claro e escuro.
 
-O relatório fica em `playwright-report/`.
+O relatório fica em `apps/web/playwright-report/`.
 
 ## Cadastros
 
@@ -220,7 +243,7 @@ navegador.
 Gestão de leitos, Emergência e Farmácia funcionam integrados entre si, com os cadastros e com o
 Painel. As regras ficam nos serviços (`services/leitos.ts`, `emergencia.ts`, `farmacia.ts`), e cada
 operação que envolve mais de uma coleção é uma transação: grava tudo ou nada. Os textos de cada
-módulo ficam em `src/i18n/pt-BR/<modulo>.ts` e são carregados com as telas dele.
+módulo ficam em `packages/dominio/src/i18n/pt-BR/<modulo>.ts` e são carregados com as telas dele.
 
 ### Gestão de leitos
 
@@ -312,31 +335,38 @@ reativa o cadastro, mas as consultas canceladas não voltam.
 
 ## Estrutura de pastas
 
+Desde a Fase 24, o repositório é um monorepo com workspaces do npm (D22):
+
 ```
-src/
-├── main.tsx, App.tsx, router.tsx   # entrada e roteador (rotas carregadas sob demanda)
-├── index.css                       # Tailwind + tokens de cor (claro/escuro)
-├── i18n/pt-BR.ts                   # textos gerais, do Painel e dos cadastros
-├── i18n/pt-BR/                     # textos de cada módulo (leitos, emergencia, farmacia…), sob demanda
+packages/dominio/src/               # @medicore/dominio — usado pelo app e pela API
 ├── types/                          # tipos do domínio (cadastros, leito, internação, emergência, farmácia)
-├── schemas/                        # esquemas zod — um por entidade, usado no formulário e no serviço
-├── data/                           # dados de exemplo (seeds) dos cadastros e dos módulos
-├── services/                       # regras de negócio (cadastros, leitos, emergência, farmácia,
-│   │                               #   indicadores, retenção)
-│   └── repositorio.ts              # memória + localStorage: transação, versão, abas, migrações
-├── config/                         # menu, limites, setores e faixas de sinais vitais
-├── hooks/                          # useColecao/useDados (recarregam sozinhos), formulários, ações
+├── schemas/                        # esquemas zod — um por entidade, no formulário, no serviço e na API
+├── i18n/pt-BR.ts, i18n/pt-BR/      # todos os textos (gerais e de cada módulo, sob demanda)
+├── config/                         # limites, setores e faixas de sinais vitais
 ├── utils/                          # datas, agenda, fila (A7), FEFO, alergia, compatibilidade de
 │                                   #   leito, sinais vitais, consistência (INV-1 a INV-10)
-├── components/
-│   ├── layout/                     # AppLayout, Sidebar, Header, UserMenu, MobileDrawer
-│   ├── ui/                         # base, formulário, listagem e feedback (Modal, Toast…)
-│   ├── dashboard/                  # os 9 cards do Painel
-│   └── pacientes/ medicos/ consultas/ leitos/ emergencia/ farmacia/
-├── pages/                          # telas (Painel, cadastros, agenda, módulos, /ui)
-└── __tests__/                      # Vitest + Testing Library
-e2e/                                # Playwright (cenários, teclado, axe)
-scripts/varrer-textos.ts            # varredura de textos fora do pt-BR.ts
+├── seeds/                          # dados de exemplo (A16), os mesmos no navegador e no banco
+├── erros.ts                        # classes de erro (E-01 a E-22)
+├── contrato/                       # contrato da API: erros nos dois sentidos e padrão das listas
+└── monitoramento/limpeza.ts        # remoção de dados pessoais antes do Sentry
+apps/web/                           # @medicore/web — o app (React + Vite)
+├── src/
+│   ├── main.tsx, App.tsx, router.tsx
+│   ├── services/                   # regras de negócio no navegador (vão para a API nas Fases 25–27)
+│   │   └── repositorio.ts          # memória + localStorage: transação, versão, abas, migrações
+│   ├── hooks/ components/ pages/   # telas
+│   ├── monitoramento/              # Sentry no navegador (Fase 23)
+│   └── __tests__/                  # Vitest + Testing Library
+├── e2e/                            # Playwright (cenários, teclado, axe)
+└── scripts/                        # varredura de textos, medição e comparação do pacote
+apps/api/                           # @medicore/api — Fastify + PostgreSQL + Drizzle (Fase 24)
+├── src/banco/                      # esquema (13 tabelas), conexão, migração, semeadura
+├── src/http/                       # tradutor de erros, ETag/If-Match, listas
+├── src/rotas/                      # rotas em /api/v1
+├── drizzle/                        # migrações (0001: EXCLUDE, papel da aplicação, colação pt-BR)
+└── test/                           # testes contra o PostgreSQL (restrições, semeadura, contrato)
+docs/backend/                       # inventário dos serviços e o OpenAPI gerado
+docker-compose.yml, infra/postgres/ # banco local
 ```
 
 ## Como trocar o armazenamento local pela API real
@@ -362,8 +392,9 @@ páginas → hooks → serviços (regras de negócio) → repositório (localSto
    }
    ```
 
-2. **Converta as respostas de erro nas classes de `services/erros.ts`.** As telas já sabem
-   mostrar cada uma:
+2. **Converta as respostas de erro nas classes de erro.** Desde a Fase 24, a conversão está
+   pronta em `@medicore/dominio/contrato/erros` (`erroDeResposta`), a mesma que a API usa no
+   sentido contrário. As telas já sabem mostrar cada uma:
 
    | Classe              | Resposta HTTP sugerida                   | Como a tela mostra                           |
    | ------------------- | ---------------------------------------- | -------------------------------------------- |
@@ -398,7 +429,7 @@ Para testar o estado de erro das telas, crie um `.env.local` com `VITE_SIMULAR_E
 
 Nenhum texto visível fica escrito direto no código. Para adicionar um texto:
 
-1. Inclua a chave em `src/i18n/pt-BR.ts`, no grupo da área correspondente.
+1. Inclua a chave em `packages/dominio/src/i18n/pt-BR.ts`, no grupo da área correspondente.
 2. Use no componente: `{t.pacientes.novoTexto}`.
 3. Rode `npm run i18n:verificar` para conferir que nada ficou de fora.
 
@@ -498,20 +529,21 @@ chave e o navegador está livre (ou no primeiro erro), e não pesa no pacote ini
   Sem elas, o app funciona igual, só que sem monitoramento. Uma falha no envio dos mapas aparece
   no log do build, mas não o interrompe.
 
-- **Limpeza:** `src/monitoramento/limpeza.ts`, coberta por um teste que manda um paciente inteiro
-  e confere que nada dele sai.
+- **Limpeza:** `packages/dominio/src/monitoramento/limpeza.ts` (a mesma no navegador e na API),
+  coberta por um teste que manda um paciente inteiro e confere que nada dele sai.
 
 ### Integração contínua (Fase 22)
 
 O workflow `.github/workflows/verificacoes.yml` roda em todo PR e em todo push na `main`:
 
-| Job                       | O que faz                                                                                                                                             |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Lint, formato e textos    | `lint`, `format:check` e `i18n:verificar`                                                                                                             |
-| Testes e cobertura        | `test:coverage` com as metas de `vite.config.ts`; anexa o relatório `cobertura`                                                                       |
-| Build e pacote inicial    | `build` e `pacote:medir` (reprova com textos dos módulos no pacote inicial). No PR, comenta a diferença para a `main` e avisa se crescer mais de 5 kB |
-| Ponta a ponta (1/2 e 2/2) | `test:e2e` dividido em duas partes; anexa o relatório e os traces quando falha                                                                        |
-| `verificacoes`            | Só passa se os quatro acima passarem. É o check obrigatório                                                                                           |
+| Job                                | O que faz                                                                                                                                             |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lint, formato e textos             | `lint`, `format:check`, `i18n:verificar` e `typecheck`                                                                                                |
+| Testes e cobertura (domínio e app) | `test:coverage` do domínio e do app, com as metas; anexa o relatório `cobertura`                                                                      |
+| API e banco                        | Testes da API contra o PostgreSQL 16 (Testcontainers), testes de contrato e `build:api`                                                               |
+| Build e pacote inicial             | `build` e `pacote:medir` (reprova com textos dos módulos no pacote inicial). No PR, comenta a diferença para a `main` e avisa se crescer mais de 5 kB |
+| Ponta a ponta (1/2 e 2/2)          | `test:e2e` dividido em duas partes; anexa o relatório e os traces quando falha                                                                        |
+| `verificacoes`                     | Só passa se os jobs acima passarem. É o check obrigatório                                                                                             |
 
 - **Publicar só com tudo verde:** em _Settings → Build and Deployment → Deployment Checks_ do
   projeto na Vercel, adicione o check `verificacoes` do GitHub. A Vercel continua gerando a versão

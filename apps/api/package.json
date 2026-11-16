@@ -1,0 +1,42 @@
+{
+  "name": "@medicore/api",
+  "private": true,
+  "version": "1.2.0",
+  "type": "module",
+  "description": "API do MediCore (Fase 24, BL-01): Fastify + PostgreSQL + Drizzle.",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=.env src/principal.ts",
+    "build": "node scripts/construir.ts",
+    "start": "node dist/principal.js",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:contrato": "vitest run test/contrato",
+    "typecheck": "tsc --noEmit",
+    "openapi": "tsx scripts/gerar-openapi.ts",
+    "db:gerar": "drizzle-kit generate",
+    "db:migrar": "tsx --env-file-if-exists=.env src/banco/migrar.ts",
+    "db:semear": "tsx --env-file-if-exists=.env src/banco/semear.ts"
+  },
+  "dependencies": {
+    "@fastify/swagger": "9.9.3",
+    "@fastify/swagger-ui": "6.1.2",
+    "@medicore/dominio": "*",
+    "@sentry/node": "11.10.0",
+    "drizzle-orm": "0.45.4",
+    "fastify": "5.12.7",
+    "fastify-type-provider-zod": "7.0.0",
+    "pg": "8.23.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@testcontainers/postgresql": "12.2.1",
+    "@types/node": "^24.19.2",
+    "@types/pg": "8.23.1",
+    "@vitest/coverage-v8": "^5.0.5",
+    "drizzle-kit": "0.31.11",
+    "esbuild": "0.28.2",
+    "tsx": "4.23.15",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.5"
+  }
+}
