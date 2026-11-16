@@ -68,7 +68,7 @@
 | Ordem | Código | Item | Horizonte | Esforço | Depende de | Status |
 |:---:|---|---|:---:|:---:|---|:---:|
 | 1 | BL-60 | Integração contínua no GitHub (lint, testes, e2e a cada push) — Fase 22: rodando no GitHub; falta ligar os Deployment Checks na Vercel | Agora | P | — | 🟨 |
-| 2 | BL-01 | Backend real (API + banco de dados) — Fases 24 a 26 (3/4) prontas | Agora | G | — | 🟨 |
+| 2 | BL-01 | Backend real (API + banco de dados) — Fases 24 a 27 com o código pronto; falta publicar a API (Google Cloud) e ligar `VITE_API_URL` | Agora | G | — | 🟨 |
 | 3 | BL-02 | Autenticação e perfis de acesso | Agora | G | BL-01 | 🟨 |
 | 4 | BL-03 | Auditoria de acesso (LGPD) | Agora | M | BL-01, BL-02 | 🟨 |
 | 5 | BL-04 | Criptografia, backup e guarda dos dados | Agora | M | BL-01 | 🟨 |
