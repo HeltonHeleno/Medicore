@@ -60,6 +60,7 @@ export async function criarBancoDeTeste(): Promise<BancoDeTeste> {
        IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '${USUARIO_APP}') THEN
          CREATE ROLE ${USUARIO_APP} LOGIN PASSWORD '${SENHA_APP}' IN ROLE medicore_app;
        END IF;
+     EXCEPTION WHEN duplicate_object OR unique_violation THEN NULL;
      END $$;`,
   );
   const urlApp = comBanco(servidor, nome, { nome: USUARIO_APP, senha: SENHA_APP });
