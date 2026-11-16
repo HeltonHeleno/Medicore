@@ -1,5 +1,6 @@
 # Fase 22 (BL-60, D35): verificações de todo PR e de todo push na `main`.
-# O check obrigatório da `main` é o job "verificacoes", que só passa com os outros quatro verdes.
+# Fase 24: um job por workspace — domínio + app (testes), API (com PostgreSQL), pacote e e2e.
+# O check obrigatório da `main` é o job "verificacoes", que só passa com os outros verdes.
 name: Verificações
 
 on:
@@ -40,9 +41,11 @@ jobs:
         run: npm run format:check
       - name: Textos fora do i18n
         run: npm run i18n:verificar
+      - name: Tipos (domínio, app e API)
+        run: npm run typecheck
 
   testes:
-    name: Testes e cobertura
+    name: Testes e cobertura (domínio e app)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -52,14 +55,43 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
       - run: npm ci
-      - name: Testes com as metas de cobertura de vite.config.ts
-        run: npm run test:coverage
+      - name: Testes com as metas de cobertura
+        run: npm run test:coverage -w @medicore/dominio -w @medicore/web
       - name: Relatório de cobertura
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: cobertura
-          path: coverage/
+          path: |
+            packages/dominio/coverage/
+            apps/web/coverage/
+          retention-days: 14
+          if-no-files-found: ignore
+
+  api:
+    name: API e banco
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      # Sem TEST_DATABASE_URL, os testes sobem o PostgreSQL 16 com Testcontainers (24.2.8).
+      - name: Testes da API contra o PostgreSQL, com cobertura
+        run: npm run test:coverage -w @medicore/api
+      - name: Testes de contrato
+        run: npm run test:contrato
+      - name: Build da API
+        run: npm run build:api
+      - name: Relatório de cobertura da API
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-api
+          path: apps/api/coverage/
           retention-days: 14
           if-no-files-found: ignore
 
@@ -80,7 +112,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Pacote inicial (reprova se houver textos dos módulos)
-        run: npm run -s pacote:medir -- --json pacote-atual.json
+        run: npm run -s pacote:medir -- --json "$GITHUB_WORKSPACE/pacote-atual.json"
 
       # Na `main`: guarda a medição para os PRs compararem (BL-60.4).
       - name: Guardar a medição da main
@@ -104,7 +136,7 @@ jobs:
       - name: Comparar com a main
         if: ${{ github.event_name == 'pull_request' }}
         run: >
-          node scripts/comparar-pacote.ts --base .pacote-main/pacote.json
+          node apps/web/scripts/comparar-pacote.ts --base .pacote-main/pacote.json
           --atual pacote-atual.json --saida comentario-pacote.md
       - name: Resumo da execução
         if: ${{ github.event_name == 'pull_request' }}
@@ -158,14 +190,14 @@ jobs:
         with:
           name: e2e-${{ matrix.parte }}
           path: |
-            playwright-report/
-            test-results/
+            apps/web/playwright-report/
+            apps/web/test-results/
           retention-days: 14
 
   verificacoes:
     name: verificacoes
     if: ${{ always() }}
-    needs: [estatica, testes, pacote, e2e]
+    needs: [estatica, testes, api, pacote, e2e]
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:

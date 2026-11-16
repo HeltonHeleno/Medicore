@@ -9,3 +9,6 @@ playwright-report
 PLANO_EXECUCAO_OPERACOES.md
 PLANO_MELHORIAS_MEDICORE.md
 PLANO_EXECUCAO_MELHORIAS.md
+coverage
+apps/api/drizzle/meta
+docs/backend/openapi.json

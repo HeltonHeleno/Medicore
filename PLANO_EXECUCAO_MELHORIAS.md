@@ -4,7 +4,7 @@
 > **Base:** [`PLANO_MELHORIAS_MEDICORE.md`](PLANO_MELHORIAS_MEDICORE.md) (Revisão 1), que é a **especificação**: decisões, processos, regras e critérios. Em caso de dúvida, vale a especificação.
 > **Fases:** 22 a 64, em 4 ondas, precedidas da Etapa 0 (preparação) e com um encerramento por onda (versões 2.0.0, 2.3.0, 2.9.0 e 3.x).
 > **Estimativa:** ~231 dias úteis (1 desenvolvedor) se todos os itens da Onda 4 forem aprovados · ver [cronograma](#-cronograma-por-onda)
-> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 (5 de 12 tarefas; o resto depende de você) e Fase 22 (código pronto; falta a 1ª execução no GitHub). Versão 1.2.0 publicada em 13/11/2026
+> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 (6 de 12 tarefas; o resto depende de você) Fase 22 (falta ligar os Deployment Checks na Vercel) e Fase 23 (código pronto; falta o Sentry e o DSN) e Fase 24 (código pronto; falta a CI no GitHub). Versão 1.2.0 publicada em 13/11/2026
 
 ---
 
@@ -57,9 +57,9 @@
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|
 | Etapa 0 | Preparação (1.2.0 publicada, acessos, decisões, contratos) | — | 12 | 2 | 🟨 | 13/11 | |
 | **Onda 1** | **Agora — versão 2.0.0** | | | **49** | | | |
-| Fase 22 | BL-60 Integração contínua | 4 | 17 | 2 | 🟨 | 13/11 | |
-| Fase 23 | BL-05 Monitoramento de erros | 4 | 12 | 2 | ⬜ | | |
-| Fase 24 | BL-01 Backend (1/4): monorepo, API, banco e contrato | 3 | 23 | 8 | ⬜ | | |
+| Fase 22 | BL-60 Integração contínua | 4 | 18 | 2 | 🟨 | 13/11 | |
+| Fase 23 | BL-05 Monitoramento de erros | 4 | 12 | 2 | 🟨 | 13/11 | |
+| Fase 24 | BL-01 Backend (1/4): monorepo, API, banco e contrato | 3 | 23 | 8 | 🟨 | 16/11 | |
 | Fase 25 | BL-01 Backend (2/4): cadastros e agenda | 1 | 12 | 7 | ⬜ | | |
 | Fase 26 | BL-01 Backend (3/4): leitos, emergência, farmácia e rotinas | 2 | 15 | 9 | ⬜ | | |
 | Fase 27 | BL-01 Backend (4/4): navegador na API e ambientes | 2 | 13 | 5 | ⬜ | | |
@@ -107,7 +107,7 @@
 | Fase 63 | BL-46 Central de mensagens | 4 | 5 | 8 | ⬜ | | |
 | Fase 64 | BL-52 Outros idiomas | 4 | 5 | 5 | ⬜ | | |
 | Encerramento 4 | Versão 3.x | — | 4 | 0,5 | ⬜ | | |
-| **Total** | **40 melhorias** | **161** | **406** | **~231** | ⬜ | | |
+| **Total** | **40 melhorias** | **161** | **407** | **~231** | ⬜ | | |
 
 **Ordem das ondas**
 
@@ -207,7 +207,7 @@ flowchart LR
 ### 0.1 Fechar a 1.2.0
 
 - [x] **0.1.1** 👤 Mesclar na `main` os PRs das Fases 19, 20 e 21 e o `release/1.2.0`, nessa ordem · ✔ Vercel "Ready" na produção — *13/11: PRs #5, #6 e #7 mesclados; `main` = `c487e33`, mesma árvore do `release/1.2.0`*
-- [ ] **0.1.2** 👤 Criar e enviar a tag `v1.2.0` — *13/11: criada, mas aponta para `4478845` (merge da Fase 21, sem o `release/1.2.0`); mover para `c487e33`*
+- [x] **0.1.2** 👤 Criar e enviar a tag `v1.2.0` — *13/11: movida para `c487e33` (merge do `release/1.2.0`)*
 - [x] **0.1.3** Testar a URL publicada: emergência → internação → dispensação → alta, no desktop e no celular · ✔ sem erros no console — *13/11: testada por você*
 - [ ] **0.1.4** 👤 Verificações manuais pendentes da 1.2.0: NVDA (P1, P9, Painel, L1, E2, F3), revisão de termos e mensagens, testes com duas abas · 🔗 `docs/VERIFICACAO_MANUAL.md` · ✔ registro preenchido; correções viram itens do backlog
 
@@ -242,92 +242,93 @@ flowchart LR
 - [x] **22.0.3** Corrigir a formatação dos 10 `docs/PR_FASE_*.md` que hoje falham no `format:check` (8–13, 16, 18–20), senão o primeiro PR com CI já fica vermelho · ✔ `npm run format:check` verde
 
 ### 22.1 Verificar um PR · BL-60.1
-- [x] **22.1.1** ⭐ `.github/workflows/verificacoes.yml`: gatilho em `pull_request` e `push` na `main`; Node 22; `npm ci` com cache · ✔ o workflow aparece no PR — *escrito e validado com `actionlint`; aparecer no PR depende do push*
+- [x] **22.1.1** ⭐ `.github/workflows/verificacoes.yml`: gatilho em `pull_request` e `push` na `main`; Node 22; `npm ci` com cache · ✔ o workflow aparece no PR — *escrito e validado com `actionlint`; 13/11: rodou no PR #8 e na `main`*
 - [x] **22.1.2** Passos `lint`, `format:check` e `i18n:verificar` em um job rápido (`estatica`)
 - [x] **22.1.3** Job `testes`: `test:coverage` com as metas de `vite.config.ts`; anexar o relatório de cobertura
 - [x] **22.1.4** Job `pacote`: `build` e `pacote:medir` (falha com marcador dos módulos)
 - [x] **22.1.5** Job `e2e`: instalar o Chromium do Playwright com cache; `test:e2e`; anexar o relatório e os traces das falhas — *em 2 partes (`--shard`); 3,2 min por parte localmente*
-- [ ] **22.1.6** Check obrigatório agregado "verificacoes" que depende dos quatro jobs · ✔ um PR com um teste quebrado de propósito fica vermelho — *job pronto e lógica simulada; 👤 falta o PR de teste no GitHub*
+- [x] **22.1.6** Check obrigatório agregado "verificacoes" que depende dos quatro jobs · ✔ um PR com um teste quebrado de propósito fica vermelho — *13/11: comprovado sem querer na 1ª execução do PR #8: um teste instável falhou e o `verificacoes` ficou vermelho. O teste foi corrigido (22.F.4)*
 
 ### 22.2 Verificar a `main` · BL-60.2
 - [x] **22.2.1** Mesmo workflow no push da `main`; aviso por e-mail ao responsável quando falhar · ✔ commit verde mostra o check
 
 ### 22.3 Publicar só com tudo verde · BL-60.3
-- [ ] **22.3.1** 👤 Na Vercel, ligar "esperar os checks do GitHub" para a produção · ✔ com o check vermelho, a produção não muda
+- [ ] **22.3.1** 👤 Na Vercel, ligar "esperar os checks do GitHub" para a produção · ✔ com o check vermelho, a produção não muda — *13/11: não confirmado; a versão do PR #8 ficou pronta 2,5 min antes de o check terminar, o que indica que ainda não está ligado*
 - [x] **22.3.2** Documentar no README (seção Deploy) como a publicação depende da CI
 
 ### 22.4 Comparar o pacote · BL-60.4
-- [x] **22.4.1** Passo que mede o pacote da `main` (em cache) e do PR e comenta a diferença no PR · ✔ comentário com "153,6 kB → X kB (±Y)" — *simulado localmente; o comentário real depende da primeira execução no GitHub*
+- [x] **22.4.1** Passo que mede o pacote da `main` (em cache) e do PR e comenta a diferença no PR · ✔ comentário com "153,6 kB → X kB (±Y)" — *13/11: comentário "153,6 kB → 153,6 kB (±0,0 kB)" no PR #8, comparando com a medição da `main`*
 - [x] **22.4.2** Aviso (não falha) quando o crescimento passar de 5 kB
 
 ### 22.F Fechamento
-- [ ] **22.F.1** Tempo total do workflow < 15 min (paralelismo dos jobs) · ✔ número no Diário — *estimativa ~7 min; anotar o tempo real da 1ª execução*
+- [x] **22.F.1** Tempo total do workflow < 15 min (paralelismo dos jobs) · ✔ número no Diário — *13/11: 3 min 00 s na `main`; 3 min 22 s no PR*
+- [x] **22.F.4** Corrigir o teste instável da 1ª execução (`leitos.paginas.test.tsx`, busca de paciente no mapa: digitação letra a letra em 130 cartões passou de 5 s na CI) · ✔ 3 execuções com 1 CPU e cobertura; `test:coverage` com 2 CPUs verde — *13/11, branch `fix/fase-22-pendencias`*
 - [x] **22.F.2** `docs/PR_FASE_22.md`; painel e backlog (BL-60 ✅)
-- [ ] **22.F.3** 👤 PR revisado e mesclado
+- [x] **22.F.3** 👤 PR revisado e mesclado — *13/11: PR #8 mesclado às 13:45, antes de a 1ª execução terminar (ela ficou vermelha); por isso a 22.F.4 e a antecipação da Fase 41*
 
 ## Fase 23 — BL-05 Monitoramento de erros
 
 **Objetivo:** erros de produção visíveis, sem dados pessoais. **Duração:** 2 dias. **Branch:** `feat/fase-23-monitoramento`. **Especificação:** BL-05, D34.
 
 ### 23.0 Abertura
-- [ ] **23.0.1** 👤 Criar a branch; conferir o projeto no Sentry (0.3.3) e a chave pública (DSN) nas variáveis da Vercel
+- [ ] **23.0.1** 👤 Criar a branch; conferir o projeto no Sentry (0.3.3) e a chave pública (DSN) nas variáveis da Vercel — *13/11: branch criada sobre a `fix/fase-22-pendencias`; 👤 falta o projeto no Sentry e o DSN na Vercel*
 
 ### 23.1 Capturar um erro da tela · BL-05.1
-- [ ] **23.1.1** Instalar o SDK do Sentry carregado **sob demanda** (depois da primeira pintura), para não pesar no pacote inicial · ✔ `pacote:medir` com crescimento < 1 kB
-- [ ] **23.1.2** Ligar no `errorElement` do roteador, no `ErrorState` e em erros não tratados; incluir rota sem parâmetros, versão e ambiente
-- [ ] **23.1.3** ⭐ Filtro `beforeSend` que remove nomes, CPF, e-mail, telefone, alergias, valores de campos, corpo e parâmetros de requisições · 🔗 D34
-- [ ] **23.1.4** Teste do filtro: evento com um paciente de exemplo inteiro não sai com nenhum dado pessoal · ✔ teste unitário
-- [ ] **23.1.5** Enviar os mapas de código no build da Vercel (e não publicá-los)
+- [x] **23.1.1** Instalar o SDK do Sentry carregado **sob demanda** (depois da primeira pintura), para não pesar no pacote inicial · ✔ `pacote:medir` com crescimento < 1 kB — *+0,4 kB (153,6 → 154,0); o SDK (53 kB) vem sob demanda*
+- [x] **23.1.2** Ligar no `errorElement` do roteador, no `ErrorState` e em erros não tratados; incluir rota sem parâmetros, versão e ambiente — *`ErroDeRota`; `useAsync`/`useColecao`, que alimentam o `ErrorState`; `error` e `unhandledrejection`*
+- [x] **23.1.3** ⭐ Filtro `beforeSend` que remove nomes, CPF, e-mail, telefone, alergias, valores de campos, corpo e parâmetros de requisições · 🔗 D34 — *`src/monitoramento/limpeza.ts` + `dataCollection` do SDK desligada*
+- [x] **23.1.4** Teste do filtro: evento com um paciente de exemplo inteiro não sai com nenhum dado pessoal · ✔ teste unitário — *23 testes da limpeza; também conferido com o SDK real contra um Sentry falso local*
+- [x] **23.1.5** Enviar os mapas de código no build da Vercel (e não publicá-los) — *ligado só com `SENTRY_AUTH_TOKEN`; com token falso, os mapas foram apagados e o build terminou*
 
 ### 23.2 Capturar um erro da API · BL-05.2
-- [ ] **23.2.1** Deixar pronto o módulo de captura da API (usado a partir da Fase 24), com o mesmo filtro e o `id` do evento na resposta 500
-- [ ] **23.2.2** A tela de erro mostra "código {id}" quando houver · 🔗 E-09
+- [ ] **23.2.1** Deixar pronto o módulo de captura da API (usado a partir da Fase 24), com o mesmo filtro e o `id` do evento na resposta 500 — *limpeza pronta e sem depender do SDK; o módulo da API passa para a 24.3.6*
+- [x] **23.2.2** A tela de erro mostra "código {id}" quando houver · 🔗 E-09 — *"Código do erro para o suporte: 01234567"*
 
 ### 23.3 Alertar a equipe · BL-05.3
 - [ ] **23.3.1** 👤 Regras de alerta: erro novo e pico (> 10 em 5 min) por e-mail
 
 ### 23.4 Monitorar as invariantes · BL-05.4
-- [ ] **23.4.1** Deixar anotado para a Fase 26 (rotina A17 no servidor → evento no Sentry) · ✔ tarefa 26.2.4 existe
+- [x] **23.4.1** Deixar anotado para a Fase 26 (rotina A17 no servidor → evento no Sentry) · ✔ tarefa 26.2.4 existe
 
 ### 23.F Fechamento
-- [ ] **23.F.1** Erro provocado em homologação aparece com a pilha legível e sem dados pessoais · ✔ captura no PR
-- [ ] **23.F.2** `docs/PR_FASE_23.md`; painel; backlog (BL-05 ✅); 👤 PR mesclado
+- [ ] **23.F.1** Erro provocado em homologação aparece com a pilha legível e sem dados pessoais · ✔ captura no PR — *conferido localmente com o SDK real (Sentry falso); 👤 falta em homologação, depois do DSN*
+- [ ] **23.F.2** `docs/PR_FASE_23.md`; painel; backlog (BL-05 ✅); 👤 PR mesclado — *PR_FASE_23 e plano atualizados; BL-05 🟨 até o DSN; 👤 PR*
 
 ## Fase 24 — BL-01 Backend (1/4): monorepo, API, banco e contrato
 
 **Objetivo:** API e banco funcionando localmente, com o contrato publicado. **Duração:** 8 dias. **Branch:** `feat/fase-24-backend-fundacao`. **Especificação:** BL-01.1 a BL-01.3, D21–D25, D28.
 
 ### 24.0 Abertura
-- [ ] **24.0.1** 👤 Criar a branch; conferir D21–D25 e D28 aprovadas
-- [ ] **24.0.2** Inventário das funções exportadas de `src/services/` (nome, entrada, saída, coleções lidas e gravadas) · ✔ tabela em `docs/backend/INVENTARIO.md`
+- [x] **24.0.1** 👤 Criar a branch; conferir D21–D25 e D28 aprovadas — *16/11: sobre a `feat/fase-23-monitoramento`; D21–D25 e D28 aprovadas na Etapa 0*
+- [x] **24.0.2** Inventário das funções exportadas de `src/services/` (nome, entrada, saída, coleções lidas e gravadas) · ✔ tabela em `docs/backend/INVENTARIO.md` — *181 funções em 24 arquivos, 51 em transação, com o destino de cada arquivo*
 
 ### 24.1 Montar o monorepo · BL-01.1
-- [ ] **24.1.1** ⭐ Workspaces do npm: mover o app para `apps/web` sem mudar código; ajustar scripts, Vite, Vitest, Playwright e a Vercel (diretório raiz) · ✔ 672 testes e 139 e2e verdes; prévia da Vercel igual
-- [ ] **24.1.2** Criar `packages/dominio` e mover tipos (`types/`), esquemas (`schemas/`) e textos de erro usados pelas regras
-- [ ] **24.1.3** Mover para o domínio os algoritmos puros: `fila`, `fefo`, `alergia`, `compatibilidade-leito`, `tempos`, `sinais-vitais`, `consistencia`, `datas`, `agenda` · ✔ testes de `utils/` passam no pacote novo com a mesma cobertura
-- [ ] **24.1.4** O app passa a importar do `@medicore/dominio`; `pacote:medir` sem crescimento
-- [ ] **24.1.5** A CI (Fase 22) roda por workspace
+- [x] **24.1.1** ⭐ Workspaces do npm: mover o app para `apps/web` sem mudar código; ajustar scripts, Vite, Vitest, Playwright e a Vercel (diretório raiz) · ✔ 672 testes e 139 e2e verdes; prévia da Vercel igual — *372 arquivos movidos, imports de 226 reescritos por script; 717 Vitest e 139 e2e verdes; 👤 falta conferir a prévia da Vercel (saída em `apps/web/dist`)*
+- [x] **24.1.2** Criar `packages/dominio` e mover tipos (`types/`), esquemas (`schemas/`) e textos de erro usados pelas regras — *também os textos (`i18n`), as classes de erro, `config/` e os seeds; desvio registrado no Diário*
+- [x] **24.1.3** Mover para o domínio os algoritmos puros: `fila`, `fefo`, `alergia`, `compatibilidade-leito`, `tempos`, `sinais-vitais`, `consistencia`, `datas`, `agenda` · ✔ testes de `utils/` passam no pacote novo com a mesma cobertura — *15 algoritmos (os 9 do plano e as dependências: `busca`, `validacao`, `relogio`, `autor`, `id`, `indicadores`); `utils/` com 96% no pacote novo*
+- [x] **24.1.4** O app passa a importar do `@medicore/dominio`; `pacote:medir` sem crescimento — *pacote 154,0 → 153,9 kB*
+- [x] **24.1.5** A CI (Fase 22) roda por workspace — *typecheck por pacote e job "API e banco"; 👤 falta a 1ª execução no GitHub*
 
 ### 24.2 Subir a API e o banco · BL-01.2
-- [ ] **24.2.1** `apps/api` com Fastify, TypeScript, carregamento de configuração por variáveis de ambiente (validadas com zod) e logs estruturados sem dados pessoais
-- [ ] **24.2.2** `docker-compose.yml` com PostgreSQL 16 e a API; `npm run dev` sobe tudo · ✔ `/api/v1/saude` responde 200
-- [ ] **24.2.3** ⭐ Esquema Drizzle com as 13 tabelas (cadastros, agenda, atividades, leitos, internações, solicitações, atendimentos, medicamentos, lotes, movimentações, dispensações, resumos) e os campos de versão e datas
-- [ ] **24.2.4** ⭐ Restrições da arquitetura: `UNIQUE`, índices únicos parciais (R-L1, R-E10), `CHECK` de estoque, `EXCLUDE` de consultas sobrepostas, `UNIQUE (dia, numero)` · 🔗 D25 · ✔ teste que viola cada uma recebe o erro do banco
-- [ ] **24.2.5** Usuário do banco da aplicação sem `UPDATE`/`DELETE` em movimentações (R-F9)
-- [ ] **24.2.6** Migração inicial gerada e revisada; `db:migrar` idempotente
-- [ ] **24.2.7** Semeadura: os geradores de `data/seeds/` rodam no servidor (A16) · ✔ mesmos números dos dados de exemplo (72% de ocupação, 3 com estoque baixo)
-- [ ] **24.2.8** Testes da API com PostgreSQL em contêiner (Testcontainers) na CI
+- [x] **24.2.1** `apps/api` com Fastify, TypeScript, carregamento de configuração por variáveis de ambiente (validadas com zod) e logs estruturados sem dados pessoais
+- [x] **24.2.2** `docker-compose.yml` com PostgreSQL 16 e a API; `npm run dev` sobe tudo · ✔ `/api/v1/saude` responde 200 — *`docker compose up -d` (banco) + `npm run dev` (API e app); o Docker Hub está bloqueado aqui: fluxo simulado num PostgreSQL 16 local; 👤 rodar numa máquina com Docker*
+- [x] **24.2.3** ⭐ Esquema Drizzle com as 13 tabelas (cadastros, agenda, atividades, leitos, internações, solicitações, atendimentos, medicamentos, lotes, movimentações, dispensações, resumos) e os campos de versão e datas
+- [x] **24.2.4** ⭐ Restrições da arquitetura: `UNIQUE`, índices únicos parciais (R-L1, R-E10), `CHECK` de estoque, `EXCLUDE` de consultas sobrepostas, `UNIQUE (dia, numero)` · 🔗 D25 · ✔ teste que viola cada uma recebe o erro do banco — *9 testes: cada restrição recusa e vira o conflito certo*
+- [x] **24.2.5** Usuário do banco da aplicação sem `UPDATE`/`DELETE` em movimentações (R-F9) — *papel `medicore_app` sem UPDATE, DELETE nem TRUNCATE*
+- [x] **24.2.6** Migração inicial gerada e revisada; `db:migrar` idempotente — *`0000_inicial` (Drizzle) + `0001_restricoes` (à mão)*
+- [x] **24.2.7** Semeadura: os geradores de `data/seeds/` rodam no servidor (A16) · ✔ mesmos números dos dados de exemplo (72% de ocupação, 3 com estoque baixo) — *120 pacientes, 130 leitos, 366 movimentações…; 72% e 3; ida e volta igual; invariantes verdes*
+- [ ] **24.2.8** Testes da API com PostgreSQL em contêiner (Testcontainers) na CI — *`TEST_DATABASE_URL` ou Testcontainers; aqui com PostgreSQL 16 local; 👤 na CI, Testcontainers ainda não rodou*
 
 ### 24.3 Contrato e erros · BL-01.3
-- [ ] **24.3.1** Gerar o OpenAPI a partir dos esquemas zod; `/api/v1/docs` · 🔗 D24
-- [ ] **24.3.2** ⭐ Tradutor de erros (classes → 422/409/412/404/500) e o inverso no navegador · 🔗 [Contrato](PLANO_MELHORIAS_MEDICORE.md#-contrato-da-api-e-erros)
-- [ ] **24.3.3** `ETag` nas leituras e `If-Match` obrigatório nas gravações (R-API1, 412, 428)
-- [ ] **24.3.4** Padrão de listas: paginação, busca, filtros e ordenação como hoje (R-API2)
-- [ ] **24.3.5** Testes de contrato: cada rota confere o formato da resposta e dos erros
-- [ ] **24.3.6** Captura de erros da API no Sentry (23.2.1) ligada
+- [x] **24.3.1** Gerar o OpenAPI a partir dos esquemas zod; `/api/v1/docs` · 🔗 D24 — *`/api/v1/openapi.json`, `/api/v1/docs` e `docs/backend/openapi.json`*
+- [x] **24.3.2** ⭐ Tradutor de erros (classes → 422/409/412/404/500) e o inverso no navegador · 🔗 [Contrato](PLANO_MELHORIAS_MEDICORE.md#-contrato-da-api-e-erros) — *`@medicore/dominio/contrato/erros`; erro do Drizzle sem SQL nem valores (R-API4)*
+- [x] **24.3.3** `ETag` nas leituras e `If-Match` obrigatório nas gravações (R-API1, 412, 428)
+- [x] **24.3.4** Padrão de listas: paginação, busca, filtros e ordenação como hoje (R-API2) — *padrão 10, máximo 100; ordenação com a colação `pt_br_base`; validado com rotas de exemplo (só nos testes)*
+- [x] **24.3.5** Testes de contrato: cada rota confere o formato da resposta e dos erros — *17 testes de contrato*
+- [x] **24.3.6** Captura de erros da API no Sentry (vinda da 23.2.1): módulo com `limpeza.ts` (movida para `packages/dominio`) e o `id` do evento na resposta 500 — *`limpeza.ts` já estava no domínio; Sentry só com `SENTRY_DSN`*
 
 ### 24.F Fechamento
-- [ ] **24.F.1** CI verde com os três workspaces; `docs/PR_FASE_24.md` com o diagrama e o inventário
+- [ ] **24.F.1** CI verde com os três workspaces; `docs/PR_FASE_24.md` com o diagrama e o inventário — *`docs/PR_FASE_24.md` pronto; 👤 falta a CI verde no GitHub*
 - [ ] **24.F.2** Painel; 👤 PR mesclado
 
 ## Fase 25 — BL-01 Backend (2/4): cadastros e agenda no servidor
@@ -338,7 +339,7 @@ flowchart LR
 - [ ] **25.0.1** 👤 Criar a branch; separar a lista de rotas a partir do inventário (24.0.2)
 
 ### 25.1 Cadastros e agenda no servidor · BL-01.4
-- [ ] **25.1.1** Pacientes: listar, obter, criar, editar, inativar, reativar, excluir (P1–P5, R-P1–R-P6, R-X2, R-X3) com as transações no banco
+- [ ] **25.1.1** Pacientes: listar, obter, criar, editar, inativar, reativar, excluir (P1–P5, R-P1–R-P6, R-X2, R-X3) com as transações no banco — *a busca precisa ignorar acentos e tratar números como o `filtrarPorTermo` (extensão `unaccent` ou coluna normalizada; achado da Fase 24)*
 - [ ] **25.1.2** Médicos: listar, obter, criar, editar, inativar, reativar (P6–P8, R-M1–R-M4, R-X4)
 - [ ] **25.1.3** ⭐ Agenda: horários livres (A1/A2) no servidor, agendar, reagendar, cancelar, concluir, falta, baixa em lote (P9–P13); o `EXCLUDE` como última garantia (E-04)
 - [ ] **25.1.4** Atividades: gravadas na mesma transação de cada operação (R-X6)
@@ -1355,4 +1356,8 @@ flowchart LR
 | 13/11/2026 | 0.4.1 | Linha de base medida de novo na `main`: lint e i18n ok; 61 arquivos e 672 testes; cobertura 92,31% de linhas (90,95% instruções, 83,98% ramos, 89,56% funções); pacote 153,6 kB (JS 143,3 + CSS 10,3) com 0 marcadores; 139 e2e verdes em 10,5 min |
 | 13/11/2026 | 0.2.1 | O envio ao GitHub pelo Claude continua com 403 (app não instalado); os pushes seguem com você, por bundle. Na Fase 22, o e2e precisa do Chromium do Playwright em cache na CI (aqui, sem `PW_CHROMIUM_PATH`, os 139 falharam por falta do navegador da versão 1.64.1) |
 | 13/11/2026 | Fase 22 | Workflow `verificacoes.yml` com 5 jobs (estática, testes, pacote, e2e em 2 partes, agregado), comparação do pacote no PR (`scripts/comparar-pacote.ts`, +9 testes → 681) e Prettier nos 10 PRs antigos. Validado localmente e com `actionlint`. Pendente: 1ª execução no GitHub (push com 403 daqui), PR de teste vermelho, Deployment Checks na Vercel |
+| 13/11/2026 | Fase 22 | 1ª execução no GitHub (PR #8): "Testes e cobertura" falhou num teste instável (`leitos.paginas.test.tsx`, busca no mapa, 6,9 s contra a espera de 5 s) e o `verificacoes` ficou vermelho; a 2ª tentativa passou. O PR foi mesclado antes do fim da 1ª execução. Regra do plano: teste instável se corrige, não se repete até passar → 22.F.4 (colar em vez de digitar e espera de 10 s). Execução na `main`: verde em 3 min 00 s; comentário do pacote funcionando. Decisão sugerida: antecipar a Fase 41 (proteger a `main`) |
+| 13/11/2026 | 0.1.2 | Tag `v1.2.0` movida para `c487e33` |
+| 13/11/2026 | Fase 23 | Monitoramento com `@sentry/browser` 11.10 sob demanda (+0,4 kB no inicial), limpeza de dados pessoais em `src/monitoramento/limpeza.ts`, código do erro na tela E-09, mapas de código só com `SENTRY_AUTH_TOKEN`. 717 Vitest (+36), 139 e2e. Conferido com o SDK real contra um Sentry falso local: nada pessoal saiu. Desvio: `beforeSendTransaction` → `beforeSendSpan` (SDK 11). 23.2.1 passa para a 24.3.6. Pendente (👤): projeto no Sentry, variáveis na Vercel, alertas, teste em homologação |
+| 16/11/2026 | Fase 24 | Monorepo (`apps/web`, `apps/api`, `packages/dominio`), API Fastify com PostgreSQL 16 e Drizzle (13 tabelas, restrições da D25, papel sem UPDATE/DELETE em movimentações), contrato de erros nos dois sentidos, ETag/If-Match, listas e OpenAPI. 787 Vitest (domínio 199, app 536, API 52) e 139 e2e. Desvios: os textos (`i18n`) foram para o domínio junto com os esquemas; o Docker Hub está bloqueado nesta sessão, então os testes da API usaram um PostgreSQL 16 local (`TEST_DATABASE_URL`) e o Compose/Dockerfile ficam para conferir numa máquina com Docker. Achados: (1) o Drizzle põe SQL e valores na mensagem de erro → trocada antes do log e do Sentry; (2) a ordem de texto do banco precisa da colação `pt_br_base` para ficar igual à das telas; (3) a busca das rotas da Fase 25 precisa ignorar acentos (anotado na 25.1.1); (4) o Tailwind lia os `.md` da raiz e gerava 10 classes que nenhuma tela usa (CSS −0,3 kB) |
 | | | |

@@ -1,0 +1,26 @@
+{
+  "name": "@medicore/dominio",
+  "private": true,
+  "version": "1.2.0",
+  "type": "module",
+  "description": "Tipos, esquemas, textos, algoritmos puros e erros do MediCore, usados pelo app e pela API (D22).",
+  "exports": {
+    "./types": "./src/types/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-v8": "^5.0.5",
+    "jsdom": "^30.1.3",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.5"
+  }
+}

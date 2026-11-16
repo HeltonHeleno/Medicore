@@ -1,0 +1,112 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MediCore API",
+    "version": "1.2.0",
+    "description": "API do MediCore (D24). Erros no formato do contrato: `{ codigo, … }`. Gravações exigem `If-Match` com a versão lida (R-API1)."
+  },
+  "components": {
+    "schemas": {}
+  },
+  "paths": {
+    "/api/v1/saude": {
+      "get": {
+        "summary": "Situação da API e da conexão com o banco",
+        "tags": [
+          "sistema"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "sem_banco"
+                      ]
+                    },
+                    "versao": {
+                      "type": "string"
+                    },
+                    "ambiente": {
+                      "type": "string"
+                    },
+                    "banco": {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "indisponivel"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "versao",
+                    "ambiente",
+                    "banco"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "sem_banco"
+                      ]
+                    },
+                    "versao": {
+                      "type": "string"
+                    },
+                    "ambiente": {
+                      "type": "string"
+                    },
+                    "banco": {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "indisponivel"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "versao",
+                    "ambiente",
+                    "banco"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "sistema",
+      "description": "Situação da API"
+    }
+  ]
+}
