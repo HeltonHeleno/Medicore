@@ -38,6 +38,8 @@ export interface EventoInternacao {
   tipo: TipoEventoInternacao;
   em: string;
   autor: string;
+  /** Fase 28 (D31): id do usuário que fez (sem login: ausente). */
+  autorId?: string;
   /** Valor anterior (leito, médico, data, precaução…). */
   de?: string;
   /** Valor novo. */
@@ -113,6 +115,8 @@ export interface SolicitacaoLeito extends EntidadeBase, Arquivavel {
   motivoCancelamento?: string;
   canceladaEm?: string;
   autor: string;
+  /** Fase 28 (D31): id do usuário que fez (sem login: ausente). */
+  autorId?: string;
 }
 
 export interface SolicitacaoDetalhada extends SolicitacaoLeito {

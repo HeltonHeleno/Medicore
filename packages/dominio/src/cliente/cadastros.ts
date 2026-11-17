@@ -55,7 +55,8 @@ export function criarChamada(transporte: TransporteApi) {
       Object.entries(requisicao.consulta ?? {}).filter(([, v]) => v !== undefined && v !== ''),
     );
     const r = await transporte({ ...requisicao, consulta });
-    if (r.status >= 400) throw erroDeResposta(r.status, r.corpo);
+    // Status 0: a requisição nem chegou ao servidor (E-22). Fase 28: antes passava como sucesso.
+    if (r.status === 0 || r.status >= 400) throw erroDeResposta(r.status, r.corpo);
     return r.corpo as T;
   };
 }

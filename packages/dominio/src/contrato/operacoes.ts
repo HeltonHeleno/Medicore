@@ -74,6 +74,7 @@ export const leito = z.object({
       previsaoLiberacao: data.optional(),
       em: instante,
       autor: z.string(),
+      autorId: z.string().optional(),
     })
     .optional(),
   higienizacao: z.object({ tipo: tipoHigienizacao }).optional(),
@@ -149,6 +150,7 @@ const eventoInternacao = z.object({
   ]),
   em: instante,
   autor: z.string(),
+  autorId: z.string().optional(),
   de: z.string().optional(),
   para: z.string().optional(),
   motivo: z.string().optional(),
@@ -224,6 +226,7 @@ export const solicitacao = z.object({
   motivoCancelamento: z.string().optional(),
   canceladaEm: instante.optional(),
   autor: z.string(),
+  autorId: z.string().optional(),
 });
 
 export const solicitacaoDetalhada = solicitacao.extend({
@@ -300,6 +303,7 @@ export const atendimento = z.object({
       observacao: z.string().optional(),
       justificativa: z.string().optional(),
       autor: z.string(),
+      autorId: z.string().optional(),
     }),
   ),
   reavaliacoes: z.array(
@@ -338,6 +342,7 @@ export const atendimento = z.object({
       ]),
       em: instante,
       autor: z.string(),
+      autorId: z.string().optional(),
       de: z.string().optional(),
       para: z.string().optional(),
       detalhe: z.string().optional(),
@@ -438,6 +443,7 @@ export const lote = z.object({
       referencia: z.string().optional(),
       em: instante,
       autor: z.string(),
+      autorId: z.string().optional(),
     })
     .optional(),
   saldoArquivado: inteiro,
@@ -460,6 +466,7 @@ export const movimentacao = z.object({
   motivo: z.string().optional(),
   termo: z.string().optional(),
   autor: z.string(),
+  autorId: z.string().optional(),
   em: instante,
 });
 
@@ -495,9 +502,12 @@ export const dispensacao = z.object({
     }),
   ),
   status: z.enum(['realizada', 'estornada']),
-  estorno: z.object({ em: instante, motivo: z.string(), autor: z.string() }).optional(),
+  estorno: z
+    .object({ em: instante, motivo: z.string(), autor: z.string(), autorId: z.string().optional() })
+    .optional(),
   em: instante,
   autor: z.string(),
+  autorId: z.string().optional(),
 });
 
 export const dispensacaoDetalhada = dispensacao.extend({

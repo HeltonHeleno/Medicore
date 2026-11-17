@@ -228,6 +228,8 @@ export const atividade = z.object({
   descricao: z.string(),
   em: instante,
   referenciaId: z.string().optional(),
+  autor: z.string().optional(),
+  autorId: z.string().optional(),
 });
 
 export const indicadoresCadastros = z.object({

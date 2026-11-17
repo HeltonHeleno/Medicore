@@ -25,6 +25,8 @@ export interface BloqueioLeito {
   previsaoLiberacao?: string;
   em: string;
   autor: string;
+  /** Fase 28 (D31): id do usuário que fez (sem login: ausente). */
+  autorId?: string;
 }
 
 export interface Leito extends EntidadeBase {

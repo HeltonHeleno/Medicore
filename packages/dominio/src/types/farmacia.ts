@@ -39,6 +39,8 @@ export interface BloqueioLote {
   referencia?: string;
   em: string;
   autor: string;
+  /** Fase 28 (D31): id do usuário que fez (sem login: ausente). */
+  autorId?: string;
 }
 
 export interface Lote extends EntidadeBase {
@@ -80,6 +82,8 @@ export interface Movimentacao {
   /** Termo de descarte (controlados, F6). */
   termo?: string;
   autor: string;
+  /** Fase 28 (D31): id do usuário que fez (sem login: ausente). */
+  autorId?: string;
   em: string;
 }
 
@@ -112,9 +116,11 @@ export interface Dispensacao extends EntidadeBase, Arquivavel {
   itens: ItemDispensacao[];
   alertasConfirmados: AlertaConfirmado[];
   status: 'realizada' | 'estornada';
-  estorno?: { em: string; motivo: string; autor: string };
+  estorno?: { em: string; motivo: string; autor: string; autorId?: string };
   em: string;
   autor: string;
+  /** Fase 28 (D31): id do usuário que fez (sem login: ausente). */
+  autorId?: string;
 }
 
 export type SituacaoEstoque = 'ok' | 'baixo' | 'zerado';

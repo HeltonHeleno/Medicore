@@ -58,7 +58,13 @@ export type CodigoConflito =
   | 'medicamento_duplicado'
   | 'medicamento_inativo'
   /** Fase 24: uma restrição do banco recusou a gravação e não há código mais específico. */
-  | 'conflito_dados';
+  | 'conflito_dados'
+  /** Fase 28 (BL-02.5): E-17 do último administrador ativo; e-mail de usuário repetido. */
+  | 'ultimo_administrador'
+  | 'usuario_duplicado'
+  /** Fase 28 (BL-02.1): conta desativada; código do segundo fator errado. */
+  | 'conta_desativada'
+  | 'codigo_incorreto';
 
 /** Pendência listada no E-17, com o link para resolvê-la. */
 export interface PendenciaModulo {
