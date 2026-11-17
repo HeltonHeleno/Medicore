@@ -477,6 +477,8 @@ export const t = {
     editar: 'Editar paciente',
     detalhe: 'Paciente',
     editarBreadcrumb: 'Editar',
+    /** Fase 29: título da rota do relatório ao titular (BL-03.4). */
+    titular: 'Relatório ao titular dos dados',
     buscar: 'Buscar por nome, CPF ou telefone',
     status: 'Situação',
     ativos: 'Ativos',
