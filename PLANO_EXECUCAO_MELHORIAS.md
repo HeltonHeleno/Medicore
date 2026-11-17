@@ -63,7 +63,7 @@
 | Fase 25 | BL-01 Backend (2/4): cadastros e agenda | 1 | 12 | 7 | 🟨 | 16/11 | |
 | Fase 26 | BL-01 Backend (3/4): leitos, emergência, farmácia e rotinas | 2 | 15 | 9 | 🟨 | 16/11 | |
 | Fase 27 | BL-01 Backend (4/4): navegador na API e ambientes | 2 | 15 | 5 | 🟨 | 16/11 | |
-| Fase 28 | BL-02 Autenticação e perfis | 7 | 21 | 8 | ⬜ | | |
+| Fase 28 | BL-02 Autenticação e perfis | 7 | 21 | 8 | 🟨 | 17/11 | |
 | Fase 29 | BL-03 Auditoria (LGPD) | 5 | 11 | 4 | ⬜ | | |
 | Fase 30 | BL-04 Criptografia, backup e guarda | 6 | 9 | 4 | ⬜ | | |
 | Encerramento 1 | Versão 2.0.0 com dados reais | — | 6 | 1 | ⬜ | | |
@@ -420,45 +420,45 @@ flowchart LR
 **Objetivo:** cada pessoa com a própria conta e só o que o perfil permite. **Duração:** 8 dias. **Branch:** `feat/fase-28-autenticacao`. **Especificação:** BL-02, D29–D31, R-AU1–R-AU5, E-19–E-21.
 
 ### 28.0 Abertura
-- [ ] **28.0.1** 👤 Criar a branch; conferir D29–D31; serviço de e-mail transacional para convites e redefinição (👤 conta)
-- [ ] **28.0.2** Tabelas `usuarios`, `perfis_usuario`, `sessoes`, `convites`, `codigos_recuperacao`; permissões por ação em `packages/dominio` (a [matriz](PLANO_MELHORIAS_MEDICORE.md#-perfis-de-acesso))
+- [ ] **28.0.1** 👤 Criar a branch; conferir D29–D31; serviço de e-mail transacional para convites e redefinição (👤 conta) — *branch criada; e-mail pelo Resend, opcional (`EMAIL_PROVEDOR`); sem ele, o link aparece para o administrador; 👤 criar a conta e o domínio*
+- [x] **28.0.2** Tabelas `usuarios`, `perfis_usuario`, `sessoes`, `convites`, `codigos_recuperacao`; permissões por ação em `packages/dominio` (a [matriz](PLANO_MELHORIAS_MEDICORE.md#-perfis-de-acesso))
 
 ### 28.1 Entrar · BL-02.1
-- [ ] **28.1.1** Rota de login: Argon2id (R-AU1), mensagem única para e-mail ou senha errados, bloqueio progressivo (R-AU3, E-21)
-- [ ] **28.1.2** Sessão em cookie `HttpOnly`, `Secure`, `SameSite=Lax`; proteção CSRF nas gravações (R-AU4)
-- [ ] **28.1.3** Tela de login (fora do layout, sem menu), acessível, com o retorno para a rota pedida
+- [x] **28.1.1** Rota de login: Argon2id (R-AU1), mensagem única para e-mail ou senha errados, bloqueio progressivo (R-AU3, E-21)
+- [x] **28.1.2** Sessão em cookie `HttpOnly`, `Secure`, `SameSite=Lax`; proteção CSRF nas gravações (R-AU4) — *código de segurança por sessão no cabeçalho `X-CSRF-Token`; o app chama `/api` no próprio endereço (`middleware.ts` na Vercel, proxy do Vite), para o cookie ser de primeira parte*
+- [x] **28.1.3** Tela de login (fora do layout, sem menu), acessível, com o retorno para a rota pedida
 
 ### 28.2 Primeiro acesso e MFA · BL-02.2
-- [ ] **28.2.1** Convite (48 h, uso único) e definição de senha com verificação de senhas vazadas (lista local)
-- [ ] **28.2.2** MFA por TOTP com QR code e códigos de recuperação; obrigatório para Administrador e Gestão (R-AU2)
+- [x] **28.2.1** Convite (48 h, uso único) e definição de senha com verificação de senhas vazadas (lista local)
+- [x] **28.2.2** MFA por TOTP com QR code e códigos de recuperação; obrigatório para Administrador e Gestão (R-AU2)
 
 ### 28.3 Esqueci a senha · BL-02.3
-- [ ] **28.3.1** Link de redefinição (30 min, uso único), mesma resposta exista ou não a conta; encerra as sessões
+- [x] **28.3.1** Link de redefinição (30 min, uso único), mesma resposta exista ou não a conta; encerra as sessões
 
 ### 28.4 Sair e expirar · BL-02.4
-- [ ] **28.4.1** "Sair" no menu do usuário; expiração por inatividade (30 min) e absoluta (12 h)
-- [ ] **28.4.2** ⭐ Diálogo E-19 que reabre o login **sem perder o formulário em edição**
+- [x] **28.4.1** "Sair" no menu do usuário; expiração por inatividade (30 min) e absoluta (12 h)
+- [x] **28.4.2** ⭐ Diálogo E-19 que reabre o login **sem perder o formulário em edição**
 
 ### 28.5 Administrar usuários · BL-02.5
-- [ ] **28.5.1** Tela de usuários (em Configurações): convidar, editar perfis, vincular médico, desativar, desbloquear, redefinir MFA
-- [ ] **28.5.2** O último Administrador ativo não pode ser desativado (E-17)
+- [x] **28.5.1** Tela de usuários (em Configurações): convidar, editar perfis, vincular médico, desativar, desbloquear, redefinir MFA
+- [x] **28.5.2** O último Administrador ativo não pode ser desativado (E-17)
 
 ### 28.6 Conferir a permissão · BL-02.6
-- [ ] **28.6.1** ⭐ Verificação de permissão em toda rota da API, negada por padrão (E-20) · 🔗 RS-25
-- [ ] **28.6.2** O navegador esconde botões, itens de menu e ações rápidas sem permissão (`usePermissao`)
-- [ ] **28.6.3** O usuário logado substitui o "Dr. Ricardo Almeida" fixo do cabeçalho e do Painel
+- [x] **28.6.1** ⭐ Verificação de permissão em toda rota da API, negada por padrão (E-20) · 🔗 RS-25
+- [x] **28.6.2** O navegador esconde botões, itens de menu e ações rápidas sem permissão (`usePermissao`)
+- [x] **28.6.3** O usuário logado substitui o "Dr. Ricardo Almeida" fixo do cabeçalho e do Painel
 
 ### 28.7 Autor real · BL-02.7
-- [ ] **28.7.1** `autor` = `{ usuarioId, nome }` em eventos, movimentações e atividades; os antigos ficam como estão (D31)
+- [x] **28.7.1** `autor` = `{ usuarioId, nome }` em eventos, movimentações e atividades; os antigos ficam como estão (D31)
 
 ### 28.T Testes
-- [ ] **28.T.1** ⭐ Matriz ação × perfil 100% testada (permitido e E-20)
-- [ ] **28.T.2** e2e: login com MFA; sessão expirada no meio de um formulário; Recepção não vê "Dar alta"; Farmácia não vê triagem
-- [ ] **28.T.3** Varredura de segurança (OWASP ZAP básico) · ✔ sem achado alto
-- [ ] **28.T.4** Nenhuma senha, token ou código em logs, auditoria ou Sentry (R-AU5) · ✔ teste automatizado
+- [x] **28.T.1** ⭐ Matriz ação × perfil 100% testada (permitido e E-20)
+- [x] **28.T.2** e2e: login com MFA; sessão expirada no meio de um formulário; Recepção não vê "Dar alta"; Farmácia não vê triagem
+- [ ] **28.T.3** Varredura de segurança (OWASP ZAP básico) · ✔ sem achado alto — *👤 o ZAP não roda neste ambiente; rodar contra a homologação publicada (`zap-baseline.py -t <app>`)*
+- [x] **28.T.4** Nenhuma senha, token ou código em logs, auditoria ou Sentry (R-AU5) · ✔ teste automatizado
 
 ### 28.F Fechamento
-- [ ] **28.F.1** axe nas telas novas; `docs/PR_FASE_28.md`; painel; backlog (BL-02 ✅); 👤 PR mesclado
+- [ ] **28.F.1** axe nas telas novas; `docs/PR_FASE_28.md`; painel; backlog (BL-02 ✅); 👤 PR mesclado — *axe no `e2e/acesso.spec.ts`; `docs/PR_FASE_28.md`; 👤 falta o merge*
 
 ## Fase 29 — BL-03 Auditoria de acesso (LGPD)
 
@@ -1368,4 +1368,5 @@ flowchart LR
 | 16/11/2026 | Fase 26 | Leitos, emergência, farmácia, R-X, indicadores e rotinas no servidor: 67 caminhos novos (95 no total), as regras do navegador rodando sobre uma unidade de trabalho no banco (`SERIALIZABLE`, nova tentativa até 3 vezes, trava por área), agendador com a tabela `rotinas` (uma vez por dia, várias instâncias), invariantes no monitoramento. Os 87 testes de serviço dos módulos rodam contra a API (6 asserções ajustadas só na forma); 500 operações aleatórias × 3 sementes pela API sem violação. API 320 testes (97,6% de linhas), domínio 222, app 528. Achados: (1) `pg_advisory_xact_lock` no `SERIALIZABLE` tira o retrato antes de esperar — trocado por `LOCK TABLE` (os testes de chegadas simultâneas pegaram); (2) a R-F9 impede a retenção de apagar movimentações no servidor, então os lotes também ficam; (3) a R-X3 da Fase 25 fazia consultas juntas na mesma conexão (aviso do `pg` 9). Pendente para a Fase 27: rotinas com o Cloud Run escalando para zero (1 instância mínima ou Cloud Scheduler) |
 | 16/11/2026 | Fase 26 | PR #11 mesclado; a CI do PR falhou em "Testes e cobertura": a cobertura do domínio caiu para 83,3% (o contrato e o cliente dos módulos não eram exercitados). Corrigido no 1º commit da Fase 27 (96,2%). Antes de abrir PR, rodar a cobertura dos três pacotes, não só os testes |
 | 16/11/2026 | Fase 27 | Decisões do usuário: (1) chave `VITE_API_URL` — com ela o app usa a API, sem ela continua no navegador (o merge não quebra a demonstração da Vercel); (2) preparar a publicação (workflow do Cloud Run + guia `gcloud`). Feito: troca dos 15 serviços no build, recarga D26, E-22 com reenvio, aviso único, CORS, rotas de teste, rotina das rotinas para o Cloud Scheduler, restauração diária da demonstração. Cenários 1–10 contra a API, 3 rodadas verdes; 139 e2e no modo navegador; API 329, domínio 233, app 552; Lighthouse ≥ 96; carga real p95 35 ms. Achados: 304 em detalhes com prazo calculado (o botão "Desfazer alta" ficava depois do prazo); a linha de comando da semeadura rodava dentro do pacote da API; fila redesenhada a cada resposta. Pendente (👤): Google Cloud, variáveis no GitHub e na Vercel, sessão de uso 27.V.1 |
+| 17/11/2026 | Fase 28 | Login no modo API: Argon2id, bloqueio por e-mail, sessão em cookie com código de segurança, MFA por TOTP (Administrador e Gestão), convite, senha nova, administração de usuários, 7 perfis conferidos em todas as rotas (negado por padrão), CPF oculto sem `pacientes.verCpf`, autor com `autorId`. O app chama `/api` no próprio endereço (`middleware.ts` na Vercel, proxy do Vite). API 372 testes (97,6%), domínio 241 (96,4%), app 582 (91,4%); e2e modo API 20 + 1 pulado, modo navegador 139; pacote 156,0 kB (navegador) e 147,5 kB (API). Achado: o cliente HTTP tratava falha de rede (status 0) como sucesso; corrigido. Pendente: 👤 ZAP na homologação, conta de e-mail (opcional), `VITE_API_URL=/` e `API_ORIGEM` na Vercel |
 | | | |

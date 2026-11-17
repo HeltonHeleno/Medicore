@@ -63,6 +63,11 @@ jobs:
         env:
           AMBIENTE: ${{ matrix.ambiente }}
         run: |
+          SEGREDOS="DATABASE_URL=medicore-$AMBIENTE-database-url:latest,DATABASE_URL_MIGRACAO=medicore-$AMBIENTE-database-url-migracao:latest,ROTINAS_CHAVE=medicore-$AMBIENTE-rotinas-chave:latest"
+          # Fase 28: e-mails de convite e de senha nova (opcional; sem provedor, o link aparece para o administrador).
+          if [ "${{ vars.EMAIL_PROVEDOR }}" = "resend" ]; then
+            SEGREDOS="$SEGREDOS,RESEND_API_KEY=medicore-$AMBIENTE-resend-api-key:latest"
+          fi
           gcloud run deploy "$SERVICO" \
             --project "${{ vars.GCP_PROJETO }}" \
             --region "${{ vars.GCP_REGIAO }}" \
@@ -73,8 +78,8 @@ jobs:
             --min-instances 0 \
             --max-instances 3 \
             --port 3000 \
-            --set-env-vars "^@^AMBIENTE=$AMBIENTE@SEMEAR=se-vazio@ROTINAS=nao@LOG_NIVEL=info@CORS_ORIGENS=${{ vars.CORS_ORIGENS }}" \
-            --set-secrets "DATABASE_URL=medicore-$AMBIENTE-database-url:latest,DATABASE_URL_MIGRACAO=medicore-$AMBIENTE-database-url-migracao:latest,ROTINAS_CHAVE=medicore-$AMBIENTE-rotinas-chave:latest"
+            --set-env-vars "^@^AMBIENTE=$AMBIENTE@SEMEAR=se-vazio@ROTINAS=nao@LOG_NIVEL=info@CORS_ORIGENS=${{ vars.CORS_ORIGENS }}@APP_URL=${{ vars.APP_URL }}@EMAIL_PROVEDOR=${{ vars.EMAIL_PROVEDOR }}@EMAIL_REMETENTE=${{ vars.EMAIL_REMETENTE }}" \
+            --set-secrets "$SEGREDOS"
       - name: Conferir a saúde
         run: |
           URL="$(gcloud run services describe "$SERVICO" --project "${{ vars.GCP_PROJETO }}" --region "${{ vars.GCP_REGIAO }}" --format 'value(status.url)')"
