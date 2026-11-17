@@ -161,6 +161,7 @@ describe('rotinas pelo Cloud Scheduler (27.2.4)', () => {
       demonstracao: 'ja_executada',
       retencao: 'ja_executada',
       invariantes: 'ja_executada',
+      auditoria: 'ja_executada',
     });
     expect(chaveConfere(undefined, CHAVE)).toBe(false);
   });

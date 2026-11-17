@@ -64,7 +64,7 @@
 | Fase 26 | BL-01 Backend (3/4): leitos, emergência, farmácia e rotinas | 2 | 15 | 9 | 🟨 | 16/11 | |
 | Fase 27 | BL-01 Backend (4/4): navegador na API e ambientes | 2 | 15 | 5 | 🟨 | 16/11 | |
 | Fase 28 | BL-02 Autenticação e perfis | 7 | 21 | 8 | 🟨 | 17/11 | |
-| Fase 29 | BL-03 Auditoria (LGPD) | 5 | 11 | 4 | ⬜ | | |
+| Fase 29 | BL-03 Auditoria (LGPD) | 5 | 11 | 4 | 🟨 | 17/11 | |
 | Fase 30 | BL-04 Criptografia, backup e guarda | 6 | 9 | 4 | ⬜ | | |
 | Encerramento 1 | Versão 2.0.0 com dados reais | — | 6 | 1 | ⬜ | | |
 | **Onda 2** | **Próximo — versões 2.1 a 2.3** | | | **47** | | | |
@@ -465,31 +465,31 @@ flowchart LR
 **Objetivo:** responder "quem viu ou mudou, quando e de onde". **Duração:** 4 dias. **Branch:** `feat/fase-29-auditoria`. **Especificação:** BL-03, D32.
 
 ### 29.0 Abertura
-- [ ] **29.0.1** 👤 Criar a branch; 👤 confirmar com o jurídico o prazo de guarda (D32)
-- [ ] **29.0.2** Tabela `auditoria` só de inclusão para o usuário da aplicação; índices por paciente, usuário e data
+- [ ] **29.0.1** 👤 Criar a branch; 👤 confirmar com o jurídico o prazo de guarda (D32) — *branch criada; a trilha ainda não apaga nada (nem o usuário da aplicação consegue): a guarda entra quando o prazo for confirmado*
+- [x] **29.0.2** Tabela `auditoria` só de inclusão para o usuário da aplicação; índices por paciente, usuário e data
 
 ### 29.1 Registrar gravações · BL-03.1
-- [ ] **29.1.1** ⭐ Gancho único nas gravações: ação, entidade, id, campos alterados (antes → depois, com documentos mascarados), usuário, IP, agente — na mesma transação
+- [x] **29.1.1** ⭐ Gancho único nas gravações: ação, entidade, id, campos alterados (antes → depois, com documentos mascarados), usuário, IP, agente — na mesma transação
 
 ### 29.2 Registrar leituras sensíveis · BL-03.2
-- [ ] **29.2.1** Leituras de cadastro de paciente, CPF completo, alergias, atendimento, internação, dispensação e exportações
+- [x] **29.2.1** Leituras de cadastro de paciente, CPF completo, alergias, atendimento, internação, dispensação e exportações
 
 ### 29.3 Consultar a auditoria · BL-03.3
-- [ ] **29.3.1** Tela em Configurações → Auditoria, com filtros e exportação (registrada)
-- [ ] **29.3.2** "Histórico de acesso" no detalhe do paciente (Administrador e Gestão)
+- [x] **29.3.1** Tela em Configurações → Auditoria, com filtros e exportação (registrada)
+- [x] **29.3.2** "Histórico de acesso" no detalhe do paciente (Administrador e Gestão)
 
 ### 29.4 Atender pedido do titular · BL-03.4
-- [ ] **29.4.1** Relatório "acessos ao cadastro" e "cópia dos dados" do paciente, em PDF
+- [x] **29.4.1** Relatório "acessos ao cadastro" e "cópia dos dados" do paciente, em PDF — *página pronta para imprimir ou "Salvar como PDF" no navegador (sem biblioteca de PDF no servidor)*
 
 ### 29.5 Proteger a trilha · BL-03.5
-- [ ] **29.5.1** Cadeia de hash por dia e conferência mensal de integridade · ✔ alterar um registro direto no banco é detectado
+- [x] **29.5.1** Cadeia de hash por dia e conferência mensal de integridade · ✔ alterar um registro direto no banco é detectado
 
 ### 29.T Testes
-- [ ] **29.T.1** Cada gravação e leitura sensível tem teste que confere o registro
-- [ ] **29.T.2** Consulta por paciente em < 1 s com 1 milhão de registros
+- [x] **29.T.1** Cada gravação e leitura sensível tem teste que confere o registro
+- [x] **29.T.2** Consulta por paciente em < 1 s com 1 milhão de registros
 
 ### 29.F Fechamento
-- [ ] **29.F.1** `docs/PR_FASE_29.md`; painel; backlog (BL-03 ✅); 👤 PR mesclado
+- [ ] **29.F.1** `docs/PR_FASE_29.md`; painel; backlog (BL-03 ✅); 👤 PR mesclado — *`docs/PR_FASE_29.md`; 👤 falta o merge*
 
 ## Fase 30 — BL-04 Criptografia, backup e guarda dos dados
 
@@ -1369,4 +1369,5 @@ flowchart LR
 | 16/11/2026 | Fase 26 | PR #11 mesclado; a CI do PR falhou em "Testes e cobertura": a cobertura do domínio caiu para 83,3% (o contrato e o cliente dos módulos não eram exercitados). Corrigido no 1º commit da Fase 27 (96,2%). Antes de abrir PR, rodar a cobertura dos três pacotes, não só os testes |
 | 16/11/2026 | Fase 27 | Decisões do usuário: (1) chave `VITE_API_URL` — com ela o app usa a API, sem ela continua no navegador (o merge não quebra a demonstração da Vercel); (2) preparar a publicação (workflow do Cloud Run + guia `gcloud`). Feito: troca dos 15 serviços no build, recarga D26, E-22 com reenvio, aviso único, CORS, rotas de teste, rotina das rotinas para o Cloud Scheduler, restauração diária da demonstração. Cenários 1–10 contra a API, 3 rodadas verdes; 139 e2e no modo navegador; API 329, domínio 233, app 552; Lighthouse ≥ 96; carga real p95 35 ms. Achados: 304 em detalhes com prazo calculado (o botão "Desfazer alta" ficava depois do prazo); a linha de comando da semeadura rodava dentro do pacote da API; fila redesenhada a cada resposta. Pendente (👤): Google Cloud, variáveis no GitHub e na Vercel, sessão de uso 27.V.1 |
 | 17/11/2026 | Fase 28 | Login no modo API: Argon2id, bloqueio por e-mail, sessão em cookie com código de segurança, MFA por TOTP (Administrador e Gestão), convite, senha nova, administração de usuários, 7 perfis conferidos em todas as rotas (negado por padrão), CPF oculto sem `pacientes.verCpf`, autor com `autorId`. O app chama `/api` no próprio endereço (`middleware.ts` na Vercel, proxy do Vite). API 372 testes (97,6%), domínio 241 (96,4%), app 582 (91,4%); e2e modo API 20 + 1 pulado, modo navegador 139; pacote 156,0 kB (navegador) e 147,5 kB (API). Achado: o cliente HTTP tratava falha de rede (status 0) como sucesso; corrigido. Pendente: 👤 ZAP na homologação, conta de e-mail (opcional), `VITE_API_URL=/` e `API_ORIGEM` na Vercel |
+| 17/11/2026 | Fase 29 | Auditoria: gatilho por tabela no banco (antes → depois na mesma transação, contexto por `SET LOCAL` no começo de toda transação, CPF mascarado, sem senha), leituras sensíveis gravadas antes da resposta, Configurações → Auditoria com filtros e CSV, histórico de acesso no paciente, relatório ao titular (imprimir/PDF), selo diário com cadeia de hash e conferência mensal. API 390 testes (97,8%), domínio 244 (96,5%), app 591 (91,6%); e2e modo API 23 + 1 pulado, navegador 139; 1 milhão de registros: consulta por paciente < 1 s; pacote 156,4 kB / 147,7 kB. Pendente: 👤 prazo de guarda com o jurídico |
 | | | |

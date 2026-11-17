@@ -55,6 +55,8 @@ export const ACOES = [
   'farmacia.dispensacao',
   /** Consultar a auditoria (BL-03, Fase 29). */
   'auditoria.ver',
+  /** Atender o pedido do titular: acessos e cópia dos dados do paciente (BL-03.4). */
+  'titular.atender',
   /** Relatórios e análises (BL-40, BL-42). */
   'relatorios.ver',
 ] as const;
@@ -81,6 +83,7 @@ export const PERMISSOES: Record<Acao, readonly Perfil[]> = {
   'farmacia.estoque': ['farmacia'],
   'farmacia.dispensacao': ['farmacia'],
   'auditoria.ver': ['administrador', 'gestao'],
+  'titular.atender': ['administrador'],
   'relatorios.ver': ['administrador', 'farmacia', 'gestao'],
 };
 

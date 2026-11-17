@@ -29,6 +29,13 @@ export const ROTAS: Record<string, Exigencia> = {
   'POST /api/v1/usuarios/:id/redefinir-mfa': 'usuarios.administrar',
   'POST /api/v1/usuarios/:id/link': 'usuarios.administrar',
 
+  // Auditoria (BL-03): até a leitura é só de Administrador e Gestão; o titular, só Administrador.
+  'GET /api/v1/auditoria': 'auditoria.ver',
+  'GET /api/v1/auditoria/pessoas': 'auditoria.ver',
+  'GET /api/v1/auditoria/exportar': 'auditoria.ver',
+  'GET /api/v1/auditoria/integridade': 'auditoria.ver',
+  'GET /api/v1/pacientes/:id/titular': 'titular.atender',
+
   // Pacientes (P1–P5)
   'POST /api/v1/pacientes': 'pacientes.editar',
   'PUT /api/v1/pacientes/:id': 'pacientes.editar',

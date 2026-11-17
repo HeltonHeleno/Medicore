@@ -27,6 +27,7 @@ export const ta = {
     'farmacia.estoque': 'cuidar do estoque da farmácia',
     'farmacia.dispensacao': 'dispensar medicamentos',
     'auditoria.ver': 'consultar a auditoria',
+    'titular.atender': 'atender pedidos do titular dos dados',
     'relatorios.ver': 'ver relatórios',
   } satisfies Record<Acao, string>,
 

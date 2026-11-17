@@ -53,6 +53,16 @@ const rotasPacientes: RouteObject = {
           lazy: pagina(() => import('./pages/pacientes/EditarPaciente')),
           handle: handle(t.pacientes.editar, t.pacientes.editarBreadcrumb),
         },
+        // Fase 29 (BL-03.4): relatório ao titular (só com login: os dados vêm da API).
+        ...(COM_LOGIN
+          ? [
+              {
+                path: 'titular',
+                lazy: pagina(() => import('./pages/pacientes/PedidoTitular')),
+                handle: handle(t.pacientes.titular),
+              },
+            ]
+          : []),
       ],
     },
   ],

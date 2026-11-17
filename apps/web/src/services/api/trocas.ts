@@ -18,4 +18,6 @@ export const SERVICOS_DO_MODO_API = [
   'colecoes-operacoes',
   // Fase 28: login, sessão e usuários.
   'acesso',
+  // Fase 29: auditoria e pedido do titular.
+  'auditoria',
 ] as const;

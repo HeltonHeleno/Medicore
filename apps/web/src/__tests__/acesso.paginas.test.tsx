@@ -327,13 +327,17 @@ describe('o que cada perfil vê (BL-02.6)', () => {
     expect(await screen.findByRole('link', { name: 'Registrar chegada' })).toBeInTheDocument();
   });
 
-  it('Configurações: Usuários só para o Administrador', async () => {
+  it('Configurações: Usuários só para o Administrador (a Gestão vê a auditoria; o NIR, nada)', async () => {
     m.usarSessao(sessao(['gestao']));
+    const { unmount } = renderizarComRotas('/configuracoes');
+    expect(await screen.findByRole('heading', { level: 1, name: 'Auditoria' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Convidar usuário' })).not.toBeInTheDocument();
+    unmount();
+    m.usarSessao(sessao(['nir']));
     renderizarComRotas('/configuracoes');
     expect(
       await screen.findByRole('heading', { level: 1, name: 'Configurações' }),
     ).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Convidar usuário' })).not.toBeInTheDocument();
   });
 });
 

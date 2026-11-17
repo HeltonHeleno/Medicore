@@ -104,6 +104,11 @@ de verdade: `npm run acesso:primeiro-admin -w @medicore/api -- "Nome" email` (mo
 primeiro acesso); as outras, em Configurações → Usuários. O app chama `/api` no próprio endereço
 (proxy do Vite; na Vercel, o `middleware.ts`), para o cookie da sessão ser do próprio app.
 
+Desde a Fase 29, a **auditoria** registra quem viu ou mudou cada registro, quando e de onde: as
+gravações por gatilhos no banco (na mesma transação, com o antes → depois e o CPF mascarado) e as
+leituras sensíveis pela API. A consulta fica em Configurações → Auditoria (Administrador e Gestão);
+o relatório ao titular dos dados (LGPD), no menu do paciente.
+
 Na primeira execução, os dados de exemplo são criados automaticamente:
 
 - 30 pacientes e 8 médicos, todos fictícios;

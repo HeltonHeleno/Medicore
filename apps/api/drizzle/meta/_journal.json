@@ -36,6 +36,13 @@
       "when": 1794914487037,
       "tag": "0004_acesso",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794934699145,
+      "tag": "0005_auditoria",
+      "breakpoints": true
     }
   ]
 }

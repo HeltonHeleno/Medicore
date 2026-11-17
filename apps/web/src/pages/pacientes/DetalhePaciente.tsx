@@ -1,8 +1,12 @@
 import { SePode } from '../../components/acesso/SePode';
+import { tau } from '@medicore/dominio/i18n/pt-BR/auditoria';
+import { HistoricoAcesso } from '../../components/auditoria/HistoricoAcesso';
+import { COM_LOGIN } from '../../services/acesso';
 import {
   ArrowLeft,
   CalendarPlus,
   Eye,
+  FileText,
   EyeOff,
   Pencil,
   Trash2,
@@ -136,11 +140,13 @@ export default function DetalhePaciente() {
                       icone: UserX,
                       perigo: true,
                       aoClicar: () => void acoes.inativar(alvo),
+                      permissao: 'pacientes.editar' as const,
                     }
                   : {
                       rotulo: p.acoes.reativar,
                       icone: UserCheck,
                       aoClicar: () => void acoes.reativar(alvo),
+                      permissao: 'pacientes.editar' as const,
                     },
                 ...(podeExcluir
                   ? [
@@ -149,6 +155,18 @@ export default function DetalhePaciente() {
                         icone: Trash2,
                         perigo: true,
                         aoClicar: () => void acoes.excluir(alvo),
+                        permissao: 'pacientes.editar' as const,
+                      },
+                    ]
+                  : []),
+                // Fase 29 (BL-03.4): relatório ao titular, para imprimir ou salvar em PDF.
+                ...(COM_LOGIN
+                  ? [
+                      {
+                        rotulo: tau.titular.botao,
+                        icone: FileText,
+                        href: `/pacientes/${id}/titular`,
+                        permissao: 'titular.atender' as const,
                       },
                     ]
                   : []),
@@ -313,6 +331,7 @@ export default function DetalhePaciente() {
             paginado
           />
         </div>
+        <HistoricoAcesso pacienteId={id} />
       </div>
     </>
   );

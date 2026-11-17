@@ -278,6 +278,7 @@ describe('OpenAPI', () => {
       'painel',
       'acesso',
       'usuários',
+      'auditoria',
     ]);
   });
 });
