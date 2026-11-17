@@ -91,7 +91,7 @@ describe('formato das respostas de leitura', () => {
   });
 
   it('os registros vêm com ETag e respondem 304 à mesma versão', async () => {
-    for (const url of [`/pacientes/${PACIENTE}`, `/medicos/${MEDICO}`, `/consultas/${CONSULTA}`]) {
+    for (const url of [`/pacientes/${PACIENTE}`, `/medicos/${MEDICO}`]) {
       const r = await chamar('GET', url);
       expect(r.etag, url).toBe(`"v${r.corpo.versao}"`);
       const de_novo = await api().app.inject({
@@ -101,6 +101,18 @@ describe('formato das respostas de leitura', () => {
       });
       expect(de_novo.statusCode, url).toBe(304);
     }
+  });
+
+  it('Fase 27: a consulta detalhada (com `atrasada`, que muda com o tempo) tem ETag, mas nunca 304', async () => {
+    const r = await chamar('GET', `/consultas/${CONSULTA}`);
+    expect(r.etag).toBe(`"v${r.corpo.versao}"`);
+    const de_novo = await api().app.inject({
+      method: 'GET',
+      url: `/api/v1/consultas/${CONSULTA}`,
+      headers: { 'if-none-match': r.etag! },
+    });
+    expect(de_novo.statusCode).toBe(200);
+    expect(de_novo.headers['cache-control']).toBe('no-store');
   });
 });
 

@@ -79,7 +79,7 @@ Com a API (Fase 24 em diante):
 docker compose up -d                   # PostgreSQL 16 em localhost:5432
 cp apps/api/.env.example apps/api/.env
 npm run db:migrar && npm run db:semear # cria as tabelas e grava os dados de exemplo
-npm run dev                            # API (http://localhost:3000) e app juntos
+npm run dev                            # API (http://localhost:3000) e app juntos, o app usando a API
 ```
 
 A documentação da API fica em http://localhost:3000/api/v1/docs (cópia em
@@ -87,8 +87,14 @@ A documentação da API fica em http://localhost:3000/api/v1/docs (cópia em
 médicos, consultas, atividades e os indicadores dos cadastros no Painel); desde a Fase 26, também
 leitos, emergência, farmácia, os indicadores dos módulos e as rotinas do dia (retenção, lote
 vencido e a conferência das invariantes, uma vez por dia; `ROTINAS=nao` desliga numa instância).
-As transações e travas estão em `docs/backend/TRANSACOES.md`. Até a Fase 27, o app ainda usa os
-dados do navegador.
+As transações e travas estão em `docs/backend/TRANSACOES.md`.
+
+Desde a Fase 27, o app usa a API quando é construído com `VITE_API_URL` (o `npm run dev` já liga):
+os dados ficam no servidor, as telas operacionais recarregam a cada 30 s e o navegador só guarda
+tema e preferências. Sem a variável (`npm run dev:web`, ou a Vercel antes de a API ser publicada),
+continua com os dados no navegador. A publicação da API (Cloud Run e Cloud SQL, homologação e
+demonstração) está em `docs/backend/PUBLICACAO.md`. Os cenários de ponta a ponta também rodam
+contra a API: veja `apps/web/playwright.config.ts` (`E2E_API`).
 
 Na primeira execução, os dados de exemplo são criados automaticamente:
 

@@ -144,7 +144,7 @@ const LinhaFila = memo(function LinhaFila({ a, grupo, agora, aoChamar }: LinhaPr
  * Fila da emergência (E8) em grupos, na ordem dada pelo serviço: "Aguardando atendimento"
  * na ordem do A7 (cor, prazo, chegada); os outros, por chegada. O filtro não muda a ordem.
  */
-export function ListaFila({
+export const ListaFila = memo(function ListaFila({
   fila,
   mostrar,
   aoChamar,
@@ -184,4 +184,4 @@ export function ListaFila({
         ))}
     </div>
   );
-}
+});

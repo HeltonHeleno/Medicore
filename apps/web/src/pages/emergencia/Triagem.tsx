@@ -89,7 +89,7 @@ export default function Triagem() {
       />
     );
   }
-  if (erro) return <ErrorState aoTentarNovamente={recarregar} />;
+  if (erro) return <ErrorState erro={erro} aoTentarNovamente={recarregar} />;
   if (!base) {
     return (
       <div aria-busy="true">

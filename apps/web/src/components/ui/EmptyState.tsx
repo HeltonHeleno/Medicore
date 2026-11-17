@@ -1,4 +1,5 @@
 import { AlertTriangle, Inbox, RotateCw, type LucideIcon } from 'lucide-react';
+import { ErroRede } from '@medicore/dominio/erros';
 import { t } from '@medicore/dominio/i18n/pt-BR';
 import { cn } from '../../utils/cn';
 import { Button } from './Button';
@@ -32,13 +33,16 @@ export function EmptyState({ mensagem, icone: Icone = Inbox, acao, className }: 
 
 interface ErrorStateProps {
   mensagem?: string;
+  /** O erro que aconteceu: sem conexão com o servidor (E-22) tem mensagem própria. */
+  erro?: unknown;
   aoTentarNovamente?: () => void;
   className?: string;
 }
 
 /** Mostrado quando a busca dos dados do card falha. */
 export function ErrorState({
-  mensagem = t.erro.carregar,
+  erro,
+  mensagem = erro instanceof ErroRede ? t.erro.carregarSemConexao : t.erro.carregar,
   aoTentarNovamente,
   className,
 }: ErrorStateProps) {

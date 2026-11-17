@@ -4,7 +4,7 @@
 > **Base:** [`PLANO_MELHORIAS_MEDICORE.md`](PLANO_MELHORIAS_MEDICORE.md) (Revisão 1), que é a **especificação**: decisões, processos, regras e critérios. Em caso de dúvida, vale a especificação.
 > **Fases:** 22 a 64, em 4 ondas, precedidas da Etapa 0 (preparação) e com um encerramento por onda (versões 2.0.0, 2.3.0, 2.9.0 e 3.x).
 > **Estimativa:** ~231 dias úteis (1 desenvolvedor) se todos os itens da Onda 4 forem aprovados · ver [cronograma](#-cronograma-por-onda)
-> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 (6 de 12 tarefas; o resto depende de você) Fase 22 (falta ligar os Deployment Checks na Vercel) e Fase 23 (código pronto; falta o Sentry e o DSN) Fase 24 ✅, Fase 25 (código pronto; a CI da `main` volta a ficar verde com o 1º commit da Fase 26) e Fase 26 (código pronto; falta a CI no GitHub). Versão 1.2.0 publicada em 13/11/2026
+> **Criado em:** 12/11/2026 · **Situação:** 🟨 Etapa 0 (6 de 12 tarefas; o resto depende de você) Fase 22 (falta ligar os Deployment Checks na Vercel) e Fase 23 (código pronto; falta o Sentry e o DSN) Fase 24 ✅, Fase 25 (código pronto; a CI da `main` volta a ficar verde com o 1º commit da Fase 26) e Fase 26 (PR #11 mesclado; a cobertura do domínio volta com o 1º commit da Fase 27) e Fase 27 (código pronto; falta publicar a API no Google Cloud). Versão 1.2.0 publicada em 13/11/2026
 
 ---
 
@@ -62,7 +62,7 @@
 | Fase 24 | BL-01 Backend (1/4): monorepo, API, banco e contrato | 3 | 23 | 8 | ✅ | 16/11 | 16/11 |
 | Fase 25 | BL-01 Backend (2/4): cadastros e agenda | 1 | 12 | 7 | 🟨 | 16/11 | |
 | Fase 26 | BL-01 Backend (3/4): leitos, emergência, farmácia e rotinas | 2 | 15 | 9 | 🟨 | 16/11 | |
-| Fase 27 | BL-01 Backend (4/4): navegador na API e ambientes | 2 | 14 | 5 | ⬜ | | |
+| Fase 27 | BL-01 Backend (4/4): navegador na API e ambientes | 2 | 15 | 5 | 🟨 | 16/11 | |
 | Fase 28 | BL-02 Autenticação e perfis | 7 | 21 | 8 | ⬜ | | |
 | Fase 29 | BL-03 Auditoria (LGPD) | 5 | 11 | 4 | ⬜ | | |
 | Fase 30 | BL-04 Criptografia, backup e guarda | 6 | 9 | 4 | ⬜ | | |
@@ -107,7 +107,7 @@
 | Fase 63 | BL-46 Central de mensagens | 4 | 5 | 8 | ⬜ | | |
 | Fase 64 | BL-52 Outros idiomas | 4 | 5 | 5 | ⬜ | | |
 | Encerramento 4 | Versão 3.x | — | 4 | 0,5 | ⬜ | | |
-| **Total** | **40 melhorias** | **161** | **408** | **~231** | ⬜ | | |
+| **Total** | **40 melhorias** | **161** | **409** | **~231** | ⬜ | | |
 
 **Ordem das ondas**
 
@@ -389,30 +389,31 @@ flowchart LR
 **Objetivo:** as telas funcionam igual, com os dados no servidor; demonstração 2.0-beta publicada. **Duração:** 5 dias. **Branch:** `feat/fase-27-backend-corte`. **Especificação:** BL-01.7, BL-01.8, D26–D28.
 
 ### 27.0 Abertura
-- [ ] **27.0.1** 👤 Criar a branch; 👤 criar os bancos de demonstração e homologação no provedor (D23, D28)
+- [ ] **27.0.1** 👤 Criar a branch; 👤 criar os bancos de demonstração e homologação no provedor (D23, D28) — *16/11: branch criada (1º commit corrige a cobertura do domínio, CI do PR #11); 👤 os bancos: passo a passo em `docs/backend/PUBLICACAO.md`*
 
 ### 27.1 O navegador usa a API · BL-01.7
-- [ ] **27.1.1** ⭐ Adaptador HTTP: cada função de `src/services/` passa a chamar a API, com as mesmas assinaturas e as mesmas classes de erro
-- [ ] **27.1.2** `useColecao` recarrega depois de gravações próprias e a cada 30 s nas telas operacionais (fila, mapa, estoque, Painel) · 🔗 D26
-- [ ] **27.1.3** Erro de rede (E-22) com "Tentar de novo"; nada gravado pela metade
-- [ ] **27.1.4** O `localStorage` só guarda tema e preferências; o código do repositório local sai do app (fica só nos testes que ainda o usam)
+- [x] **27.1.1** ⭐ Adaptador HTTP: cada função de `src/services/` passa a chamar a API, com as mesmas assinaturas e as mesmas classes de erro — *com `VITE_API_URL`, o build troca os 15 serviços por `services/api/`; sem ela, segue o modo navegador (decisão do usuário)*
+- [x] **27.1.2** `useColecao` recarrega depois de gravações próprias e a cada 30 s nas telas operacionais (fila, mapa, estoque, Painel) · 🔗 D26
+- [x] **27.1.3** Erro de rede (E-22) com "Tentar de novo"; nada gravado pela metade — *o botão reenvia a gravação; a versão impede gravar duas vezes*
+- [x] **27.1.4** O `localStorage` só guarda tema e preferências; o código do repositório local sai do app (fica só nos testes que ainda o usam) — *no modo API, o repositório local não entra no pacote (144,4 kB); o modo navegador sai numa limpeza depois da 2.0-beta*
 
 ### 27.2 Ambientes e corte · BL-01.8
-- [ ] **27.2.1** Prévia por PR com banco de homologação; demonstração com a semeadura dos dados de exemplo
-- [ ] **27.2.2** "Restaurar dados de exemplo" vira rotina da demonstração (só lá)
-- [ ] **27.2.3** Aviso único no primeiro acesso depois da troca: "Os dados de exemplo agora ficam no servidor" · 🔗 D27
-- [ ] **27.2.4** Rotinas do dia na nuvem (vinda da 26.2.1): o Cloud Run para o relógio quando escala para zero; deixar 1 instância mínima ou chamar as rotinas pelo Cloud Scheduler · ✔ a tabela `rotinas` mostra a execução de cada dia em homologação
+- [ ] **27.2.1** Prévia por PR com banco de homologação; demonstração com a semeadura dos dados de exemplo — *pronto: workflow `publicar-api.yml`, `SEMEAR=se-vazio`, CORS das prévias; 👤 ligar no Google Cloud, GitHub e Vercel*
+- [x] **27.2.2** "Restaurar dados de exemplo" vira rotina da demonstração (só lá)
+- [x] **27.2.3** Aviso único no primeiro acesso depois da troca: "Os dados de exemplo agora ficam no servidor" · 🔗 D27
+- [ ] **27.2.4** Rotinas do dia na nuvem (vinda da 26.2.1): o Cloud Run para o relógio quando escala para zero; deixar 1 instância mínima ou chamar as rotinas pelo Cloud Scheduler · ✔ a tabela `rotinas` mostra a execução de cada dia em homologação — *rota `POST /rotinas/executar` com `ROTINAS_CHAVE` e o Scheduler no guia; 👤 criar no Google Cloud*
 
 ### 27.T Testes
-- [ ] **27.T.1** ⭐ Cenários e2e 1 a 10 contra a API local (a CI sobe API, banco e app) · ✔ 3 vezes seguidas verdes
-- [ ] **27.T.2** Carga: 50 usuários simultâneos com k6 nas telas operacionais · ✔ p95 < 300 ms por chamada · 🔗 RS-22 — *medir também a unidade de trabalho da Fase 26 (lê as tabelas pequenas inteiras a cada gravação; a lista de movimentações sem filtro lê todas)*
-- [ ] **27.T.3** Lighthouse ≥ 90 no Painel, mapa, fila, estoque e dispensar
+- [x] **27.T.1** ⭐ Cenários e2e 1 a 10 contra a API local (a CI sobe API, banco e app) · ✔ 3 vezes seguidas verdes — *11 + 1 pulado (aviso entre abas, só do modo navegador), 3 rodadas; job novo na CI*
+- [x] **27.T.2** Carga: 50 usuários simultâneos com k6 nas telas operacionais · ✔ p95 < 300 ms por chamada · 🔗 RS-22 — *medir também a unidade de trabalho da Fase 26 (lê as tabelas pequenas inteiras a cada gravação; a lista de movimentações sem filtro lê todas); 16/11: k6 em `apps/api/carga/`. Uso real p95 34–35 ms; ritmo intenso (87 chamadas/s numa instância, 2 vCPU com banco e k6) p95 663 ms — no Cloud Run, até 3 instâncias*
+- [x] **27.T.3** Lighthouse ≥ 90 no Painel, mapa, fila, estoque e dispensar — *desktop, modo API: 99, 96, 96–97, 97, 96*
 
 ### 27.V Verificação
 - [ ] **27.V.1** Sessão de uso de 10 min na demonstração publicada, com duas pessoas ao mesmo tempo · ✔ sem erros e sem violação na rotina A17 do dia seguinte
 
 ### 27.F Fechamento
-- [ ] **27.F.1** `docs/PR_FASE_27.md`; painel; backlog (BL-01 ✅ — ainda sem dados reais); 👤 PR mesclado; demonstração 2.0-beta publicada
+- [ ] **27.F.1** `docs/PR_FASE_27.md`; painel; backlog (BL-01 ✅ — ainda sem dados reais); 👤 PR mesclado; demonstração 2.0-beta publicada — *`docs/PR_FASE_27.md`; 👤 falta publicar a API e ligar `VITE_API_URL`*
+- [ ] **27.F.2** Depois da demonstração 2.0-beta no ar com `VITE_API_URL`: tirar o modo navegador (repositório local, `services/*.ts` locais, a troca do `vite.config.ts`) e passar os testes de tela para a API ou para um transporte falso · ✔ pacote sem o repositório local nos dois builds
 
 ## Fase 28 — BL-02 Autenticação e perfis de acesso
 
@@ -1365,4 +1366,6 @@ flowchart LR
 | 16/11/2026 | Fase 25 | Cadastros e agenda no servidor: 33 rotas, serviços com as regras do navegador numa transação, cliente HTTP com as mesmas assinaturas. Os 40 testes de serviço do navegador rodam contra a API com as mesmas asserções. API com 173 testes (100% de linhas), domínio 217, app 528, e2e 139. Ajustes de regra: R-API1 (`If-Match` só obrigatório nas edições) e R-API2 (agenda como janela de datas). Achados: o Drizzle tira o nome da tabela das colunas no SELECT de uma tabela só (a subconsulta da próxima consulta voltava vazia); travas da agenda e `FOR SHARE` para não sobrar consulta de médico inativado ao mesmo tempo |
 | 16/11/2026 | Fase 25 | CI vermelha na `main` depois do merge do PR #10: dois arquivos de teste da API criavam o papel `medicore_app` ao mesmo tempo (23505). Corrigido no 1º commit da Fase 26 (papel criado antes dos testes; a migração ignora o erro se outra criar junto) |
 | 16/11/2026 | Fase 26 | Leitos, emergência, farmácia, R-X, indicadores e rotinas no servidor: 67 caminhos novos (95 no total), as regras do navegador rodando sobre uma unidade de trabalho no banco (`SERIALIZABLE`, nova tentativa até 3 vezes, trava por área), agendador com a tabela `rotinas` (uma vez por dia, várias instâncias), invariantes no monitoramento. Os 87 testes de serviço dos módulos rodam contra a API (6 asserções ajustadas só na forma); 500 operações aleatórias × 3 sementes pela API sem violação. API 320 testes (97,6% de linhas), domínio 222, app 528. Achados: (1) `pg_advisory_xact_lock` no `SERIALIZABLE` tira o retrato antes de esperar — trocado por `LOCK TABLE` (os testes de chegadas simultâneas pegaram); (2) a R-F9 impede a retenção de apagar movimentações no servidor, então os lotes também ficam; (3) a R-X3 da Fase 25 fazia consultas juntas na mesma conexão (aviso do `pg` 9). Pendente para a Fase 27: rotinas com o Cloud Run escalando para zero (1 instância mínima ou Cloud Scheduler) |
+| 16/11/2026 | Fase 26 | PR #11 mesclado; a CI do PR falhou em "Testes e cobertura": a cobertura do domínio caiu para 83,3% (o contrato e o cliente dos módulos não eram exercitados). Corrigido no 1º commit da Fase 27 (96,2%). Antes de abrir PR, rodar a cobertura dos três pacotes, não só os testes |
+| 16/11/2026 | Fase 27 | Decisões do usuário: (1) chave `VITE_API_URL` — com ela o app usa a API, sem ela continua no navegador (o merge não quebra a demonstração da Vercel); (2) preparar a publicação (workflow do Cloud Run + guia `gcloud`). Feito: troca dos 15 serviços no build, recarga D26, E-22 com reenvio, aviso único, CORS, rotas de teste, rotina das rotinas para o Cloud Scheduler, restauração diária da demonstração. Cenários 1–10 contra a API, 3 rodadas verdes; 139 e2e no modo navegador; API 329, domínio 233, app 552; Lighthouse ≥ 96; carga real p95 35 ms. Achados: 304 em detalhes com prazo calculado (o botão "Desfazer alta" ficava depois do prazo); a linha de comando da semeadura rodava dentro do pacote da API; fila redesenhada a cada resposta. Pendente (👤): Google Cloud, variáveis no GitHub e na Vercel, sessão de uso 27.V.1 |
 | | | |

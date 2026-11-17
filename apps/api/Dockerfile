@@ -23,5 +23,6 @@ COPY --from=construcao /app/apps/api/dist apps/api/dist
 COPY apps/api/drizzle apps/api/drizzle
 USER node
 EXPOSE 3000
-# Migra (idempotente) e sobe a API.
-CMD ["sh", "-c", "node apps/api/dist/migrar.js && node apps/api/dist/principal.js"]
+# Migra (idempotente), semeia um banco novo de homologação ou demonstração (`SEMEAR=se-vazio`,
+# Fase 27; o script recusa produção) e sobe a API.
+CMD ["sh", "-c", "node apps/api/dist/migrar.js && if [ \"$SEMEAR\" = se-vazio ]; then node apps/api/dist/semear.js --se-vazio; fi && node apps/api/dist/principal.js"]

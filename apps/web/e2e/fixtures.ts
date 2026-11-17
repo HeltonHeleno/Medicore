@@ -4,6 +4,11 @@
  *   dados de exemplo são semeados de novo na primeira tela.
  * - O relógio do navegador é fixado (`page.clock`) antes de abrir a aplicação, para que
  *   os dados de exemplo (relativos a "agora") e os horários livres sejam sempre os mesmos.
+ *
+ * Fase 27 (27.T.1) — Com `E2E_API`, o app usa a API local (`playwright.config.ts`). Os mesmos
+ * ajudantes passam a falar com as rotas de teste da API: cada teste começa com os dados de exemplo
+ * no servidor, no mesmo instante do navegador; `ler` e `gravarDireto` leem e gravam no banco;
+ * `ajustarRelogio` e `novaAba` acertam o relógio do servidor junto.
  */
 import {
   test as base,
@@ -16,20 +21,31 @@ import {
 /** Segunda-feira, 09/11/2026, 09:40 no fuso do hospital. */
 export const AGORA = new Date('2026-11-09T09:40:00-03:00');
 
-/** Abre outra aba no mesmo contexto (mesmo `localStorage`), com o mesmo relógio. */
+/** Endereço das rotas de teste da API (modo API) ou `null` (dados no navegador). */
+export const API_TESTE = process.env.E2E_API ? `${process.env.E2E_API}/api/v1/_teste` : null;
+export const modoApi = API_TESTE !== null;
+
+async function servidor(page: Page, caminho: string, dados: unknown) {
+  const r = await page.request.post(`${API_TESTE}${caminho}`, { data: dados });
+  expect(r.ok(), await r.text()).toBe(true);
+}
+
+/** Muda a hora do navegador (e a do servidor, no modo API). */
+export async function ajustarRelogio(page: Page, instante: Date): Promise<void> {
+  await page.clock.setSystemTime(instante);
+  if (modoApi) await servidor(page, '/relogio', { agora: instante.toISOString() });
+}
+
+/**
+ * Abre outra aba no mesmo contexto (mesmo `localStorage`), com o relógio informado. No modo API,
+ * um relógio diferente do padrão também acerta o do servidor.
+ */
 export async function novaAba(context: BrowserContext, relogio: Date = AGORA): Promise<Page> {
   const aba = await context.newPage();
   await aba.clock.install({ time: relogio });
+  if (modoApi && relogio !== AGORA)
+    await servidor(aba, '/relogio', { agora: relogio.toISOString() });
   return aba;
-}
-
-/** Apaga os dados gravados (os dados de exemplo voltam no próximo carregamento). */
-export async function limparDados(page: Page): Promise<void> {
-  await page.evaluate(() => {
-    for (const chave of Object.keys(localStorage)) {
-      if (chave.startsWith('medicore:')) localStorage.removeItem(chave);
-    }
-  });
 }
 
 /** Espera um aviso (toast) com o texto informado. */
@@ -39,6 +55,7 @@ export const toast = (page: Page, texto: string | RegExp) =>
 export const test = base.extend<{ relogio: Date }>({
   relogio: [AGORA, { option: true }],
   page: async ({ page, relogio }, use) => {
+    if (modoApi) await servidor(page, '/reiniciar', { agora: relogio.toISOString() });
     await page.clock.install({ time: relogio });
     await use(page);
   },
@@ -55,9 +72,35 @@ export { expect };
  * primeira pintura), então espera a chave existir.
  */
 export async function ler<T>(page: Page, colecao: string): Promise<T[]> {
+  if (modoApi) {
+    const r = await page.request.get(`${API_TESTE}/colecoes/${colecao}`);
+    expect(r.ok()).toBe(true);
+    return (await r.json()) as T[];
+  }
   const chave = `medicore:${colecao}:v1`;
   await page.waitForFunction((k) => localStorage.getItem(k) !== null, chave);
   return page.evaluate((k) => JSON.parse(localStorage.getItem(k)!), chave);
+}
+
+/**
+ * Grava direto numa coleção, sem passar pela tela ("outra pessoa"): no `localStorage` (sem o
+ * evento `storage`, como se ele ainda não tivesse chegado) ou, no modo API, no banco.
+ */
+export async function gravarDireto<T extends { id: string }>(
+  page: Page,
+  colecao: string,
+  mudar: (itens: T[]) => T[],
+): Promise<void> {
+  const novos = mudar(await ler<T>(page, colecao));
+  if (modoApi) {
+    const r = await page.request.put(`${API_TESTE}/colecoes/${colecao}`, { data: novos });
+    expect(r.ok(), await r.text()).toBe(true);
+    return;
+  }
+  await page.evaluate(([chave, lista]) => localStorage.setItem(chave, JSON.stringify(lista)), [
+    `medicore:${colecao}:v1`,
+    novos,
+  ] as const);
 }
 
 /** Abre a rota e espera o título da página (as rotas são carregadas sob demanda). */

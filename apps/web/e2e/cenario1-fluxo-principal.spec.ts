@@ -1,4 +1,4 @@
-import { AGORA, expect, test, toast } from './fixtures.ts';
+import { AGORA, ajustarRelogio, expect, modoApi, test, toast } from './fixtures.ts';
 
 /** 14.2.1 — cadastrar paciente → agendar → ver no Painel → concluir. */
 test('cadastrar paciente, agendar, ver no Painel e concluir', async ({ page }) => {
@@ -47,7 +47,7 @@ test('cadastrar paciente, agendar, ver no Painel e concluir', async ({ page }) =
   const [h, m] = hora.split(':').map(Number);
   const inicio = new Date(AGORA);
   inicio.setUTCHours(h + 3, m + 10, 0, 0); // 10 min depois do início (UTC−3)
-  await page.clock.setSystemTime(inicio);
+  await ajustarRelogio(page, inicio);
   await linha.getByRole('link', { name: 'Zuleica Prado' }).click();
   await page.getByRole('button', { name: 'Concluir' }).click();
   await page.getByRole('alertdialog').getByRole('button', { name: 'Concluir' }).click();
@@ -57,4 +57,10 @@ test('cadastrar paciente, agendar, ver no Painel e concluir', async ({ page }) =
   await expect(atividades.getByRole('listitem').first()).toContainText(
     'Consulta concluída com Zuleica Prado',
   );
+
+  // 27.1.4: no modo API, o navegador não guarda dados (só tema e preferências).
+  if (modoApi) {
+    const chaves = await page.evaluate(() => Object.keys(localStorage));
+    expect(chaves.filter((c) => c.startsWith('medicore:'))).toEqual([]);
+  }
 });

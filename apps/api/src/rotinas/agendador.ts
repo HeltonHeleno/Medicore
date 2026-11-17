@@ -21,6 +21,7 @@ import { sql } from 'drizzle-orm';
 import type { Banco } from '../banco/conexao';
 import { rotinas } from '../banco/esquema';
 import type { RegistrarErro } from '../monitoramento';
+import { semear } from '../banco/semear';
 import {
   repoAtendimentos,
   repoConsultas,
@@ -35,7 +36,7 @@ import {
 import { executarRetencao, type ResultadoRetencao } from '../servicos/operacoes/retencao';
 import { gravar, ler } from '../servicos/operacoes/unidade';
 
-export type NomeRotina = 'retencao' | 'invariantes';
+export type NomeRotina = 'demonstracao' | 'retencao' | 'invariantes';
 export const ROTINAS: readonly NomeRotina[] = ['retencao', 'invariantes'];
 export const INTERVALO_MS = 15 * 60_000;
 
@@ -117,17 +118,40 @@ export const executarRetencaoNoBanco = (
   gravar(banco, ['internacao', 'estoque'], () => executarRetencao({ ultima }));
 
 export interface ResultadoRotinas {
+  demonstracao?: 'restaurada' | 'ja_executada';
   retencao?: ResultadoRetencao | 'ja_executada';
   invariantes?: { violacoes: number } | 'ja_executada';
+}
+
+export interface OpcoesRotinas {
+  /**
+   * Fase 27 (27.2.2) — Só no ambiente de demonstração: a conexão do dono das tabelas. Todo dia, antes
+   * das outras rotinas, os dados de exemplo voltam (o "Restaurar dados de exemplo" do navegador).
+   */
+  restaurarDemonstracao?: Banco;
 }
 
 /** Roda as rotinas que ainda não rodaram hoje. Uma rotina que falha não impede a outra. */
 export async function executarRotinasDoDia(
   banco: Banco,
   registrarErro: RegistrarErro,
+  opcoes: OpcoesRotinas = {},
 ): Promise<ResultadoRotinas> {
   const hoje = hojeNoFuso();
   const resultado: ResultadoRotinas = {};
+  if (opcoes.restaurarDemonstracao) {
+    const anterior = await pegarDia(banco, 'demonstracao', hoje);
+    if (anterior === false) resultado.demonstracao = 'ja_executada';
+    else {
+      try {
+        await semear(opcoes.restaurarDemonstracao, { substituir: true });
+        resultado.demonstracao = 'restaurada';
+      } catch (erro) {
+        await devolverDia(banco, 'demonstracao', anterior);
+        registrarErro(erro, { tags: { rotina: 'demonstracao' } });
+      }
+    }
+  }
   for (const nome of ROTINAS) {
     const anterior = await pegarDia(banco, nome, hoje);
     if (anterior === false) {
@@ -157,13 +181,14 @@ export function iniciarAgendador(
   banco: Banco,
   registrarErro: RegistrarErro,
   intervaloMs = INTERVALO_MS,
+  opcoes: OpcoesRotinas = {},
 ): () => void {
   let rodando = false;
   const volta = async () => {
     if (rodando) return;
     rodando = true;
     try {
-      await executarRotinasDoDia(banco, registrarErro);
+      await executarRotinasDoDia(banco, registrarErro, opcoes);
     } catch (erro) {
       registrarErro(erro, { tags: { rotina: 'agendador' } });
     } finally {

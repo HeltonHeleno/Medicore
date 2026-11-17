@@ -5,6 +5,7 @@ import { useDocumentTitle } from '../../hooks/useDocumentTitle';
 import { t } from '@medicore/dominio/i18n/pt-BR';
 import { ConfirmacaoProvider } from '../ui/feedback/DialogoConfirmacao';
 import { ToastProvider } from '../ui/feedback/ToastProvider';
+import { AvisoServidor } from './AvisoServidor';
 import { BannerDemonstracao } from './BannerDemonstracao';
 import { Header } from './Header';
 import { MobileDrawer } from './MobileDrawer';
@@ -64,6 +65,7 @@ export function AppLayout() {
             >
               <div className="print:hidden">
                 <BannerDemonstracao />
+                <AvisoServidor />
               </div>
               <Outlet />
             </main>

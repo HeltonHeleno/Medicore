@@ -104,7 +104,7 @@ export function DataTable<T>({
   destacar,
   forcarCartoes,
 }: DataTableProps<T>) {
-  if (erro) return <ErrorState aoTentarNovamente={aoTentarNovamente} />;
+  if (erro) return <ErrorState erro={erro} aoTentarNovamente={aoTentarNovamente} />;
 
   if (carregando && !linhas) {
     return (

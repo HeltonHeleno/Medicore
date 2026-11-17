@@ -1,18 +1,21 @@
 /** Fase 26 — Peças comuns das rotas dos módulos operacionais. */
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
-import { naoModificado, responderComVersao } from '../http/versao';
+import { informarVersao, responderComVersao } from '../http/versao';
 
 export const comId = z.object({ id: z.string() });
 
-/** Responde um registro com `ETag` (ou 304, se o cliente já tem essa versão). */
+/**
+ * Responde um registro detalhado com `ETag` (a versão para o `If-Match`), sem 304: os detalhes dos
+ * módulos têm campos calculados na hora (minutos no status, prazo para desfazer), ver `informarVersao`.
+ */
 export function comEtag<T>(
-  requisicao: FastifyRequest,
+  _requisicao: FastifyRequest,
   resposta: FastifyReply,
   registro: T,
   versao: (r: T) => number = (r) => (r as { versao: number }).versao,
 ) {
-  if (responderComVersao(requisicao, resposta, versao(registro))) return naoModificado(resposta);
+  informarVersao(resposta, versao(registro));
   return registro;
 }
 

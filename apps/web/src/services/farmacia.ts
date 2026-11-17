@@ -4,6 +4,7 @@
  * Movimentações são imutáveis (R-F9): correção é sempre um movimento contrário.
  */
 import { to } from '@medicore/dominio/i18n/pt-BR/operacoes';
+import { nomeMedicamento, quantidadeComUnidade } from '@medicore/dominio/utils/operacoes';
 import {
   JANELAS_CORRECAO_H,
   LIMITE_CONFIRMACAO_QUANTIDADE,
@@ -87,11 +88,7 @@ const ta = t.textosAtividade;
 const esquemas = () => import('@medicore/dominio/schemas/farmacia');
 
 /** "60 comprimidos" */
-export const quantidadeComUnidade = (m: Pick<Medicamento, 'unidade'>, n: number) =>
-  `${n.toLocaleString('pt-BR')} ${tf.unidades[m.unidade](n)}`;
-/** "Dipirona sódica 500 mg" */
-export const nomeMedicamento = (m: Pick<Medicamento, 'nome' | 'concentracao'>) =>
-  `${m.nome} ${m.concentracao}`;
+export { nomeMedicamento, quantidadeComUnidade };
 
 const lotesDe = (medicamentoId: string) =>
   repoLotes.todos().filter((l) => l.medicamentoId === medicamentoId);

@@ -3,6 +3,7 @@
  * tradutor de erros, logs sem dados pessoais e as rotas em `/api/v1`.
  */
 import { readFileSync } from 'node:fs';
+import fastifyCors from '@fastify/cors';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import { rotaSemParametros } from '@medicore/dominio/monitoramento/limpeza';
@@ -26,6 +27,9 @@ import { rotasPacientes } from './rotas/pacientes';
 import { rotasPainel } from './rotas/painel';
 import { rotasSaude } from './rotas/saude';
 import { rotasSituacao } from './rotas/situacao';
+import { rotasDeTeste } from './rotas/teste';
+import { rotasRotinas } from './rotas/rotinas';
+import type { OpcoesRotinas } from './rotinas/agendador';
 
 export const PREFIXO = '/api/v1';
 
@@ -36,11 +40,18 @@ export const VERSAO_API: string = (
 ).version;
 
 export interface DependenciasServidor {
-  config: Pick<Config, 'AMBIENTE' | 'LOG_NIVEL' | 'DOCS'>;
+  config: Pick<Config, 'AMBIENTE' | 'LOG_NIVEL' | 'DOCS'> & Partial<Pick<Config, 'CORS_ORIGENS'>>;
   banco: Banco;
   registrarErro: RegistrarErro;
   /** Para onde vai o log (padrão: saída padrão). Os testes leem o log por aqui. */
   destinoLog?: { write: (linha: string) => void };
+  /**
+   * Fase 27: conexão do dono das tabelas para as rotas de teste (`/_teste`). Só é passada com
+   * `AMBIENTE=teste` e `ROTAS_TESTE=sim` (`config.ts` recusa o resto).
+   */
+  bancoDeTeste?: Banco;
+  /** Fase 27: rota das rotinas para o Cloud Scheduler (só com `ROTINAS_CHAVE`). */
+  rotinas?: { chave: string; opcoes?: OpcoesRotinas };
   /** Rotas extras (os testes registram rotas de exemplo aqui). */
   rotasExtras?: (app: FastifyInstance) => Promise<void> | void;
 }
@@ -54,6 +65,20 @@ function requisicaoNoLog(requisicao: FastifyRequest) {
     metodo: requisicao.method,
     rota: requisicao.routeOptions?.url ?? rotaSemParametros(requisicao.url),
   };
+}
+
+/** `https://medicore-*-x.vercel.app` → expressão regular (o `*` não atravessa pontos nem barras). */
+export function origensPermitidas(lista: readonly string[]): (string | RegExp)[] {
+  return lista.map((o) =>
+    o.includes('*')
+      ? new RegExp(
+          `^${o
+            .split('*')
+            .map((p) => p.replace(/[.+?^${}()|[\]\\/]/g, '\\$&'))
+            .join('[^./]*')}$`,
+        )
+      : o,
+  );
 }
 
 export async function criarServidor(dep: DependenciasServidor) {
@@ -76,6 +101,18 @@ export async function criarServidor(dep: DependenciasServidor) {
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
   registrarTratamentoDeErros(app, dep.registrarErro);
+
+  // Fase 27: o app (Vercel) chama a API (Cloud Run) em outro endereço.
+  const origens = origensPermitidas(dep.config.CORS_ORIGENS ?? []);
+  if (origens.length) {
+    await app.register(fastifyCors, {
+      origin: origens,
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowedHeaders: ['Content-Type', 'If-Match', 'If-None-Match', 'Accept'],
+      exposedHeaders: ['ETag'],
+      maxAge: 600,
+    });
+  }
 
   app.addHook('onSend', async (_requisicao, resposta) => {
     resposta.header('X-Content-Type-Options', 'nosniff');
@@ -122,6 +159,12 @@ export async function criarServidor(dep: DependenciasServidor) {
       await v1.register(rotasEmergencia(dep.banco));
       await v1.register(rotasFarmacia(dep.banco));
       await v1.register(rotasSituacao(dep.banco));
+      if (dep.bancoDeTeste) await v1.register(rotasDeTeste(dep.bancoDeTeste));
+      if (dep.rotinas) {
+        await v1.register(
+          rotasRotinas(dep.banco, dep.registrarErro, dep.rotinas.chave, dep.rotinas.opcoes),
+        );
+      }
       if (dep.rotasExtras) await dep.rotasExtras(v1);
     },
     { prefix: PREFIXO },

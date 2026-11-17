@@ -2,7 +2,7 @@
  * 26.T (contrato) — Rotas de leitos, emergência, farmácia, situação e indicadores:
  * - cada leitura confere com o esquema do contrato **e é igual ao que o serviço devolve** (nada é
  *   cortado na serialização);
- * - ETag e 304 nos registros; 428 sem `If-Match` e 412 com a versão antiga nas gravações;
+ * - ETag nos registros, sem 304 (campos calculados na hora, Fase 27); 428 sem `If-Match` e 412 com a versão antiga nas gravações;
  * - 404 com a mensagem do domínio; OpenAPI com todas as rotas.
  */
 import * as c from '@medicore/dominio/contrato/operacoes';
@@ -212,7 +212,7 @@ describe('formato das leituras, igual ao serviço', () => {
 });
 
 describe('versão (R-API1)', () => {
-  it('os registros vêm com ETag e respondem 304 à mesma versão', async () => {
+  it('os registros vêm com ETag, mas sem 304: o conteúdo muda com o tempo (Fase 27)', async () => {
     const leito = repoLeitos.todos()[0]!;
     for (const url of [
       `/leitos/${leito.id}`,
@@ -223,7 +223,7 @@ describe('versão (R-API1)', () => {
     ]) {
       const r = await chamar('GET', url);
       expect(r.etag, url).toMatch(/^"v\d+"$/);
-      expect((await chamar('GET', url, { seNao: r.etag })).status, url).toBe(304);
+      expect((await chamar('GET', url, { seNao: r.etag })).status, url).toBe(200);
     }
   });
 

@@ -8,9 +8,9 @@
 import { z } from 'zod';
 import { POR_PAGINA } from '../config/limites';
 import type { Paginado } from '../types';
+import { POR_PAGINA_MAXIMO, paginaEfetiva } from '../utils/paginacao';
 
-/** Máximo por página (R-API2). O Painel usa rotas de indicadores, não listas. */
-export const POR_PAGINA_MAXIMO = 100;
+export { POR_PAGINA_MAXIMO, paginaEfetiva };
 /** Padrão das telas de lista de hoje (`POR_PAGINA`). */
 export const POR_PAGINA_PADRAO = POR_PAGINA;
 
@@ -48,15 +48,6 @@ export function respostaLista<T extends z.ZodType>(item: T) {
     pagina: z.number().int().min(1),
     porPagina: z.number().int().min(1).max(POR_PAGINA_MAXIMO),
   });
-}
-
-/**
- * Página efetiva, como o `paginar` das telas: uma página além da última mostra a última
- * (a lista encolheu enquanto a pessoa navegava).
- */
-export function paginaEfetiva(pagina: number, porPagina: number, total: number): number {
-  const ultima = Math.max(1, Math.ceil(total / porPagina));
-  return Math.min(Math.max(1, Math.floor(pagina)), ultima);
 }
 
 /** `LIMIT`/`OFFSET` da consulta, já com a página efetiva. */

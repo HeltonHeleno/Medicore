@@ -32,7 +32,7 @@ export function ConteudoAsync<T>({
   if (estaCarregando) {
     return <div aria-busy="true">{carregando ?? <SkeletonLinhas />}</div>;
   }
-  if (erro) return <ErrorState aoTentarNovamente={recarregar} />;
+  if (erro) return <ErrorState erro={erro} aoTentarNovamente={recarregar} />;
   if (data === null || estaVazio(data)) return vazio ? <EmptyState mensagem={vazio} /> : null;
   return <>{children(data)}</>;
 }
