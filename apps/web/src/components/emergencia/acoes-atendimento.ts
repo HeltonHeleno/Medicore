@@ -1,4 +1,5 @@
 import { EVASAO_MIN } from '@medicore/dominio/config/limites';
+import type { Acao } from '@medicore/dominio/permissoes';
 import type { AtendimentoDetalhado, StatusAtendimento } from '@medicore/dominio/types';
 import { minutosDesde } from '@medicore/dominio/utils/tempos';
 
@@ -13,6 +14,19 @@ export type AcaoAtendimento =
   | 'identificar'
   | 'sinais'
   | 'reabrir';
+
+/** Fase 28 (BL-02.6): a permissão de cada ação. */
+export const PERMISSAO_ACAO_ATENDIMENTO: Record<AcaoAtendimento, Acao> = {
+  triar: 'emergencia.triagem',
+  sinais: 'emergencia.triagem',
+  chamar: 'emergencia.atendimento',
+  observacao: 'emergencia.atendimento',
+  retomar: 'emergencia.atendimento',
+  pedirLeito: 'emergencia.atendimento',
+  encerrar: 'emergencia.atendimento',
+  identificar: 'emergencia.chegada',
+  reabrir: 'emergencia.reabrir',
+};
 
 const ABERTOS: readonly StatusAtendimento[] = [
   'aguardando_triagem',

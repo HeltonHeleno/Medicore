@@ -1,6 +1,11 @@
 import { ArrowLeft } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
-import { acoesDoLeito, destinoInternar, type AcaoLeito } from '../../components/leitos/acoes-leito';
+import {
+  acoesDoLeito,
+  destinoInternar,
+  PERMISSAO_ACAO_LEITO,
+  type AcaoLeito,
+} from '../../components/leitos/acoes-leito';
 import { BadgeLeito } from '../../components/leitos/BadgeLeito';
 import { Button, ButtonLink } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
@@ -12,6 +17,7 @@ import { SkeletonLinhas } from '../../components/ui/Skeleton';
 import { TempoDecorrido } from '../../components/ui/TempoDecorrido';
 import { useAcoesLeito } from '../../hooks/useAcoesLeito';
 import { useHistoricoLeito, useLeito } from '../../hooks/useDadosOperacoes';
+import { usePode } from '../../hooks/useSessao';
 import { t } from '@medicore/dominio/i18n/pt-BR';
 import { tl } from '@medicore/dominio/i18n/pt-BR/leitos';
 import { ErroNaoEncontrado } from '@medicore/dominio/erros';
@@ -88,6 +94,7 @@ export default function DetalheLeito() {
   const { data: l, erro, recarregar } = useLeito(leitoId);
   const historico = useHistoricoLeito(leitoId);
   const acoes = useAcoesLeito();
+  const podeFazer = usePode();
 
   if (erro instanceof ErroNaoEncontrado) {
     return (
@@ -109,7 +116,7 @@ export default function DetalheLeito() {
   }
 
   const titulo = lt.titulo(l.codigo);
-  const disponiveis = acoesDoLeito(l);
+  const disponiveis = acoesDoLeito(l).filter((x) => podeFazer(PERMISSAO_ACAO_LEITO[x]));
 
   return (
     <>

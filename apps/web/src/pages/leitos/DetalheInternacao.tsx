@@ -1,3 +1,4 @@
+import { SePode } from '../../components/acesso/SePode';
 import { ArrowLeft, Info } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { SecaoDispensacoes } from '../../components/farmacia/SecaoDispensacoes';
@@ -242,19 +243,27 @@ export default function DetalheInternacao() {
             <div className="flex flex-col items-stretch gap-2">
               {ativa ? (
                 <>
-                  <Button onClick={() => acoes.transferir(i)}>{dt.transferir}</Button>
-                  <Button variante="contorno" onClick={() => acoes.darAlta(i)}>
-                    {dt.darAlta}
-                  </Button>
-                  <ButtonLink variante="contorno" to={`/leitos/internacoes/${i.id}/editar`}>
-                    {dt.editar}
-                  </ButtonLink>
-                  <ButtonLink
-                    variante="contorno"
-                    to={`/farmacia/dispensar?pacienteId=${i.pacienteId}`}
-                  >
-                    {tf.ligacoes.dispensarMedicamento}
-                  </ButtonLink>
+                  <SePode acao="internacao.editar">
+                    <Button onClick={() => acoes.transferir(i)}>{dt.transferir}</Button>
+                  </SePode>
+                  <SePode acao="internacao.alta">
+                    <Button variante="contorno" onClick={() => acoes.darAlta(i)}>
+                      {dt.darAlta}
+                    </Button>
+                  </SePode>
+                  <SePode acao="internacao.editar">
+                    <ButtonLink variante="contorno" to={`/leitos/internacoes/${i.id}/editar`}>
+                      {dt.editar}
+                    </ButtonLink>
+                  </SePode>
+                  <SePode acao="farmacia.dispensacao">
+                    <ButtonLink
+                      variante="contorno"
+                      to={`/farmacia/dispensar?pacienteId=${i.pacienteId}`}
+                    >
+                      {tf.ligacoes.dispensarMedicamento}
+                    </ButtonLink>
+                  </SePode>
                 </>
               ) : (
                 <>
@@ -263,9 +272,11 @@ export default function DetalheInternacao() {
                       <p className="text-[13.5px] text-text-muted">
                         {dt.desfazerAte(horaDoInstante(i.desfazerAltaAte))}
                       </p>
-                      <Button variante="contorno" onClick={() => acoes.desfazerAlta(i)}>
-                        {dt.desfazerAlta}
-                      </Button>
+                      <SePode acao="internacao.alta">
+                        <Button variante="contorno" onClick={() => acoes.desfazerAlta(i)}>
+                          {dt.desfazerAlta}
+                        </Button>
+                      </SePode>
                     </>
                   ) : (
                     janelaAte && (
@@ -274,9 +285,11 @@ export default function DetalheInternacao() {
                       </p>
                     )
                   )}
-                  <ButtonLink to={`/leitos/internar?deInternacao=${i.id}`}>
-                    {dt.internarNovamente}
-                  </ButtonLink>
+                  <SePode acao="internacao.editar">
+                    <ButtonLink to={`/leitos/internar?deInternacao=${i.id}`}>
+                      {dt.internarNovamente}
+                    </ButtonLink>
+                  </SePode>
                 </>
               )}
               <ButtonLink variante="suave" to={`/pacientes/${i.pacienteId}`}>

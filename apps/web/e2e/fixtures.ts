@@ -9,6 +9,10 @@
  * ajudantes passam a falar com as rotas de teste da API: cada teste começa com os dados de exemplo
  * no servidor, no mesmo instante do navegador; `ler` e `gravarDireto` leem e gravam no banco;
  * `ajustarRelogio` e `novaAba` acertam o relógio do servidor junto.
+ *
+ * Fase 28 — No modo API há login: cada teste entra com uma conta de demonstração (`conta`, padrão
+ * "equipe completa", com todos os perfis) antes de abrir a primeira tela. O app chama a API pelo
+ * próprio endereço (`/api`, repassado pelo `vite preview`), como na Vercel.
  */
 import {
   test as base,
@@ -52,10 +56,24 @@ export async function novaAba(context: BrowserContext, relogio: Date = AGORA): P
 export const toast = (page: Page, texto: string | RegExp) =>
   expect(page.getByRole('region', { name: 'Notificações' }).getByText(texto)).toBeVisible();
 
-export const test = base.extend<{ relogio: Date }>({
+/** Contas de demonstração (Fase 28): um perfil ou a equipe completa. */
+export type ContaE2e =
+  'todos' | 'administrador' | 'recepcao' | 'enfermagem' | 'medico' | 'nir' | 'farmacia' | 'gestao';
+
+/** Entra com uma conta de demonstração (o cookie fica no contexto do navegador). */
+export async function entrarComo(page: Page, conta: ContaE2e): Promise<void> {
+  const r = await page.request.post('/api/v1/auth/demonstracao', { data: { conta } });
+  expect(r.ok(), await r.text()).toBe(true);
+}
+
+export const test = base.extend<{ relogio: Date; conta: ContaE2e | null }>({
   relogio: [AGORA, { option: true }],
-  page: async ({ page, relogio }, use) => {
-    if (modoApi) await servidor(page, '/reiniciar', { agora: relogio.toISOString() });
+  conta: ['todos', { option: true }],
+  page: async ({ page, relogio, conta }, use) => {
+    if (modoApi) {
+      await servidor(page, '/reiniciar', { agora: relogio.toISOString() });
+      if (conta) await entrarComo(page, conta);
+    }
     await page.clock.install({ time: relogio });
     await use(page);
   },

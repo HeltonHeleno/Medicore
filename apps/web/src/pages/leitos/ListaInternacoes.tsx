@@ -1,3 +1,4 @@
+import { SePode } from '../../components/acesso/SePode';
 import { Plus } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { AbasModulo } from '../../components/ui/AbasModulo';
@@ -115,9 +116,11 @@ export default function ListaInternacoes() {
         titulo={tl.abas.internacoes}
         descricao={l.descricao}
         acoes={
-          <ButtonLink to="/leitos/internar" iconeEsquerda={<Plus size={18} />}>
-            {tl.internarPaciente}
-          </ButtonLink>
+          <SePode acao="internacao.editar">
+            <ButtonLink to="/leitos/internar" iconeEsquerda={<Plus size={18} />}>
+              {tl.internarPaciente}
+            </ButtonLink>
+          </SePode>
         }
       />
       <AbasModulo rotulo={tl.abasRotulo} abas={abasLeitos} className="mb-5" />

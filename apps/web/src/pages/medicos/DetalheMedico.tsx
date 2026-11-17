@@ -1,3 +1,4 @@
+import { SePode } from '../../components/acesso/SePode';
 import { ArrowLeft, CalendarDays, CalendarPlus, Pencil, UserCheck, UserX } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { AgendaMedico } from '../../components/medicos/AgendaMedico';
@@ -79,13 +80,15 @@ export default function DetalheMedico() {
         }
         acoes={
           <>
-            <ButtonLink
-              to={`/medicos/${id}/editar`}
-              variante="contorno"
-              iconeEsquerda={<Pencil size={16} />}
-            >
-              {m.acoes.editar}
-            </ButtonLink>
+            <SePode acao="medicos.editar">
+              <ButtonLink
+                to={`/medicos/${id}/editar`}
+                variante="contorno"
+                iconeEsquerda={<Pencil size={16} />}
+              >
+                {m.acoes.editar}
+              </ButtonLink>
+            </SePode>
             <ButtonLink
               to={`/consultas?medicoId=${id}`}
               variante="contorno"

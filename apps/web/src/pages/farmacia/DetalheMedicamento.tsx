@@ -1,3 +1,4 @@
+import { SePode } from '../../components/acesso/SePode';
 import { AlertTriangle, ArrowLeft, Ban, LockOpen, MinusCircle, Scale } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
@@ -299,9 +300,11 @@ export default function DetalheMedicamento() {
                   )}
                 </>
               )}
-              <ButtonLink variante="contorno" to={`/farmacia/medicamentos/${m.id}/editar`}>
-                {dt.acoes.editar}
-              </ButtonLink>
+              <SePode acao="farmacia.estoque">
+                <ButtonLink variante="contorno" to={`/farmacia/medicamentos/${m.id}/editar`}>
+                  {dt.acoes.editar}
+                </ButtonLink>
+              </SePode>
               {m.ativo ? (
                 <Button variante="suave" onClick={inativar}>
                   {dt.acoes.inativar}

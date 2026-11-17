@@ -1,3 +1,4 @@
+import { SePode } from '../../components/acesso/SePode';
 import { BookOpen, PackagePlus, Pill, Plus } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { TabelaEstoque } from '../../components/farmacia/TabelaEstoque';
@@ -73,23 +74,29 @@ export default function Estoque() {
         }
         acoes={
           <div className="flex flex-wrap gap-2">
-            <ButtonLink
-              variante="contorno"
-              to="/farmacia/medicamentos/novo"
-              iconeEsquerda={<Plus size={18} />}
-            >
-              {tf.novoMedicamento}
-            </ButtonLink>
-            <ButtonLink
-              variante="contorno"
-              to="/farmacia/entrada"
-              iconeEsquerda={<PackagePlus size={18} />}
-            >
-              {tf.entradaLote}
-            </ButtonLink>
-            <ButtonLink to="/farmacia/dispensar" iconeEsquerda={<Pill size={18} />}>
-              {tf.dispensar}
-            </ButtonLink>
+            <SePode acao="farmacia.estoque">
+              <ButtonLink
+                variante="contorno"
+                to="/farmacia/medicamentos/novo"
+                iconeEsquerda={<Plus size={18} />}
+              >
+                {tf.novoMedicamento}
+              </ButtonLink>
+            </SePode>
+            <SePode acao="farmacia.estoque">
+              <ButtonLink
+                variante="contorno"
+                to="/farmacia/entrada"
+                iconeEsquerda={<PackagePlus size={18} />}
+              >
+                {tf.entradaLote}
+              </ButtonLink>
+            </SePode>
+            <SePode acao="farmacia.dispensacao">
+              <ButtonLink to="/farmacia/dispensar" iconeEsquerda={<Pill size={18} />}>
+                {tf.dispensar}
+              </ButtonLink>
+            </SePode>
           </div>
         }
       />

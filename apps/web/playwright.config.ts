@@ -5,7 +5,7 @@ const PORTA = 4173;
 /**
  * Fase 27 (27.T.1) — Modo API: `E2E_API=http://localhost:3100` e `E2E_DATABASE_URL` (o banco de
  * teste, com o usuário dono das tabelas). Sobem a API (migrada, com as rotas de teste) e o app
- * construído com `VITE_API_URL`. Rodam os cenários 1 a 10, um de cada vez (um banco só).
+ * construído com `VITE_API_URL`. Rodam os cenários 1 a 10 e o acesso, um de cada vez (um banco só).
  */
 const API = process.env.E2E_API;
 const BANCO = process.env.E2E_DATABASE_URL;
@@ -24,7 +24,6 @@ const servidorApi = API && {
     PORTA: new URL(API).port,
     DATABASE_URL: BANCO_APP ?? '',
     DATABASE_URL_MIGRACAO: BANCO ?? '',
-    CORS_ORIGENS: `http://localhost:${PORTA}`,
   },
 };
 
@@ -38,7 +37,8 @@ const servidorApi = API && {
 export default defineConfig({
   testDir: './e2e',
   // Modo API: só os cenários de ponta a ponta (27.T.1), um de cada vez.
-  ...(API ? { testMatch: /cenario\d+-.*\.spec\.ts/ } : {}),
+  // Fase 28: e o acesso (login, MFA, sessão, perfis), que só existe no modo API.
+  ...(API ? { testMatch: /(cenario\d+-.*|acesso)\.spec\.ts/ } : { testIgnore: /acesso\.spec\.ts/ }),
   fullyParallel: !API,
   forbidOnly: !!process.env.CI,
   retries: 0,
@@ -67,7 +67,9 @@ export default defineConfig({
       url: `http://localhost:${PORTA}`,
       reuseExistingServer: !process.env.CI,
       timeout: 180_000,
-      env: API ? { VITE_API_URL: API } : {},
+      // Fase 28: o app chama `/api` no próprio endereço e o `vite preview` repassa à API (como o
+      // `middleware.ts` na Vercel): o cookie da sessão é do próprio app.
+      env: API ? { VITE_API_URL: '/', VITE_API_PROXY: API } : {},
     },
   ],
 });

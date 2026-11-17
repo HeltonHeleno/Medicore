@@ -1,3 +1,4 @@
+import { SePode } from '../acesso/SePode';
 import { CalendarClock, CalendarPlus, CheckCircle2, UserX, XCircle } from 'lucide-react';
 import { useId } from 'react';
 import { t } from '@medicore/dominio/i18n/pt-BR';
@@ -62,13 +63,15 @@ export function AcoesConsulta({ consulta: c, aoConcluir, aoFaltar, aoCancelar }:
         </p>
       )}
       <div className="flex flex-wrap gap-2 border-t border-border pt-3">
-        <ButtonLink
-          to={`/consultas/${c.id}/editar`}
-          variante="contorno"
-          iconeEsquerda={<CalendarClock size={16} />}
-        >
-          {a.acoes.reagendar}
-        </ButtonLink>
+        <SePode acao="agenda.editar">
+          <ButtonLink
+            to={`/consultas/${c.id}/editar`}
+            variante="contorno"
+            iconeEsquerda={<CalendarClock size={16} />}
+          >
+            {a.acoes.reagendar}
+          </ButtonLink>
+        </SePode>
         <Button
           variante="contorno"
           iconeEsquerda={<XCircle size={16} />}

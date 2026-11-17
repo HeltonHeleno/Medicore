@@ -16,4 +16,6 @@ export const SERVICOS_DO_MODO_API = [
   'repositorio',
   'colecoes',
   'colecoes-operacoes',
+  // Fase 28: login, sessão e usuários.
+  'acesso',
 ] as const;

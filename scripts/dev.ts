@@ -3,19 +3,20 @@
  * prefixada. O banco vem do Docker Compose (`docker compose up -d`).
  * Para subir um só: `npm run dev:web` ou `npm run dev:api`.
  *
- * Fase 27: aqui o app usa a API (`VITE_API_URL=http://localhost:3000`, a não ser que já venha
- * definida). O `npm run dev:web` sozinho continua com os dados no navegador.
+ * Fase 27: aqui o app usa a API. Fase 28 (login): o app chama `/api` no próprio endereço e o Vite
+ * repassa à API (`VITE_API_PROXY`), para o cookie da sessão ser do próprio app, como na Vercel.
+ * O `npm run dev:web` sozinho continua com os dados no navegador, sem login.
  */
 import { spawn } from 'node:child_process';
 
-const API = process.env.VITE_API_URL ?? 'http://localhost:3000';
+const API = process.env.VITE_API_PROXY ?? 'http://localhost:3000';
 const processos = [
   { nome: 'api', cor: '\x1b[36m', args: ['run', 'dev', '-w', '@medicore/api'], env: {} },
   {
     nome: 'web',
     cor: '\x1b[35m',
     args: ['run', 'dev', '-w', '@medicore/web'],
-    env: { VITE_API_URL: API },
+    env: { VITE_API_URL: '/', VITE_API_PROXY: API },
   },
 ].map(({ nome, cor, args, env }) => {
   const filho = spawn('npm', args, {

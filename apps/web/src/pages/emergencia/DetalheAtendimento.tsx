@@ -3,8 +3,11 @@ import { useEffect, useRef } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import {
   acoesDoAtendimento,
+  PERMISSAO_ACAO_ATENDIMENTO,
   type AcaoAtendimento,
 } from '../../components/emergencia/acoes-atendimento';
+import { SePode } from '../../components/acesso/SePode';
+import { usePode } from '../../hooks/useSessao';
 import { BadgeRisco } from '../../components/emergencia/BadgeRisco';
 import { ResumoSinais } from '../../components/emergencia/ResumoSinais';
 import { CAMPOS_SINAIS } from '../../components/emergencia/sinais';
@@ -243,6 +246,7 @@ export default function DetalheAtendimento() {
   const [params, setParams] = useSearchParams();
   const { data: a, erro, recarregar } = useAtendimento(id);
   const acoes = useAcoesAtendimento();
+  const podeFazer = usePode();
   const voltarPara = useVoltarPara('/emergencia');
   useRelogio(); // a janela de 2 h do "Reabrir" se fecha sozinha na tela
 
@@ -277,7 +281,7 @@ export default function DetalheAtendimento() {
     );
   }
 
-  const disponiveis = acoesDoAtendimento(a);
+  const disponiveis = acoesDoAtendimento(a).filter((x) => podeFazer(PERMISSAO_ACAO_ATENDIMENTO[x]));
   const triagens = [...a.triagens].reverse();
   const registros = registrosDeSinais(a);
   const janelaAte =
@@ -329,13 +333,15 @@ export default function DetalheAtendimento() {
             <p className="flex flex-wrap items-center gap-2 rounded-lg border border-warning/40 px-4 py-3 text-[14px]">
               <UserRoundSearch size={17} aria-hidden className="shrink-0 text-warning" />
               <span className="flex-1">{dt.provisorio}</span>
-              <Button
-                tamanho="sm"
-                variante="contorno"
-                onClick={() => acoes.executar('identificar', a)}
-              >
-                {te.acoes.identificar}
-              </Button>
+              <SePode acao="emergencia.chegada">
+                <Button
+                  tamanho="sm"
+                  variante="contorno"
+                  onClick={() => acoes.executar('identificar', a)}
+                >
+                  {te.acoes.identificar}
+                </Button>
+              </SePode>
             </p>
           )
         )}
@@ -381,6 +387,7 @@ export default function DetalheAtendimento() {
               )}
               {/* Dispensar (matriz: todo atendimento aberto); provisório identifica antes (D9). */}
               {a.status !== 'encerrado' &&
+                podeFazer('farmacia.dispensacao') &&
                 (a.pacienteId ? (
                   <ButtonLink
                     variante="contorno"

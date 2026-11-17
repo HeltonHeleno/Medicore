@@ -93,7 +93,12 @@ export function TabelaMedicos({
           nome={r.nomeExibicao}
           acoes={[
             { rotulo: m.acoes.ver, icone: Eye, href: `/medicos/${r.id}` },
-            { rotulo: m.acoes.editar, icone: Pencil, href: `/medicos/${r.id}/editar` },
+            {
+              rotulo: m.acoes.editar,
+              icone: Pencil,
+              href: `/medicos/${r.id}/editar`,
+              permissao: 'medicos.editar',
+            },
             { rotulo: m.acoes.verAgenda, icone: CalendarDays, href: `/consultas?medicoId=${r.id}` },
             ...(r.ativo
               ? [
@@ -101,15 +106,24 @@ export function TabelaMedicos({
                     rotulo: m.acoes.agendar,
                     icone: CalendarPlus,
                     href: `/consultas/nova?medicoId=${r.id}`,
+                    permissao: 'agenda.editar' as const,
                   },
                   {
                     rotulo: m.acoes.inativar,
                     icone: UserX,
                     perigo: true,
                     aoClicar: () => aoInativar(r),
+                    permissao: 'medicos.editar' as const,
                   },
                 ]
-              : [{ rotulo: m.acoes.reativar, icone: UserCheck, aoClicar: () => aoReativar(r) }]),
+              : [
+                  {
+                    rotulo: m.acoes.reativar,
+                    icone: UserCheck,
+                    aoClicar: () => aoReativar(r),
+                    permissao: 'medicos.editar' as const,
+                  },
+                ]),
           ]}
         />
       )}

@@ -1,3 +1,4 @@
+import { SePode } from '../../components/acesso/SePode';
 import {
   ArrowLeft,
   CalendarPlus,
@@ -109,13 +110,15 @@ export default function DetalhePaciente() {
         }
         acoes={
           <>
-            <ButtonLink
-              to={`/pacientes/${id}/editar`}
-              variante="contorno"
-              iconeEsquerda={<Pencil size={16} />}
-            >
-              {p.acoes.editar}
-            </ButtonLink>
+            <SePode acao="pacientes.editar">
+              <ButtonLink
+                to={`/pacientes/${id}/editar`}
+                variante="contorno"
+                iconeEsquerda={<Pencil size={16} />}
+              >
+                {p.acoes.editar}
+              </ButtonLink>
+            </SePode>
             {paciente.ativo && (
               <ButtonLink
                 to={`/consultas/nova?pacienteId=${id}`}

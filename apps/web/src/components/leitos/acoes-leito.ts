@@ -1,3 +1,4 @@
+import type { Acao } from '@medicore/dominio/permissoes';
 import type {
   LeitoAvaliado,
   LeitoDetalhado,
@@ -33,6 +34,17 @@ export function acoesDoLeito(leito: LeitoDetalhado): AcaoLeito[] {
       return ['desbloquear'];
   }
 }
+
+/** Fase 28 (BL-02.6): a permissão de cada ação. */
+export const PERMISSAO_ACAO_LEITO: Record<AcaoLeito, Acao> = {
+  internar: 'internacao.editar',
+  transferir: 'internacao.editar',
+  darAlta: 'internacao.alta',
+  concluir: 'leitos.higienizacao',
+  bloquear: 'leitos.bloqueio',
+  desbloquear: 'leitos.bloqueio',
+  cancelarReserva: 'leitos.bloqueio',
+};
 
 /** Destino de "Internar": pelo leito livre ou pelo pedido que reservou o leito (L6). */
 export const destinoInternar = (leito: LeitoDetalhado) =>

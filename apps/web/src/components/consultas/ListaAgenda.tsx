@@ -1,3 +1,4 @@
+import { usePermissao } from '../../hooks/useSessao';
 import { AlertTriangle, CalendarClock, CheckCircle2, Eye, UserX, XCircle } from 'lucide-react';
 import { useId } from 'react';
 import { Link } from 'react-router-dom';
@@ -87,6 +88,8 @@ function ItemAgenda({
   const origem = useOrigem();
   const comecou = agora().getTime() >= new Date(c.inicio).getTime();
   const horario = `${horaDoInstante(c.inicio)}–${horaDoInstante(c.fim)}`;
+  // Fase 28: sem a permissão, a consulta aparece sem as ações (só "Ver").
+  const podeAgendar = usePermissao('agenda.editar');
   const agendada = c.status === 'agendada';
 
   return (
@@ -157,6 +160,7 @@ function ItemAgenda({
                       rotulo: a.acoes.reagendar,
                       icone: CalendarClock,
                       href: `/consultas/${c.id}/editar`,
+                      permissao: 'agenda.editar' as const,
                     },
                   ]
                 : []),
@@ -164,7 +168,7 @@ function ItemAgenda({
           />
         </div>
       </div>
-      {agendada && (
+      {agendada && podeAgendar && (
         <div className="mt-3 flex flex-wrap gap-2 sm:pl-32">
           <BotaoRapido
             rotulo={a.acoes.concluir}

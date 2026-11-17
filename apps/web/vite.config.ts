@@ -47,8 +47,19 @@ function modoApi(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const usarApi = Boolean(loadEnv(mode, process.cwd(), 'VITE_').VITE_API_URL);
+  const env = loadEnv(mode, process.cwd(), '');
+  const usarApi = Boolean(env.VITE_API_URL);
+  /**
+   * Fase 28: com `VITE_API_URL=/`, o app chama `/api` no próprio endereço e o Vite repassa à API
+   * (`VITE_API_PROXY`, ex.: `http://localhost:3000`): o cookie da sessão fica do próprio app, como
+   * na Vercel (`middleware.ts`).
+   */
+  const proxy = env.VITE_API_PROXY
+    ? { '/api': { target: env.VITE_API_PROXY, changeOrigin: true, xfwd: true } }
+    : undefined;
   return {
+    server: { proxy },
+    preview: { proxy },
     define: {
       __VERSAO_APP__: JSON.stringify(version),
     },

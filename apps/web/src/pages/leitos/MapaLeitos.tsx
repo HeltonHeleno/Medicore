@@ -1,3 +1,4 @@
+import { SePode } from '../../components/acesso/SePode';
 import { Plus } from 'lucide-react';
 import { useEffect, useMemo, useRef } from 'react';
 import { GradeLeitos } from '../../components/leitos/GradeLeitos';
@@ -105,9 +106,11 @@ export default function MapaLeitos() {
         titulo={tl.titulo}
         descricao={tl.mapa.descricao}
         acoes={
-          <ButtonLink to="/leitos/internar" iconeEsquerda={<Plus size={18} />}>
-            {tl.internarPaciente}
-          </ButtonLink>
+          <SePode acao="internacao.editar">
+            <ButtonLink to="/leitos/internar" iconeEsquerda={<Plus size={18} />}>
+              {tl.internarPaciente}
+            </ButtonLink>
+          </SePode>
         }
       />
       <AbasModulo rotulo={tl.abasRotulo} abas={abasLeitos} className="mb-5" />
