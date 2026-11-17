@@ -208,3 +208,41 @@ describe('transporte (R-AU4, E-19)', () => {
     definirCodigoSeguranca(null);
   });
 });
+
+describe('auditoria no modo API (Fase 29)', () => {
+  it('lista com os filtros, pessoas, integridade, titular e o endereço do CSV', async () => {
+    const aud = await import('../services/api/auditoria');
+    const local = await import('../services/auditoria');
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string, init: RequestInit) => {
+        chamadas.push([url, init]);
+        return json(200, {});
+      }),
+    );
+    await aud.listarAuditoria({ pacienteId: 'p 1', acao: 'leitura', usuarioId: '', pagina: 2 });
+    await aud.pessoasDaAuditoria();
+    await aud.conferirIntegridade();
+    await aud.dadosDoTitular('p/1');
+    expect(chamadas.map(([u]) => u)).toEqual([
+      '/api/v1/auditoria?pacienteId=p+1&acao=leitura&pagina=2',
+      '/api/v1/auditoria/pessoas',
+      '/api/v1/auditoria/integridade',
+      '/api/v1/pacientes/p%2F1/titular',
+    ]);
+    expect(aud.enderecoDaExportacao({ pacienteId: 'p1', pagina: 3, porPagina: 50 })).toBe(
+      '/api/v1/auditoria/exportar?pacienteId=p1',
+    );
+    expect(aud.enderecoDaExportacao({})).toBe('/api/v1/auditoria/exportar');
+    // Modo navegador: não existe.
+    expect(local.enderecoDaExportacao({})).toBe('');
+    for (const fn of [
+      () => local.listarAuditoria({}),
+      () => local.pessoasDaAuditoria(),
+      () => local.conferirIntegridade(),
+      () => local.dadosDoTitular('p'),
+    ]) {
+      await expect(fn()).rejects.toThrow(/Sem auditoria/);
+    }
+  });
+});

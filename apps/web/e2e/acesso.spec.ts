@@ -6,7 +6,7 @@
  */
 import { createHmac } from 'node:crypto';
 import AxeBuilder from '@axe-core/playwright';
-import { abrir, API_TESTE, expect, ler, test, toast } from './fixtures.ts';
+import { abrir, API_TESTE, entrarComo, expect, ler, test, toast } from './fixtures.ts';
 
 /** TOTP (RFC 6238) da chave base32, no instante informado. */
 function totp(chave: string, instante: number): string {
@@ -166,9 +166,18 @@ test.describe('com o perfil Farmácia', () => {
 test.describe('acessibilidade das telas novas (28.F.1)', () => {
   test.use({ conta: 'administrador' });
 
-  for (const rota of ['/configuracoes', '/entrar', '/esqueci-senha', '/redefinir-senha#token']) {
+  for (const rota of [
+    '/configuracoes',
+    '/configuracoes?aba=auditoria',
+    '/pacientes/pac-ana-silva/titular',
+    '/entrar',
+    '/esqueci-senha',
+    '/redefinir-senha#token',
+  ]) {
     test(`axe sem violações em ${rota}`, async ({ page }) => {
-      if (rota !== '/configuracoes') await page.context().clearCookies();
+      if (!rota.startsWith('/configuracoes') && !rota.startsWith('/pacientes')) {
+        await page.context().clearCookies();
+      }
       await page.goto(rota);
       await expect(page.locator('h1').first()).toBeVisible();
       const r = await new AxeBuilder({ page })
@@ -177,4 +186,27 @@ test.describe('acessibilidade das telas novas (28.F.1)', () => {
       expect(r.violations.map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
     });
   }
+});
+
+test.describe('auditoria (Fase 29)', () => {
+  test.use({ conta: 'recepcao' });
+
+  test('a Gestão vê quem abriu o cadastro, no paciente e na auditoria', async ({ page }) => {
+    // A Recepção abre o cadastro da Ana.
+    await abrir(page, '/pacientes/pac-ana-silva');
+    // Agora entra a Gestão (o cookie da sessão é trocado).
+    await entrarComo(page, 'gestao');
+    await abrir(page, '/pacientes/pac-ana-silva');
+    const historico = page.getByRole('region', { name: 'Histórico de acesso' });
+    await expect(historico.getByText('Recepção (demonstração)').first()).toBeVisible();
+    await expect(historico.getByText('cadastro, CPF completo, alergias').first()).toBeVisible();
+    await historico.getByRole('link', { name: 'Ver tudo na auditoria' }).click();
+    await expect(page.getByRole('heading', { level: 1, name: 'Auditoria' })).toBeVisible();
+    await expect(page.getByRole('textbox', { name: 'Paciente (id)' })).toHaveValue('pac-ana-silva');
+    await expect(page.getByRole('cell', { name: 'Recepção (demonstração)' }).first()).toBeVisible();
+    // O CSV baixa com o cookie da sessão.
+    const download = page.waitForEvent('download');
+    await page.getByRole('link', { name: 'Exportar CSV' }).click();
+    expect((await download).suggestedFilename()).toBe('auditoria.csv');
+  });
 });
