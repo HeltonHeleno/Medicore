@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
+import { ProtegerSessao } from './components/acesso/ProtegerSessao';
 import { AppLayout } from './components/layout/AppLayout';
 import { CarregandoPagina } from './components/ui/CarregandoPagina';
 import { ErroDeRota } from './components/ui/ErroDeRota';
@@ -8,6 +9,7 @@ import { t } from '@medicore/dominio/i18n/pt-BR';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import Placeholder from './pages/Placeholder';
+import { COM_LOGIN } from './services/acesso';
 
 /** Metadados de cada rota, lidos por `useMatches()` (título da aba e, na Fase 9, breadcrumb). */
 export interface HandleRota {
@@ -285,8 +287,23 @@ const rotasFarmacia: RouteObject = {
   ],
 };
 
+/** Fase 28: telas de acesso, fora do layout (só no modo API, que tem login). */
+const rotasAcesso: RouteObject[] = COM_LOGIN
+  ? [
+      { path: 'entrar', lazy: pagina(() => import('./pages/acesso/Entrar')) },
+      { path: 'primeiro-acesso', lazy: pagina(() => import('./pages/acesso/PrimeiroAcesso')) },
+      { path: 'esqueci-senha', lazy: pagina(() => import('./pages/acesso/EsqueciSenha')) },
+      { path: 'redefinir-senha', lazy: pagina(() => import('./pages/acesso/RedefinirSenha')) },
+    ].map((r) => ({
+      ...r,
+      errorElement: <ErroDeRota />,
+      hydrateFallbackElement: <CarregandoPagina />,
+    }))
+  : [];
+
 /** Itens do menu que já têm telas próprias (os demais usam o Placeholder). */
 const COM_TELA = new Set([
+  '/configuracoes',
   '/',
   '/pacientes',
   '/medicos',
@@ -307,8 +324,13 @@ const COM_TELA = new Set([
  */
 export function criarRotas(rotasExtras: RouteObject[] = []): RouteObject[] {
   return [
+    ...rotasAcesso,
     {
-      element: <AppLayout />,
+      element: (
+        <ProtegerSessao>
+          <AppLayout />
+        </ProtegerSessao>
+      ),
       errorElement: <ErroDeRota />,
       hydrateFallbackElement: <CarregandoPagina />,
       children: [
@@ -329,6 +351,11 @@ export function criarRotas(rotasExtras: RouteObject[] = []): RouteObject[] {
                 element: <Placeholder titulo={item.rotulo} />,
                 handle: handle(item.rotulo),
               })),
+            {
+              path: 'configuracoes',
+              lazy: pagina(() => import('./pages/Configuracoes')),
+              handle: handle(t.menu.configuracoes),
+            },
             {
               path: 'perfil',
               element: <Placeholder titulo={t.userMenu.meuPerfil} />,

@@ -96,6 +96,14 @@ continua com os dados no navegador. A publicação da API (Cloud Run e Cloud SQL
 demonstração) está em `docs/backend/PUBLICACAO.md`. Os cenários de ponta a ponta também rodam
 contra a API: veja `apps/web/playwright.config.ts` (`E2E_API`).
 
+Desde a Fase 28, o modo API tem **login** (e-mail e senha, segundo fator para Administrador e
+Gestão) e **7 perfis** (Administrador, Recepção, Enfermagem, Médico, NIR, Farmácia, Gestão): cada
+rota da API confere a permissão da ação, e as telas escondem o que o perfil não pode fazer. Fora da
+produção, a tela de login tem as **contas de demonstração** (um botão por perfil). A primeira conta
+de verdade: `npm run acesso:primeiro-admin -w @medicore/api -- "Nome" email` (mostra o link do
+primeiro acesso); as outras, em Configurações → Usuários. O app chama `/api` no próprio endereço
+(proxy do Vite; na Vercel, o `middleware.ts`), para o cookie da sessão ser do próprio app.
+
 Na primeira execução, os dados de exemplo são criados automaticamente:
 
 - 30 pacientes e 8 médicos, todos fictícios;

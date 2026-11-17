@@ -1,6 +1,7 @@
 import { ChevronDown, LogOut, Settings, UserRound } from 'lucide-react';
 import { useId } from 'react';
 import { Link } from 'react-router-dom';
+import { COM_LOGIN, sair } from '../../services/acesso';
 import { useUsuario } from '../../hooks/useDashboardData';
 import { useMenuSuspenso } from '../../hooks/useMenuSuspenso';
 import { t } from '@medicore/dominio/i18n/pt-BR';
@@ -77,7 +78,11 @@ export function UserMenu() {
               role="menuitem"
               tabIndex={-1}
               className={cn(classeItem, 'text-danger')}
-              onClick={() => fechar()}
+              onClick={() => {
+                fechar();
+                // Fase 28: com login, encerra a sessão (e o sistema volta para a tela de login).
+                if (COM_LOGIN) void sair();
+              }}
             >
               <LogOut size={16} aria-hidden /> {t.userMenu.sair}
             </button>

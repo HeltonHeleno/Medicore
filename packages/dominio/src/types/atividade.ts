@@ -32,4 +32,7 @@ export interface Atividade {
   /** ISO 8601 (UTC). */
   em: string;
   referenciaId?: string;
+  /** Fase 28 (D31): quem fez, quando há login. */
+  autor?: string;
+  autorId?: string;
 }

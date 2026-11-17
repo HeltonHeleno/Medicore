@@ -6,6 +6,7 @@
  * retenção (A15, Fase 26).
  */
 import type { Atividade, TipoAtividade } from '@medicore/dominio/types';
+import { autoria, autorIdAtual } from '@medicore/dominio/utils/autor';
 import { gerarId } from '@medicore/dominio/utils/id';
 import { desc } from 'drizzle-orm';
 import { deLinha } from '../banco/conversao';
@@ -24,6 +25,8 @@ export function registrarAtividade(
     descricao,
     em: momento(),
     referenciaId,
+    // Fase 28 (D31): com login, quem fez.
+    ...(autorIdAtual() ? autoria() : {}),
   });
 }
 

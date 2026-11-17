@@ -104,19 +104,26 @@ export function TabelaPacientes({ dados, ...resto }: TabelaPacientesProps) {
           nome={r.nomeExibicao}
           acoes={[
             { rotulo: p.acoes.ver, icone: Eye, href: `/pacientes/${r.id}` },
-            { rotulo: p.acoes.editar, icone: Pencil, href: `/pacientes/${r.id}/editar` },
+            {
+              rotulo: p.acoes.editar,
+              icone: Pencil,
+              href: `/pacientes/${r.id}/editar`,
+              permissao: 'pacientes.editar',
+            },
             ...(r.ativo
               ? [
                   {
                     rotulo: p.acoes.agendar,
                     icone: CalendarPlus,
                     href: `/consultas/nova?pacienteId=${r.id}`,
+                    permissao: 'agenda.editar' as const,
                   },
                   {
                     rotulo: p.acoes.inativar,
                     icone: UserX,
                     perigo: true,
                     aoClicar: () => void acoes.inativar(r),
+                    permissao: 'pacientes.editar' as const,
                   },
                 ]
               : [
@@ -124,6 +131,7 @@ export function TabelaPacientes({ dados, ...resto }: TabelaPacientesProps) {
                     rotulo: p.acoes.reativar,
                     icone: UserCheck,
                     aoClicar: () => void acoes.reativar(r),
+                    permissao: 'pacientes.editar' as const,
                   },
                 ]),
           ]}

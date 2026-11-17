@@ -7,6 +7,9 @@
  *   uma transação no servidor: nada fica gravado pela metade.
  * - Depois de cada gravação aceita, as telas abertas recarregam (D26, `repositorio.ts`).
  * - A última gravação que falhou por rede pode ser reenviada pelo "Tentar de novo" do aviso.
+ * - Fase 28: o cookie da sessão vai junto (a API fica no mesmo endereço, por proxy) e toda gravação
+ *   leva o código de segurança da sessão (`X-CSRF-Token`, R-AU4). Um 401 fora das rotas de acesso
+ *   avisa que a sessão terminou (E-19).
  */
 import type {
   RequisicaoApi,
@@ -20,6 +23,18 @@ type Fetch = typeof fetch;
 
 let aoGravar: () => void = () => {};
 let ultimaFalha: (() => Promise<RespostaApi>) | null = null;
+let codigoSeguranca: string | null = null;
+let aoPerderSessao: () => void = () => {};
+
+/** Fase 28: o código de segurança da sessão atual (vem com a sessão; `null` ao sair). */
+export function definirCodigoSeguranca(codigo: string | null): void {
+  codigoSeguranca = codigo;
+}
+
+/** Fase 28: quem mostra o "Sua sessão terminou" (E-19). */
+export function aoTerminarSessao(fn: () => void): void {
+  aoPerderSessao = fn;
+}
 
 /** Quem recarrega as telas depois de uma gravação (ligado pelo `repositorio.ts` do modo API). */
 export function aoConcluirGravacao(fn: () => void): void {
@@ -42,6 +57,7 @@ export function criarTransporte(
     const cabecalhos: Record<string, string> = { Accept: 'application/json' };
     if (r.corpo !== undefined) cabecalhos['Content-Type'] = 'application/json';
     if (r.versao !== undefined) cabecalhos['If-Match'] = `"v${r.versao}"`;
+    if (r.metodo !== 'GET' && codigoSeguranca) cabecalhos['X-CSRF-Token'] = codigoSeguranca;
     const controle = new AbortController();
     const relogio = setTimeout(() => controle.abort(), TEMPO_LIMITE_MS);
     let resposta: Response;
@@ -51,8 +67,8 @@ export function criarTransporte(
         headers: cabecalhos,
         body: r.corpo === undefined ? undefined : JSON.stringify(r.corpo),
         signal: controle.signal,
-        // A API não usa cookies até o login (BL-02).
-        credentials: 'omit',
+        // Fase 28: o cookie da sessão (HttpOnly; o JavaScript não lê).
+        credentials: 'include',
         // Os detalhes têm campos calculados na hora (prazo para desfazer, minutos no status):
         // nada de cache do navegador.
         cache: 'no-store',
@@ -75,6 +91,7 @@ export function criarTransporte(
 
   return async (r) => {
     const resposta = await enviar(r);
+    if (resposta.status === 401 && !r.caminho.startsWith('/auth/')) aoPerderSessao();
     if (r.metodo !== 'GET') {
       const falhouPorRede = resposta.status === 0 || [502, 503, 504].includes(resposta.status);
       ultimaFalha = falhouPorRede ? () => enviar(r) : null;

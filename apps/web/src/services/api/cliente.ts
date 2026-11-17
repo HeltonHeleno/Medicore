@@ -6,7 +6,7 @@ import { criarClienteCadastros } from '@medicore/dominio/cliente/cadastros';
 import { criarClienteOperacoes } from '@medicore/dominio/cliente/operacoes';
 import { baseDaApi, criarTransporte } from './rede';
 
-const transporte = criarTransporte(baseDaApi(import.meta.env.VITE_API_URL ?? ''));
+export const transporte = criarTransporte(baseDaApi(import.meta.env.VITE_API_URL ?? ''));
 
 export const cadastros = criarClienteCadastros(transporte);
 export const operacoes = criarClienteOperacoes(transporte);

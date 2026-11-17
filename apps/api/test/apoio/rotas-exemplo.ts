@@ -92,6 +92,8 @@ export function rotasExemplo(banco: Banco) {
     app.patch(
       '/_exemplo/pacientes/:id',
       {
+        // Fase 28: rota de teste declara a própria ação (a guarda nega rota de gravação sem ação).
+        config: { acao: 'pacientes.editar' },
         schema: {
           params: z.object({ id: z.string() }),
           body: z.object({ nome: z.string().trim().min(3, 'Informe o nome completo') }),
@@ -115,7 +117,10 @@ export function rotasExemplo(banco: Banco) {
 
     app.post(
       '/_exemplo/pacientes/:id/copiar',
-      { schema: { params: z.object({ id: z.string() }), body: z.object({ novoId: z.string() }) } },
+      {
+        config: { acao: 'pacientes.editar' },
+        schema: { params: z.object({ id: z.string() }), body: z.object({ novoId: z.string() }) },
+      },
       async (requisicao, resposta) => {
         const [p] = await banco
           .select()

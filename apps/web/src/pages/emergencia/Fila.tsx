@@ -1,3 +1,4 @@
+import { SePode } from '../../components/acesso/SePode';
 import { AlertTriangle, Plus } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -130,9 +131,11 @@ export default function Fila() {
         titulo={te.titulo}
         descricao={te.descricao}
         acoes={
-          <ButtonLink to="/emergencia/chegada" iconeEsquerda={<Plus size={18} />}>
-            {te.registrarChegada}
-          </ButtonLink>
+          <SePode acao="emergencia.chegada">
+            <ButtonLink to="/emergencia/chegada" iconeEsquerda={<Plus size={18} />}>
+              {te.registrarChegada}
+            </ButtonLink>
+          </SePode>
         }
       />
       <AbasModulo

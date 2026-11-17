@@ -1,4 +1,5 @@
 import { AlertTriangle, Stethoscope } from 'lucide-react';
+import { usePermissao } from '../../hooks/useSessao';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useRelogio } from '../../hooks/useRelogio';
@@ -33,6 +34,8 @@ interface LinhaProps {
  * cor, o nome da cor e os mesmos textos (18.2.7).
  */
 const LinhaFila = memo(function LinhaFila({ a, grupo, agora, aoChamar }: LinhaProps) {
+  const podeTriar = usePermissao('emergencia.triagem');
+  const podeAtender = usePermissao('emergencia.atendimento');
   const aguardando = grupo === 'aguardandoAtendimento' || grupo === 'aguardandoTriagem';
   const excesso = aguardando && a.prazo ? excessoMin(a.prazo, agora) : 0;
   const nome =
@@ -113,7 +116,7 @@ const LinhaFila = memo(function LinhaFila({ a, grupo, agora, aoChamar }: LinhaPr
         aria-label={f.acoesDe(a.numero)}
         className="flex flex-wrap gap-2 sm:justify-end"
       >
-        {grupo === 'aguardandoTriagem' && (
+        {grupo === 'aguardandoTriagem' && podeTriar && (
           <ButtonLink
             tamanho="sm"
             to={`/emergencia/${a.id}/triagem`}
@@ -122,7 +125,7 @@ const LinhaFila = memo(function LinhaFila({ a, grupo, agora, aoChamar }: LinhaPr
             {te.triar}
           </ButtonLink>
         )}
-        {grupo === 'aguardandoAtendimento' && (
+        {grupo === 'aguardandoAtendimento' && podeAtender && (
           <Button tamanho="sm" onClick={() => aoChamar(a)} aria-label={f.chamarLeitor(a.numero)}>
             {te.chamar}
           </Button>

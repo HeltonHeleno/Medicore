@@ -104,6 +104,17 @@ Crie os ambientes `homologacao` e `demonstracao` (na demonstração, vale ligar 
 | `GCP_CONTA_EXECUCAO` | o `$EXEC`                                                                                                       |
 | `CLOUDSQL_INSTANCIA` | o `$INSTANCIA`                                                                                                  |
 | `CORS_ORIGENS`       | homologação: `https://medicore-*-heltonhelenos-projects.vercel.app`; demonstração: o endereço público da Vercel |
+| `APP_URL`            | Fase 28: o endereço do app, para os links dos e-mails (demonstração: o endereço público da Vercel)              |
+| `EMAIL_PROVEDOR`     | Fase 28, opcional: `resend` para enviar convites e senhas novas por e-mail (vazio: o link aparece na tela)      |
+| `EMAIL_REMETENTE`    | Fase 28, com o Resend: `MediCore <nao-responda@seu-dominio>` (domínio verificado no Resend)                     |
+
+Com `EMAIL_PROVEDOR=resend`, crie também o segredo da chave (uma vez por ambiente):
+
+```sh
+printf '%s' 're_SUA_CHAVE' | gcloud secrets create "medicore-$AMB-resend-api-key" --data-file=-
+gcloud secrets add-iam-policy-binding "medicore-$AMB-resend-api-key" \
+  --member="serviceAccount:$EXEC" --role=roles/secretmanager.secretAccessor
+```
 
 Depois, rode o workflow **Publicar a API** pela aba Actions (homologação primeiro). O resumo da execução mostra o endereço da API.
 
@@ -125,13 +136,28 @@ done
 
 ## 7. App na Vercel
 
+Desde a Fase 28 (login), o app chama a API **pelo próprio endereço**: `/api/*` é repassado ao Cloud Run pelo `middleware.ts` da raiz (Routing Middleware da Vercel). Assim o cookie da sessão é do próprio app (`SameSite=Lax`, primeira parte) e o navegador nem precisa de CORS.
+
 Em **Project → Settings → Environment Variables**:
 
 | Variável       | Production (demonstração)               | Preview (prévia de cada PR, 27.2.1)    |
 | -------------- | --------------------------------------- | -------------------------------------- |
-| `VITE_API_URL` | endereço da `medicore-api-demonstracao` | endereço da `medicore-api-homologacao` |
+| `VITE_API_URL` | `/`                                     | `/`                                    |
+| `API_ORIGEM`   | endereço da `medicore-api-demonstracao` | endereço da `medicore-api-homologacao` |
 
-Sem `VITE_API_URL`, o app continua com os dados no navegador (como até a 1.2.0). Com ela, no primeiro acesso aparece o aviso "Os dados de exemplo agora ficam no servidor" (D27) e o navegador deixa de guardar dados (só tema e preferências).
+Sem `VITE_API_URL`, o app continua com os dados no navegador e sem login (como até a 1.2.0). Com ela, no primeiro acesso aparece o aviso "Os dados de exemplo agora ficam no servidor" (D27), o navegador deixa de guardar dados (só tema e preferências) e o sistema pede login.
+
+## 8. Contas (Fase 28)
+
+- **Demonstração e homologação:** a tela de login tem as **contas de demonstração** (um botão por perfil e a "equipe completa"). Elas não existem com `AMBIENTE=producao` (nem com `LOGIN_DEMONSTRACAO=nao`).
+- **Primeiro administrador** (produção, ou para testar convites): com o banco sem usuários,
+
+  ```sh
+  DATABASE_URL="$(gcloud secrets versions access latest --secret="medicore-$AMB-database-url")" \
+  APP_URL="https://seu-app" npm run acesso:primeiro-admin -w @medicore/api -- "Nome Completo" email@hospital.com
+  ```
+
+  O comando mostra o link do primeiro acesso (48 h, uso único). A pessoa define a senha e o segundo fator (obrigatório para Administrador). Depois disso, os convites saem da tela **Configurações → Usuários**.
 
 ## Custos (ordem de grandeza)
 

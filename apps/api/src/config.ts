@@ -63,6 +63,21 @@ const esquema = z.object({
    * rota não existe. No mínimo 32 caracteres; guardada no Secret Manager.
    */
   ROTINAS_CHAVE: z.string().min(32).optional(),
+  /**
+   * Fase 28 — Envio de e-mails (convites e senha nova). Sem provedor, o administrador recebe o link
+   * para enviar e o "esqueci a senha" pede para falar com ele.
+   */
+  EMAIL_PROVEDOR: z.enum(['nenhum', 'resend']).default('nenhum'),
+  RESEND_API_KEY: z.string().min(10).optional(),
+  /** Remetente dos e-mails, ex.: `MediCore <nao-responda@hospital.com.br>`. */
+  EMAIL_REMETENTE: z.string().min(3).optional(),
+  /** Endereço do app, para os links dos e-mails (`https://medicore.vercel.app`). */
+  APP_URL: z.string().url().default('http://localhost:5173'),
+  /**
+   * Fase 28 — Contas de demonstração (um botão por perfil no login). Nunca na produção. Sem a
+   * variável, ligadas fora da produção.
+   */
+  LOGIN_DEMONSTRACAO: z.enum(['sim', 'nao']).optional(),
   /** Publica a documentação em `/api/v1/docs` (desligar só se a produção exigir). */
   DOCS: z
     .enum(['sim', 'nao'])
@@ -71,6 +86,10 @@ const esquema = z.object({
 });
 
 export type Config = z.infer<typeof esquema>;
+
+/** Contas de demonstração ligadas? (Nunca na produção.) */
+export const demonstracaoLigada = (c: Pick<Config, 'AMBIENTE' | 'LOGIN_DEMONSTRACAO'>) =>
+  c.AMBIENTE !== 'producao' && c.LOGIN_DEMONSTRACAO !== 'nao';
 
 export class ErroConfiguracao extends Error {
   readonly problemas: string[];
@@ -90,6 +109,14 @@ export function lerConfig(ambiente: Record<string, string | undefined> = process
     .refine((c) => !c.ROTAS_TESTE || c.AMBIENTE === 'teste', {
       message: 'ROTAS_TESTE=sim só vale com AMBIENTE=teste',
       path: ['ROTAS_TESTE'],
+    })
+    .refine((c) => c.EMAIL_PROVEDOR !== 'resend' || (c.RESEND_API_KEY && c.EMAIL_REMETENTE), {
+      message: 'EMAIL_PROVEDOR=resend pede RESEND_API_KEY e EMAIL_REMETENTE',
+      path: ['EMAIL_PROVEDOR'],
+    })
+    .refine((c) => !(c.AMBIENTE === 'producao' && c.LOGIN_DEMONSTRACAO === 'sim'), {
+      message: 'LOGIN_DEMONSTRACAO=sim não vale com AMBIENTE=producao',
+      path: ['LOGIN_DEMONSTRACAO'],
     })
     .safeParse(vazioComoAusente);
   if (!resultado.success) {

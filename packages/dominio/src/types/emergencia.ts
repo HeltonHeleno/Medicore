@@ -47,6 +47,8 @@ export interface Triagem {
   /** Obrigatória quando a retriagem reduz a urgência (R-E3). */
   justificativa?: string;
   autor: string;
+  /** Fase 28 (D31): id do usuário que fez (sem login: ausente). */
+  autorId?: string;
 }
 
 export interface Reavaliacao {
@@ -54,6 +56,8 @@ export interface Reavaliacao {
   sinais: SinaisVitais;
   observacao?: string;
   autor: string;
+  /** Fase 28 (D31): id do usuário que fez (sem login: ausente). */
+  autorId?: string;
 }
 
 export interface Desfecho {
@@ -85,6 +89,8 @@ export interface EventoAtendimento {
   tipo: TipoEventoAtendimento;
   em: string;
   autor: string;
+  /** Fase 28 (D31): id do usuário que fez (sem login: ausente). */
+  autorId?: string;
   de?: string;
   para?: string;
   detalhe?: string;

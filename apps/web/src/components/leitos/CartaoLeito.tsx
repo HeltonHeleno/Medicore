@@ -7,7 +7,8 @@ import { cn } from '../../utils/cn';
 import { formatarDuracao, minutosDesde } from '@medicore/dominio/utils/tempos';
 import { TempoDecorrido } from '../ui/TempoDecorrido';
 import { MenuAcoes, type AcaoMenu } from '../ui/lista/MenuAcoes';
-import { acoesDoLeito, destinoInternar, type AcaoLeito } from './acoes-leito';
+import { usePode } from '../../hooks/useSessao';
+import { acoesDoLeito, destinoInternar, PERMISSAO_ACAO_LEITO, type AcaoLeito } from './acoes-leito';
 import { BadgeLeito } from './BadgeLeito';
 import { BORDA_LEITO } from './estilos-leito';
 
@@ -81,7 +82,8 @@ interface CartaoLeitoProps {
  */
 function CartaoLeitoBase({ leito, aoAcao, destacado, className }: CartaoLeitoProps) {
   const o = leito.ocupante;
-  const acoes = aoAcao ? acoesDoLeito(leito) : [];
+  const podeFazer = usePode();
+  const acoes = aoAcao ? acoesDoLeito(leito).filter((x) => podeFazer(PERMISSAO_ACAO_LEITO[x])) : [];
   const rapida = acoes.includes('concluir')
     ? 'concluir'
     : acoes.includes('internar') && leito.status === 'livre'

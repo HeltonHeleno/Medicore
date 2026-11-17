@@ -1,3 +1,4 @@
+import { SePode } from '../../components/acesso/SePode';
 import { LayoutGrid, Plus, Table2 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -92,9 +93,11 @@ export default function ListaMedicos() {
         titulo={m.titulo}
         descricao={m.descricaoLista}
         acoes={
-          <ButtonLink to="/medicos/novo" iconeEsquerda={<Plus size={18} />}>
-            {m.novo}
-          </ButtonLink>
+          <SePode acao="medicos.editar">
+            <ButtonLink to="/medicos/novo" iconeEsquerda={<Plus size={18} />}>
+              {m.novo}
+            </ButtonLink>
+          </SePode>
         }
       />
       <Card>

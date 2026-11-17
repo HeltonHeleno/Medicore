@@ -47,6 +47,7 @@ import {
   integer,
   jsonb,
   pgTable,
+  primaryKey,
   text,
   timestamp,
   uniqueIndex,
@@ -161,6 +162,9 @@ export const atividades = pgTable(
     descricao: text().notNull(),
     em: instante().notNull(),
     referenciaId: text(),
+    // Fase 28 (D31): quem fez, quando há login.
+    autor: text(),
+    autorId: text(),
   },
   (t) => [index('atividades_em').on(t.em)],
 );
@@ -248,6 +252,7 @@ export const solicitacoes = pgTable(
     motivoCancelamento: text(),
     canceladaEm: instante(),
     autor: text().notNull(),
+    autorId: text(),
   },
   (t) => [index('solicitacoes_status').on(t.status)],
 );
@@ -359,6 +364,7 @@ export const dispensacoes = pgTable(
     estorno: jsonb().$type<{ em: string; motivo: string; autor: string }>(),
     em: instante().notNull(),
     autor: text().notNull(),
+    autorId: text(),
   },
   (t) => [index('dispensacoes_paciente').on(t.pacienteId, t.em)],
 );
@@ -381,6 +387,7 @@ export const movimentacoes = pgTable(
     motivo: text(),
     termo: text(),
     autor: text().notNull(),
+    autorId: text(),
     em: instante().notNull(),
   },
   (t) => [
@@ -420,6 +427,103 @@ export const rotinas = pgTable('rotinas', {
   executadaEm: instante(),
   /** Números da última execução (o que saiu, o que foi arquivado, violações). */
   resultado: jsonb().$type<Record<string, unknown>>(),
+});
+
+// ---------------------------------------------------------------- Acesso (Fase 28, BL-02)
+
+/**
+ * Usuários (D29). Nunca são excluídos, só desativados. A senha só existe depois do convite aceito.
+ * O segredo do TOTP fica em texto aqui até o BL-04 (Fase 30), que cifra os campos sensíveis.
+ */
+export const usuarios = pgTable(
+  'usuarios',
+  {
+    ...base,
+    ...inativavel,
+    nome: text().notNull(),
+    email: text().notNull(),
+    senhaHash: text(),
+    /**
+     * Perfil Médico ligado ao cadastro do médico (D30). Sem chave estrangeira: a restauração diária
+     * da demonstração apaga e grava os médicos de novo (com os mesmos ids), sem mexer nos usuários.
+     */
+    medicoId: text(),
+    mfaSegredo: text(),
+    mfaAtivo: boolean().notNull().default(false),
+    ultimoAcessoEm: instante(),
+    /** Conta de demonstração (entra sem senha, só nos ambientes de demonstração e teste). */
+    demonstracao: boolean().notNull().default(false),
+  },
+  (t) => [uniqueIndex('usuarios_email_unico').on(sql`lower(${t.email})`)],
+);
+
+export const perfisUsuario = pgTable(
+  'perfis_usuario',
+  {
+    usuarioId: text()
+      .notNull()
+      .references(() => usuarios.id),
+    perfil: text().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.usuarioId, t.perfil] })],
+);
+
+/** Sessões (R-AU4): o id é o hash do token do cookie; o token em si nunca é gravado. */
+export const sessoes = pgTable(
+  'sessoes',
+  {
+    id: text().primaryKey(),
+    usuarioId: text()
+      .notNull()
+      .references(() => usuarios.id),
+    /** `mfa`: senha conferida, falta o código. `ativa`: sessão de uso. */
+    etapa: text().$type<'mfa' | 'ativa'>().notNull(),
+    csrf: text().notNull(),
+    criadaEm: instante().notNull(),
+    ultimoUsoEm: instante().notNull(),
+    /** Expiração absoluta (12 h; 5 min na etapa `mfa`). */
+    expiraEm: instante().notNull(),
+    encerradaEm: instante(),
+  },
+  (t) => [index('sessoes_usuario').on(t.usuarioId)],
+);
+
+/** Convites (48 h) e redefinições de senha (30 min): uso único; o id é o hash do token do link. */
+export const convites = pgTable(
+  'convites',
+  {
+    id: text().primaryKey(),
+    usuarioId: text()
+      .notNull()
+      .references(() => usuarios.id),
+    tipo: text().$type<'convite' | 'redefinicao'>().notNull(),
+    criadoEm: instante().notNull(),
+    expiraEm: instante().notNull(),
+    usadoEm: instante(),
+  },
+  (t) => [index('convites_usuario').on(t.usuarioId)],
+);
+
+/** Códigos de recuperação do MFA (só o hash), uso único. */
+export const codigosRecuperacao = pgTable(
+  'codigos_recuperacao',
+  {
+    id: text().primaryKey(),
+    usuarioId: text()
+      .notNull()
+      .references(() => usuarios.id),
+    codigoHash: text().notNull(),
+    usadoEm: instante(),
+  },
+  (t) => [index('codigos_recuperacao_usuario').on(t.usuarioId)],
+);
+
+/** R-AU3: erros de login por e-mail (exista a conta ou não). */
+export const tentativasLogin = pgTable('tentativas_login', {
+  email: text().primaryKey(),
+  falhas: integer().notNull().default(0),
+  bloqueadoAte: instante(),
+  ultimaEm: instante().notNull(),
 });
 
 /** As 13 tabelas, na ordem em que podem ser preenchidas sem violar as chaves estrangeiras. */

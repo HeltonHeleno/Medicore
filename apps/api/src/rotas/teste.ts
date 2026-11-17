@@ -50,6 +50,19 @@ function paraLinha(tabela: PgTable, item: Record<string, unknown>) {
   );
 }
 
+/** Sessões abertas passam a valer a partir do novo "agora" do servidor (só nos testes). */
+async function renovarSessoes(dono: Banco) {
+  const momento = agora();
+  await dono
+    .update(e.sessoes)
+    .set({
+      criadaEm: momento.toISOString(),
+      ultimoUsoEm: momento.toISOString(),
+      expiraEm: new Date(momento.getTime() + 12 * 3600_000).toISOString(),
+    })
+    .where(sql`${e.sessoes.encerradaEm} is null and ${e.sessoes.etapa} = 'ativa'`);
+}
+
 /** `dono`: a conexão do dono das tabelas (só ele apaga movimentações). */
 export function rotasDeTeste(dono: Banco): FastifyPluginAsyncZod {
   return async (app) => {
@@ -59,12 +72,21 @@ export function rotasDeTeste(dono: Banco): FastifyPluginAsyncZod {
       acertarRelogio(req.body.agora);
       const contagens = await semear(dono, { substituir: true, momento: agora() });
       await dono.execute(sql`truncate ${e.rotinas}`);
+      await renovarSessoes(dono);
       return { agora: agora().toISOString(), contagens: contagens.contagens };
     });
 
     app.post('/_teste/relogio', { schema: { ...schema, body: instante } }, async (req) => {
       acertarRelogio(req.body.agora);
+      // Fase 28: o teste que pula horas (prazo de 24 h, vencimento) não perde a sessão por isso. A
+      // expiração tem testes próprios (API e o cenário da sessão que termina com a tela aberta).
+      await renovarSessoes(dono);
       return { agora: agora().toISOString() };
+    });
+
+    app.post('/_teste/sessoes/encerrar', { schema }, async () => {
+      await dono.update(e.sessoes).set({ encerradaEm: agora().toISOString() });
+      return {};
     });
 
     app.get('/_teste/colecoes/:nome', { schema: { ...schema, params: comNome } }, async (req) => {

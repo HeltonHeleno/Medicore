@@ -44,7 +44,7 @@ describe('transporte HTTP', () => {
       method: 'POST',
       body: '{"motivo":"x"}',
       cache: 'no-store',
-      credentials: 'omit',
+      credentials: 'include',
       headers: { 'If-Match': '"v3"', 'Content-Type': 'application/json' },
     });
   });

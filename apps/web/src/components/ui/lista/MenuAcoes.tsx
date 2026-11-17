@@ -2,7 +2,9 @@ import { MoreHorizontal, type LucideIcon } from 'lucide-react';
 import { useId, useLayoutEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
+import type { Acao } from '@medicore/dominio/permissoes';
 import { useMenuSuspenso } from '../../../hooks/useMenuSuspenso';
+import { usePode } from '../../../hooks/useSessao';
 import { t } from '@medicore/dominio/i18n/pt-BR';
 import { cn } from '../../../utils/cn';
 
@@ -14,6 +16,8 @@ export interface AcaoMenu {
   aoClicar?: () => void;
   perigo?: boolean;
   desabilitado?: boolean;
+  /** Fase 28: a ação some para quem não tem a permissão. */
+  permissao?: Acao;
 }
 
 interface MenuAcoesProps {
@@ -30,7 +34,9 @@ const classeItem =
  * Botão "⋯" com menu de ações da linha. O menu é desenhado por cima da página
  * (portal + posição fixa), então não é cortado pela rolagem da tabela.
  */
-export function MenuAcoes({ nome, acoes }: MenuAcoesProps) {
+export function MenuAcoes({ nome, acoes: todas }: MenuAcoesProps) {
+  const podeFazer = usePode();
+  const acoes = todas.filter((a) => !a.permissao || podeFazer(a.permissao));
   const {
     aberto,
     alternar,

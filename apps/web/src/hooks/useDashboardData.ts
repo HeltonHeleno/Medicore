@@ -11,12 +11,30 @@ import { listarAtividades } from '../services/atividades';
 import { repoAtividades, repoMedicos, repoPacientes } from '../services/colecoes';
 import * as api from '../services/api';
 import { indicadoresPainel } from '../services/painel';
+import { nomesPerfis } from '@medicore/dominio/i18n/pt-BR/perfis';
+import type { Usuario } from '@medicore/dominio/types';
 import { hojeNoFuso } from '@medicore/dominio/utils/datas';
-import { useAsync } from './useAsync';
+import { useAsync, type EstadoAsync } from './useAsync';
+import { useSessao } from './useSessao';
 import { useColecao } from './useColecao';
 import { useAgenda } from './useDados';
 
-export const useUsuario = () => useAsync(api.getUsuario);
+/**
+ * Quem está usando. Fase 28: com login (modo API), o usuário da sessão e os perfis; sem login, o
+ * usuário simulado de sempre.
+ */
+export function useUsuario(): EstadoAsync<Usuario> {
+  const sessao = useSessao();
+  const simulado = useAsync(api.getUsuario);
+  if (!sessao) return simulado;
+  const { nome, perfis } = sessao.usuario;
+  return {
+    data: { nome, tratamento: nome, cargo: perfis.map((p) => nomesPerfis[p]).join(', ') },
+    carregando: false,
+    erro: null,
+    recarregar: simulado.recarregar,
+  };
+}
 export const useKpis = () => useAsync(api.getKpis);
 export const useDepartamentos = () => useAsync(api.getDepartamentos);
 

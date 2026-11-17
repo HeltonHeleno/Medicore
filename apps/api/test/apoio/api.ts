@@ -3,6 +3,7 @@ import type { FastifyInstance } from 'fastify';
 import type { Banco } from '../../src/banco/conexao';
 import { criarServidor } from '../../src/servidor';
 import { criarBancoDeTeste, type BancoDeTeste } from './banco';
+import { comSessao } from './sessao';
 
 export interface ApiDeTeste {
   app: FastifyInstance;
@@ -26,6 +27,7 @@ export async function criarApiDeTeste(
     rotasExtras: rotasExtras ? (v1) => rotasExtras(v1, banco.app) : undefined,
   });
   await app.ready();
+  comSessao(app);
   return {
     app,
     banco,
