@@ -12,6 +12,7 @@ import { executarRotinasDoDia } from '../src/rotinas/agendador';
 import { chaveConfere } from '../src/rotas/rotinas';
 import { criarServidor, origensPermitidas } from '../src/servidor';
 import { criarBancoDeTeste, type BancoDeTeste } from './apoio/banco';
+import { comSessao } from './apoio/sessao';
 
 const CHAVE = 'chave-das-rotinas-com-mais-de-32-caracteres';
 let b: BancoDeTeste;
@@ -33,6 +34,7 @@ beforeAll(async () => {
     rotinas: { chave: CHAVE, opcoes: { restaurarDemonstracao: b.dono } },
   });
   await app.ready();
+  comSessao(app);
 });
 afterAll(async () => {
   definirDeslocamentoDoRelogio(0);

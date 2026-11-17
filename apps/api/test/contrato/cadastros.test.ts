@@ -276,6 +276,8 @@ describe('OpenAPI', () => {
       'emergência',
       'farmácia',
       'painel',
+      'acesso',
+      'usuários',
     ]);
   });
 });

@@ -1,4 +1,5 @@
 /** Fase 24 — Ponto de entrada da API (`npm run dev` / `npm start`). */
+import { enviadorResend, semEnvio } from './acesso/email';
 import { conectar, desconectar } from './banco/conexao';
 import { ErroConfiguracao, lerConfig } from './config';
 import { iniciarMonitoramento } from './monitoramento';
@@ -31,6 +32,10 @@ const app = await criarServidor({
   banco,
   registrarErro,
   bancoDeTeste: config.ROTAS_TESTE ? bancoDono : undefined,
+  enviador:
+    config.EMAIL_PROVEDOR === 'resend'
+      ? enviadorResend(config.RESEND_API_KEY!, config.EMAIL_REMETENTE!)
+      : semEnvio,
   rotinas: config.ROTINAS_CHAVE
     ? { chave: config.ROTINAS_CHAVE, opcoes: opcoesRotinas }
     : undefined,

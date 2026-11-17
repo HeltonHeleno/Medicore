@@ -26,6 +26,8 @@ await build({
     migrar: join(RAIZ, 'src', 'banco', 'migrar.ts'),
     // Fase 27: dados de exemplo da homologação e da demonstração (`--se-vazio`; nunca em produção).
     semear: join(RAIZ, 'src', 'banco', 'semear-cli.ts'),
+    // Fase 28: a conta do primeiro administrador (mostra o link do primeiro acesso).
+    'primeiro-administrador': join(RAIZ, 'src', 'acesso', 'primeiro-administrador-cli.ts'),
   },
   outdir: join(RAIZ, 'dist'),
   bundle: true,

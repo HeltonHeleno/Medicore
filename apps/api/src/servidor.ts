@@ -15,9 +15,12 @@ import {
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod';
 import type { Banco } from './banco/conexao';
-import type { Config } from './config';
+import { demonstracaoLigada, type Config } from './config';
+import { semEnvio, type Enviador } from './acesso/email';
+import { registrarGuarda } from './acesso/guarda';
 import { registrarTratamentoDeErros } from './http/erros';
 import type { RegistrarErro } from './monitoramento';
+import { rotasAcesso } from './rotas/acesso';
 import { rotasConsultas } from './rotas/consultas';
 import { rotasEmergencia } from './rotas/emergencia';
 import { rotasFarmacia } from './rotas/farmacia';
@@ -29,6 +32,7 @@ import { rotasSaude } from './rotas/saude';
 import { rotasSituacao } from './rotas/situacao';
 import { rotasDeTeste } from './rotas/teste';
 import { rotasRotinas } from './rotas/rotinas';
+import { rotasUsuarios } from './rotas/usuarios';
 import type { OpcoesRotinas } from './rotinas/agendador';
 
 export const PREFIXO = '/api/v1';
@@ -40,7 +44,8 @@ export const VERSAO_API: string = (
 ).version;
 
 export interface DependenciasServidor {
-  config: Pick<Config, 'AMBIENTE' | 'LOG_NIVEL' | 'DOCS'> & Partial<Pick<Config, 'CORS_ORIGENS'>>;
+  config: Pick<Config, 'AMBIENTE' | 'LOG_NIVEL' | 'DOCS'> &
+    Partial<Pick<Config, 'CORS_ORIGENS' | 'APP_URL' | 'LOGIN_DEMONSTRACAO'>>;
   banco: Banco;
   registrarErro: RegistrarErro;
   /** Para onde vai o log (padrão: saída padrão). Os testes leem o log por aqui. */
@@ -52,6 +57,8 @@ export interface DependenciasServidor {
   bancoDeTeste?: Banco;
   /** Fase 27: rota das rotinas para o Cloud Scheduler (só com `ROTINAS_CHAVE`). */
   rotinas?: { chave: string; opcoes?: OpcoesRotinas };
+  /** Fase 28: envio dos convites e das senhas novas (padrão: nenhum; o link volta ao administrador). */
+  enviador?: Enviador;
   /** Rotas extras (os testes registram rotas de exemplo aqui). */
   rotasExtras?: (app: FastifyInstance) => Promise<void> | void;
 }
@@ -101,6 +108,8 @@ export async function criarServidor(dep: DependenciasServidor) {
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
   registrarTratamentoDeErros(app, dep.registrarErro);
+  // Fase 28: sessão, código de segurança e permissão em todas as rotas (negado por padrão).
+  registrarGuarda(app, dep.banco);
 
   // Fase 27: o app (Vercel) chama a API (Cloud Run) em outro endereço.
   const origens = origensPermitidas(dep.config.CORS_ORIGENS ?? []);
@@ -108,7 +117,10 @@ export async function criarServidor(dep: DependenciasServidor) {
     await app.register(fastifyCors, {
       origin: origens,
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
-      allowedHeaders: ['Content-Type', 'If-Match', 'If-None-Match', 'Accept'],
+      allowedHeaders: ['Content-Type', 'If-Match', 'If-None-Match', 'Accept', 'X-CSRF-Token'],
+      // Fase 28: o cookie da sessão (o app chama a API pelo mesmo endereço, por proxy; o CORS fica
+      // para as chamadas diretas, como as ferramentas de teste).
+      credentials: true,
       exposedHeaders: ['ETag'],
       maxAge: 600,
     });
@@ -125,7 +137,7 @@ export async function criarServidor(dep: DependenciasServidor) {
         title: 'MediCore API',
         version: VERSAO_API,
         description:
-          'API do MediCore (D24). Erros no formato do contrato: `{ codigo, … }`. Gravações exigem `If-Match` com a versão lida (R-API1).',
+          'API do MediCore (D24). Erros no formato do contrato: `{ codigo, … }`. Gravações exigem `If-Match` com a versão lida (R-API1). Desde a Fase 28, as rotas pedem a sessão (cookie `medicore_sessao`, de `POST /auth/entrar`) e as gravações, o cabeçalho `X-CSRF-Token`.',
       },
       servers: [{ url: '/' }],
       tags: [
@@ -137,6 +149,8 @@ export async function criarServidor(dep: DependenciasServidor) {
         { name: 'emergência', description: 'E1–E10, A7, A8 (Fase 26)' },
         { name: 'farmácia', description: 'F1–F9, A9 (Fase 26)' },
         { name: 'painel', description: 'Atividades e indicadores (A12–A14)' },
+        { name: 'acesso', description: 'Login, MFA, convite e senha (Fase 28)' },
+        { name: 'usuários', description: 'Administração de usuários (Fase 28)' },
       ],
     },
     transform: jsonSchemaTransform,
@@ -151,6 +165,20 @@ export async function criarServidor(dep: DependenciasServidor) {
       await v1.register(
         rotasSaude({ banco: dep.banco, versao: VERSAO_API, ambiente: dep.config.AMBIENTE }),
       );
+      const enviador = dep.enviador ?? semEnvio;
+      const appUrl = dep.config.APP_URL ?? 'http://localhost:5173';
+      await v1.register(
+        rotasAcesso({
+          banco: dep.banco,
+          enviador,
+          appUrl,
+          demonstracao: demonstracaoLigada({
+            AMBIENTE: dep.config.AMBIENTE,
+            LOGIN_DEMONSTRACAO: dep.config.LOGIN_DEMONSTRACAO,
+          }),
+        }),
+      );
+      await v1.register(rotasUsuarios({ banco: dep.banco, enviador, appUrl }));
       await v1.register(rotasPacientes(dep.banco));
       await v1.register(rotasMedicos(dep.banco));
       await v1.register(rotasConsultas(dep.banco));

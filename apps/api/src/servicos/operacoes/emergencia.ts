@@ -34,7 +34,7 @@ import type {
   Paginado,
   StatusAtendimento,
 } from '@medicore/dominio/types';
-import { autorAtual } from '@medicore/dominio/utils/autor';
+import { autoria } from '@medicore/dominio/utils/autor';
 import { paginar } from '@medicore/dominio/utils/busca';
 import { avaliarLeitos, perfilDoPaciente } from '@medicore/dominio/utils/compatibilidade-leito';
 import { dataDoInstante, idade } from '@medicore/dominio/utils/datas';
@@ -193,7 +193,7 @@ const evento = (
 ) => ({
   tipo,
   em: momentoAtual(),
-  autor: autorAtual(),
+  ...autoria(),
   ...extra,
 });
 
@@ -247,7 +247,7 @@ export const registrarChegada = (entrada: EntradaChegada): Atendimento => {
           {
             tipo: 'chegada',
             em: dados.chegadaEm,
-            autor: autorAtual(),
+            ...autoria(),
             ...(imediata ? { para: 'vermelho' } : {}),
           },
         ],
@@ -275,7 +275,7 @@ export const triar = (id: string, entrada: EntradaTriagem, versao: number): Aten
         profissional: dados.profissional,
         risco: dados.risco,
         sinais: dados.sinais,
-        autor: autorAtual(),
+        ...autoria(),
         ...(dados.pesoKg !== undefined ? { pesoKg: dados.pesoKg } : {}),
         ...(dados.observacao ? { observacao: dados.observacao } : {}),
         ...(dados.justificativa ? { justificativa: dados.justificativa } : {}),
@@ -314,7 +314,7 @@ export const reavaliar = (id: string, entrada: EntradaReavaliacao, versao: numbe
           {
             em,
             sinais: dados.sinais,
-            autor: autorAtual(),
+            ...autoria(),
             ...(dados.observacao ? { observacao: dados.observacao } : {}),
           },
         ],
@@ -420,7 +420,7 @@ export const solicitarLeito = (
         motivo: dados.motivo,
         prioridade: a.risco ?? 'amarelo',
         status: 'pendente',
-        autor: autorAtual(),
+        ...autoria(),
       });
       return repoAtendimentos.atualizar(id, {
         status: 'aguardando_leito',

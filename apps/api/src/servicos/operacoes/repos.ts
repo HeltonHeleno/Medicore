@@ -19,6 +19,7 @@ import type {
   SolicitacaoLeito,
   TipoAtividade,
 } from '@medicore/dominio/types';
+import { autoria, autorIdAtual } from '@medicore/dominio/utils/autor';
 import { gerarId } from '@medicore/dominio/utils/id';
 import { agora } from '@medicore/dominio/utils/relogio';
 import { unidadeAtual, type NomeRepo, type RepoMemoria } from './unidade';
@@ -79,5 +80,7 @@ export function registrarAtividade(
     descricao,
     em: agora().toISOString(),
     ...(referenciaId ? { referenciaId } : {}),
+    // Fase 28 (D31): com login, quem fez.
+    ...(autorIdAtual() ? autoria() : {}),
   });
 }

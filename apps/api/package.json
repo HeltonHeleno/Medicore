@@ -15,24 +15,28 @@
     "openapi": "tsx scripts/gerar-openapi.ts",
     "db:gerar": "drizzle-kit generate",
     "db:migrar": "tsx --env-file-if-exists=.env src/banco/migrar.ts",
-    "db:semear": "tsx --env-file-if-exists=.env src/banco/semear-cli.ts"
+    "db:semear": "tsx --env-file-if-exists=.env src/banco/semear-cli.ts",
+    "acesso:primeiro-admin": "tsx --env-file-if-exists=.env src/acesso/primeiro-administrador-cli.ts"
   },
   "dependencies": {
     "@fastify/cors": "11.3.1",
     "@fastify/swagger": "9.9.3",
     "@fastify/swagger-ui": "6.1.2",
     "@medicore/dominio": "*",
+    "@node-rs/argon2": "2.2.1",
     "@sentry/node": "11.10.0",
     "drizzle-orm": "0.45.4",
     "fastify": "5.12.7",
     "fastify-type-provider-zod": "7.0.0",
     "pg": "8.23.1",
+    "qrcode": "1.5.4",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@testcontainers/postgresql": "12.2.1",
     "@types/node": "^24.19.2",
     "@types/pg": "8.23.1",
+    "@types/qrcode": "1.5.5",
     "@vitest/coverage-v8": "^5.0.5",
     "drizzle-kit": "0.31.11",
     "esbuild": "0.28.2",

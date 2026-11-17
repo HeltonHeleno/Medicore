@@ -49,7 +49,7 @@ import type {
   SolicitacaoLeito,
 } from '@medicore/dominio/types';
 import { alergiasNaoInformadas } from '@medicore/dominio/utils/alergia';
-import { autorAtual } from '@medicore/dominio/utils/autor';
+import { autoria } from '@medicore/dominio/utils/autor';
 import { filtrarPorTermo, paginar } from '@medicore/dominio/utils/busca';
 import {
   avaliarLeitos,
@@ -423,7 +423,7 @@ export const internar = (entrada: EntradaInternacao): Internacao => {
       });
 
       const momento = momentoAtual();
-      const autor = autorAtual();
+      const quem = autoria();
       const origem = sol?.atendimentoId ? 'emergencia' : dados.origem;
       const internacao = repoInternacoes.inserir({
         id: gerarId(),
@@ -448,7 +448,7 @@ export const internar = (entrada: EntradaInternacao): Internacao => {
           {
             tipo: 'internada',
             em: dados.inicio,
-            autor,
+            ...quem,
             para: leito.codigo,
             ...(dados.justificativa ? { justificativa: dados.justificativa } : {}),
           },
@@ -499,7 +499,7 @@ export const internar = (entrada: EntradaInternacao): Internacao => {
               registradoEm: momento,
               statusAnterior: a.statusAntesDoLeito ?? 'em_atendimento',
             },
-            eventos: [...a.eventos, { tipo: 'desfecho', em: momento, autor, para: 'internacao' }],
+            eventos: [...a.eventos, { tipo: 'desfecho', em: momento, ...quem, para: 'internacao' }],
           });
           registrarAtividade(
             'emergencia_desfecho',
@@ -554,7 +554,7 @@ export const transferir = (
           {
             tipo: 'transferida',
             em: momento,
-            autor: autorAtual(),
+            ...autoria(),
             de: origem.codigo,
             para: destino.codigo,
             motivo: dados.motivo,
@@ -605,10 +605,7 @@ export const darAlta = (id: string, entrada: EntradaAlta, versao: number): Resul
             : {}),
           ...(dados.observacao ? { observacao: dados.observacao } : {}),
         },
-        eventos: [
-          ...int.eventos,
-          { tipo: 'alta', em: momento, autor: autorAtual(), para: dados.tipo },
-        ],
+        eventos: [...int.eventos, { tipo: 'alta', em: momento, ...autoria(), para: dados.tipo }],
       });
       registrarAtividade(
         'alta_registrada',
@@ -663,7 +660,7 @@ export const desfazerAlta = (
         alta: undefined,
         eventos: [
           ...int.eventos,
-          { tipo: 'alta_desfeita', em: momento, autor: autorAtual(), motivo: dados.motivo },
+          { tipo: 'alta_desfeita', em: momento, ...autoria(), motivo: dados.motivo },
         ],
       });
       registrarAtividade(
@@ -739,7 +736,7 @@ export const bloquear = (id: string, entrada: EntradaBloqueioLeito, versao: numb
           motivo: dados.motivo,
           ...(dados.previsaoLiberacao ? { previsaoLiberacao: dados.previsaoLiberacao } : {}),
           em: momento,
-          autor: autorAtual(),
+          ...autoria(),
         },
       });
       registrarAtividade('leito_bloqueado', ta.leitoBloqueado(l.codigo, dados.motivo), id);
@@ -791,13 +788,13 @@ export const editarInternacao = (
         throw erroCampo('justificativa', tl.regras.precaucaoSemIsolamento);
       }
       const em = momentoAtual();
-      const autor = autorAtual();
+      const quem = autoria();
       const eventos = [...int.eventos];
       if (dados.medicoResponsavelId !== int.medicoResponsavelId) {
         eventos.push({
           tipo: 'responsavel_alterado',
           em,
-          autor,
+          ...quem,
           de: nomeMedico(int.medicoResponsavelId),
           para: nomeMedico(dados.medicoResponsavelId),
         });
@@ -806,7 +803,7 @@ export const editarInternacao = (
         eventos.push({
           tipo: 'previsao_alterada',
           em,
-          autor,
+          ...quem,
           de: int.previsaoAlta,
           para: dados.previsaoAlta,
         });
@@ -815,14 +812,14 @@ export const editarInternacao = (
         eventos.push({
           tipo: 'precaucao_alterada',
           em,
-          autor,
+          ...quem,
           de: int.precaucao,
           para: dados.precaucao,
           ...(dados.justificativa ? { justificativa: dados.justificativa } : {}),
         });
       }
       if (dados.motivo !== int.motivo) {
-        eventos.push({ tipo: 'motivo_alterado', em, autor, de: int.motivo, para: dados.motivo });
+        eventos.push({ tipo: 'motivo_alterado', em, ...quem, de: int.motivo, para: dados.motivo });
       }
       return repoInternacoes.atualizar(id, {
         medicoResponsavelId: dados.medicoResponsavelId,
@@ -865,7 +862,7 @@ export const solicitarLeitoEletivo = (entrada: EntradaSolicitacaoEletiva): Solic
           ? { justificativaPrioridade: dados.justificativaPrioridade }
           : {}),
         status: 'pendente',
-        autor: autorAtual(),
+        ...autoria(),
       });
     }),
   );

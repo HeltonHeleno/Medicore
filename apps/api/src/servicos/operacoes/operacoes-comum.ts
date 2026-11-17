@@ -19,7 +19,7 @@ import type {
   SolicitacaoLeito,
   TipoHigienizacao,
 } from '@medicore/dominio/types';
-import { autorAtual } from '@medicore/dominio/utils/autor';
+import { autoria } from '@medicore/dominio/utils/autor';
 import { dataDoInstante, formatarData, idade } from '@medicore/dominio/utils/datas';
 import { agora } from '@medicore/dominio/utils/relogio';
 import { dentroDaJanela, limiteDaJanela } from '@medicore/dominio/utils/tempos';
@@ -260,7 +260,7 @@ export function cancelarSolicitacaoInterna(
         statusAntesDoLeito: undefined,
         eventos: [
           ...a.eventos,
-          { tipo: 'solicitacao_cancelada', em, autor: autorAtual(), detalhe: motivo },
+          { tipo: 'solicitacao_cancelada', em, ...autoria(), detalhe: motivo },
         ],
       });
     }

@@ -50,7 +50,7 @@ import {
   correspondenciaAlergia,
   type CorrespondenciaAlergia,
 } from '@medicore/dominio/utils/alergia';
-import { autorAtual } from '@medicore/dominio/utils/autor';
+import { autoria } from '@medicore/dominio/utils/autor';
 import { filtrarPorTermo, normalizar, paginar } from '@medicore/dominio/utils/busca';
 import { dataDoInstante, hojeNoFuso, somarDias } from '@medicore/dominio/utils/datas';
 import {
@@ -417,7 +417,7 @@ function movimentar(
     loteId: lote.id,
     quantidade,
     saldoLoteApos: saldo,
-    autor: autorAtual(),
+    ...autoria(),
     em: momentoAtual(),
     ...extra,
   });
@@ -677,7 +677,7 @@ export const bloquearLote = (id: string, entrada: EntradaBloqueioLote, versao: n
           motivo: dados.motivo,
           ...(dados.referencia ? { referencia: dados.referencia } : {}),
           em: momentoAtual(),
-          autor: autorAtual(),
+          ...autoria(),
         },
       });
       registrarAtividade(
@@ -873,7 +873,7 @@ export const dispensar = (entrada: EntradaDispensacao): Dispensacao => {
         alertasConfirmados: alertas,
         status: 'realizada',
         em: momento,
-        autor: autorAtual(),
+        ...autoria(),
       });
     }),
   );
@@ -959,7 +959,7 @@ export const estornar = (id: string, motivo: string, versao: number): Dispensaca
       const r = repoDispensacoes.atualizar(id, {
         status: 'estornada',
         itens: d.itens.map((i) => ({ ...i, devolvido: i.quantidade })),
-        estorno: { em: momentoAtual(), motivo: dados.motivo, autor: autorAtual() },
+        estorno: { em: momentoAtual(), motivo: dados.motivo, ...autoria() },
       });
       registrarAtividade(
         'dispensacao_estornada',

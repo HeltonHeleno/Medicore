@@ -3,7 +3,7 @@
   "info": {
     "title": "MediCore API",
     "version": "1.2.0",
-    "description": "API do MediCore (D24). Erros no formato do contrato: `{ codigo, … }`. Gravações exigem `If-Match` com a versão lida (R-API1)."
+    "description": "API do MediCore (D24). Erros no formato do contrato: `{ codigo, … }`. Gravações exigem `If-Match` com a versão lida (R-API1). Desde a Fase 28, as rotas pedem a sessão (cookie `medicore_sessao`, de `POST /auth/entrar`) e as gravações, o cabeçalho `X-CSRF-Token`."
   },
   "components": {
     "schemas": {}
@@ -88,6 +88,1826 @@
                     "versao",
                     "ambiente",
                     "banco"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/opcoes": {
+      "get": {
+        "summary": "O que a tela de login oferece",
+        "tags": [
+          "acesso"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "demonstracao": {
+                      "type": "boolean"
+                    },
+                    "email": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "demonstracao",
+                    "email"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/sessao": {
+      "get": {
+        "summary": "A sessão do cookie (401 sem sessão)",
+        "tags": [
+          "acesso"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "etapa": {
+                      "type": "string",
+                      "enum": [
+                        "ativa",
+                        "mfa",
+                        "configurar_mfa"
+                      ]
+                    },
+                    "csrf": {
+                      "type": "string"
+                    },
+                    "usuario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "nome": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "perfis": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "administrador",
+                              "recepcao",
+                              "enfermagem",
+                              "medico",
+                              "nir",
+                              "farmacia",
+                              "gestao"
+                            ]
+                          }
+                        },
+                        "medicoId": {
+                          "type": "string"
+                        },
+                        "demonstracao": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "nome",
+                        "email",
+                        "perfis",
+                        "demonstracao"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "expiraEm": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "etapa",
+                    "csrf",
+                    "usuario",
+                    "expiraEm"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/entrar": {
+      "post": {
+        "summary": "E-mail e senha (BL-02.1). Erros seguidos bloqueiam o e-mail (R-AU3, 429).",
+        "tags": [
+          "acesso"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 254
+                  },
+                  "senha": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "required": [
+                  "email",
+                  "senha"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "etapa": {
+                      "type": "string",
+                      "enum": [
+                        "ativa",
+                        "mfa",
+                        "configurar_mfa"
+                      ]
+                    },
+                    "csrf": {
+                      "type": "string"
+                    },
+                    "usuario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "nome": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "perfis": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "administrador",
+                              "recepcao",
+                              "enfermagem",
+                              "medico",
+                              "nir",
+                              "farmacia",
+                              "gestao"
+                            ]
+                          }
+                        },
+                        "medicoId": {
+                          "type": "string"
+                        },
+                        "demonstracao": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "nome",
+                        "email",
+                        "perfis",
+                        "demonstracao"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "expiraEm": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "etapa",
+                    "csrf",
+                    "usuario",
+                    "expiraEm"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/demonstracao": {
+      "post": {
+        "summary": "Entrar numa conta de demonstração (fora da produção)",
+        "tags": [
+          "acesso"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conta": {
+                    "type": "string",
+                    "enum": [
+                      "administrador",
+                      "recepcao",
+                      "enfermagem",
+                      "medico",
+                      "nir",
+                      "farmacia",
+                      "gestao",
+                      "todos"
+                    ]
+                  }
+                },
+                "required": [
+                  "conta"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "etapa": {
+                      "type": "string",
+                      "enum": [
+                        "ativa",
+                        "mfa",
+                        "configurar_mfa"
+                      ]
+                    },
+                    "csrf": {
+                      "type": "string"
+                    },
+                    "usuario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "nome": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "perfis": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "administrador",
+                              "recepcao",
+                              "enfermagem",
+                              "medico",
+                              "nir",
+                              "farmacia",
+                              "gestao"
+                            ]
+                          }
+                        },
+                        "medicoId": {
+                          "type": "string"
+                        },
+                        "demonstracao": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "nome",
+                        "email",
+                        "perfis",
+                        "demonstracao"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "expiraEm": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "etapa",
+                    "csrf",
+                    "usuario",
+                    "expiraEm"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/mfa": {
+      "post": {
+        "summary": "Código do aplicativo ou de recuperação (BL-02.2)",
+        "tags": [
+          "acesso"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "codigo": {
+                    "type": "string",
+                    "minLength": 6,
+                    "maxLength": 20
+                  }
+                },
+                "required": [
+                  "codigo"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "etapa": {
+                      "type": "string",
+                      "enum": [
+                        "ativa",
+                        "mfa",
+                        "configurar_mfa"
+                      ]
+                    },
+                    "csrf": {
+                      "type": "string"
+                    },
+                    "usuario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "nome": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "perfis": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "administrador",
+                              "recepcao",
+                              "enfermagem",
+                              "medico",
+                              "nir",
+                              "farmacia",
+                              "gestao"
+                            ]
+                          }
+                        },
+                        "medicoId": {
+                          "type": "string"
+                        },
+                        "demonstracao": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "nome",
+                        "email",
+                        "perfis",
+                        "demonstracao"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "expiraEm": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "etapa",
+                    "csrf",
+                    "usuario",
+                    "expiraEm"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/mfa/configurar": {
+      "post": {
+        "summary": "Segredo e QR code do primeiro acesso com MFA",
+        "tags": [
+          "acesso"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "segredo": {
+                      "type": "string"
+                    },
+                    "qrSvg": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "segredo",
+                    "qrSvg"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/mfa/confirmar": {
+      "post": {
+        "summary": "Primeiro código: liga o MFA e devolve os códigos de recuperação (uma vez)",
+        "tags": [
+          "acesso"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "codigo": {
+                    "type": "string",
+                    "minLength": 6,
+                    "maxLength": 20
+                  }
+                },
+                "required": [
+                  "codigo"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "etapa": {
+                      "type": "string",
+                      "enum": [
+                        "ativa",
+                        "mfa",
+                        "configurar_mfa"
+                      ]
+                    },
+                    "csrf": {
+                      "type": "string"
+                    },
+                    "usuario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "nome": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "perfis": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "administrador",
+                              "recepcao",
+                              "enfermagem",
+                              "medico",
+                              "nir",
+                              "farmacia",
+                              "gestao"
+                            ]
+                          }
+                        },
+                        "medicoId": {
+                          "type": "string"
+                        },
+                        "demonstracao": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "nome",
+                        "email",
+                        "perfis",
+                        "demonstracao"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "expiraEm": {
+                      "type": "string"
+                    },
+                    "codigosRecuperacao": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "etapa",
+                    "csrf",
+                    "usuario",
+                    "expiraEm",
+                    "codigosRecuperacao"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/convite/conferir": {
+      "post": {
+        "summary": "O convite ainda vale? (para a tela dizer \"Olá, Fulana\")",
+        "tags": [
+          "acesso"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 200
+                  }
+                },
+                "required": [
+                  "token"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nome": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "nome",
+                    "email"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/convite": {
+      "post": {
+        "summary": "Aceitar o convite: define a senha e entra (BL-02.2)",
+        "tags": [
+          "acesso"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 200
+                  },
+                  "senha": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "required": [
+                  "token",
+                  "senha"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "etapa": {
+                      "type": "string",
+                      "enum": [
+                        "ativa",
+                        "mfa",
+                        "configurar_mfa"
+                      ]
+                    },
+                    "csrf": {
+                      "type": "string"
+                    },
+                    "usuario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "nome": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "perfis": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "administrador",
+                              "recepcao",
+                              "enfermagem",
+                              "medico",
+                              "nir",
+                              "farmacia",
+                              "gestao"
+                            ]
+                          }
+                        },
+                        "medicoId": {
+                          "type": "string"
+                        },
+                        "demonstracao": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "nome",
+                        "email",
+                        "perfis",
+                        "demonstracao"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "expiraEm": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "etapa",
+                    "csrf",
+                    "usuario",
+                    "expiraEm"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/esqueci": {
+      "post": {
+        "summary": "Pede o link de senha nova. A resposta é a mesma exista a conta ou não.",
+        "tags": [
+          "acesso"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 254
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/redefinir": {
+      "post": {
+        "summary": "Senha nova pelo link; encerra todas as sessões (BL-02.3)",
+        "tags": [
+          "acesso"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "minLength": 20,
+                    "maxLength": 200
+                  },
+                  "senha": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "required": [
+                  "token",
+                  "senha"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/sair": {
+      "post": {
+        "summary": "Encerra a sessão",
+        "tags": [
+          "acesso"
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/api/v1/usuarios": {
+      "get": {
+        "summary": "Todos os usuários (sem as contas de demonstração)",
+        "tags": [
+          "usuários"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "versao": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "nome": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "perfis": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "administrador",
+                            "recepcao",
+                            "enfermagem",
+                            "medico",
+                            "nir",
+                            "farmacia",
+                            "gestao"
+                          ]
+                        }
+                      },
+                      "medicoId": {
+                        "type": "string"
+                      },
+                      "ativo": {
+                        "type": "boolean"
+                      },
+                      "convidado": {
+                        "type": "boolean"
+                      },
+                      "bloqueadoAte": {
+                        "type": "string"
+                      },
+                      "mfaAtivo": {
+                        "type": "boolean"
+                      },
+                      "ultimoAcessoEm": {
+                        "type": "string"
+                      },
+                      "criadoEm": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "versao",
+                      "nome",
+                      "email",
+                      "perfis",
+                      "ativo",
+                      "convidado",
+                      "mfaAtivo",
+                      "criadoEm"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Convidar: cria a conta e o link de primeiro acesso (48 h)",
+        "tags": [
+          "usuários"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 120
+                  },
+                  "email": {
+                    "type": "string",
+                    "maxLength": 254,
+                    "format": "email",
+                    "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                  },
+                  "perfis": {
+                    "maxItems": 7,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "administrador",
+                        "recepcao",
+                        "enfermagem",
+                        "medico",
+                        "nir",
+                        "farmacia",
+                        "gestao"
+                      ]
+                    }
+                  },
+                  "medicoId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "nome",
+                  "email",
+                  "perfis"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "usuario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "versao": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "nome": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "perfis": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "administrador",
+                              "recepcao",
+                              "enfermagem",
+                              "medico",
+                              "nir",
+                              "farmacia",
+                              "gestao"
+                            ]
+                          }
+                        },
+                        "medicoId": {
+                          "type": "string"
+                        },
+                        "ativo": {
+                          "type": "boolean"
+                        },
+                        "convidado": {
+                          "type": "boolean"
+                        },
+                        "bloqueadoAte": {
+                          "type": "string"
+                        },
+                        "mfaAtivo": {
+                          "type": "boolean"
+                        },
+                        "ultimoAcessoEm": {
+                          "type": "string"
+                        },
+                        "criadoEm": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "versao",
+                        "nome",
+                        "email",
+                        "perfis",
+                        "ativo",
+                        "convidado",
+                        "mfaAtivo",
+                        "criadoEm"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "tipo": {
+                      "type": "string",
+                      "enum": [
+                        "convite",
+                        "redefinicao"
+                      ]
+                    },
+                    "link": {
+                      "type": "string"
+                    },
+                    "enviadoPara": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "usuario",
+                    "tipo"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usuarios/{id}": {
+      "get": {
+        "tags": [
+          "usuários"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "perfis": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "administrador",
+                          "recepcao",
+                          "enfermagem",
+                          "medico",
+                          "nir",
+                          "farmacia",
+                          "gestao"
+                        ]
+                      }
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "convidado": {
+                      "type": "boolean"
+                    },
+                    "bloqueadoAte": {
+                      "type": "string"
+                    },
+                    "mfaAtivo": {
+                      "type": "boolean"
+                    },
+                    "ultimoAcessoEm": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "versao",
+                    "nome",
+                    "email",
+                    "perfis",
+                    "ativo",
+                    "convidado",
+                    "mfaAtivo",
+                    "criadoEm"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Nome, e-mail, perfis e médico vinculado",
+        "tags": [
+          "usuários"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 120
+                  },
+                  "email": {
+                    "type": "string",
+                    "maxLength": 254,
+                    "format": "email",
+                    "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                  },
+                  "perfis": {
+                    "maxItems": 7,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "administrador",
+                        "recepcao",
+                        "enfermagem",
+                        "medico",
+                        "nir",
+                        "farmacia",
+                        "gestao"
+                      ]
+                    }
+                  },
+                  "medicoId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "nome",
+                  "email",
+                  "perfis"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "perfis": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "administrador",
+                          "recepcao",
+                          "enfermagem",
+                          "medico",
+                          "nir",
+                          "farmacia",
+                          "gestao"
+                        ]
+                      }
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "convidado": {
+                      "type": "boolean"
+                    },
+                    "bloqueadoAte": {
+                      "type": "string"
+                    },
+                    "mfaAtivo": {
+                      "type": "boolean"
+                    },
+                    "ultimoAcessoEm": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "versao",
+                    "nome",
+                    "email",
+                    "perfis",
+                    "ativo",
+                    "convidado",
+                    "mfaAtivo",
+                    "criadoEm"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usuarios/{id}/desativar": {
+      "post": {
+        "summary": "Desativa e encerra as sessões (E-17: sempre sobra um administrador)",
+        "tags": [
+          "usuários"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "perfis": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "administrador",
+                          "recepcao",
+                          "enfermagem",
+                          "medico",
+                          "nir",
+                          "farmacia",
+                          "gestao"
+                        ]
+                      }
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "convidado": {
+                      "type": "boolean"
+                    },
+                    "bloqueadoAte": {
+                      "type": "string"
+                    },
+                    "mfaAtivo": {
+                      "type": "boolean"
+                    },
+                    "ultimoAcessoEm": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "versao",
+                    "nome",
+                    "email",
+                    "perfis",
+                    "ativo",
+                    "convidado",
+                    "mfaAtivo",
+                    "criadoEm"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usuarios/{id}/reativar": {
+      "post": {
+        "summary": "Reativa a conta",
+        "tags": [
+          "usuários"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "perfis": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "administrador",
+                          "recepcao",
+                          "enfermagem",
+                          "medico",
+                          "nir",
+                          "farmacia",
+                          "gestao"
+                        ]
+                      }
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "convidado": {
+                      "type": "boolean"
+                    },
+                    "bloqueadoAte": {
+                      "type": "string"
+                    },
+                    "mfaAtivo": {
+                      "type": "boolean"
+                    },
+                    "ultimoAcessoEm": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "versao",
+                    "nome",
+                    "email",
+                    "perfis",
+                    "ativo",
+                    "convidado",
+                    "mfaAtivo",
+                    "criadoEm"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usuarios/{id}/desbloquear": {
+      "post": {
+        "summary": "Libera o e-mail bloqueado por tentativas (R-AU3)",
+        "tags": [
+          "usuários"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "perfis": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "administrador",
+                          "recepcao",
+                          "enfermagem",
+                          "medico",
+                          "nir",
+                          "farmacia",
+                          "gestao"
+                        ]
+                      }
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "convidado": {
+                      "type": "boolean"
+                    },
+                    "bloqueadoAte": {
+                      "type": "string"
+                    },
+                    "mfaAtivo": {
+                      "type": "boolean"
+                    },
+                    "ultimoAcessoEm": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "versao",
+                    "nome",
+                    "email",
+                    "perfis",
+                    "ativo",
+                    "convidado",
+                    "mfaAtivo",
+                    "criadoEm"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usuarios/{id}/redefinir-mfa": {
+      "post": {
+        "summary": "Apaga o segundo fator; a pessoa configura de novo",
+        "tags": [
+          "usuários"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "versao": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "nome": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "perfis": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "administrador",
+                          "recepcao",
+                          "enfermagem",
+                          "medico",
+                          "nir",
+                          "farmacia",
+                          "gestao"
+                        ]
+                      }
+                    },
+                    "medicoId": {
+                      "type": "string"
+                    },
+                    "ativo": {
+                      "type": "boolean"
+                    },
+                    "convidado": {
+                      "type": "boolean"
+                    },
+                    "bloqueadoAte": {
+                      "type": "string"
+                    },
+                    "mfaAtivo": {
+                      "type": "boolean"
+                    },
+                    "ultimoAcessoEm": {
+                      "type": "string"
+                    },
+                    "criadoEm": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "versao",
+                    "nome",
+                    "email",
+                    "perfis",
+                    "ativo",
+                    "convidado",
+                    "mfaAtivo",
+                    "criadoEm"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usuarios/{id}/link": {
+      "post": {
+        "summary": "Novo convite (sem senha ainda) ou link de senha nova",
+        "tags": [
+          "usuários"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "usuario": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "versao": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "nome": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "perfis": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "administrador",
+                              "recepcao",
+                              "enfermagem",
+                              "medico",
+                              "nir",
+                              "farmacia",
+                              "gestao"
+                            ]
+                          }
+                        },
+                        "medicoId": {
+                          "type": "string"
+                        },
+                        "ativo": {
+                          "type": "boolean"
+                        },
+                        "convidado": {
+                          "type": "boolean"
+                        },
+                        "bloqueadoAte": {
+                          "type": "string"
+                        },
+                        "mfaAtivo": {
+                          "type": "boolean"
+                        },
+                        "ultimoAcessoEm": {
+                          "type": "string"
+                        },
+                        "criadoEm": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "versao",
+                        "nome",
+                        "email",
+                        "perfis",
+                        "ativo",
+                        "convidado",
+                        "mfaAtivo",
+                        "criadoEm"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "tipo": {
+                      "type": "string",
+                      "enum": [
+                        "convite",
+                        "redefinicao"
+                      ]
+                    },
+                    "link": {
+                      "type": "string"
+                    },
+                    "enviadoPara": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "usuario",
+                    "tipo"
                   ],
                   "additionalProperties": false
                 }
@@ -5609,6 +7429,12 @@
                       },
                       "referenciaId": {
                         "type": "string"
+                      },
+                      "autor": {
+                        "type": "string"
+                      },
+                      "autorId": {
+                        "type": "string"
                       }
                     },
                     "required": [
@@ -5813,6 +7639,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           }
                         },
@@ -6078,6 +7907,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           }
                         },
@@ -6403,6 +8235,9 @@
                               },
                               "autor": {
                                 "type": "string"
+                              },
+                              "autorId": {
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -6579,6 +8414,9 @@
                           "description": "Data e hora em ISO 8601, UTC"
                         },
                         "autor": {
+                          "type": "string"
+                        },
+                        "autorId": {
                           "type": "string"
                         }
                       },
@@ -6904,6 +8742,9 @@
                             "autor": {
                               "type": "string"
                             },
+                            "autorId": {
+                              "type": "string"
+                            },
                             "de": {
                               "type": "string"
                             },
@@ -7204,6 +9045,9 @@
                         },
                         "autor": {
                           "type": "string"
+                        },
+                        "autorId": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -7376,6 +9220,9 @@
                         },
                         "autor": {
                           "type": "string"
+                        },
+                        "autorId": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -7525,6 +9372,9 @@
                           "description": "Data e hora em ISO 8601, UTC"
                         },
                         "autor": {
+                          "type": "string"
+                        },
+                        "autorId": {
                           "type": "string"
                         }
                       },
@@ -7953,6 +9803,9 @@
                                 "autor": {
                                   "type": "string"
                                 },
+                                "autorId": {
+                                  "type": "string"
+                                },
                                 "de": {
                                   "type": "string"
                                 },
@@ -8289,6 +10142,9 @@
                           "autor": {
                             "type": "string"
                           },
+                          "autorId": {
+                            "type": "string"
+                          },
                           "de": {
                             "type": "string"
                           },
@@ -8486,6 +10342,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "de": {
@@ -8770,6 +10629,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "de": {
@@ -9138,6 +11000,9 @@
                           "autor": {
                             "type": "string"
                           },
+                          "autorId": {
+                            "type": "string"
+                          },
                           "de": {
                             "type": "string"
                           },
@@ -9373,6 +11238,9 @@
                                 "description": "Data e hora em ISO 8601, UTC"
                               },
                               "autor": {
+                                "type": "string"
+                              },
+                              "autorId": {
                                 "type": "string"
                               },
                               "de": {
@@ -9612,6 +11480,9 @@
                               "autor": {
                                 "type": "string"
                               },
+                              "autorId": {
+                                "type": "string"
+                              },
                               "de": {
                                 "type": "string"
                               },
@@ -9779,6 +11650,9 @@
                         "description": "Data e hora em ISO 8601, UTC"
                       },
                       "autor": {
+                        "type": "string"
+                      },
+                      "autorId": {
                         "type": "string"
                       },
                       "pacienteNome": {
@@ -9994,6 +11868,9 @@
                     },
                     "autor": {
                       "type": "string"
+                    },
+                    "autorId": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -10137,6 +12014,9 @@
                       "description": "Data e hora em ISO 8601, UTC"
                     },
                     "autor": {
+                      "type": "string"
+                    },
+                    "autorId": {
                       "type": "string"
                     },
                     "pacienteNome": {
@@ -10323,6 +12203,9 @@
                     },
                     "autor": {
                       "type": "string"
+                    },
+                    "autorId": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -10467,6 +12350,9 @@
                       "description": "Data e hora em ISO 8601, UTC"
                     },
                     "autor": {
+                      "type": "string"
+                    },
+                    "autorId": {
                       "type": "string"
                     }
                   },
@@ -10630,6 +12516,9 @@
                       "description": "Data e hora em ISO 8601, UTC"
                     },
                     "autor": {
+                      "type": "string"
+                    },
+                    "autorId": {
                       "type": "string"
                     }
                   },
@@ -10820,6 +12709,9 @@
                                 },
                                 "autor": {
                                   "type": "string"
+                                },
+                                "autorId": {
+                                  "type": "string"
                                 }
                               },
                               "required": [
@@ -10993,6 +12885,9 @@
                                   "description": "Data e hora em ISO 8601, UTC"
                                 },
                                 "autor": {
+                                  "type": "string"
+                                },
+                                "autorId": {
                                   "type": "string"
                                 },
                                 "de": {
@@ -11252,6 +13147,9 @@
                                 },
                                 "autor": {
                                   "type": "string"
+                                },
+                                "autorId": {
+                                  "type": "string"
                                 }
                               },
                               "required": [
@@ -11425,6 +13323,9 @@
                                   "description": "Data e hora em ISO 8601, UTC"
                                 },
                                 "autor": {
+                                  "type": "string"
+                                },
+                                "autorId": {
                                   "type": "string"
                                 },
                                 "de": {
@@ -11684,6 +13585,9 @@
                                 },
                                 "autor": {
                                   "type": "string"
+                                },
+                                "autorId": {
+                                  "type": "string"
                                 }
                               },
                               "required": [
@@ -11857,6 +13761,9 @@
                                   "description": "Data e hora em ISO 8601, UTC"
                                 },
                                 "autor": {
+                                  "type": "string"
+                                },
+                                "autorId": {
                                   "type": "string"
                                 },
                                 "de": {
@@ -12116,6 +14023,9 @@
                                 },
                                 "autor": {
                                   "type": "string"
+                                },
+                                "autorId": {
+                                  "type": "string"
                                 }
                               },
                               "required": [
@@ -12289,6 +14199,9 @@
                                   "description": "Data e hora em ISO 8601, UTC"
                                 },
                                 "autor": {
+                                  "type": "string"
+                                },
+                                "autorId": {
                                   "type": "string"
                                 },
                                 "de": {
@@ -12548,6 +14461,9 @@
                                 },
                                 "autor": {
                                   "type": "string"
+                                },
+                                "autorId": {
+                                  "type": "string"
                                 }
                               },
                               "required": [
@@ -12721,6 +14637,9 @@
                                   "description": "Data e hora em ISO 8601, UTC"
                                 },
                                 "autor": {
+                                  "type": "string"
+                                },
+                                "autorId": {
                                   "type": "string"
                                 },
                                 "de": {
@@ -13221,6 +15140,9 @@
                                 },
                                 "autor": {
                                   "type": "string"
+                                },
+                                "autorId": {
+                                  "type": "string"
                                 }
                               },
                               "required": [
@@ -13394,6 +15316,9 @@
                                   "description": "Data e hora em ISO 8601, UTC"
                                 },
                                 "autor": {
+                                  "type": "string"
+                                },
+                                "autorId": {
                                   "type": "string"
                                 },
                                 "de": {
@@ -13756,6 +15681,9 @@
                           },
                           "autor": {
                             "type": "string"
+                          },
+                          "autorId": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -13929,6 +15857,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "de": {
@@ -14147,6 +16078,9 @@
                           },
                           "autor": {
                             "type": "string"
+                          },
+                          "autorId": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -14320,6 +16254,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "de": {
@@ -14541,6 +16478,9 @@
                                 "description": "Data e hora em ISO 8601, UTC"
                               },
                               "autor": {
+                                "type": "string"
+                              },
+                              "autorId": {
                                 "type": "string"
                               }
                             },
@@ -14872,6 +16812,9 @@
                           },
                           "autor": {
                             "type": "string"
+                          },
+                          "autorId": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -15045,6 +16988,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "de": {
@@ -15327,6 +17273,9 @@
                           },
                           "autor": {
                             "type": "string"
+                          },
+                          "autorId": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -15500,6 +17449,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "de": {
@@ -15738,6 +17690,9 @@
                           },
                           "autor": {
                             "type": "string"
+                          },
+                          "autorId": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -15911,6 +17866,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "de": {
@@ -16148,6 +18106,9 @@
                           },
                           "autor": {
                             "type": "string"
+                          },
+                          "autorId": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -16321,6 +18282,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "de": {
@@ -16540,6 +18504,9 @@
                           },
                           "autor": {
                             "type": "string"
+                          },
+                          "autorId": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -16713,6 +18680,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "de": {
@@ -16969,6 +18939,9 @@
                           },
                           "autor": {
                             "type": "string"
+                          },
+                          "autorId": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -17142,6 +19115,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "de": {
@@ -17398,6 +19374,9 @@
                               },
                               "autor": {
                                 "type": "string"
+                              },
+                              "autorId": {
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -17571,6 +19550,9 @@
                                 "description": "Data e hora em ISO 8601, UTC"
                               },
                               "autor": {
+                                "type": "string"
+                              },
+                              "autorId": {
                                 "type": "string"
                               },
                               "de": {
@@ -17826,6 +19808,9 @@
                               },
                               "autor": {
                                 "type": "string"
+                              },
+                              "autorId": {
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -17999,6 +19984,9 @@
                                 "description": "Data e hora em ISO 8601, UTC"
                               },
                               "autor": {
+                                "type": "string"
+                              },
+                              "autorId": {
                                 "type": "string"
                               },
                               "de": {
@@ -18246,6 +20234,9 @@
                           },
                           "autor": {
                             "type": "string"
+                          },
+                          "autorId": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -18419,6 +20410,9 @@
                             "description": "Data e hora em ISO 8601, UTC"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "de": {
@@ -19242,6 +21236,9 @@
                               },
                               "autor": {
                                 "type": "string"
+                              },
+                              "autorId": {
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -19755,6 +21752,9 @@
                           "autor": {
                             "type": "string"
                           },
+                          "autorId": {
+                            "type": "string"
+                          },
                           "em": {
                             "type": "string",
                             "description": "Data e hora em ISO 8601, UTC"
@@ -19922,6 +21922,9 @@
                                 "description": "Data e hora em ISO 8601, UTC"
                               },
                               "autor": {
+                                "type": "string"
+                              },
+                              "autorId": {
                                 "type": "string"
                               }
                             },
@@ -20343,6 +22346,9 @@
                           },
                           "autor": {
                             "type": "string"
+                          },
+                          "autorId": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -20640,6 +22646,9 @@
                         },
                         "autor": {
                           "type": "string"
+                        },
+                        "autorId": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -20860,6 +22869,9 @@
                         },
                         "autor": {
                           "type": "string"
+                        },
+                        "autorId": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -21002,6 +23014,9 @@
                         },
                         "autor": {
                           "type": "string"
+                        },
+                        "autorId": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -21122,6 +23137,9 @@
                           "description": "Data e hora em ISO 8601, UTC"
                         },
                         "autor": {
+                          "type": "string"
+                        },
+                        "autorId": {
                           "type": "string"
                         }
                       },
@@ -21292,6 +23310,9 @@
                             "type": "string"
                           },
                           "autor": {
+                            "type": "string"
+                          },
+                          "autorId": {
                             "type": "string"
                           },
                           "em": {
@@ -21522,6 +23543,9 @@
                         },
                         "autor": {
                           "type": "string"
+                        },
+                        "autorId": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -21536,6 +23560,9 @@
                       "description": "Data e hora em ISO 8601, UTC"
                     },
                     "autor": {
+                      "type": "string"
+                    },
+                    "autorId": {
                       "type": "string"
                     },
                     "pacienteNome": {
@@ -21741,6 +23768,9 @@
                                           "description": "Data e hora em ISO 8601, UTC"
                                         },
                                         "autor": {
+                                          "type": "string"
+                                        },
+                                        "autorId": {
                                           "type": "string"
                                         }
                                       },
@@ -22059,6 +24089,9 @@
                         },
                         "autor": {
                           "type": "string"
+                        },
+                        "autorId": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -22073,6 +24106,9 @@
                       "description": "Data e hora em ISO 8601, UTC"
                     },
                     "autor": {
+                      "type": "string"
+                    },
+                    "autorId": {
                       "type": "string"
                     }
                   },
@@ -22299,6 +24335,9 @@
                         },
                         "autor": {
                           "type": "string"
+                        },
+                        "autorId": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -22313,6 +24352,9 @@
                       "description": "Data e hora em ISO 8601, UTC"
                     },
                     "autor": {
+                      "type": "string"
+                    },
+                    "autorId": {
                       "type": "string"
                     }
                   },
@@ -22523,6 +24565,9 @@
                         },
                         "autor": {
                           "type": "string"
+                        },
+                        "autorId": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -22537,6 +24582,9 @@
                       "description": "Data e hora em ISO 8601, UTC"
                     },
                     "autor": {
+                      "type": "string"
+                    },
+                    "autorId": {
                       "type": "string"
                     }
                   },
@@ -22731,6 +24779,9 @@
                           },
                           "autor": {
                             "type": "string"
+                          },
+                          "autorId": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -22745,6 +24796,9 @@
                         "description": "Data e hora em ISO 8601, UTC"
                       },
                       "autor": {
+                        "type": "string"
+                      },
+                      "autorId": {
                         "type": "string"
                       }
                     },
@@ -24422,6 +26476,14 @@
     {
       "name": "painel",
       "description": "Atividades e indicadores (A12–A14)"
+    },
+    {
+      "name": "acesso",
+      "description": "Login, MFA, convite e senha (Fase 28)"
+    },
+    {
+      "name": "usuários",
+      "description": "Administração de usuários (Fase 28)"
     }
   ]
 }
