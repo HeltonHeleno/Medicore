@@ -72,6 +72,9 @@ export async function semear(
 ): Promise<ResultadoSemeadura> {
   const d = dadosDeExemplo(opcoes.momento);
   await banco.transaction(async (tx) => {
+    // Fase 29: os dados de exemplo não entram na auditoria (só o dono das tabelas consegue
+    // desligar; o usuário da aplicação, nunca — ver `0005_auditoria.sql`).
+    await tx.execute(sql.raw(`set local medicore.auditar = 'nao'`));
     const [{ n }] = await tx.select({ n: count() }).from(e.pacientes);
     if (n > 0 && !opcoes.substituir) {
       throw new Error('O banco já tem dados. Use --substituir para apagar e semear de novo.');

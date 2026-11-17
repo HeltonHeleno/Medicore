@@ -94,6 +94,8 @@ describe('rotas do sistema', () => {
           op.get &&
           !caminho.includes('{') &&
           !caminho.includes('/_') &&
+          // A exportação da auditoria responde CSV (tem teste próprio).
+          !caminho.endsWith('/exportar') &&
           !(op.get.parameters ?? []).some((p) => p.required),
       )
       .map(([caminho]) => caminho);

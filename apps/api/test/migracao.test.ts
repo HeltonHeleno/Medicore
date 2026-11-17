@@ -14,13 +14,15 @@ const linhas = async (consulta: ReturnType<typeof sql>) =>
   (await b.dono.execute(consulta)).rows as Record<string, unknown>[];
 
 describe('migrações', () => {
-  it('criam as 13 tabelas, a das rotinas e as de acesso (Fase 28)', async () => {
+  it('criam as 13 tabelas, a das rotinas, as de acesso (Fase 28) e as da auditoria (Fase 29)', async () => {
     const tabelas = await linhas(
       sql`select table_name from information_schema.tables where table_schema = 'public' order by 1`,
     );
     expect(tabelas.map((t) => t.table_name)).toEqual([
       'atendimentos',
       'atividades',
+      'auditoria',
+      'auditoria_selos',
       'codigos_recuperacao',
       'consultas',
       'convites',
@@ -48,7 +50,7 @@ describe('migrações', () => {
     await migrar(b.urlDono);
     const depois = await linhas(sql`select count(*)::int as n from drizzle.__drizzle_migrations`);
     expect(depois).toEqual(antes);
-    expect(antes[0]!.n).toBe(5); // 0000 a 0004 (inicial, restrições, busca, rotinas, acesso)
+    expect(antes[0]!.n).toBe(6); // 0000 a 0005 (inicial, restrições, busca, rotinas, acesso, auditoria)
   });
 
   it('a migração 0001 cria o EXCLUDE, o papel da aplicação e a colação pt-BR', async () => {

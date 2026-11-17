@@ -9,6 +9,8 @@ import pg from 'pg';
 import { inject } from 'vitest';
 import { conectar, desconectar, type Banco } from '../../src/banco/conexao';
 import {
+  auditoria,
+  auditoriaSelos,
   codigosRecuperacao,
   convites,
   perfisUsuario,
@@ -91,6 +93,8 @@ export async function criarBancoDeTeste(): Promise<BancoDeTeste> {
         convites,
         codigosRecuperacao,
         tentativasLogin,
+        auditoria,
+        auditoriaSelos,
       ]
         .map((t) => `"${getTableName(t)}"`)
         .join(', ');

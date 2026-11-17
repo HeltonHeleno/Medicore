@@ -11,6 +11,10 @@
  * garante que só uma instância consiga. Se a rotina falhar, o dia é devolvido e ela tenta de novo
  * na próxima volta do relógio.
  *
+ * - **Auditoria** (Fase 29, BL-03.5): sela os dias que terminaram (cadeia de hash) e, no dia 1 de
+ *   cada mês (e na primeira execução), confere a cadeia inteira; cada dia que não confere vira um
+ *   evento de erro no monitoramento.
+ *
  * O relógio confere a cada 15 minutos (e logo ao subir): a primeira volta depois da meia-noite roda
  * as rotinas do dia, de madrugada.
  */
@@ -35,9 +39,10 @@ import {
 } from '../servicos/operacoes/repos';
 import { executarRetencao, type ResultadoRetencao } from '../servicos/operacoes/retencao';
 import { gravar, ler } from '../servicos/operacoes/unidade';
+import { conferirIntegridade, selarDias } from '../auditoria/servico';
 
-export type NomeRotina = 'demonstracao' | 'retencao' | 'invariantes';
-export const ROTINAS: readonly NomeRotina[] = ['retencao', 'invariantes'];
+export type NomeRotina = 'demonstracao' | 'retencao' | 'invariantes' | 'auditoria';
+export const ROTINAS: readonly NomeRotina[] = ['retencao', 'invariantes', 'auditoria'];
 export const INTERVALO_MS = 15 * 60_000;
 
 /** Uma invariante violada (A17), como erro para o monitoramento. */
@@ -48,6 +53,34 @@ export class ErroInvariante extends Error {
     this.name = 'ErroInvariante';
     this.violacao = violacao;
   }
+}
+
+/** Um dia da trilha de auditoria cujo selo não confere (BL-03.5). */
+export class ErroIntegridadeAuditoria extends Error {
+  readonly dia: string;
+  constructor(dia: string, selada: number, atual: number) {
+    super(`Auditoria do dia ${dia} não confere com o selo (${selada} selados, ${atual} agora)`);
+    this.name = 'ErroIntegridadeAuditoria';
+    this.dia = dia;
+  }
+}
+
+/** Sela os dias fechados; no dia 1 (ou na primeira vez), confere a cadeia toda. */
+export async function executarAuditoria(
+  banco: Banco,
+  registrarErro: RegistrarErro,
+  conferir: boolean,
+): Promise<{ selados: number; conferidos?: number; violacoes?: number }> {
+  const selados = await selarDias(banco);
+  if (!conferir) return { selados: selados.length };
+  const r = await conferirIntegridade(banco);
+  for (const v of r.violacoes) {
+    registrarErro(new ErroIntegridadeAuditoria(v.dia, v.quantidadeSelada, v.quantidadeAtual), {
+      tags: { rotina: 'auditoria' },
+      contextos: { auditoria: { ...v } },
+    });
+  }
+  return { selados: selados.length, conferidos: r.diasConferidos, violacoes: r.violacoes.length };
 }
 
 /**
@@ -121,6 +154,7 @@ export interface ResultadoRotinas {
   demonstracao?: 'restaurada' | 'ja_executada';
   retencao?: ResultadoRetencao | 'ja_executada';
   invariantes?: { violacoes: number } | 'ja_executada';
+  auditoria?: Awaited<ReturnType<typeof executarAuditoria>> | 'ja_executada';
 }
 
 export interface OpcoesRotinas {
@@ -162,6 +196,10 @@ export async function executarRotinasDoDia(
       if (nome === 'retencao') {
         const r = await executarRetencaoNoBanco(banco, anterior ?? undefined);
         resultado.retencao = r;
+        await guardarResultado(banco, nome, r);
+      } else if (nome === 'auditoria') {
+        const r = await executarAuditoria(banco, registrarErro, !anterior || hoje.endsWith('-01'));
+        resultado.auditoria = r;
         await guardarResultado(banco, nome, r);
       } else {
         const violacoes = await verificarInvariantes(banco, registrarErro);

@@ -40,6 +40,7 @@ import type {
 } from '@medicore/dominio/types';
 import { sql } from 'drizzle-orm';
 import {
+  bigint,
   boolean,
   check,
   date,
@@ -524,6 +525,61 @@ export const tentativasLogin = pgTable('tentativas_login', {
   falhas: integer().notNull().default(0),
   bloqueadoAte: instante(),
   ultimaEm: instante().notNull(),
+});
+
+// ---------------------------------------------------------------- Auditoria (Fase 29, BL-03)
+
+/** O que aconteceu: gravação (pelo gatilho do banco), leitura sensível ou exportação (pela API). */
+export type AcaoAuditoria = 'inclusao' | 'alteracao' | 'exclusao' | 'leitura' | 'exportacao';
+
+/**
+ * Trilha de auditoria (D32). **Só inclusão** para o usuário da aplicação (sem `UPDATE`, `DELETE` nem
+ * `TRUNCATE`). As gravações entram pelos gatilhos do banco (`0005_auditoria.sql`), na mesma
+ * transação; as leituras sensíveis e as exportações, pela API. CPF e documentos já chegam
+ * mascarados; senha, segredo do MFA e tokens nunca entram (R-AU5).
+ */
+export const auditoria = pgTable(
+  'auditoria',
+  {
+    id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
+    em: instante().notNull(),
+    /** O dia no fuso do hospital: a unidade da cadeia de hash (BL-03.5). */
+    dia: date({ mode: 'string' }).notNull(),
+    usuarioId: text(),
+    usuarioNome: text(),
+    ip: text(),
+    agente: text(),
+    /** `api` (uma pessoa), `rotina` (o servidor) ou `banco` (sem contexto: migração, console). */
+    origem: text().notNull(),
+    acao: text().$type<AcaoAuditoria>().notNull(),
+    entidade: text().notNull(),
+    registroId: text(),
+    pacienteId: text(),
+    /** Gravações: `{ campo: { antes, depois } }` (ou `{ adicionados }` nas listas que só crescem). */
+    campos: jsonb().$type<Record<string, unknown>>(),
+    /** Leituras: o que foi visto (`cadastro`, `cpf_completo`, `alergias`…), sem o conteúdo. */
+    detalhe: text(),
+  },
+  (t) => [
+    index('auditoria_paciente_em').on(t.pacienteId, t.em),
+    index('auditoria_usuario_em').on(t.usuarioId, t.em),
+    index('auditoria_em').on(t.em),
+    index('auditoria_dia_id').on(t.dia, t.id),
+  ],
+);
+
+/**
+ * BL-03.5 — Um selo por dia fechado: quantos registros, o último id e o hash encadeado
+ * (`sha256(hash do dia anterior + hash de cada registro, em ordem)`). Alterar, apagar ou incluir um
+ * registro de um dia selado muda o hash: a conferência mensal acusa.
+ */
+export const auditoriaSelos = pgTable('auditoria_selos', {
+  dia: date({ mode: 'string' }).primaryKey(),
+  quantidade: integer().notNull(),
+  ultimoId: bigint({ mode: 'number' }),
+  hash: text().notNull(),
+  hashAnterior: text(),
+  seladoEm: instante().notNull(),
 });
 
 /** As 13 tabelas, na ordem em que podem ser preenchidas sem violar as chaves estrangeiras. */

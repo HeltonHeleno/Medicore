@@ -18,9 +18,11 @@ import type { Banco } from './banco/conexao';
 import { demonstracaoLigada, type Config } from './config';
 import { semEnvio, type Enviador } from './acesso/email';
 import { registrarGuarda } from './acesso/guarda';
+import { registrarLeiturasSensiveis } from './auditoria/leituras';
 import { registrarTratamentoDeErros } from './http/erros';
 import type { RegistrarErro } from './monitoramento';
 import { rotasAcesso } from './rotas/acesso';
+import { rotasAuditoria } from './rotas/auditoria';
 import { rotasConsultas } from './rotas/consultas';
 import { rotasEmergencia } from './rotas/emergencia';
 import { rotasFarmacia } from './rotas/farmacia';
@@ -110,6 +112,8 @@ export async function criarServidor(dep: DependenciasServidor) {
   registrarTratamentoDeErros(app, dep.registrarErro);
   // Fase 28: sessão, código de segurança e permissão em todas as rotas (negado por padrão).
   registrarGuarda(app, dep.banco);
+  // Fase 29: as leituras sensíveis entram na auditoria antes de a resposta sair.
+  registrarLeiturasSensiveis(app, dep.banco);
 
   // Fase 27: o app (Vercel) chama a API (Cloud Run) em outro endereço.
   const origens = origensPermitidas(dep.config.CORS_ORIGENS ?? []);
@@ -151,6 +155,7 @@ export async function criarServidor(dep: DependenciasServidor) {
         { name: 'painel', description: 'Atividades e indicadores (A12–A14)' },
         { name: 'acesso', description: 'Login, MFA, convite e senha (Fase 28)' },
         { name: 'usuários', description: 'Administração de usuários (Fase 28)' },
+        { name: 'auditoria', description: 'Trilha de auditoria e pedido do titular (Fase 29)' },
       ],
     },
     transform: jsonSchemaTransform,
@@ -179,6 +184,7 @@ export async function criarServidor(dep: DependenciasServidor) {
         }),
       );
       await v1.register(rotasUsuarios({ banco: dep.banco, enviador, appUrl }));
+      await v1.register(rotasAuditoria(dep.banco));
       await v1.register(rotasPacientes(dep.banco));
       await v1.register(rotasMedicos(dep.banco));
       await v1.register(rotasConsultas(dep.banco));

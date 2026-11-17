@@ -277,21 +277,24 @@ export async function entrarDemonstracao(banco: Banco, conta: ContaDemonstracao)
   const perfis: Perfil[] = conta === 'todos' ? [...PERFIS] : [conta];
   // A equipe completa assina como o autor de sempre da demonstração (sem login).
   const nome = conta === 'todos' ? to.autorDemonstracao : `${ta.perfis[conta]} (demonstração)`;
-  await banco
-    .insert(usuarios)
-    .values({
-      id,
-      nome,
-      email: `${conta}@demonstracao.medicore`,
-      demonstracao: true,
-      // O médico de exemplo da clínica geral: o perfil Médico pede o cadastro ligado (D30).
-      ...(perfis.includes('medico') ? { medicoId: 'med-helena-duarte' } : {}),
-    })
-    .onConflictDoNothing();
-  await banco
-    .insert(perfisUsuario)
-    .values(perfis.map((perfil) => ({ usuarioId: id, perfil })))
-    .onConflictDoNothing();
+  // Numa transação: as gravações levam o contexto da auditoria (Fase 29).
+  await banco.transaction(async (tx) => {
+    await tx
+      .insert(usuarios)
+      .values({
+        id,
+        nome,
+        email: `${conta}@demonstracao.medicore`,
+        demonstracao: true,
+        // O médico de exemplo da clínica geral: o perfil Médico pede o cadastro ligado (D30).
+        ...(perfis.includes('medico') ? { medicoId: 'med-helena-duarte' } : {}),
+      })
+      .onConflictDoNothing();
+    await tx
+      .insert(perfisUsuario)
+      .values(perfis.map((perfil) => ({ usuarioId: id, perfil })))
+      .onConflictDoNothing();
+  });
   const achado = await usuarioPorEmail(banco, `${conta}@demonstracao.medicore`);
   return criarSessao(banco, paraUsuarioSessao(achado!.linha, achado!.perfis), 'ativa');
 }
@@ -668,25 +671,29 @@ export async function desativarUsuario(banco: Banco, id: string) {
   const atual = await obterLinha(banco, id);
   if (!atual.ativo) return obterUsuario(banco, id);
   await conferirUltimoAdministrador(banco, id);
-  await banco
-    .update(usuarios)
-    .set({
-      ativo: false,
-      inativadoEm: momento(),
-      versao: atual.versao + 1,
-      atualizadoEm: momento(),
-    })
-    .where(eq(usuarios.id, id));
+  await banco.transaction((tx) =>
+    tx
+      .update(usuarios)
+      .set({
+        ativo: false,
+        inativadoEm: momento(),
+        versao: atual.versao + 1,
+        atualizadoEm: momento(),
+      })
+      .where(eq(usuarios.id, id)),
+  );
   await encerrarSessoesDoUsuario(banco, id);
   return obterUsuario(banco, id);
 }
 
 export async function reativarUsuario(banco: Banco, id: string) {
   const atual = await obterLinha(banco, id);
-  await banco
-    .update(usuarios)
-    .set({ ativo: true, inativadoEm: null, versao: atual.versao + 1, atualizadoEm: momento() })
-    .where(eq(usuarios.id, id));
+  await banco.transaction((tx) =>
+    tx
+      .update(usuarios)
+      .set({ ativo: true, inativadoEm: null, versao: atual.versao + 1, atualizadoEm: momento() })
+      .where(eq(usuarios.id, id)),
+  );
   return obterUsuario(banco, id);
 }
 

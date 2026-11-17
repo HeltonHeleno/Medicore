@@ -112,7 +112,13 @@ export function registrarGuarda(app: FastifyInstance, banco: Banco): void {
   // Tudo o que vem depois (validação, rota, serviços) roda no contexto desta requisição. Fica no
   // `preValidation` (e não no `onRequest`) porque a leitura do corpo, por eventos do socket,
   // perderia o contexto aberto antes dela.
-  app.addHook('preValidation', (_requisicao, _resposta, feito) => comContexto(() => feito()));
+  app.addHook('preValidation', (requisicao, _resposta, feito) =>
+    comContexto(() => feito(), {
+      ip: requisicao.ip,
+      // O navegador (para a auditoria), sem passar de 200 caracteres.
+      agente: String(requisicao.headers['user-agent'] ?? '').slice(0, 200) || undefined,
+    }),
+  );
 
   app.addHook('preValidation', async (requisicao: FastifyRequest) => {
     const exigencia = requisicao.routeOptions.config?.acao;
